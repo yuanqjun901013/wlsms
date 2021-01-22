@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.RoleDao">
+
+    <resultMap type="com.web.wlsms.entity.AdminRoleUserEntity" id="RoleMap">
+        <id property="id" column="ID" />
+        <result property="roleCode" column="ROLE_CODE" />
+        <result property="roleName" column="ROLE_NAME" />
+        <result property="userNo" column="USER_NO" />
+    </resultMap>
+    <resultMap type="com.web.wlsms.entity.AdminRoleAuthEntity" id="RoleAuthMap">
+        <id property="id" column="ID" />
+        <result property="menuId" column="MENU_ID" />
+        <result property="roleCode" column="ROLE_CODE" />
+    </resultMap>
+
+    <!-- 查询角色信息 -->
+    <select id="queryRoleList" parameterType="map" resultMap="RoleMap">
+        select
+            ar.ID,
+            ar.ROLE_CODE,
+            ar.ROLE_NAME
+        from admin_role ar
+        <where>
+            <if test="roleCode != null and roleCode != ''">
+                AND ar.ROLE_CODE = #{roleCode}
+            </if>
+            <if test="roleName != null and roleName != ''">
+                AND ar.ROLE_NAME LIKE  '%' #{roleName} '%'
+            </if>
+        </where>
+        ORDER BY ar.ID ASC
+    </select>
+
+    <!-- 删除某个用户权限配置信息 -->
+    <delete id="deleteRoleAuthConfig">
+        delete from admin_role_auth
+        where role_code = #{roleCode}
+    </delete>
+
+    <!-- 插入权限配置信息 -->
+    <insert id="insertRoleAuthConfig">
+        INSERT INTO admin_role_auth
+            (
+                role_code,
+                menu_id
+            )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+                #{item.roleCode},
+                #{item.menuId}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 删除角色 -->
+    <delete id="deleteOneRole" >
+       delete from admin_role
+       <where>
+           role_code = #{roleCode}
+       </where>
+    </delete>
+
+    <!-- 添加角色 -->
+    <insert id="addRole" parameterType="com.web.wlsms.request.AdminRoleRequest">
+        INSERT INTO admin_role
+            (
+                role_code,
+                role_name
+            )
+        VALUES
+            (
+                #{roleCode},
+                #{roleName}
+            )
+    </insert>
+
+    <!-- 查询所有菜单权限 -->
+    <select id="queryAllMenuAuths" parameterType="map" resultMap="RoleAuthMap">
+        select *
+        from admin_role_auth
+        <where>
+            <if test="roleCode != null and roleCode != ''">
+                AND role_code = #{roleCode}
+            </if>
+        </where>
+    </select>
+</mapper>

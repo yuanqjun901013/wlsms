@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.RoleUserDao">
+    <resultMap type="com.web.wlsms.entity.AdminRoleUserEntity" id="RoleUserMap">
+        <id property="id" column="ID" />
+        <result property="roleCode" column="ROLE_CODE" />
+        <result property="roleName" column="ROLE_NAME" />
+        <result property="userNo" column="USER_NO" />
+    </resultMap>
+
+
+    <!-- 查询用户角色信息列表 -->
+    <select id="queryRoleUserList" resultMap="RoleUserMap">
+        select
+            aru.ID,
+            aru.ROLE_CODE,
+            aru.USER_NO
+        from admin_role_user aru
+        <where>
+            <if test="roleCode != null and roleCode != ''">
+                and aru.ROLE_CODE = #{roleCode}
+            </if>
+            <if test="userNo != null and userNo != ''">
+                and aru.USER_NO = #{userNo}
+            </if>
+        </where>
+        ORDER BY aru.USER_NO DESC
+    </select>
+
+    <sql id="queryRoleUserListCount">
+        <![CDATA[
+            select
+                COUNT(*)
+            from admin_role_user aru
+            where 1=1
+            <#if roleCode?exists && roleCode !=''>
+                and aru.ROLE_CODE = :roleCode
+            </#if>
+            <#if userNo?exists && userNo !=''>
+                and aru.USER_NO = :userNo
+            </#if>
+        ]]>
+    </sql>
+
+    <!-- 查询用户角色信息 -->
+    <select id="queryRoleUserInfo" resultType="java.util.Map">
+         select
+                aru.ID as id,
+                aru.ROLE_CODE,
+                aru.USER_NO,
+                ar.ROLE_NAME
+            from admin_role_user aru
+            left join admin_role ar on aru.ROLE_CODE = ar.ROLE_CODE
+            where aru.USER_NO = #{userNo}
+    </select>
+
+    <!-- 插入用户角色信息 -->
+    <insert id="insertUserRole">
+        insert into admin_role_user
+                (
+                    role_code,
+                    user_no
+                )
+         values
+        <foreach collection="list" item="item" index="index" separator=",">
+                (
+                    #{item.roleCode},
+                    #{item.userNo}
+                )
+        </foreach>
+    </insert>
+
+    <!-- 删除用户角色信息 -->
+    <delete id="deleteUserRole">
+        delete from admin_role_user where user_no in
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item.userNo}
+        </foreach>
+    </delete>
+
+    <!-- 查询用户的角色编码 -->
+    <select id="queryRoleCodeByUserNo" resultMap="RoleUserMap">
+        select role_code from admin_role_user where user_no = #{userNo}
+    </select>
+
+    <!-- 根据角色代码查询角色名称 -->
+    <select id="queryRoleUserByCode" resultMap="RoleUserMap">
+        select
+			id,
+			role_code,
+			role_name
+		from admin_role
+		where role_code = #{roleCode}
+    </select>
+
+    <select id="queryRoleUserListByRoleCode" resultMap="RoleUserMap">
+        select
+        aru.ID as id,
+        aru.ROLE_CODE,
+        aru.USER_NO,
+        ar.ROLE_NAME
+        from admin_role_user aru
+        left join admin_role ar on aru.ROLE_CODE = ar.ROLE_CODE
+        where 1 = 1
+        <if test="_parameter != null and _parameter != ''">
+           and aru.USER_NO like concat('%',#{_parameter},'%')
+        </if>
+    </select>
+
+    <!-- 根据角色编码查询绑定用户 -->
+    <select id="queryUserByRoleCode" resultMap="RoleUserMap">
+        select
+            id,
+            role_code,
+            user_no
+        from admin_role_user
+        <where>
+            role_code = #{roleCode}
+        </where>
+        ORDER BY id ASC
+    </select>
+
+    <delete id="deleteUserRoleById">
+        delete from admin_role_user where user_no = #{userNo}
+    </delete>
+</mapper>

@@ -1,0 +1,69 @@
+@import 'http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
+
+.sidemenu .accordion .panel-title{
+    color: #686868;
+}
+.sidemenu .accordion .accordion-header,
+.sidemenu .accordion .accordion-body {
+    border-bottom-color: transparent;
+    background: transparent;
+}
+
+.sidemenu .accordion .accordion-header {
+    color: #000000;
+}
+
+.sidemenu .accordion-header:hover {
+    background: #eee;
+    color: #00bbee;
+}
+.sidemenu .accordion .accordion-collapse{
+    background: transparent;
+}
+
+.sidemenu .tree-node-hover {
+    background: #eee;
+    color: #00bbee;
+}
+.sidemenu .tree-node-selected {
+    border-right: 2px solid #00bbee;
+    color: #fff;
+    background: #00bbee;
+}
+
+.sidemenu .accordion-header .panel-icon{
+    font-size: 16px;
+}
+.sidemenu .accordion-header .panel-tool{
+    display: none;
+}
+.sidemenu .accordion-header::after,
+.sidemenu .tree-node-nonleaf::after{
+    display: inline-block;
+    vertical-align: top;
+    border-style: solid;
+    transform:rotate(45deg);
+    width: 4px;
+    height: 4px;
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -3px;
+    border-width: 0 1px 1px 0;
+}
+.sidemenu .accordion-header-selected::after{
+    transform:rotate(-135deg);
+}
+.sidemenu .tree-node-nonleaf::after{
+    transform:rotate(-135deg);
+}
+.sidemenu .tree-node-nonleaf-collapsed::after{
+    transform:rotate(45deg);
+}
+.sidemenu-collapsed .accordion-header::after{
+    display: none;
+}
+.sidemenu-tooltip .accordion{
+    border-color: #1e282c;
+}

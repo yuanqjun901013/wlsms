@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.MenuDao">
+    <resultMap type="com.web.wlsms.entity.AdminMenuEntity" id="MenuMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="sysCode" column="SYS_CODE" javaType="String"/>
+        <result property="name" column="NAME" javaType="String"/>
+        <result property="url" column="URL" javaType="String"/>
+        <result property="parentId" column="PARENT_ID" javaType="long"/>
+        <result property="isNeedAuth" column="IS_NEED_AUTH" javaType="short"/>
+        <result property="menuCode" column="menuCode" javaType="String" />
+        <result property="iconCls" column="iconCls" javaType="String" />
+    </resultMap>
+
+
+    <select id="queryAllMenus" parameterType="map" resultMap="MenuMap">
+        select * from admin_menu;
+    </select>
+
+    <!-- 根据id查询菜单信息 -->
+    <select id="queryMenuConfig" parameterType="map" resultMap="MenuMap">
+        select * from admin_menu
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!-- 根据id查询子菜单信息 -->
+    <select id="queryChildrenMenu" parameterType="map" resultMap="MenuMap">
+        select * from admin_menu
+        <where>
+            parent_id = #{parentId}
+        </where>
+        ORDER BY id ASC
+    </select>
+
+    <!-- 根据是否存在该菜单 -->
+    <select id="menuConfigCount" resultType="java.lang.Integer">
+			select count(id) as totalRecords from admin_menu where id = #{id}
+    </select>
+
+    <!-- 根据id查询子菜单数量 -->
+    <select id="queryMenuCount" resultType="java.lang.Integer">
+        select count(*) from admin_menu
+        <where>
+            parent_id = #{parentId}
+        </where>
+    </select>
+
+    <!-- 添加菜单信息 -->
+    <insert id="addMenu">
+        INSERT INTO admin_menu
+		    (
+		        name,
+                sys_code,
+		        url,
+		        parent_id,
+		        is_need_auth,
+		        menuCode
+		    )
+		    VALUES
+		    (
+		        #{name},
+		        'admin',
+		        #{url},
+		        #{id},
+		        #{isNeedAuth},
+		        #{menuCode}
+		    )
+    </insert>
+
+
+    <!-- 修改菜单信息 -->
+    <update id="editMenu" parameterType="com.web.wlsms.request.EditMenuRequest">
+        UPDATE admin_menu
+        <set>
+            name = #{name},
+            sys_code = 'admin',
+            url = #{url},
+            is_need_auth = #{isNeedAuth},
+            menuCode = #{menuCode}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!-- 删除菜单信息 -->
+    <delete id="deleteMenu">
+        delete from admin_menu
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!-- 查询某个用户有权限的菜单 -->
+    <select id="queryAuthedMenus" parameterType="map" resultMap="MenuMap">
+        SELECT *
+        FROM admin_menu
+        <where>
+            id IN (SELECT menu_id
+                    FROM admin_role_auth
+                    <where>
+                        role_code= #{roleCode}
+                    </where>
+                   )
+            OR is_need_auth = 0
+        </where>
+    </select>
+
+    <!--查询父类菜单-->
+    <select id="queryMenusParent" parameterType="map" resultMap="MenuMap">
+        SELECT * FROM admin_menu where PARENT_ID = 0
+    </select>
+</mapper>

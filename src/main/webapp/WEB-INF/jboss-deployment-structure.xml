@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+    <deployment>
+        <exclude-subsystems>
+            <subsystem name="jaxrs"/>
+        </exclude-subsystems>
+        <exclusions>
+            <module name="org.slf4j" />
+            <module name="com.fasterxml.jackson"/>
+            <module name="org.jboss.resteasy.resteasy-jackson2-provider"/>
+            <module name="org.jboss.resteasy.resteasy-jackson-provider"/>
+            <module name="javaee.api"/>
+            <module name="javax.validation.api"/>
+            <module name="javax.faces.api"/>
+            <module name="org.hibernate.validator"/>
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.UserDao">
+    <resultMap type="com.web.wlsms.entity.UserEntity" id="userMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="userNo" column="user_no" javaType="String"/>
+        <result property="userName" column="user_name" javaType="String"/>
+        <result property="pwd" column="pwd" javaType="String"/>
+        <result property="sex" column="sex" javaType="Integer"/>
+        <result property="age" column="age" javaType="Integer"/>
+        <result property="job" column="job" javaType="String"/>
+        <result property="tel" column="tel" javaType="String"/>
+        <result property="phone" column="phone" javaType="String"/>
+        <result property="email" column="email" javaType="String"/>
+    </resultMap>
+
+    <!-- 查询用户信息列表 -->
+    <select id="selectUserByNo" resultMap="userMap">
+        select
+            id,
+           user_no,
+           pwd,
+           user_name,
+           sex,
+           age,
+           job,
+           tel,
+           phone,
+           email
+        from admin_user
+        where user_no = #{userNo}
+    </select>
+</mapper>
