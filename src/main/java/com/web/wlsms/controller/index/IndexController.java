@@ -53,21 +53,22 @@ public class IndexController {
         String userNo = (String) session.getAttribute("userNo");
         UserEntity user = userService.selectUserById(userNo);
         request.setAttribute("userNameCode", user.getUserName()+"("+userNo+")");//姓名工号
-        //默认加载一级菜单用于加载显示顶部栏
-        List<MenuNodeResponse> queryMenusParent = menuService.queryMenusParent();
-        request.setAttribute("menusParentList", queryMenusParent);//父类菜单
         //根据用户获取权限下所有菜单树
         List<MenuNodeResponse> getAllMenuJson =  menuService.queryMenuByUserNo(userNo);
         request.setAttribute("menuList", getAllMenuJson);//权限菜单
+        //默认加载一级菜单用于加载显示顶部栏
+        List<MenuNodeResponse> queryMenusParent = menuService.queryMenusParent();
+        request.setAttribute("menusParentList", queryMenusParent);//父类菜单
+        request.setAttribute("main","主页");//主题栏
         //根据用户权限获取首页默认的二级菜单及子菜单
         List<MenuNodeResponse> queryMenusByParentId = menuService.queryMenusByParentId(userNo, 1L);
         request.setAttribute("menuLevel", queryMenusByParentId);//默认加载二级菜单
-        request.setAttribute("main","主页");//主题栏
         return "views/index/index";
     }
 
+
     /**
-     * 首页默认展示内容
+     * 首页中间默认展示内容
      * @param request
      * @return
      */

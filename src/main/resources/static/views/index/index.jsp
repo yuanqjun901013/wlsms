@@ -12,30 +12,30 @@
 </head>
 <body class="easyui-layout">
 <div class="easyui-panel" data-options="region:'north'" style="height:74px; background-image: url('../../bg.png');">
-	<table border="0" style="width: 98%">
+	<table border="0" style="width: 99%;height: 69px">
 		<tr><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
 			<td align="left" width="200px">
-				<a class="easyui-linkbutton" style="width:200px;height: 98%;" data-options="iconCls:'icon-logo',size:'large',plain:true" onclick="reload();">
+				<a class="easyui-linkbutton" style="width:200px;height: 98%;" data-options="iconCls:'icon-logo',size:'large',plain:true" onclick="reload();" >
 					WLSMS测试预览平台
 				</a>
 			</td>
-		<!--/*@thymesVar id="menusParentList" type=""*/-->
-		<td th:each="mp : ${menusParentList}" align="left" width="69px">
-			<!--/*@thymesVar id="iconCls" type=""*/-->
-			<a class="easyui-linkbutton" style="width:68px" th:onclick="'javascript:getMenuLevel('+${mp.id}+')' " th:iconCls="${mp.iconCls}" data-options="size:'large',iconAlign:'top',group:'g1',toggle:true,plain:true">
-				<!--/*@thymesVar id="text" type=""*/-->
-				<span th:text="${mp.text}"/>
-			</a>
-		<td/>
+			<!--/*@thymesVar id="menusParentList" type=""*/-->
+			<td th:each="mp : ${menusParentList}" align="left" width="69px">
+				<!--/*@thymesVar id="iconCls" type=""*/-->
+				<a class="easyui-linkbutton" style="width:68px" th:onclick="'javascript:getMenuLevel('+${mp.id}+')' " th:iconCls="${mp.iconCls}" data-options="size:'large',iconAlign:'top',group:'g1',toggle:true,plain:true">
+					<!--/*@thymesVar id="text" type=""*/-->
+					<span th:text="${mp.text}"/>
+				</a>
+			<td/>
 
-		<td align="right" width="50%">
-			<a style="width:200px" iconCls="icon-man" class="easyui-menubutton" data-options="menu:'#mm',plain:true">
-				<!--/*@thymesVar id="userNameCode" type=""*/-->
-				<span th:text="${userNameCode}"/>
-			</a>
-			|
-			<a style="width:68px" iconCls="icon-tip" class="easyui-linkbutton" plain="true" onclick="logout();">退出</a>
-		</td>
+			<td align="right" width="50%">
+				<a style="width:200px" iconCls="icon-man" class="easyui-menubutton" data-options="menu:'#mm',plain:true">
+					<!--/*@thymesVar id="userNameCode" type=""*/-->
+					<span th:text="${userNameCode}"/>
+				</a>
+				|
+				<a style="width:68px" iconCls="icon-tip" class="easyui-linkbutton" plain="true" onclick="logout();">退出</a>
+			</td>
 		</tr>
 	</table>
 	<div id="mm" style="width:100px;">
@@ -48,8 +48,61 @@
 		}
 
 		function getMenuLevel(id) {//点击主菜单加载子菜单栏
+
 			var parentId = id;
 			// $.messager.alert("消息提醒", "菜单主ID为:" + parentId, "warning")；
+			$.ajax({
+				type: 'POST',
+				async: false,
+				dataType: "json",
+				url: '/index/menu/getMenuLevel',//获取菜单
+				data:{
+					"parentId":parentId
+				},
+				success: function(data) {
+					$.each(data, function(i, n) { //加载父类节点即一级菜单
+						var id = n.id;
+						var text1 = n.text;
+						if(i == 0) { //显示第一个一级菜单下的二级菜单
+							$('#layout_west_accordion').accordion('add', {
+								title: n.text,
+								iconCls: n.iconCls,
+								selected: true,
+								//可在这加HTML代码，改变布局
+								content: '<div style="padding:10px 0px"><ul id="tree' + id + '"></ul></div>',
+							});
+						} else {
+							$('#layout_west_accordion').accordion('add', {
+								title: n.text,
+								iconCls: n.iconCls,
+								selected: false,
+								content: '<div style="padding:10px 0px"><ul id="tree' + id + '"></ul></div>',
+							});
+						}
+
+
+						//加载树
+						$("#tree" + id).tree({
+							data: n.children,
+							animate: true,
+							//iconCls: icon-blank,
+							//在树节点加图片
+							formatter:function(node){
+								return node.text;
+							},
+							// lines: true, //显示虚线效果
+							onClick: function(node) { // 在用户点击一个子节点即二级菜单时触发addTab()方法,用于添加tabs
+								//if(node.url){//判断url是否存在，存在则创建tabs
+								if(node) {
+									// addTab(node);
+								}
+							}
+						});
+
+					})
+				}
+
+			});
 
 		}
 		//注销登录
@@ -57,27 +110,16 @@
 			window.location.href = "/user/logout";
 		}
 	</SCRIPT>
-
 </div>
 <div data-options="region:'west',split:true,collapsed:false,hideCollapsedContent:false" title="菜单栏" style="width:207px;">
 	<div id="layout_west_accordion" class="easyui-accordion" data-options="fit:true,border:false,nimate:true,lines:true">
-		<!--
-		<div title="Title1" data-options="selected:true" style="padding:10px;">
-			content1
-		</div>
-		<div title="Title2"  style="padding:10px;">
-			content2
-		</div>
-		<div title="Title3" style="padding:10px">
-			content3
-		</div>
-		-->
 	</div>
 	<script th:inline="javascript">
 		var menuLevel = [[${menuLevel}]];//默认加载parentId为1的菜单列表
 		$(function() {
 			$.each(menuLevel, function(i, n) { //加载父类节点即一级菜单
 				var id = n.id;
+				if(i == 0) { //显示第一个一级菜单下的二级菜单
 					$('#layout_west_accordion').accordion('add', {
 						title: n.text,
 						iconCls: n.iconCls,
@@ -85,32 +127,39 @@
 						//可在这加HTML代码，改变布局
 						content: '<div style="padding:10px 0px"><ul id="tree' + id + '"></ul></div>',
 					});
-				//加载树
-			$("#tree" + id).tree({
-				data: n.children,
-				animate: true,
-				//iconCls: icon-blank,
-				//在树节点加图片
-				formatter:function(node){
-					return node.text;
-				},
-				// lines: true, //显示虚线效果
-				onClick: function(node) { // 在用户点击一个子节点即二级菜单时触发addTab()方法,用于添加tabs
-					//if(node.url){//判断url是否存在，存在则创建tabs
-					if(node) {
-						// addTab(node);
-					}
+				} else {
+					$('#layout_west_accordion').accordion('add', {
+						title: n.text,
+						iconCls: n.iconCls,
+						selected: false,
+						content: '<div style="padding:10px 0px"><ul id="tree' + id + '"></ul></div>',
+					});
 				}
-			});
+				//加载树
+				$("#tree" + id).tree({
+					data: n.children,
+					animate: true,
+					//iconCls: icon-blank,
+					//在树节点加图片
+					formatter:function(node){
+						return node.text;
+					},
+					// lines: true, //显示虚线效果
+					onClick: function(node) { // 在用户点击一个子节点即二级菜单时触发addTab()方法,用于添加tabs
+						//if(node.url){//判断url是否存在，存在则创建tabs
+						if(node) {
+							// addTab(node);
+						}
+					}
+				});
 			});
 		});
-
 		var menuList = [[${menuList}]]; //用户权限下菜单树
 
 		function getSelected(obj){
 			if(!/^\s*$/.test(obj))
 			{
-			document.getElementById("bodyIfm").src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
+				document.getElementById("bodyIfm").src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
 			}
 		}
 	</script>

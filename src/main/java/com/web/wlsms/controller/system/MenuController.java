@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,5 +157,21 @@ public class MenuController {
             return BaseResponse.fail("操作失败！");
         }
 
+    }
+
+
+    /**
+     * 根据用户权限获取首页默认的二级菜单及子菜单
+     * @param request
+     * @return
+     */
+    @RequestMapping("getMenuLevel")
+    public List<MenuNodeResponse> getMenuLevel(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        Long parentId = Long.valueOf(request.getParameter("parentId"));
+        //根据用户权限获取首页默认的二级菜单及子菜单
+        List<MenuNodeResponse> queryMenusByParentId = menuService.queryMenusByParentId(userNo, parentId);
+        return queryMenusByParentId;
     }
 }
