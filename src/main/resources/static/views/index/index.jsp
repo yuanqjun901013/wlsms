@@ -182,7 +182,20 @@
 		function addTab(obj){
 			if(!/^\s*$/.test(obj))
 			{
-				document.getElementById("bodyIfm").src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
+				var e = $("#mytabs").tabs("exists", obj.text);
+				if(e){
+					//已经存在，选中就可以
+					$("#mytabs").tabs("select", obj.text);
+				}else{
+					//调用tabs对象的add方法动态添加一个选项卡
+					$("#mytabs").tabs("add",{
+						title: obj.text,
+						iconCls:'icon-tip',
+						closable:true,
+						content:'<iframe id="'+obj.id+'" frameborder="0" height="100%" width="100%" ></iframe>'
+					});
+                    document.getElementById(obj.id).src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
+				}
 			}
 		}
 	</script>
@@ -190,7 +203,8 @@
 
 <!--/*@thymesVar id="main" type=""*/-->
 <div data-options="region:'center',iconCls:'icon-ok'" th:title="${main}">
- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe>
+	<div id="mytabs" class="easyui-tabs" data-options="fit:true"></div>
+ <!-- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe> -->
 </div>
 
 </div>

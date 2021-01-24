@@ -11,11 +11,6 @@
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 </head>
 <body>
-
-<div id="tt" class="easyui-tabs" data-options="fit:true,border:false,plain:true">
-    <!--/*@thymesVar id="tab" type=""*/-->
-    <div th:title="${tab}" data-options="href:'../../demo/accordion/_content.html',iconCls:'icon-no'" style="padding:10px"></div>
-</div>
-
+    <div style="padding:10px">fgdfgdfdgfgd</div>
 </body>
 </html>
