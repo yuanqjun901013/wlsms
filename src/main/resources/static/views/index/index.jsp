@@ -213,12 +213,26 @@
 </div>
 
 <!--/*@thymesVar id="main" type=""*/-->
-<div data-options="region:'center',iconCls:'icon-ok'" th:title="${main}">
+<div data-options="region:'center',iconCls:'icon-ok',
+			 tools: [{
+        		iconCls:'icon-full',
+       			handler:function(){full()}
+    		},{
+        		iconCls:'icon-unfull',
+       			handler:function(){unFull()}
+    		}]" th:title="${main}">
 	<!-- menu -->
-	<div id="mmTab" class="easyui-menu" style="width:120px;">
+	<!--<div id="mmTab" class="easyui-menu" style="width:120px;">
 		<div id="closeCurrent" name="closeCurrent" data-options="iconCls:'icon-no'">关闭当前</div>
 		<div id="closeOthers" name="closeOthers" data-options="iconCls:'icon-no'">关闭其它</div>
 		<div id="closeAll" name="closeAll" data-options="iconCls:'icon-cancel'">关闭所有</div>
+	</div>-->
+	<div id="mmTab" class="easyui-menu" style="">
+		<div id="closeAll">关闭全部</div>
+		<div id="closeOthers">关闭其他</div>
+		<div id="closeCurrent">关闭当前</div>
+		<div id="closeRight">当前页右侧全部关闭</div>
+		<div id="closeLeft">当前页左侧全部关闭</div>
 	</div>
 	<div id="myTabs" class="easyui-tabs" data-options="fit:true"></div>
  <!-- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe> -->
@@ -226,28 +240,82 @@
 	<script th:inline="javascript">
 		$(function() {
 
-			//生成tab标签
-			$('#myTabs').tabs({
-				border : true,
-				/* onSelect : function(title) {
-                 alert(title + ' is selected');
-                } */
-			});
+			// //生成tab标签
+			// $('#myTabs').tabs({
+			// 	border : true,
+			// 	/* onSelect : function(title) {
+            //      alert(title + ' is selected');
+            //     } */
+			// });
+			//
+			// //生成右键菜单
+			// $('#myTabs').tabs({
+			// 	onContextMenu: function(e, title, index){
+			// 		//选中标签
+			// 		$('#myTabs').tabs('select',index);
+			// 		//显示右键菜单
+			// 		$('#mmTab').menu('show', {
+			// 			left: e.pageX,
+			// 			top: e.pageY
+			// 		}) ;
+			// 	}
+			// });
+			//
+			// //为每个菜单绑定点击事件
+			// //关闭选中的标签
+			// $("#closeCurrent").click(function(){
+			// 	//获取选中的标签索引
+			// 	var tab = $('#myTabs').tabs('getSelected');
+			// 	var index = $('#myTabs').tabs('getTabIndex',tab);
+			// 	$("#myTabs").tabs("close",index);
+			// });
+			//
+			// //关闭选中标签之外的标签
+			// $("#closeOthers").click(function(){
+			// 	//获取所有标签
+			// 	var tabs = $("#myTabs").tabs("tabs");
+			// 	var length = tabs.length;
+			// 	//获取选中标签的索引
+			// 	var tab = $('#myTabs').tabs('getSelected');
+			// 	var index = $('#myTabs').tabs('getTabIndex',tab);
+			// 	//关闭选中标签之前的标签
+			// 	for(var i=0;i<index;i++){
+			// 		$("#myTabs").tabs("close",1);
+			// 	}
+			// 	//关闭选中标签之后的标签
+			// 	for(var i=0;i<length-index-1;i++){
+			// 		$("#myTabs").tabs("close",1);
+			// 	}
+			// });
+			//
+			// //关闭所有标签
+			// $("#closeAll").click(function(){
+			// 	var tabs = $("#myTabs").tabs("tabs");
+			// 	var length = tabs.length;
+			// 	for(var i=0;i<length;i++){
+			// 		$("#myTabs").tabs("close",1);
+			// 	}
+			// });
 
-			//生成右键菜单
-			$('#myTabs').tabs({
-				onContextMenu: function(e, title, index){
-					//选中标签
-					$('#myTabs').tabs('select',index);
-					//显示右键菜单
-					$('#mmTab').menu('show', {
-						left: e.pageX,
-						top: e.pageY
-					}) ;
+
+			//绑定右键菜单事件
+			$(".easyui-tabs").bind('contextmenu',function(e){
+				e.preventDefault();
+				$('#mmTab').menu('show', {
+					left: e.pageX,
+					top: e.pageY
+				});
+			});
+			//关闭所有标签页
+			$("#closeAll").bind("click",function(){
+				var tablist =$('#myTabs').tabs('tabs');
+				console.log(tablist);
+				//  return;
+				for(var i=tablist.length-1;i>=1;i--){
+					$('#myTabs').tabs('close',i);
 				}
 			});
 
-			//为每个菜单绑定点击事件
 			//关闭选中的标签
 			$("#closeCurrent").click(function(){
 				//获取选中的标签索引
@@ -256,30 +324,47 @@
 				$("#myTabs").tabs("close",index);
 			});
 
-			//关闭选中标签之外的标签
-			$("#closeOthers").click(function(){
-				//获取所有标签
-				var tabs = $("#myTabs").tabs("tabs");
-				var length = tabs.length;
-				//获取选中标签的索引
+			//关闭其他页面（先关闭右侧，再关闭左侧）
+			$("#closeOthers").bind("click",function(){
+				var tablist = $('#myTabs').tabs('tabs');
 				var tab = $('#myTabs').tabs('getSelected');
 				var index = $('#myTabs').tabs('getTabIndex',tab);
-				//关闭选中标签之前的标签
-				for(var i=0;i<index;i++){
-					$("#myTabs").tabs("close",1);
+				for(var i=tablist.length-1;i>index;i--){
+					$('#myTabs').tabs('close',i);
 				}
-				//关闭选中标签之后的标签
-				for(var i=0;i<length-index-1;i++){
-					$("#myTabs").tabs("close",1);
+				var num = index-1;
+				if(num < 1){
+					return;
+				}else{
+					for(var i=num;i>=1;i--){
+						$('#myTabs').tabs('close',i);
+					}
+					$("#myTabs").tabs("select", 1);
 				}
 			});
 
-			//关闭所有标签
-			$("#closeAll").click(function(){
-				var tabs = $("#myTabs").tabs("tabs");
-				var length = tabs.length;
-				for(var i=0;i<length;i++){
-					$("#myTabs").tabs("close",1);
+			//关闭右边的选项卡
+			$("#closeRight").bind("click",function(){
+				var tablist = $('#myTabs').tabs('tabs');
+				var tab = $('#myTabs').tabs('getSelected');
+				var index = $('#myTabs').tabs('getTabIndex',tab);
+				for(var i=tablist.length-1;i>index;i--){
+					$('#myTabs').tabs('close',i);
+				}
+			});
+			//关闭右边的选项卡
+			$("#closeLeft").bind("click",function(){
+				var tablist = $('#myTabs').tabs('tabs');
+				var tab = $('#myTabs').tabs('getSelected');
+				var index = $('#myTabs').tabs('getTabIndex',tab);
+				var num = index-1;
+				if(num < 1){
+					return;
+				}else{
+					for(var i=num;i>=1;i--){
+						$('#myTabs').tabs('close',i);
+					}
+					$("#myTabs").tabs("select", 1);
 				}
 			});
 
