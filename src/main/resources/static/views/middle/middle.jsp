@@ -12,11 +12,10 @@
 </head>
 <body>
 
-<div class="easyui-tabs" data-options="fit:true,border:false,plain:true">
+<div id="tt" class="easyui-tabs" data-options="fit:true,border:false,plain:true">
     <!--/*@thymesVar id="tab" type=""*/-->
     <div th:title="${tab}" data-options="href:'../../demo/accordion/_content.html',iconCls:'icon-no'" style="padding:10px"></div>
 </div>
-<div id="tt"></div>
-</div>
+
 </body>
 </html>

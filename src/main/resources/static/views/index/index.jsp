@@ -48,7 +48,15 @@
 		}
 
 		function getMenuLevel(id) {//点击主菜单加载子菜单栏
-
+			var panels = $("#layout_west_accordion").accordion("panels");//获取旧菜单数量
+			// alert(panels.length);
+			var len = panels.length;
+			var i = 0;
+			while(i<len)
+			{
+				$('#layout_west_accordion').accordion("remove", 0);//清空旧菜单
+				i++;
+			}
 			var parentId = id;
 			// $.messager.alert("消息提醒", "菜单主ID为:" + parentId, "warning")；
 			$.ajax({
@@ -80,7 +88,6 @@
 							});
 						}
 
-
 						//加载树
 						$("#tree" + id).tree({
 							data: n.children,
@@ -94,7 +101,7 @@
 							onClick: function(node) { // 在用户点击一个子节点即二级菜单时触发addTab()方法,用于添加tabs
 								//if(node.url){//判断url是否存在，存在则创建tabs
 								if(node) {
-									// addTab(node);
+									addTab(node);
 								}
 							}
 						});
@@ -103,7 +110,16 @@
 				}
 
 			});
+		}
 
+		var index = 0;
+		function addTab(node){
+			index++;
+			$('#tt').tabs('add',{
+				title: 'Tab'+index,
+				content: '<div style="padding:10px">Content'+index+'</div>',
+				closable: true
+			});
 		}
 		//注销登录
 		function logout() {
@@ -148,14 +164,14 @@
 					onClick: function(node) { // 在用户点击一个子节点即二级菜单时触发addTab()方法,用于添加tabs
 						//if(node.url){//判断url是否存在，存在则创建tabs
 						if(node) {
-							// addTab(node);
+							addTab(node);
 						}
 					}
 				});
 			});
 		});
-		var menuList = [[${menuList}]]; //用户权限下菜单树
 
+		var menuList = [[${menuList}]]; //用户权限下菜单树
 		function getSelected(obj){
 			if(!/^\s*$/.test(obj))
 			{
@@ -169,6 +185,8 @@
 <div data-options="region:'center',iconCls:'icon-ok'" th:title="${main}">
 	<iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm">
 	</iframe>
+</div>
+
 </div>
 <div data-options="region:'east',title:'消息栏',split:true,collapsed:true,hideCollapsedContent:false" style="width:207px;">
 </div>
