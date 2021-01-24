@@ -115,3 +115,9 @@
 .icon-logo {
 	background: url('../favicon.ico') no-repeat center center;
 }
+.icon-left{
+	background:url('icons/undo.png') no-repeat center center;
+}
+.icon-right{
+	background:url('icons/redo.png') no-repeat center center;
+}

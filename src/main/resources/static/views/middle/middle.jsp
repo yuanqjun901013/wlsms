@@ -11,6 +11,8 @@
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 </head>
 <body>
-    <div style="padding:10px">fgdfgdfdgfgd</div>
+<div style="height: 98%;">
+    首页
+</div>
 </body>
 </html>

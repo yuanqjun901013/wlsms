@@ -23,7 +23,7 @@
 				title: '首页',
 				iconCls:'icon-tip',
 				closable:false,
-				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" height="100%" width="100%" ></iframe>'
+				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" height="99%" width="100%" ></iframe>'
 			});
 		})
 	</SCRIPT>
@@ -203,7 +203,7 @@
 						title: obj.text,
 						iconCls:'icon-tip',
 						closable:true,
-						content:'<iframe id="'+obj.id+'" frameborder="0" height="100%" width="100%" ></iframe>'
+						content:'<iframe id="'+obj.id+'" frameborder="0" height="99%" width="100%" ></iframe>'
 					});
                     document.getElementById(obj.id).src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
 				}
@@ -228,11 +228,11 @@
 		<div id="closeAll" name="closeAll" data-options="iconCls:'icon-cancel'">关闭所有</div>
 	</div>-->
 	<div id="mmTab" class="easyui-menu" style="">
-		<div id="closeAll">关闭全部</div>
-		<div id="closeOthers">关闭其他</div>
-		<div id="closeCurrent">关闭当前</div>
-		<div id="closeRight">当前页右侧全部关闭</div>
-		<div id="closeLeft">当前页左侧全部关闭</div>
+		<div id="closeAll" iconCls="icon-cancel">关闭全部</div>
+		<div id="closeOthers" iconCls="icon-no">关闭其他</div>
+		<div id="closeCurrent" iconCls="icon-no">关闭当前</div>
+		<div id="closeRight" iconCls="icon-right">当前页右侧全部关闭</div>
+		<div id="closeLeft" iconCls="icon-left">当前页左侧全部关闭</div>
 	</div>
 	<div id="myTabs" class="easyui-tabs" data-options="fit:true"></div>
  <!-- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe> -->

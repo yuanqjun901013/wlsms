@@ -23,7 +23,7 @@
     <script th:inline="javascript">
     var menu = "menu/" + [[${menu}]];
     </script>
-    <div style="width:207px;height: 100%;">
+    <div style="width:207px;height: 98%;">
     <ul class="easyui-tree" data-options="url:menu,method:'get',animate:true,onSelect:getSelected"></ul>
     <script th:inline="javascript">
     function getSelected(obj) {
