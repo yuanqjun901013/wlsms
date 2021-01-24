@@ -376,6 +376,7 @@
 <div data-options="region:'east',title:'消息栏',split:true,collapsed:true,hideCollapsedContent:false" style="width:207px;">
 </div>
 <div data-options="region:'south',split:true" style="height:50px;background:#eee;">
+	©2020-2021
 </div>
 </body>
 </html>
