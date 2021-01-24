@@ -286,6 +286,12 @@
 		{
 			document.forms[0].submit();
 		}
+		window.onload = function ()//用window的onload事件，窗体加载完毕的时候
+		{
+			if (window.top.location.href != window.location.href) {
+				top.location.reload(true);
+			}
+		}
 	</SCRIPT>
 </HEAD>
 <BODY>

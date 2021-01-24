@@ -8,7 +8,14 @@
 	<link rel="stylesheet" type="text/css" href="../../demo/demo.css">
 	<script type="text/javascript" src="../../jquery.min.js"></script>
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
-
+	<SCRIPT th:inline="javascript">
+		window.onload = function ()//用window的onload事件，窗体加载完毕的时候
+		{
+			if (window.top.location.href != window.location.href) {
+				top.location.reload(true);
+			}
+		}
+	</SCRIPT>
 </head>
 <body class="easyui-layout">
 <div class="easyui-panel" data-options="region:'north'" style="height:74px; background-image: url('../../bg.png');">
@@ -171,8 +178,8 @@
 			});
 		});
 
-		var menuList = [[${menuList}]]; //用户权限下菜单树
-		function getSelected(obj){
+	//	var menuList = [[${menuList}]]; //用户权限下菜单树
+		function addTab(obj){
 			if(!/^\s*$/.test(obj))
 			{
 				document.getElementById("bodyIfm").src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
@@ -183,8 +190,7 @@
 
 <!--/*@thymesVar id="main" type=""*/-->
 <div data-options="region:'center',iconCls:'icon-ok'" th:title="${main}">
-	<iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm">
-	</iframe>
+ <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe>
 </div>
 
 </div>
