@@ -9,10 +9,13 @@
 	<script type="text/javascript" src="../../jquery.min.js"></script>
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 	<SCRIPT th:inline="javascript">
+		var oInterval = "";
 		$(function(){
+			//欢迎页
+			$("#mWind").window("open");
+			oInterval = setInterval(CountDown, 1000);
 			//屏蔽右键菜单
 			$(document).bind("contextmenu",function(e){ return false; });
-
 			//首页默认选项卡
 			$("#myTabs").tabs("add",{
 				title: '首页',
@@ -21,22 +24,26 @@
 				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" height="99%" width="100%" ></iframe>'
 			});
 		})
+
+		function CountDown() {
+			var count = $("#number").val();
+			count--;
+			if (count > 0) {
+				$("#number").val(count);
+			} else {
+				clearInterval(oInterval);
+				$("#mWind").window('close');
+
+			};
+		}
 	</SCRIPT>
 	<style type="text/css">
-		#sdiv {
-			text-align: center;
-			font-size: 14px;
-			font-weight: bold;
-			line-height: 30px;
-			background-color: gray;
+		/*#number{filter:Alpha(opacity=0.0);-moz-opacity:0.0;opacity:0.0;}*/
+		#number{
+			background-color:transparent;
+			border-style:none;
 		}
-		/*修改头部标题样式*/
 
-		#n_title {
-			color: white;
-			font-size: 14px;
-			line-height: 40px;
-		}
 		/*修改标题超链接样式*/
 
 		#n_title a {
@@ -399,6 +406,13 @@
 			</td>
 		</tr>
 	</table>
+</div>
+<div id="mWind" class="easyui-window" title=""
+	 data-options="modal:true,inline:true,resizable:false,collapsible:false,minimizable:false,maximizable:false,closable:false"
+	 style="width:1070px;height:830px;padding:10px;background-image: url('../../views/bg_welcome.png')">
+		<div data-options="region:'center'">
+			<span style="font-size:15px;color: #e2e2e2;">欢迎页将在&nbsp;<input type="button" id="number" value="5" disabled="disabled"/>&nbsp;秒后自动关闭</span>
+		</div>
 </div>
 </body>
 </html>
