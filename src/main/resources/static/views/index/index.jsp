@@ -9,12 +9,6 @@
 	<script type="text/javascript" src="../../jquery.min.js"></script>
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 	<SCRIPT th:inline="javascript">
-		window.onload = function ()//用window的onload事件，窗体加载完毕的时候
-		{
-			if (window.top.location.href != window.location.href) {
-				top.location.reload(true);
-			}
-		}
 		$(function(){
 			//屏蔽右键菜单
 			$(document).bind("contextmenu",function(e){ return false; });
@@ -227,19 +221,18 @@
 		<div id="closeOthers" name="closeOthers" data-options="iconCls:'icon-no'">关闭其它</div>
 		<div id="closeAll" name="closeAll" data-options="iconCls:'icon-cancel'">关闭所有</div>
 	</div>-->
-	<div id="mmTab" class="easyui-menu" style="">
-		<div id="closeAll" iconCls="icon-cancel">关闭全部</div>
-		<div id="closeOthers" iconCls="icon-no">关闭其他</div>
-		<div id="closeCurrent" iconCls="icon-no">关闭当前</div>
-		<div id="closeRight" iconCls="icon-right">当前页右侧全部关闭</div>
-		<div id="closeLeft" iconCls="icon-left">当前页左侧全部关闭</div>
+	<div id="mmTab" class="easyui-menu" style="width:120px;">
+		<div id="closeAll" data-options="iconCls:'icon-cancel'">关闭全部</div>
+		<div id="closeOthers" data-options="iconCls:'icon-no'">关闭其他</div>
+		<div id="closeCurrent" data-options="iconCls:'icon-no'">关闭当前</div>
+		<div id="closeRight" data-options="iconCls:'icon-right'">右侧全部关闭</div>
+		<div id="closeLeft" data-options="iconCls:'icon-left'">左侧全部关闭</div>
 	</div>
 	<div id="myTabs" class="easyui-tabs" data-options="fit:true"></div>
  <!-- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe> -->
 
 	<script th:inline="javascript">
 		$(function() {
-
 			// //生成tab标签
 			// $('#myTabs').tabs({
 			// 	border : true,
@@ -376,7 +369,7 @@
 <div data-options="region:'east',title:'消息栏',split:true,collapsed:true,hideCollapsedContent:false" style="width:207px;">
 </div>
 <div data-options="region:'south',split:true" style="height:50px;background:#eee;">
-	©2020-2021
+	<div align="middle">©2020-2021</div>
 </div>
 </body>
 </html>

@@ -9,6 +9,12 @@
     <link rel="stylesheet" type="text/css" href="../../demo/sidemenu/sidemenu_style.css">
     <script type="text/javascript" src="../../jquery.min.js"></script>
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+    <SCRIPT th:inline="javascript">
+        $(function(){
+            //屏蔽右键菜单
+            $(document).bind("contextmenu",function(e){ return false; });
+        })
+    </SCRIPT>
 </head>
 <body>
 <div style="height: 98%;">

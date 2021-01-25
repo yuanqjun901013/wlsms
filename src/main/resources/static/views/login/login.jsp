@@ -286,12 +286,24 @@
 		{
 			document.forms[0].submit();
 		}
+		// window.onload = function ()//用window的onload事件，窗体加载完毕的时候
+		// {
+		// 	if (window.top.location.href != window.location.href) {
+		// 		top.location.reload(true);
+		// 	}
+		// }
 		window.onload = function ()//用window的onload事件，窗体加载完毕的时候
 		{
-			if (window.top.location.href != window.location.href) {
-				top.location.reload(true);
+			if (top.location != location) {
+				top.location.href = location.href;
 			}
 		}
+		// $(function () {
+		// 	//判断一下当前是不是最顶层，如果不是，则做一下顶层页面重定向
+		// 	if (window != top) {
+		// 		top.location.href = location.href;
+		// 	}
+		// });
 	</SCRIPT>
 </HEAD>
 <BODY>
