@@ -6,7 +6,7 @@
 	<META name="GENERATOR" content="MSHTML 11.00.9600.17496">
 	<TITLE>登录页面</TITLE>
 	<SCRIPT src="../../jquery-1.9.1.min.js" type="text/javascript"></SCRIPT>
-	<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 	<STYLE>
 		body{

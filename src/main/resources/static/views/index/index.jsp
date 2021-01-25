@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>WLSMS测试预览平台</title>
-	<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../../themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../../demo/demo.css">
 	<script type="text/javascript" src="../../jquery.min.js"></script>
@@ -12,6 +12,7 @@
 		$(function(){
 			//屏蔽右键菜单
 			$(document).bind("contextmenu",function(e){ return false; });
+
 			//首页默认选项卡
 			$("#myTabs").tabs("add",{
 				title: '首页',
@@ -21,6 +22,43 @@
 			});
 		})
 	</SCRIPT>
+	<style type="text/css">
+		#sdiv {
+			text-align: center;
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 30px;
+			background-color: gray;
+		}
+		/*修改头部标题样式*/
+
+		#n_title {
+			color: white;
+			font-size: 14px;
+			line-height: 40px;
+		}
+		/*修改标题超链接样式*/
+
+		#n_title a {
+			text-decoration: none;
+			color: white;
+		}
+
+		#n_title a:hover {
+			color: orange;
+		}
+		/*修改密码样式*/
+
+		#div_pwd table {
+			margin: auto;
+			margin-top: 10px;
+		}
+
+		#div_pwd table tr {
+			height: 40px;
+			text-align: center;
+		}
+	</style>
 </head>
 <body class="easyui-layout">
 <div class="easyui-panel" data-options="region:'north'" style="height:74px; background-image: url('../../bg.png');">
@@ -135,7 +173,13 @@
 		}
 		//注销登录
 		function logout() {
-			window.location.href = "/user/logout";
+			//提示用户是否确定退出
+			$.messager.confirm("确认对话框", "你真的要退出吗？", function(r) {
+				//退出
+				if (r) {
+					window.location.href = "/user/logout";
+				}
+			})
 		}
 	</SCRIPT>
 </div>

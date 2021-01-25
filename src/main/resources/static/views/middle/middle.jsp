@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>WLSMS</title>
-    <link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
     <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
     <link rel="stylesheet" type="text/css" href="../../demo/sidemenu/sidemenu_style.css">
