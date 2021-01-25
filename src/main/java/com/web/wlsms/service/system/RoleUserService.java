@@ -1,6 +1,7 @@
 package com.web.wlsms.service.system;
 
 import com.github.pagehelper.PageInfo;
+import com.web.wlsms.entity.AdminRoleUserEntity;
 import com.web.wlsms.request.RoleUsersRequest;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.RoleUserResponse;
@@ -35,4 +36,6 @@ public interface RoleUserService {
     PageInfo queryUserByRoleCode(SimpleRequest<String> request);
 
     PageInfo queryRoleUserList(SimpleRequest<String> request);
+
+    AdminRoleUserEntity queryUserRole(String userNo);
 }

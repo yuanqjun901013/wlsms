@@ -233,64 +233,6 @@
 
 	<script th:inline="javascript">
 		$(function() {
-			// //生成tab标签
-			// $('#myTabs').tabs({
-			// 	border : true,
-			// 	/* onSelect : function(title) {
-            //      alert(title + ' is selected');
-            //     } */
-			// });
-			//
-			// //生成右键菜单
-			// $('#myTabs').tabs({
-			// 	onContextMenu: function(e, title, index){
-			// 		//选中标签
-			// 		$('#myTabs').tabs('select',index);
-			// 		//显示右键菜单
-			// 		$('#mmTab').menu('show', {
-			// 			left: e.pageX,
-			// 			top: e.pageY
-			// 		}) ;
-			// 	}
-			// });
-			//
-			// //为每个菜单绑定点击事件
-			// //关闭选中的标签
-			// $("#closeCurrent").click(function(){
-			// 	//获取选中的标签索引
-			// 	var tab = $('#myTabs').tabs('getSelected');
-			// 	var index = $('#myTabs').tabs('getTabIndex',tab);
-			// 	$("#myTabs").tabs("close",index);
-			// });
-			//
-			// //关闭选中标签之外的标签
-			// $("#closeOthers").click(function(){
-			// 	//获取所有标签
-			// 	var tabs = $("#myTabs").tabs("tabs");
-			// 	var length = tabs.length;
-			// 	//获取选中标签的索引
-			// 	var tab = $('#myTabs').tabs('getSelected');
-			// 	var index = $('#myTabs').tabs('getTabIndex',tab);
-			// 	//关闭选中标签之前的标签
-			// 	for(var i=0;i<index;i++){
-			// 		$("#myTabs").tabs("close",1);
-			// 	}
-			// 	//关闭选中标签之后的标签
-			// 	for(var i=0;i<length-index-1;i++){
-			// 		$("#myTabs").tabs("close",1);
-			// 	}
-			// });
-			//
-			// //关闭所有标签
-			// $("#closeAll").click(function(){
-			// 	var tabs = $("#myTabs").tabs("tabs");
-			// 	var length = tabs.length;
-			// 	for(var i=0;i<length;i++){
-			// 		$("#myTabs").tabs("close",1);
-			// 	}
-			// });
-
-
 			//绑定右键菜单事件
 			$(".easyui-tabs").bind('contextmenu',function(e){
 				e.preventDefault();
@@ -368,8 +310,51 @@
 </div>
 <div data-options="region:'east',title:'消息栏',split:true,collapsed:true,hideCollapsedContent:false" style="width:207px;">
 </div>
-<div data-options="region:'south',split:true" style="height:50px;background:#eee;">
-	<div align="middle">©2020-2021</div>
+<div data-options="region:'south',split:true" style="height:40px;background:#eee;">
+	<script th:inline="javascript">
+		function getCurDate()
+		{
+			var d = new Date();
+			var week;
+			switch (d.getDay()){
+				case 1: week="星期一"; break;
+				case 2: week="星期二"; break;
+				case 3: week="星期三"; break;
+				case 4: week="星期四"; break;
+				case 5: week="星期五"; break;
+				case 6: week="星期六"; break;
+				default: week="星期天";
+			}
+			var years = d.getFullYear();
+			var month = add_zero(d.getMonth()+1);
+			var days = add_zero(d.getDate());
+			var hours = add_zero(d.getHours());
+			var minutes = add_zero(d.getMinutes());
+			var seconds=add_zero(d.getSeconds());
+//        var nDate = years+"年"+month+"月"+days+"日 "+hours+":"+minutes+":"+seconds+" "+week;
+			var nDate = years;
+			var divT=document.getElementById("logInfo");
+			divT.innerHTML= nDate;
+		}
+		function add_zero(temp)
+		{
+			if(temp<10) return "0"+temp;
+			else return temp;
+		}
+		setInterval("getCurDate()",100);
+	</script>
+	<table width=100%>
+		<tr height =50%>
+			<td></td>
+		</tr>
+		<tr height =50%>
+			<td align="middle">
+				<span style="font-family:arial;">&copy;</span>
+				<span style="font-size:12px;color: #000000;"><strong>2020-<label id="logInfo"/></strong></span>&nbsp;
+				<span style="font-size:12px;color: #000000;">WLSMS&nbsp;<strong>版权所有</strong></span>
+			</td>
+		</tr>
+	</table>
 </div>
 </body>
 </html>

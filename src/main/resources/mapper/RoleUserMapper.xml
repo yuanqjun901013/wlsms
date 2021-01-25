@@ -80,7 +80,15 @@
 
     <!-- 查询用户的角色编码 -->
     <select id="queryRoleCodeByUserNo" resultMap="RoleUserMap">
-        select role_code from admin_role_user where user_no = #{userNo}
+        select
+         aru.id,
+         ar.ROLE_CODE,
+         ar.ROLE_NAME,
+         aru.USER_NO
+         from
+         admin_role_user aru,admin_role ar
+         where aru.user_no = #{userNo}
+         and aru.ROLE_CODE = ar.ROLE_CODE
     </select>
 
     <!-- 根据角色代码查询角色名称 -->

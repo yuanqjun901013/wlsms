@@ -3,6 +3,7 @@ package com.web.wlsms.controller.index;
 
 import com.alibaba.fastjson.JSONObject;
 import com.web.wlsms.entity.AdminMenuEntity;
+import com.web.wlsms.entity.AdminRoleUserEntity;
 import com.web.wlsms.entity.UserEntity;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.response.MenuNodeResponse;
@@ -10,6 +11,7 @@ import com.web.wlsms.service.system.MenuService;
 import com.web.wlsms.service.system.RoleUserService;
 import com.web.wlsms.service.system.UserService;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,9 @@ public class IndexController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private RoleUserService roleUserService;
+
 
     /**
      * 首页
@@ -52,7 +57,11 @@ public class IndexController {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         UserEntity user = userService.selectUserById(userNo);
+        AdminRoleUserEntity userRole = roleUserService.queryUserRole(userNo);
         request.setAttribute("userNameCode", user.getUserName()+"("+userNo+")");//姓名工号
+        if(null != userRole && StringUtils.isNotBlank(userRole.getRoleName())){
+            request.setAttribute("userNameCode", user.getUserName()+"("+userRole.getRoleName()+")");//用户角色
+        }
         //根据用户获取权限下所有菜单树
         List<MenuNodeResponse> getAllMenuJson =  menuService.queryMenuByUserNo(userNo);
         request.setAttribute("menuList", getAllMenuJson);//权限菜单

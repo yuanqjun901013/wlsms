@@ -73,6 +73,20 @@ public class RoleUserServiceImpl implements RoleUserService {
         return roleUser.getRoleCode();
     }
 
+    /**
+     * 查询用户角色详情
+     * @param userNo
+     * @return
+     */
+    @Override
+    public AdminRoleUserEntity queryUserRole(String userNo) {
+        AdminRoleUserEntity roleUser = roleUserDao.queryRoleCodeByUserNo(userNo);
+        if (null == roleUser) {
+            return null;
+        }
+        return roleUser;
+    }
+
     @Override
     public RoleUserResponse queryRoleUserByCode(String roleCode) {
         AdminRoleUserEntity adminRoleUser = roleUserDao.queryRoleUserByCode(roleCode);
