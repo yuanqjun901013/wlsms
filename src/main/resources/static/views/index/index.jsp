@@ -158,18 +158,18 @@
 
 		function editUserView(){//编辑个人资料
 			document.getElementById("editDiv").style.display="";//展示
-			$("#userName").textbox('readonly',false);
-			$("#userNo").textbox('readonly',false);
+			$("#userName").textbox('readonly',true);
+			$("#userNo").textbox('readonly',true);
 			$("#age").textbox('readonly',false);
 			$("#job").textbox('readonly',false);
 			$("#tel").textbox('readonly',false);
 			$("#phone").textbox('readonly',false);
 			$("#email").textbox('readonly',false)
-			$("#sexM").radiobutton("enable",false);
-			$("#sexW").radiobutton("enable",false);
+			$("#sexM").radiobutton("disable",false);
+			$("#sexW").radiobutton("disable",false);
 		}
 
-		function cancelUser(){
+		function cancelUser(){//取消编辑个人信息
 			document.getElementById("editDiv").style.display="none";//隐藏
 			//默认只读
 			$("#userName").textbox('readonly',true);
@@ -183,6 +183,39 @@
 			$("#sexW").radiobutton("disable",false);
 		}
 
+		function savaUser(){
+			var id = userInfo.id;
+			var userNo= userInfo.userNo;
+			var age = $("#age").textbox('getValue');
+			var job = $("#job").textbox('getValue');
+			var tel = $("#tel").textbox('getValue');
+			var phone = $("#phone").textbox('getValue');
+			var email = $("#email").textbox('getValue');
+
+			$.ajax({
+				type: 'POST',
+				async: false,
+				dataType: "json",
+				url: '/admin/user/editUserByUserNo',//获取菜单
+				data:{
+					"id":id,
+					"userNo":userNo,
+					"age": age,
+					"job":job,
+					"tel":tel,
+					"phone": phone,
+					"email": email
+				},
+				success: function(data) {
+					$.messager.alert("消息提醒", "保存成功!", "info",function (){
+						$("#userInfo").window("close");
+						window.location.href = "/index/main";
+
+					});
+				}
+			});
+		}
+
 		function getMenuLevel(id) {//点击主菜单加载子菜单栏
 			var panels = $("#layout_west_accordion").accordion("panels");//获取旧菜单数量
 			// alert(panels.length);
@@ -194,7 +227,7 @@
 				i++;
 			}
 			var parentId = id;
-			// $.messager.alert("消息提醒", "菜单主ID为:" + parentId, "warning")；
+			// $.messager.alert("消息提醒", "菜单主ID为:" + parentId, "warning");
 			$.ajax({
 				type: 'POST',
 				async: false,
@@ -511,7 +544,7 @@
 		<input id="email" class="easyui-textbox" label="Email:" labelPosition="left"  style="width:45%;">
 	</div>
 	<div id="editDiv" style="margin-bottom:20px" align="center">
-	<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="javascript:alert('ok')" style="width:80px">保存</a>
+	<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="savaUser();" style="width:80px">保存</a>
 	<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="cancelUser();" style="width:80px">取消</a>
 	</div>
 	</div>

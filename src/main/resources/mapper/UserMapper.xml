@@ -30,4 +30,35 @@
         from admin_user
         where user_no = #{userNo}
     </select>
+
+    <update id="editUserByUserNo" parameterType="com.web.wlsms.entity.UserEntity">
+        update
+            admin_user
+        <set>
+            <if test="age !=null and age != ''">
+                age = #{age},
+            </if>
+            <if test="job !=null and job != ''">
+                job = #{job},
+            </if>
+            <if test="tel !=null and tel != ''">
+                tel = #{tel},
+            </if>
+            <if test="phone !=null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="email !=null and email != ''">
+                email = #{email}
+            </if>
+        </set>
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="userNo != null and userNo != ''">
+                and USER_NO = #{userNo}
+            </if>
+        </where>
+
+    </update>
 </mapper>
