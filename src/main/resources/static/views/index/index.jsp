@@ -10,10 +10,16 @@
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 	<SCRIPT th:inline="javascript">
 		var oInterval = "";
+		var welcomeValue = [[${welcomeValue}]]; //判断是否需要欢迎页
 		$(function(){
+			if(welcomeValue == "1"){//需要
 			//欢迎页
 			$("#mWind").window("open");
 			oInterval = setInterval(CountDown, 1000);
+			}else {//不需要
+				$("#mWind").window('close');
+			}
+
 			//屏蔽右键菜单
 			$(document).bind("contextmenu",function(e){ return false; });
 			//首页默认选项卡
@@ -266,12 +272,6 @@
         		iconCls:'icon-unfull',
        			handler:function(){unFull()}
     		}]" th:title="${main}">
-	<!-- menu -->
-	<!--<div id="mmTab" class="easyui-menu" style="width:120px;">
-		<div id="closeCurrent" name="closeCurrent" data-options="iconCls:'icon-no'">关闭当前</div>
-		<div id="closeOthers" name="closeOthers" data-options="iconCls:'icon-no'">关闭其它</div>
-		<div id="closeAll" name="closeAll" data-options="iconCls:'icon-cancel'">关闭所有</div>
-	</div>-->
 	<div id="mmTab" class="easyui-menu" style="width:120px;">
 		<div id="closeAll" data-options="iconCls:'icon-cancel'">关闭全部</div>
 		<div id="closeOthers" data-options="iconCls:'icon-no'">关闭其他</div>

@@ -56,6 +56,12 @@ public class IndexController {
     public String main(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
+        String welcome = (String)session.getAttribute("welcome");
+        if(null != welcome && StringUtils.isNotBlank(welcome) && Boolean.valueOf(welcome)) {//
+            request.setAttribute("welcomeValue","1");//欢迎页
+        }else{
+            request.setAttribute("welcomeValue","0");//欢迎页
+        }
         UserEntity user = userService.selectUserById(userNo);
         AdminRoleUserEntity userRole = roleUserService.queryUserRole(userNo);
         request.setAttribute("userNameCode", user.getUserName()+"("+userNo+")");//姓名工号
@@ -72,6 +78,7 @@ public class IndexController {
         //根据用户权限获取首页默认的二级菜单及子菜单
         List<MenuNodeResponse> queryMenusByParentId = menuService.queryMenusByParentId(userNo, 1L);
         request.setAttribute("menuLevel", queryMenusByParentId);//默认加载二级菜单
+        request.getSession().setAttribute("welcome", "false");//欢迎页面置为否
         return "views/index/index";
     }
 
