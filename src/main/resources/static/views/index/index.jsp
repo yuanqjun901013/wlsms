@@ -116,6 +116,8 @@
 		function getUserInfo(){//获取用户详细资料
 			if(userInfo){
 				$("#userInfo").window("open");
+				document.getElementById("editDiv").style.display="none";//隐藏
+				//赋值
 				$("#userName").textbox('setValue', userNameCode);
 				$("#userNo").textbox('setValue', userInfo.userNo);
 				$("#age").textbox('setValue', userInfo.age);
@@ -128,9 +130,57 @@
 				}else {
 					$("#sexW").radiobutton("check");
 				}
+				//默认只读
+				$("#userName").textbox('readonly',true);
+				$("#userNo").textbox('readonly',true);
+				$("#age").textbox('readonly',true);
+				$("#job").textbox('readonly',true);
+				$("#tel").textbox('readonly',true);
+				$("#phone").textbox('readonly',true);
+				$("#email").textbox('readonly',true);
+				$("#sexM").radiobutton("disable",false);
+				$("#sexW").radiobutton("disable",false);
 			}else {
 				$("#userInfo").window("open");
+				document.getElementById("editDiv").style.display="none";//隐藏
+				//默认只读
+				$("#userName").textbox('readonly',true);
+				$("#userNo").textbox('readonly',true);
+				$("#age").textbox('readonly',true);
+				$("#job").textbox('readonly',true);
+				$("#tel").textbox('readonly',true);
+				$("#phone").textbox('readonly',true);
+				$("#email").textbox('readonly',true);
+				$("#sexM").radiobutton("disable",false);
+				$("#sexW").radiobutton("disable",false);
 			}
+		}
+
+		function editUserView(){//编辑个人资料
+			document.getElementById("editDiv").style.display="";//展示
+			$("#userName").textbox('readonly',false);
+			$("#userNo").textbox('readonly',false);
+			$("#age").textbox('readonly',false);
+			$("#job").textbox('readonly',false);
+			$("#tel").textbox('readonly',false);
+			$("#phone").textbox('readonly',false);
+			$("#email").textbox('readonly',false)
+			$("#sexM").radiobutton("enable",false);
+			$("#sexW").radiobutton("enable",false);
+		}
+
+		function cancelUser(){
+			document.getElementById("editDiv").style.display="none";//隐藏
+			//默认只读
+			$("#userName").textbox('readonly',true);
+			$("#userNo").textbox('readonly',true);
+			$("#age").textbox('readonly',true);
+			$("#job").textbox('readonly',true);
+			$("#tel").textbox('readonly',true);
+			$("#phone").textbox('readonly',true);
+			$("#email").textbox('readonly',true);
+			$("#sexM").radiobutton("disable",false);
+			$("#sexW").radiobutton("disable",false);
 		}
 
 		function getMenuLevel(id) {//点击主菜单加载子菜单栏
@@ -437,32 +487,36 @@
 			<span style="font-size:15px;color: #e2e2e2;">欢迎页将在&nbsp;<input style="font-size:18px;color: #000000;" type="button" id="number" value="5" disabled="disabled"/>&nbsp;秒后自动关闭</span>
 		</div>
 </div>
-<div id="userInfo" class="easyui-window" title="个人资料" style="width:800px;height:300px;padding:10px;"
+<div id="userInfo" class="easyui-window" title="个人资料" style="width:800px;height:350px;padding:10px;"
 	 data-options="iconCls:'icon-man',modal:true,resizable:false,minimizable:false,maximizable:false,tools:'#tt'">
 	<div style="margin-bottom:20px"></div>
 	<div style="margin-bottom:20px">
-		<input id="userName" class="easyui-textbox" label="姓名:" labelPosition="left" style="width:45%;" readonly="true">&nbsp;&nbsp;
-		<input id="userNo" class="easyui-textbox" label="工号:" labelPosition="left" style="width:45%;" readonly="true">
+		<input id="userName" class="easyui-textbox" label="姓名:" labelPosition="left" style="width:45%;">&nbsp;&nbsp;
+		<input id="userNo" class="easyui-textbox" label="工号:" labelPosition="left" style="width:45%;">
 	</div>
 	<div style="margin-bottom:20px">
 	<form id="ff">
-		<input id="age" class="easyui-textbox" label="年龄:" labelPosition="left" style="width:45%;" readonly="true">&nbsp;&nbsp;
+		<input id="age" class="easyui-textbox" label="年龄:" labelPosition="left" style="width:45%;">&nbsp;&nbsp;
 		性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		男<input id="sexM" class="easyui-radiobutton" name="sex" value="1" disabled="false">&nbsp;&nbsp;
-		女<input id="sexW" class="easyui-radiobutton" name="sex" value="2" disabled="false">
+		男<input id="sexM" class="easyui-radiobutton" name="sex" value="1">&nbsp;&nbsp;
+		女<input id="sexW" class="easyui-radiobutton" name="sex" value="2">
 	</form>
 	</div>
 	<div style="margin-bottom:20px">
-		<input id="job" class="easyui-textbox" label="岗位:" labelPosition="left" style="width:45%;" readonly="true">&nbsp;&nbsp;
-		<input id="tel" class="easyui-textbox" label="固定电话:" labelPosition="left" style="width:45%;" readonly="true">
+		<input id="job" class="easyui-textbox" label="岗位:" labelPosition="left" style="width:45%;" >&nbsp;&nbsp;
+		<input id="tel" class="easyui-textbox" label="固定电话:" labelPosition="left" style="width:45%;">
 	</div>
 	<div style="margin-bottom:20px">
-		<input id="phone" class="easyui-textbox" label="手机:" labelPosition="left" style="width:45%;" readonly="true">&nbsp;&nbsp;
-		<input id="email" class="easyui-textbox" label="Email:" labelPosition="left"  style="width:45%;" readonly="true">
+		<input id="phone" class="easyui-textbox" label="手机:" labelPosition="left" style="width:45%;">&nbsp;&nbsp;
+		<input id="email" class="easyui-textbox" label="Email:" labelPosition="left"  style="width:45%;">
 	</div>
-</div>
+	<div id="editDiv" style="margin-bottom:20px" align="center">
+	<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="javascript:alert('ok')" style="width:80px">保存</a>
+	<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="cancelUser();" style="width:80px">取消</a>
+	</div>
+	</div>
 <div id="tt">
-	<a href="javascript:void(0)" class="icon-edit" onclick="javascript:alert('edit')"></a>
+	<a class="icon-edit" onclick="editUserView();"></a>
 </div>
 </body>
 </html>
