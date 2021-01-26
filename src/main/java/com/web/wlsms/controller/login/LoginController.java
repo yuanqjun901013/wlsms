@@ -90,7 +90,7 @@ public class LoginController {
             request.getSession().setAttribute("isLogin", "true");//如果正确，则在seesion里添加判断属性，可供拦截器判断是否登录过
             request.getSession().setAttribute("token", token);
             request.getSession().setAttribute("userNo", user.getUserNo());
-            request.getSession().setAttribute("welcome", "true");
+            request.getSession().setAttribute("welcome", "true");//需要欢迎页
             response.addCookie(cookie);
             response.sendRedirect(request.getContextPath() + "/index/main");
             TokenEntity tokenEntity = tokenService.findByUserNo(user.getUserNo());

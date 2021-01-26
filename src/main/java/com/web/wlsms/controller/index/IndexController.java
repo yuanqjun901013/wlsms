@@ -58,9 +58,9 @@ public class IndexController {
         String userNo = (String) session.getAttribute("userNo");
         String welcome = (String)session.getAttribute("welcome");
         if(null != welcome && StringUtils.isNotBlank(welcome) && Boolean.valueOf(welcome)) {//
-            request.setAttribute("welcomeValue","1");//欢迎页
+            request.setAttribute("welcomeValue","1");//欢迎页需要
         }else{
-            request.setAttribute("welcomeValue","0");//欢迎页
+            request.setAttribute("welcomeValue","0");//欢迎页不需要
         }
         UserEntity user = userService.selectUserById(userNo);
         AdminRoleUserEntity userRole = roleUserService.queryUserRole(userNo);

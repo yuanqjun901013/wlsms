@@ -12,7 +12,7 @@
 		var oInterval = "";
 		var welcomeValue = [[${welcomeValue}]]; //判断是否需要欢迎页
 		$(function(){
-			if(welcomeValue == "1"){//需要
+			if(welcomeValue == "1"){//需要欢迎页面
 			//欢迎页
 			$("#mWind").window("open");
 			oInterval = setInterval(CountDown, 1000);
