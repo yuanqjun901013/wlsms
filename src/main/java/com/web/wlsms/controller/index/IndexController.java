@@ -63,8 +63,8 @@ public class IndexController {
             request.setAttribute("userNameCode", user.getUserName()+"("+userRole.getRoleName()+")");//用户角色
         }
         //根据用户获取权限下所有菜单树
-        List<MenuNodeResponse> getAllMenuJson =  menuService.queryMenuByUserNo(userNo);
-        request.setAttribute("menuList", getAllMenuJson);//权限菜单
+//        List<MenuNodeResponse> getAllMenuJson =  menuService.queryMenuByUserNo(userNo);
+//        request.setAttribute("menuList", getAllMenuJson);//权限菜单
         //默认加载一级菜单用于加载显示顶部栏
         List<MenuNodeResponse> queryMenusParent = menuService.queryMenusParent();
         request.setAttribute("menusParentList", queryMenusParent);//父类菜单

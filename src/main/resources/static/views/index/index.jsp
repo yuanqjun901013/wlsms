@@ -411,7 +411,7 @@
 	 data-options="modal:true,inline:true,resizable:false,collapsible:false,minimizable:false,maximizable:false,closable:false"
 	 style="width:1071px;height:831px;padding:10px;background-image: url('../../views/bg_welcome.png')">
 		<div data-options="region:'center'">
-			<span style="font-size:15px;color: #e2e2e2;">欢迎页将在&nbsp;<input type="button" id="number" value="5" disabled="disabled"/>&nbsp;秒后自动关闭</span>
+			<span style="font-size:15px;color: #e2e2e2;">欢迎页将在&nbsp;<input style="font-size:18px;color: #000000;" type="button" id="number" value="5" disabled="disabled"/>&nbsp;秒后自动关闭</span>
 		</div>
 </div>
 </body>
