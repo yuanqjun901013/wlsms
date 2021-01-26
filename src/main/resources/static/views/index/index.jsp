@@ -29,6 +29,7 @@
 				closable:false,
 				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" height="99%" width="100%" ></iframe>'
 			});
+			$("#userInfo").window("close");
 		})
 
 		function CountDown() {
@@ -102,12 +103,34 @@
 		</tr>
 	</table>
 	<div id="mm" style="width:100px;">
-		<div data-options="iconCls:'icon-man'" onclick="logout();">个人资料</div>
+		<div data-options="iconCls:'icon-man'" onclick="getUserInfo();">个人资料</div>
 		<div data-options="iconCls:'icon-edit'" onclick="logout();">修改密码</div>
 	</div>
 	<SCRIPT th:inline="javascript">
 		function reload(){//刷新页面
 			window.location.href = "/index/main";
+		}
+
+		var userInfo = [[${userInfo}]];//获取用户信息
+		var userNameCode = [[${userNameCode}]];
+		function getUserInfo(){//获取用户详细资料
+			if(userInfo){
+				$("#userInfo").window("open");
+				$("#userName").textbox('setValue', userNameCode);
+				$("#userNo").textbox('setValue', userInfo.userNo);
+				$("#age").textbox('setValue', userInfo.age);
+				$("#job").textbox('setValue', userInfo.job);
+				$("#tel").textbox('setValue', userInfo.tel);
+				$("#phone").textbox('setValue', userInfo.phone);
+				$("#email").textbox('setValue', userInfo.email);
+				if(userInfo.sex == "1"){
+					$("#sexM").radiobutton("check");
+				}else {
+					$("#sexW").radiobutton("check");
+				}
+			}else {
+				$("#userInfo").window("open");
+			}
 		}
 
 		function getMenuLevel(id) {//点击主菜单加载子菜单栏
@@ -408,11 +431,38 @@
 	</table>
 </div>
 <div id="mWind" class="easyui-window" title=""
-	 data-options="modal:true,inline:true,resizable:false,collapsible:false,minimizable:false,maximizable:false,closable:false"
+	 data-options="modal:true,resizable:false,collapsible:false,minimizable:false,maximizable:false,closable:false"
 	 style="width:1071px;height:831px;padding:10px;background-image: url('../../views/bg_welcome.png')">
 		<div data-options="region:'center'">
 			<span style="font-size:15px;color: #e2e2e2;">欢迎页将在&nbsp;<input style="font-size:18px;color: #000000;" type="button" id="number" value="5" disabled="disabled"/>&nbsp;秒后自动关闭</span>
 		</div>
+</div>
+<div id="userInfo" class="easyui-window" title="个人资料" style="width:800px;height:300px;padding:10px;"
+	 data-options="iconCls:'icon-man',modal:true,resizable:false,minimizable:false,maximizable:false,tools:'#tt'">
+	<div style="margin-bottom:20px"></div>
+	<div style="margin-bottom:20px">
+		<input id="userName" class="easyui-textbox" label="姓名:" labelPosition="left" style="width:45%;" readonly="true">&nbsp;&nbsp;
+		<input id="userNo" class="easyui-textbox" label="工号:" labelPosition="left" style="width:45%;" readonly="true">
+	</div>
+	<div style="margin-bottom:20px">
+	<form id="ff">
+		<input id="age" class="easyui-textbox" label="年龄:" labelPosition="left" style="width:45%;" readonly="true">&nbsp;&nbsp;
+		性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		男<input id="sexM" class="easyui-radiobutton" name="sex" value="1" disabled="false">&nbsp;&nbsp;
+		女<input id="sexW" class="easyui-radiobutton" name="sex" value="2" disabled="false">
+	</form>
+	</div>
+	<div style="margin-bottom:20px">
+		<input id="job" class="easyui-textbox" label="岗位:" labelPosition="left" style="width:45%;" readonly="true">&nbsp;&nbsp;
+		<input id="tel" class="easyui-textbox" label="固定电话:" labelPosition="left" style="width:45%;" readonly="true">
+	</div>
+	<div style="margin-bottom:20px">
+		<input id="phone" class="easyui-textbox" label="手机:" labelPosition="left" style="width:45%;" readonly="true">&nbsp;&nbsp;
+		<input id="email" class="easyui-textbox" label="Email:" labelPosition="left"  style="width:45%;" readonly="true">
+	</div>
+</div>
+<div id="tt">
+	<a href="javascript:void(0)" class="icon-edit" onclick="javascript:alert('edit')"></a>
 </div>
 </body>
 </html>

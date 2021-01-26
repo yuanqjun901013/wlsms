@@ -375,7 +375,9 @@ public class MenuServiceImpl implements MenuService {
         }
         List<MenuNodeResponse> loadMenuByParentId = new ArrayList<>();
         for(MenuNodeResponse menuNodeResponse:menuNodesAllByRoleCode){
-            if(menuNodeResponse.getId() == parentId) loadMenuByParentId.addAll(menuNodeResponse.getChildren());
+            if(menuNodeResponse.getId() == parentId && null != menuNodeResponse.getChildren()) {
+                loadMenuByParentId.addAll(menuNodeResponse.getChildren());
+            }
         }
         return loadMenuByParentId;
     }

@@ -63,6 +63,7 @@ public class IndexController {
             request.setAttribute("welcomeValue","0");//欢迎页不需要
         }
         UserEntity user = userService.selectUserById(userNo);
+        request.setAttribute("userInfo",user);//用户信息
         AdminRoleUserEntity userRole = roleUserService.queryUserRole(userNo);
         request.setAttribute("userNameCode", user.getUserName()+"("+userNo+")");//姓名工号
         if(null != userRole && StringUtils.isNotBlank(userRole.getRoleName())){
