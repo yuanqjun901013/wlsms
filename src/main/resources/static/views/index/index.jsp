@@ -11,6 +11,7 @@
 	<SCRIPT th:inline="javascript">
 		var oInterval = "";
 		var welcomeValue = [[${welcomeValue}]]; //判断是否需要欢迎页
+		var menuLevel = [[${menuLevel}]];//默认加载parentId为1的菜单列表
 		$(function(){
 			if(welcomeValue == "1"){//需要欢迎页面
 			//欢迎页
@@ -19,9 +20,8 @@
 			}else {//不需要
 				$("#mWind").window('close');
 			}
-
-			//屏蔽右键菜单
-			$(document).bind("contextmenu",function(e){ return false; });
+			$("#userInfo").window("close");
+			$("#pwdW").window("close");
 			//首页默认选项卡
 			$("#myTabs").tabs("add",{
 				title: '首页',
@@ -29,8 +29,137 @@
 				closable:false,
 				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" height="99%" width="100%" ></iframe>'
 			});
-			$("#userInfo").window("close");
-		})
+			//屏蔽右键菜单
+			$(document).bind("contextmenu",function(e){ return false; });
+
+			$.each(menuLevel, function(i, n) { //加载父类节点即一级菜单
+				var id = n.id;
+				if(i == 0) { //显示第一个一级菜单下的二级菜单
+					$('#layout_west_accordion').accordion('add', {
+						title: n.text,
+						iconCls: n.iconCls,
+						selected: true,
+						//可在这加HTML代码，改变布局
+						content: '<div style="padding:10px 0px"><ul id="tree' + id + '"></ul></div>',
+					});
+				} else {
+					$('#layout_west_accordion').accordion('add', {
+						title: n.text,
+						iconCls: n.iconCls,
+						selected: false,
+						content: '<div style="padding:10px 0px"><ul id="tree' + id + '"></ul></div>',
+					});
+				}
+				//加载树
+				$("#tree" + id).tree({
+					data: n.children,
+					animate: true,
+					//iconCls: icon-blank,
+					//在树节点加图片
+					formatter:function(node){
+						return node.text;
+					},
+					// lines: true, //显示虚线效果
+					onClick: function(node) { // 在用户点击一个子节点即二级菜单时触发addTab()方法,用于添加tabs
+						//if(node.url){//判断url是否存在，存在则创建tabs
+						if(node) {
+							addMenuTab(node);
+						}
+					}
+				});
+			});
+
+			//绑定右键菜单事件
+			$(".easyui-tabs").bind('contextmenu',function(e){
+				e.preventDefault();
+				$('#mmTab').menu('show', {
+					left: e.pageX,
+					top: e.pageY
+				});
+			});
+			//关闭所有标签页
+			$("#closeAll").bind("click",function(){
+				var tablist =$('#myTabs').tabs('tabs');
+				console.log(tablist);
+				//  return;
+				for(var i=tablist.length-1;i>=1;i--){
+					$('#myTabs').tabs('close',i);
+				}
+			});
+
+			//关闭选中的标签
+			$("#closeCurrent").click(function(){
+				//获取选中的标签索引
+				var tab = $('#myTabs').tabs('getSelected');
+				var index = $('#myTabs').tabs('getTabIndex',tab);
+				$("#myTabs").tabs("close",index);
+			});
+
+			//关闭其他页面（先关闭右侧，再关闭左侧）
+			$("#closeOthers").bind("click",function(){
+				var tablist = $('#myTabs').tabs('tabs');
+				var tab = $('#myTabs').tabs('getSelected');
+				var index = $('#myTabs').tabs('getTabIndex',tab);
+				for(var i=tablist.length-1;i>index;i--){
+					$('#myTabs').tabs('close',i);
+				}
+				var num = index-1;
+				if(num < 1){
+					return;
+				}else{
+					for(var i=num;i>=1;i--){
+						$('#myTabs').tabs('close',i);
+					}
+					$("#myTabs").tabs("select", 1);
+				}
+			});
+
+			//关闭右边的选项卡
+			$("#closeRight").bind("click",function(){
+				var tablist = $('#myTabs').tabs('tabs');
+				var tab = $('#myTabs').tabs('getSelected');
+				var index = $('#myTabs').tabs('getTabIndex',tab);
+				for(var i=tablist.length-1;i>index;i--){
+					$('#myTabs').tabs('close',i);
+				}
+			});
+			//关闭右边的选项卡
+			$("#closeLeft").bind("click",function(){
+				var tablist = $('#myTabs').tabs('tabs');
+				var tab = $('#myTabs').tabs('getSelected');
+				var index = $('#myTabs').tabs('getTabIndex',tab);
+				var num = index-1;
+				if(num < 1){
+					return;
+				}else{
+					for(var i=num;i>=1;i--){
+						$('#myTabs').tabs('close',i);
+					}
+					$("#myTabs").tabs("select", 1);
+				}
+			});
+		});
+
+		//	var menuList = [[${menuList}]]; //用户权限下菜单树
+		function addMenuTab(obj){
+			if(!/^\s*$/.test(obj))
+			{
+				var e = $("#myTabs").tabs("exists", obj.text);
+				if(e){
+					//已经存在，选中就可以
+					$("#myTabs").tabs("select", obj.text);
+				}else{
+					//调用tabs对象的add方法动态添加一个选项卡
+					$("#myTabs").tabs("add",{
+						title: obj.text,
+						iconCls:'icon-tip',
+						closable:true,
+						content:'<iframe id="'+obj.id+'" frameborder="0" height="99%" width="100%" ></iframe>'
+					});
+					document.getElementById(obj.id).src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
+				}
+			}
+		}
 
 		function CountDown() {
 			var count = $("#number").val();
@@ -43,70 +172,8 @@
 
 			};
 		}
-	</SCRIPT>
-	<style type="text/css">
-		/*#number{filter:Alpha(opacity=0.0);-moz-opacity:0.0;opacity:0.0;}*/
-		#number{
-			background-color:transparent;
-			border-style:none;
-		}
 
-		/*修改标题超链接样式*/
 
-		#n_title a {
-			text-decoration: none;
-			color: white;
-		}
-
-		#n_title a:hover {
-			color: orange;
-		}
-		/*修改密码样式*/
-
-		#div_pwd table {
-			margin: auto;
-			margin-top: 10px;
-		}
-
-		#div_pwd table tr {
-			height: 40px;
-			text-align: center;
-		}
-	</style>
-</head>
-<body class="easyui-layout">
-<div class="easyui-panel" data-options="region:'north'" style="height:74px; background-image: url('../../bg.png');">
-	<table border="0" style="width: 99%;height: 69px">
-		<tr><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
-			<td align="left" width="200px">
-				<a class="easyui-linkbutton" style="width:200px;height: 98%;" data-options="iconCls:'icon-logo',size:'large',plain:true" onclick="reload();" >
-					WLSMS测试预览平台
-				</a>
-			</td>
-			<!--/*@thymesVar id="menusParentList" type=""*/-->
-			<td th:each="mp : ${menusParentList}" align="left" width="69px">
-				<!--/*@thymesVar id="iconCls" type=""*/-->
-				<a class="easyui-linkbutton" style="width:68px" th:onclick="'javascript:getMenuLevel('+${mp.id}+')' " th:iconCls="${mp.iconCls}" data-options="size:'large',iconAlign:'top',group:'g1',toggle:true,plain:true">
-					<!--/*@thymesVar id="text" type=""*/-->
-					<span th:text="${mp.text}"/>
-				</a>
-			<td/>
-
-			<td align="right" width="50%">
-				<a style="width:200px" iconCls="icon-man" class="easyui-menubutton" data-options="menu:'#mm',plain:true">
-					<!--/*@thymesVar id="userNameCode" type=""*/-->
-					<span th:text="${userNameCode}"/>
-				</a>
-				|
-				<a style="width:68px" iconCls="icon-tip" class="easyui-linkbutton" plain="true" onclick="logout();">退出</a>
-			</td>
-		</tr>
-	</table>
-	<div id="mm" style="width:100px;">
-		<div data-options="iconCls:'icon-man'" onclick="getUserInfo();">个人资料</div>
-		<div data-options="iconCls:'icon-edit'" onclick="logout();">修改密码</div>
-	</div>
-	<SCRIPT th:inline="javascript">
 		function reload(){//刷新页面
 			window.location.href = "/index/main";
 		}
@@ -183,7 +250,7 @@
 			$("#sexW").radiobutton("disable",false);
 		}
 
-		function savaUser(){
+		function saveUser(){
 			var id = userInfo.id;
 			var userNo= userInfo.userNo;
 			var age = $("#age").textbox('getValue');
@@ -270,7 +337,7 @@
 							onClick: function(node) { // 在用户点击一个子节点即二级菜单时触发addTab()方法,用于添加tabs
 								//if(node.url){//判断url是否存在，存在则创建tabs
 								if(node) {
-									addTab(node);
+									addMenuTab(node);
 								}
 							}
 						});
@@ -290,6 +357,7 @@
 				closable: true
 			});
 		}
+
 		//注销登录
 		function logout() {
 			//提示用户是否确定退出
@@ -300,175 +368,7 @@
 				}
 			})
 		}
-	</SCRIPT>
-</div>
-<div data-options="region:'west',split:true,collapsed:false,hideCollapsedContent:false" title="菜单栏" style="width:207px;">
-	<div id="layout_west_accordion" class="easyui-accordion" data-options="fit:true,border:false,nimate:true,lines:true">
-	</div>
-	<script th:inline="javascript">
-		var menuLevel = [[${menuLevel}]];//默认加载parentId为1的菜单列表
-		$(function() {
-			$.each(menuLevel, function(i, n) { //加载父类节点即一级菜单
-				var id = n.id;
-				if(i == 0) { //显示第一个一级菜单下的二级菜单
-					$('#layout_west_accordion').accordion('add', {
-						title: n.text,
-						iconCls: n.iconCls,
-						selected: true,
-						//可在这加HTML代码，改变布局
-						content: '<div style="padding:10px 0px"><ul id="tree' + id + '"></ul></div>',
-					});
-				} else {
-					$('#layout_west_accordion').accordion('add', {
-						title: n.text,
-						iconCls: n.iconCls,
-						selected: false,
-						content: '<div style="padding:10px 0px"><ul id="tree' + id + '"></ul></div>',
-					});
-				}
-				//加载树
-				$("#tree" + id).tree({
-					data: n.children,
-					animate: true,
-					//iconCls: icon-blank,
-					//在树节点加图片
-					formatter:function(node){
-						return node.text;
-					},
-					// lines: true, //显示虚线效果
-					onClick: function(node) { // 在用户点击一个子节点即二级菜单时触发addTab()方法,用于添加tabs
-						//if(node.url){//判断url是否存在，存在则创建tabs
-						if(node) {
-							addTab(node);
-						}
-					}
-				});
-			});
-		});
 
-	//	var menuList = [[${menuList}]]; //用户权限下菜单树
-		function addTab(obj){
-			if(!/^\s*$/.test(obj))
-			{
-				var e = $("#myTabs").tabs("exists", obj.text);
-				if(e){
-					//已经存在，选中就可以
-					$("#myTabs").tabs("select", obj.text);
-				}else{
-					//调用tabs对象的add方法动态添加一个选项卡
-					$("#myTabs").tabs("add",{
-						title: obj.text,
-						iconCls:'icon-tip',
-						closable:true,
-						content:'<iframe id="'+obj.id+'" frameborder="0" height="99%" width="100%" ></iframe>'
-					});
-                    document.getElementById(obj.id).src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
-				}
-			}
-		}
-	</script>
-</div>
-
-<!--/*@thymesVar id="main" type=""*/-->
-<div data-options="region:'center',iconCls:'icon-ok',
-			 tools: [{
-        		iconCls:'icon-full',
-       			handler:function(){full()}
-    		},{
-        		iconCls:'icon-unfull',
-       			handler:function(){unFull()}
-    		}]" th:title="${main}">
-	<div id="mmTab" class="easyui-menu" style="width:120px;">
-		<div id="closeAll" data-options="iconCls:'icon-cancel'">关闭全部</div>
-		<div id="closeOthers" data-options="iconCls:'icon-no'">关闭其他</div>
-		<div id="closeCurrent" data-options="iconCls:'icon-no'">关闭当前</div>
-		<div id="closeRight" data-options="iconCls:'icon-right'">右侧全部关闭</div>
-		<div id="closeLeft" data-options="iconCls:'icon-left'">左侧全部关闭</div>
-	</div>
-	<div id="myTabs" class="easyui-tabs" data-options="fit:true"></div>
- <!-- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe> -->
-
-	<script th:inline="javascript">
-		$(function() {
-			//绑定右键菜单事件
-			$(".easyui-tabs").bind('contextmenu',function(e){
-				e.preventDefault();
-				$('#mmTab').menu('show', {
-					left: e.pageX,
-					top: e.pageY
-				});
-			});
-			//关闭所有标签页
-			$("#closeAll").bind("click",function(){
-				var tablist =$('#myTabs').tabs('tabs');
-				console.log(tablist);
-				//  return;
-				for(var i=tablist.length-1;i>=1;i--){
-					$('#myTabs').tabs('close',i);
-				}
-			});
-
-			//关闭选中的标签
-			$("#closeCurrent").click(function(){
-				//获取选中的标签索引
-				var tab = $('#myTabs').tabs('getSelected');
-				var index = $('#myTabs').tabs('getTabIndex',tab);
-				$("#myTabs").tabs("close",index);
-			});
-
-			//关闭其他页面（先关闭右侧，再关闭左侧）
-			$("#closeOthers").bind("click",function(){
-				var tablist = $('#myTabs').tabs('tabs');
-				var tab = $('#myTabs').tabs('getSelected');
-				var index = $('#myTabs').tabs('getTabIndex',tab);
-				for(var i=tablist.length-1;i>index;i--){
-					$('#myTabs').tabs('close',i);
-				}
-				var num = index-1;
-				if(num < 1){
-					return;
-				}else{
-					for(var i=num;i>=1;i--){
-						$('#myTabs').tabs('close',i);
-					}
-					$("#myTabs").tabs("select", 1);
-				}
-			});
-
-			//关闭右边的选项卡
-			$("#closeRight").bind("click",function(){
-				var tablist = $('#myTabs').tabs('tabs');
-				var tab = $('#myTabs').tabs('getSelected');
-				var index = $('#myTabs').tabs('getTabIndex',tab);
-				for(var i=tablist.length-1;i>index;i--){
-					$('#myTabs').tabs('close',i);
-				}
-			});
-			//关闭右边的选项卡
-			$("#closeLeft").bind("click",function(){
-				var tablist = $('#myTabs').tabs('tabs');
-				var tab = $('#myTabs').tabs('getSelected');
-				var index = $('#myTabs').tabs('getTabIndex',tab);
-				var num = index-1;
-				if(num < 1){
-					return;
-				}else{
-					for(var i=num;i>=1;i--){
-						$('#myTabs').tabs('close',i);
-					}
-					$("#myTabs").tabs("select", 1);
-				}
-			});
-
-		});
-	</script>
-</div>
-
-</div>
-<div data-options="region:'east',title:'消息栏',split:true,collapsed:true,hideCollapsedContent:false" style="width:207px;">
-</div>
-<div data-options="region:'south',split:true" style="height:40px;background:#eee;">
-	<script th:inline="javascript">
 		function getCurDate()
 		{
 			var d = new Date();
@@ -499,7 +399,132 @@
 			else return temp;
 		}
 		setInterval("getCurDate()",100);
-	</script>
+
+		function editPwd(){
+			$("#pwdW").window("open");
+		}
+
+		$('#pass').passwordbox({
+			inputEvents: $.extend({}, $.fn.passwordbox.defaults.inputEvents, {
+				keypress: function(e){
+					var char = String.fromCharCode(e.which);
+					$('#viewer').html(char).fadeIn(200, function(){
+						$(this).fadeOut();
+					});
+				}
+			})
+		})
+		$.extend($.fn.validatebox.defaults.rules, {
+			confirmPass: {
+				validator: function(value, param){
+					var pass = $(param[0]).passwordbox('getValue');
+					return value == pass;
+				},
+				message: 'Password does not match confirmation.'
+			}
+		})
+	</SCRIPT>
+	<style type="text/css">
+		/*#number{filter:Alpha(opacity=0.0);-moz-opacity:0.0;opacity:0.0;}*/
+		#number{
+			background-color:transparent;
+			border-style:none;
+		}
+
+		/*修改标题超链接样式*/
+
+		#n_title a {
+			text-decoration: none;
+			color: white;
+		}
+
+		#n_title a:hover {
+			color: orange;
+		}
+		/*修改密码样式*/
+
+		#div_pwd table {
+			margin: auto;
+			margin-top: 10px;
+		}
+
+		#div_pwd table tr {
+			height: 40px;
+			text-align: center;
+		}
+
+		#viewer{
+			position: relative;
+			padding: 0 60px;
+			top: -70px;
+			font-size: 54px;
+			line-height: 60px;
+		}
+	</style>
+</head>
+<body class="easyui-layout">
+<div class="easyui-panel" data-options="region:'north'" style="height:74px; background-image: url('../../bg.png');">
+	<table border="0" style="width: 99%;height: 69px">
+		<tr><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
+			<td align="left" width="200px">
+				<a class="easyui-linkbutton" style="width:200px;height: 98%;" data-options="iconCls:'icon-logo',size:'large',plain:true" onclick="reload();" >
+					WLSMS测试预览平台
+				</a>
+			</td>
+			<!--/*@thymesVar id="menusParentList" type=""*/-->
+			<td th:each="mp : ${menusParentList}" align="left" width="69px">
+				<!--/*@thymesVar id="iconCls" type=""*/-->
+				<a class="easyui-linkbutton" style="width:68px" th:onclick="'javascript:getMenuLevel('+${mp.id}+')' " th:iconCls="${mp.iconCls}" data-options="size:'large',iconAlign:'top',group:'g1',toggle:true,plain:true">
+					<!--/*@thymesVar id="text" type=""*/-->
+					<span th:text="${mp.text}"/>
+				</a>
+			<td/>
+
+			<td align="right" width="50%">
+				<a style="width:200px" iconCls="icon-man" class="easyui-menubutton" data-options="menu:'#mm',plain:true">
+					<!--/*@thymesVar id="userNameCode" type=""*/-->
+					<span th:text="${userNameCode}"/>
+				</a>
+				|
+				<a style="width:68px" iconCls="icon-tip" class="easyui-linkbutton" plain="true" onclick="logout();">退出</a>
+			</td>
+		</tr>
+	</table>
+	<div id="mm" style="width:100px;">
+		<div data-options="iconCls:'icon-man'" onclick="getUserInfo();">个人资料</div>
+		<div data-options="iconCls:'icon-edit'" onclick="editPwd();">修改密码</div>
+	</div>
+</div>
+<div data-options="region:'west',split:true,collapsed:false,hideCollapsedContent:false" title="菜单栏" style="width:207px;">
+	<div id="layout_west_accordion" class="easyui-accordion" data-options="fit:true,border:false,nimate:true,lines:true">
+	</div>
+</div>
+
+<!--/*@thymesVar id="main" type=""*/-->
+<div data-options="region:'center',iconCls:'icon-ok',
+			 tools: [{
+        		iconCls:'icon-full',
+       			handler:function(){full()}
+    		},{
+        		iconCls:'icon-unfull',
+       			handler:function(){unFull()}
+    		}]" th:title="${main}">
+	<div id="mmTab" class="easyui-menu" style="width:120px;">
+		<div id="closeAll" data-options="iconCls:'icon-cancel'">关闭全部</div>
+		<div id="closeOthers" data-options="iconCls:'icon-no'">关闭其他</div>
+		<div id="closeCurrent" data-options="iconCls:'icon-no'">关闭当前</div>
+		<div id="closeRight" data-options="iconCls:'icon-right'">右侧全部关闭</div>
+		<div id="closeLeft" data-options="iconCls:'icon-left'">左侧全部关闭</div>
+	</div>
+	<div id="myTabs" class="easyui-tabs" data-options="fit:true"></div>
+ <!-- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe> -->
+</div>
+
+</div>
+<div data-options="region:'east',title:'消息栏',split:true,collapsed:true,hideCollapsedContent:false" style="width:207px;">
+</div>
+<div data-options="region:'south',split:true" style="height:40px;background:#eee;">
+
 	<table width=100%>
 		<tr height =50%>
 			<td></td>
@@ -544,12 +569,28 @@
 		<input id="email" class="easyui-textbox" label="Email:" labelPosition="left"  style="width:45%;">
 	</div>
 	<div id="editDiv" style="margin-bottom:20px" align="center">
-	<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="savaUser();" style="width:80px">保存</a>
+	<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="saveUser();" style="width:80px">保存</a>
 	<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="cancelUser();" style="width:80px">取消</a>
 	</div>
 	</div>
 <div id="tt">
 	<a class="icon-edit" onclick="editUserView();"></a>
+</div>
+
+<div id="pwdW" class="easyui-window" title="修改密码" style="width:435px;height:330px;padding:10px;"
+	 data-options="iconCls:'icon-lock',modal:true,resizable:false,minimizable:false,maximizable:false">
+	<div class="easyui-panel" style="width:400px;padding:50px 60px">
+	<div style="margin-bottom:20px">
+		<input class="easyui-textbox" prompt="Username" iconWidth="28" style="width:100%;height:34px;padding:10px;">
+	</div>
+	<div style="margin-bottom:20px">
+		<input id="pass" class="easyui-passwordbox" prompt="Password" iconWidth="28" style="width:100%;height:34px;padding:10px">
+	</div>
+	<div style="margin-bottom:20px">
+		<input class="easyui-passwordbox" prompt="Confirm your password" iconWidth="28" validType="confirmPass['#pass']" style="width:100%;height:34px;padding:10px">
+	</div>
+	</div>
+	<div id="viewer"></div>
 </div>
 </body>
 </html>
