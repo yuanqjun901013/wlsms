@@ -403,7 +403,45 @@
 		function editPwd(){
 			$("#pwdW").window("open");
 		}
+		function confirmPwd(){
+			//密码中必须包含大小写 字母、数字、特称字符，至少8个字符，最多30个字符；
+			// var pwdRegexA = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}');
+			//密码中必须包含字母（不区分大小写）、数字、特称字符，至少8个字符，最多30个字符；
+			// var pwdRegexB = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}');
+			//密码中必须包含字母（不区分大小写）、数字，至少8个字符，最多30个字符；
+			// var pwdRegexC = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z]).{8,30}');
+			// if (!pwdRegexC.test('a2b3c$def')) {
+			// 	alert("您的密码复杂度太低（密码中必须包含字母、数字、特殊字符），请及时修改密码！");
+			// }
+			var userNo= userInfo.userNo;
+			var pwd = userInfo.pwd;
+			var oldPass = $("#pass").textbox('getValue');
+			var pass = $("#pass").textbox('getValue');
+			savePwd();
+		}
 		function savePwd(){
+			$.ajax({
+				type: 'POST',
+				async: false,
+				dataType: "json",
+				url: '/admin/user/editUserByUserNo',//获取菜单
+				data:{
+					"id":id,
+					"userNo":userNo,
+					"age": age,
+					"job":job,
+					"tel":tel,
+					"phone": phone,
+					"email": email
+				},
+				success: function(data) {
+					$.messager.alert("消息提醒", "保存成功!", "info",function (){
+						$("#userInfo").window("close");
+						window.location.href = "/index/main";
+
+					});
+				}
+			});
 			window.location.href = "/user/logout";
 		}
 
@@ -414,6 +452,15 @@
 					return value == pass;
 				},
 				message: '两次密码输入不一致!'
+			},
+			confirmPwdLength:{
+				validator:function(value){
+					//密码中必须包含字母（不区分大小写）、数字，至少6个字符，最多18个字符；
+					return /(?=.*[0-9])(?=.*[a-zA-Z]).{6,16}/.test(value);
+					//6-16位只能包含 字母、数字、下划线'
+					//return /^[0-9a-zA-Z_]{6,16}$/.test(value);
+				},
+				message:'密码中必须包含字母（不区分大小写）、数字，至少6个字符，最多18个字符'
 			}
 		});
 	</SCRIPT>
@@ -569,21 +616,20 @@
 <div id="tt">
 	<a class="icon-edit" onclick="editUserView();"></a>
 </div>
-<div id="pwdW" class="easyui-window" title="修改密码" style="width:435px;height:300px;padding:10px;"
+<div id="pwdW" class="easyui-window" title="修改密码" style="width:435px;height:330px;padding:10px;"
 	 data-options="iconCls:'icon-lock',modal:true,resizable:false,minimizable:false,maximizable:false">
-	<div class="easyui-panel" style="width:400px;padding:50px 60px">
+	<div style="margin-bottom:20px"></div>
 	<div style="margin-bottom:20px">
 		<input id="oldPass" class="easyui-passwordbox" prompt="输入旧密码" iconWidth="28" style="width:100%;height:34px;padding:10px;">
 	</div>
 	<div style="margin-bottom:20px">
-		<input id="pass" class="easyui-passwordbox" prompt="输入新密码" iconWidth="28" style="width:100%;height:34px;padding:10px">
+		<input id="pass" class="easyui-passwordbox" prompt="输入新密码" iconWidth="28" validType="confirmPwdLength" style="width:100%;height:34px;padding:10px">
 	</div>
 	<div style="margin-bottom:20px">
 		<input class="easyui-passwordbox" prompt="新密码验证" iconWidth="28" validType="confirmPass['#pass']" style="width:100%;height:34px;padding:10px">
 	</div>
-		<div style="margin-bottom:20px" align="center">
-			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="savePwd();" style="width:80px">保存</a>
-		</div>
+	<div style="margin-bottom:20px" align="center">
+		<a id="pwdBt" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="confirmPwd();" style="width:80px">保存</a>
 	</div>
 </div>
 </body>
