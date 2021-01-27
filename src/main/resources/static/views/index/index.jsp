@@ -403,26 +403,19 @@
 		function editPwd(){
 			$("#pwdW").window("open");
 		}
+		function savePwd(){
+			window.location.href = "/user/logout";
+		}
 
-		$('#pass').passwordbox({
-			inputEvents: $.extend({}, $.fn.passwordbox.defaults.inputEvents, {
-				keypress: function(e){
-					var char = String.fromCharCode(e.which);
-					$('#viewer').html(char).fadeIn(200, function(){
-						$(this).fadeOut();
-					});
-				}
-			})
-		})
 		$.extend($.fn.validatebox.defaults.rules, {
 			confirmPass: {
 				validator: function(value, param){
 					var pass = $(param[0]).passwordbox('getValue');
 					return value == pass;
 				},
-				message: 'Password does not match confirmation.'
+				message: '两次密码输入不一致!'
 			}
-		})
+		});
 	</SCRIPT>
 	<style type="text/css">
 		/*#number{filter:Alpha(opacity=0.0);-moz-opacity:0.0;opacity:0.0;}*/
@@ -576,21 +569,22 @@
 <div id="tt">
 	<a class="icon-edit" onclick="editUserView();"></a>
 </div>
-
-<div id="pwdW" class="easyui-window" title="修改密码" style="width:435px;height:330px;padding:10px;"
+<div id="pwdW" class="easyui-window" title="修改密码" style="width:435px;height:300px;padding:10px;"
 	 data-options="iconCls:'icon-lock',modal:true,resizable:false,minimizable:false,maximizable:false">
 	<div class="easyui-panel" style="width:400px;padding:50px 60px">
 	<div style="margin-bottom:20px">
-		<input class="easyui-textbox" prompt="Username" iconWidth="28" style="width:100%;height:34px;padding:10px;">
+		<input id="oldPass" class="easyui-passwordbox" prompt="输入旧密码" iconWidth="28" style="width:100%;height:34px;padding:10px;">
 	</div>
 	<div style="margin-bottom:20px">
-		<input id="pass" class="easyui-passwordbox" prompt="Password" iconWidth="28" style="width:100%;height:34px;padding:10px">
+		<input id="pass" class="easyui-passwordbox" prompt="输入新密码" iconWidth="28" style="width:100%;height:34px;padding:10px">
 	</div>
 	<div style="margin-bottom:20px">
-		<input class="easyui-passwordbox" prompt="Confirm your password" iconWidth="28" validType="confirmPass['#pass']" style="width:100%;height:34px;padding:10px">
+		<input class="easyui-passwordbox" prompt="新密码验证" iconWidth="28" validType="confirmPass['#pass']" style="width:100%;height:34px;padding:10px">
 	</div>
+		<div style="margin-bottom:20px" align="center">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="savePwd();" style="width:80px">保存</a>
+		</div>
 	</div>
-	<div id="viewer"></div>
 </div>
 </body>
 </html>
