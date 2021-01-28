@@ -23,4 +23,9 @@ public class UserController {
         return userService.editUserByUserNo(userEntity);
     }
 
+    @RequestMapping("editUserPwd")
+    public int editUserPwd(HttpServletRequest request, UserEntity userEntity){
+        return userService.editUserPwd(userEntity);
+    }
+
 }

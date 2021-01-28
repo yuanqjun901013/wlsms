@@ -23,4 +23,9 @@ public class UserServiceImpl implements UserService {
     public int editUserByUserNo(UserEntity userEntity){
         return userDao.editUserByUserNo(userEntity);
     }
+
+    @Override
+    public int editUserPwd(UserEntity userEntity){
+        return userDao.editUserPwd(userEntity);
+    }
 }

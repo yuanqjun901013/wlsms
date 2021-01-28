@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserDao {
     UserEntity selectUserByNo(String userNo);
     int editUserByUserNo(UserEntity userEntity);
+    int editUserPwd(UserEntity userEntity);
 }

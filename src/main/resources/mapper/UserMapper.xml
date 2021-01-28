@@ -61,4 +61,15 @@
         </where>
 
     </update>
+
+    <update id="editUserPwd" parameterType="com.web.wlsms.entity.UserEntity">
+        update
+        admin_user
+        <set>
+            pwd = #{pwd}
+        </set>
+        <where>
+            USER_NO = #{userNo}
+        </where>
+    </update>
 </mapper>

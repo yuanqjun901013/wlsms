@@ -76,11 +76,11 @@ public class LoginController {
         //查询用户信息
         UserEntity userForBase = userService.selectUserById(user.getUserNo());
         if (null == userForBase || StringUtils.isBlank(userForBase.getPwd())) {
-            request.getSession().setAttribute("errorMessage", "用户不存在，请重新登录！");
+            request.setAttribute("errorMessage", "用户不存在，请重新登录！");
             request.getSession().setAttribute("isLogin", "false");
             response.sendRedirect(request.getContextPath() + "/user/login");
         } else if(!userForBase.getPwd().equals(user.getPwd())) {
-            request.getSession().setAttribute("errorMessage", "密码错误，请重新登录！");
+            request.setAttribute("errorMessage", "密码错误，请重新登录！");
             request.getSession().setAttribute("isLogin", "false");
             response.sendRedirect(request.getContextPath() + "/user/login");
         } else{

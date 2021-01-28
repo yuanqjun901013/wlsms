@@ -1,12 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <HEAD>
-	<META content="IE=11.0000" http-equiv="X-UA-Compatible">
-	<META http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<META name="GENERATOR" content="MSHTML 11.00.9600.17496">
-	<TITLE>登录页面</TITLE>
+
+
+	<meta charset="UTF-8">
+	<title>登录页面</title>
 	<SCRIPT src="../../jquery-1.9.1.min.js" type="text/javascript"></SCRIPT>
 	<link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
+	<script type="text/javascript" src="../../jquery.min.js"></script>
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 	<STYLE>
 		body{
