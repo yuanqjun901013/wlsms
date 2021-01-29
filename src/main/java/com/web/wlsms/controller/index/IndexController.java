@@ -89,7 +89,7 @@ public class IndexController {
     }
 
     /**
-     * 加载Modal 弹窗页
+     * 加载个人资料Modal弹窗页
      * @param request
      * @return
      */
@@ -97,6 +97,17 @@ public class IndexController {
     public String userModalPage(HttpServletRequest request) {
         commonSession(request);
         return "views/index/userModalPage";
+    }
+
+    /**
+     * 加载修改Modal弹窗页
+     * @param request
+     * @return
+     */
+    @RequestMapping("pwdModalPage")
+    public String pwdModalPage(HttpServletRequest request) {
+        commonSession(request);
+        return "views/index/pwdModalPage";
     }
 
     /**
