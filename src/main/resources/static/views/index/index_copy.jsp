@@ -173,8 +173,113 @@
 			};
 		}
 
+
 		function reload(){//刷新页面
 			window.location.href = "/index/main";
+		}
+
+		var userInfo = [[${userInfo}]];//获取用户信息
+		var userNameCode = [[${userNameCode}]];
+		function getUserInfo(){//获取用户详细资料
+			if(userInfo){
+				$("#userInfo").window("open");
+				document.getElementById("editDiv").style.display="none";//隐藏
+				//赋值
+				$("#userName").textbox('setValue', userNameCode);
+				$("#userNo").textbox('setValue', userInfo.userNo);
+				$("#age").textbox('setValue', userInfo.age);
+				$("#job").textbox('setValue', userInfo.job);
+				$("#tel").textbox('setValue', userInfo.tel);
+				$("#phone").textbox('setValue', userInfo.phone);
+				$("#email").textbox('setValue', userInfo.email);
+				if(userInfo.sex == "1"){
+					$("#sexM").radiobutton("check");
+				}else {
+					$("#sexW").radiobutton("check");
+				}
+				//默认只读
+				$("#userName").textbox('readonly',true);
+				$("#userNo").textbox('readonly',true);
+				$("#age").textbox('readonly',true);
+				$("#job").textbox('readonly',true);
+				$("#tel").textbox('readonly',true);
+				$("#phone").textbox('readonly',true);
+				$("#email").textbox('readonly',true);
+				$("#sexM").radiobutton("disable",false);
+				$("#sexW").radiobutton("disable",false);
+			}else {
+				$("#userInfo").window("open");
+				document.getElementById("editDiv").style.display="none";//隐藏
+				//默认只读
+				$("#userName").textbox('readonly',true);
+				$("#userNo").textbox('readonly',true);
+				$("#age").textbox('readonly',true);
+				$("#job").textbox('readonly',true);
+				$("#tel").textbox('readonly',true);
+				$("#phone").textbox('readonly',true);
+				$("#email").textbox('readonly',true);
+				$("#sexM").radiobutton("disable",false);
+				$("#sexW").radiobutton("disable",false);
+			}
+		}
+
+		function editUserView(){//编辑个人资料
+			document.getElementById("editDiv").style.display="";//展示
+			$("#userName").textbox('readonly',true);
+			$("#userNo").textbox('readonly',true);
+			$("#age").textbox('readonly',false);
+			$("#job").textbox('readonly',false);
+			$("#tel").textbox('readonly',false);
+			$("#phone").textbox('readonly',false);
+			$("#email").textbox('readonly',false)
+			$("#sexM").radiobutton("disable",false);
+			$("#sexW").radiobutton("disable",false);
+		}
+
+		function cancelUser(){//取消编辑个人信息
+			document.getElementById("editDiv").style.display="none";//隐藏
+			//默认只读
+			$("#userName").textbox('readonly',true);
+			$("#userNo").textbox('readonly',true);
+			$("#age").textbox('readonly',true);
+			$("#job").textbox('readonly',true);
+			$("#tel").textbox('readonly',true);
+			$("#phone").textbox('readonly',true);
+			$("#email").textbox('readonly',true);
+			$("#sexM").radiobutton("disable",false);
+			$("#sexW").radiobutton("disable",false);
+		}
+
+		function saveUser(){
+			var id = userInfo.id;
+			var userNo= userInfo.userNo;
+			var age = $("#age").textbox('getValue');
+			var job = $("#job").textbox('getValue');
+			var tel = $("#tel").textbox('getValue');
+			var phone = $("#phone").textbox('getValue');
+			var email = $("#email").textbox('getValue');
+
+			$.ajax({
+				type: 'POST',
+				async: false,
+				dataType: "json",
+				url: '/admin/user/editUserByUserNo',//修改个人资料
+				data:{
+					"id":id,
+					"userNo":userNo,
+					"age": age,
+					"job":job,
+					"tel":tel,
+					"phone": phone,
+					"email": email
+				},
+				success: function(data) {
+					$.messager.alert("消息提醒", "保存成功!", "info",function (){
+						$("#userInfo").window("close");
+						window.location.href = "/index/main";
+					});
+				}
+			});
 		}
 
 		function getMenuLevel(id) {//点击主菜单加载子菜单栏
@@ -376,11 +481,6 @@
 				message:'密码中必须包含字母（不区分大小写）、数字，至少6个字符，最多16个字符'
 			}
 		});
-
-
-		function getUserInfo() {//打开个人资料
-			$("#userInfo").window("open");
-		}
 	</SCRIPT>
 	<style type="text/css">
 		/*#number{filter:Alpha(opacity=0.0);-moz-opacity:0.0;opacity:0.0;}*/
@@ -496,9 +596,36 @@
 			<span style="font-size:15px;color: #e2e2e2;">欢迎页将在&nbsp;<input style="font-size:18px;color: #000000;" type="button" id="number" value="5" disabled="disabled"/>&nbsp;秒后自动关闭</span>
 		</div>
 </div>
-<div id="userInfo" class="easyui-window" title="个人资料" style="width:800px;height:380px;padding:10px;"
-	 data-options="iconCls:'icon-man',modal:true,resizable:false,minimizable:false,maximizable:false">
-	<iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="userModalPage"></iframe>
+<div id="userInfo" class="easyui-window" title="个人资料" style="width:800px;height:350px;padding:10px;"
+	 data-options="iconCls:'icon-man',modal:true,resizable:false,minimizable:false,maximizable:false,tools:'#tt'">
+	<div style="margin-bottom:20px"></div>
+	<div style="margin-bottom:20px">
+		<input id="userName" class="easyui-textbox" label="姓名:" labelPosition="left" style="width:45%;">&nbsp;&nbsp;
+		<input id="userNo" class="easyui-textbox" label="工号:" labelPosition="left" style="width:45%;">
+	</div>
+	<div style="margin-bottom:20px">
+	<form id="ff">
+		<input id="age" class="easyui-textbox" label="年龄:" labelPosition="left" style="width:45%;">&nbsp;&nbsp;
+		性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		男<input id="sexM" class="easyui-radiobutton" name="sex" value="1">&nbsp;&nbsp;
+		女<input id="sexW" class="easyui-radiobutton" name="sex" value="2">
+	</form>
+	</div>
+	<div style="margin-bottom:20px">
+		<input id="job" class="easyui-textbox" label="岗位:" labelPosition="left" style="width:45%;" >&nbsp;&nbsp;
+		<input id="tel" class="easyui-textbox" label="固定电话:" labelPosition="left" style="width:45%;">
+	</div>
+	<div style="margin-bottom:20px">
+		<input id="phone" class="easyui-textbox" label="手机:" labelPosition="left" style="width:45%;">&nbsp;&nbsp;
+		<input id="email" class="easyui-textbox" label="Email:" labelPosition="left"  style="width:45%;">
+	</div>
+	<div id="editDiv" style="margin-bottom:20px" align="center">
+	<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="saveUser();" style="width:80px">保存</a>
+	<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="cancelUser();" style="width:80px">取消</a>
+	</div>
+	</div>
+<div id="tt">
+	<a class="icon-edit" onclick="editUserView();"></a>
 </div>
 <div id="pwdW" class="easyui-window" title="修改密码" style="width:435px;height:330px;padding:10px;"
 	 data-options="iconCls:'icon-lock',modal:true,resizable:false,minimizable:false,maximizable:false">

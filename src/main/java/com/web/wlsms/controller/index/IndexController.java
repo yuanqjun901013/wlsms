@@ -54,6 +54,56 @@ public class IndexController {
      */
     @RequestMapping("main")
     public String main(HttpServletRequest request) {
+        commonSession(request);
+        return "views/index/index";
+    }
+
+
+    /**
+     * 首页中间默认展示内容
+     * @param request
+     * @return
+     */
+    @RequestMapping("middlePage")
+    public String middlePage(HttpServletRequest request) {
+        request.setAttribute("tab","告警");
+        return "views/middle/middle";
+    }
+
+    /**
+     * 重定向页面请求
+     * @param request
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    @RequestMapping("forwardToPage")
+    public String forwardToPage(HttpServletRequest request){
+        LOGGER.info("forwardToPage");
+        String url = request.getParameter("url");
+        String text = request.getParameter("text");
+        String menu = request.getParameter("menu");
+        request.setAttribute("tab", text);
+        request.setAttribute("menu", menu);
+        return url;
+    }
+
+    /**
+     * 加载Modal 弹窗页
+     * @param request
+     * @return
+     */
+    @RequestMapping("userModalPage")
+    public String userModalPage(HttpServletRequest request) {
+        commonSession(request);
+        return "views/index/userModalPage";
+    }
+
+    /**
+     * 公共session
+     * @param request
+     */
+    private void commonSession(HttpServletRequest request){
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         String welcome = (String)session.getAttribute("welcome");
@@ -80,44 +130,5 @@ public class IndexController {
         List<MenuNodeResponse> queryMenusByParentId = menuService.queryMenusByParentId(userNo, 1L);
         request.setAttribute("menuLevel", queryMenusByParentId);//默认加载二级菜单
         request.getSession().setAttribute("welcome", "false");//欢迎页面置为否
-        return "views/index/index";
     }
-
-
-    /**
-     * 首页中间默认展示内容
-     * @param request
-     * @return
-     */
-    @RequestMapping("middlePage")
-    public String middlePage(HttpServletRequest request) {
-        request.setAttribute("tab","告警");
-        return "views/middle/middle";
-    }
-
-//    @RequestMapping("forwardToPage")
-//    public void forwardToPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String pathNames = "/" + request.getParameter("pathNames").replaceAll("\\*", "/");
-//        request.getRequestDispatcher(pathNames).forward(request, response);
-//    }
-
-    /**
-     * 重定向页面请求
-     * @param request
-     * @return
-     * @throws ServletException
-     * @throws IOException
-     */
-    @RequestMapping("forwardToPage")
-    public String forwardToPage(HttpServletRequest request){
-        LOGGER.info("forwardToPage");
-        String url = request.getParameter("url");
-        String text = request.getParameter("text");
-        String menu = request.getParameter("menu");
-        request.setAttribute("tab", text);
-        request.setAttribute("menu", menu);
-        return url;
-    }
-
-
 }
