@@ -85,6 +85,7 @@ public class IndexController {
         String menu = request.getParameter("menu");
         request.setAttribute("tab", text);
         request.setAttribute("menu", menu);
+        commonSession(request);//默认加载首页用户信息
         return url;
     }
 
