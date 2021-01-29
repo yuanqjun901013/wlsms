@@ -511,13 +511,6 @@
 			text-align: center;
 		}
 
-		#viewer{
-			position: relative;
-			padding: 0 60px;
-			top: -70px;
-			font-size: 54px;
-			line-height: 60px;
-		}
 	</style>
 </head>
 <body class="easyui-layout">
