@@ -67,7 +67,6 @@ public class IndexController {
     @RequestMapping("middlePage")
     public String middlePage(HttpServletRequest request) {
         request.setAttribute("tab","告警");
-
         return "views/middle/middle";
     }
 
