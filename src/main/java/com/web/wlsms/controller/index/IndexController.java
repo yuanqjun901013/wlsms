@@ -101,7 +101,7 @@ public class IndexController {
     }
 
     /**
-     * 加载修改Modal弹窗页
+     * 加载修改密码Modal弹窗页
      * @param request
      * @return
      */
