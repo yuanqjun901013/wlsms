@@ -27,7 +27,7 @@
 				title: '首页',
 				iconCls:'icon-tip',
 				closable:false,
-				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" height="99%" width="100%" ></iframe>'
+				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" width="100%" height="99%"></iframe>'
 			});
 			//屏蔽右键菜单
 			$(document).bind("contextmenu",function(e){ return false; });
@@ -154,7 +154,7 @@
 						title: obj.text,
 						iconCls:'icon-tip',
 						closable:true,
-						content:'<iframe id="'+obj.id+'" frameborder="0" height="99%" width="100%" ></iframe>'
+						content:'<iframe id="'+obj.id+'" frameborder="0" height="99%" width="100%" border="0" marginwidth="1" SCROLLING="auto"></iframe>'
 					});
 					document.getElementById(obj.id).src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
 				}
@@ -302,6 +302,7 @@
 		}
 	</SCRIPT>
 	<style type="text/css">
+		body{margin:0; padding:0;}
 		/*#number{filter:Alpha(opacity=0.0);-moz-opacity:0.0;opacity:0.0;}*/
 		#number{
 			background-color:transparent;
@@ -371,14 +372,7 @@
 </div>
 
 <!--/*@thymesVar id="main" type=""*/-->
-<div data-options="region:'center',iconCls:'icon-ok',
-			 tools: [{
-        		iconCls:'icon-full',
-       			handler:function(){full()}
-    		},{
-        		iconCls:'icon-unfull',
-       			handler:function(){unFull()}
-    		}]" th:title="${main}">
+<div data-options="region:'center'" th:title="${main}">
 	<div id="mmTab" class="easyui-menu" style="width:120px;">
 		<div id="closeAll" data-options="iconCls:'icon-cancel'">关闭全部</div>
 		<div id="closeOthers" data-options="iconCls:'icon-no'">关闭其他</div>
@@ -386,14 +380,14 @@
 		<div id="closeRight" data-options="iconCls:'icon-right'">右侧全部关闭</div>
 		<div id="closeLeft" data-options="iconCls:'icon-left'">左侧全部关闭</div>
 	</div>
-	<div id="myTabs" class="easyui-tabs" data-options="fit:true"></div>
+	<div id="myTabs" class="easyui-tabs" data-options="fit:true,border:false,plain:true"></div>
  <!-- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe> -->
 </div>
 
 </div>
 <div data-options="region:'east',title:'消息栏',split:true,collapsed:true,hideCollapsedContent:false" style="width:207px;">
 </div>
-<div data-options="region:'south',split:true" style="height:40px;background:#eee;">
+<div data-options="region:'south'" style="height:40px;background:#eee;">
 
 	<table width=100%>
 		<tr height =50%>
