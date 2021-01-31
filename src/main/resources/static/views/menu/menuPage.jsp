@@ -18,14 +18,14 @@
 </head>
 <body>
     <div class="easyui-layout" data-options="fit:true">
-        <div data-options="region:'north'" style="height:1px"></div>
         <div data-options="region:'west',split:true" style="width:20%;padding:10px">
             <div style="width:207px;height: 98%;">
                 <ul class="easyui-tree" data-options="url:menu,method:'get',animate:true,onSelect:getSelected"></ul>
                 <script th:inline="javascript">
                     var menu = "menu/" + [[${menu}]];
                     function getSelected(obj) {
-                        var id = obj.id;
+                        var parentId = obj.id;
+                        getOn(parentId);
                     }
                 </script>
             </div>
@@ -58,6 +58,31 @@
                     ]]
                 });
             })
+
+            function getOn(parentId){
+                $('#dg').datagrid({
+                    url:'/index/menu/pageQueryMenu',//获取菜单
+                    method: 'post',
+                    //携带参数
+                    queryParams: {
+                        "request": parentId
+                    },
+                    fitColumns:true,
+                    striped:true,
+                    pagination:true,
+                    rownumbers:true,
+                    singleSelect:true,
+                    columns:[[
+                        {field:'id',title:'菜单ID',width:80,align:'center'},
+                        {field:'name',title:'菜单名称',width:80,align:'center'},
+                        {field:'url',title:'菜单路径',width:80,align:'center'},
+                        {field:'parentId',title:'上级ID',width:80,align:'center'},
+                        {field:'isNeedAuth',title:'权限控制',width:80,align:'center'},
+                        {field:'menuCode',title:'编码',width:80,align:'center'},
+                        {field:'level',title:'菜单级别',width:60,align:'center'}
+                    ]]
+                });
+            }
         </SCRIPT>
     </div>
 </body>
