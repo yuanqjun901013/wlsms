@@ -80,11 +80,9 @@ public class MenuController {
      * @return
      */
     @RequestMapping("/pageQueryMenu")
-    public Map<String,Object> pageQueryMenu(SimpleRequest params,Integer page, Integer rows) {
+    public Map<String,Object> pageQueryMenu(SimpleRequest params) {
         Map<String,Object> resultMap = new HashMap<>();
         try {
-            params.setPageSize(rows);
-            params.setPageNumber(page);
             PageInfo menuPageInfo = menuService.pageQueryAdminMenu(params);
             resultMap.put("total", menuPageInfo.getTotal());
             resultMap.put("rows", menuPageInfo.getList());

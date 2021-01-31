@@ -31,19 +31,7 @@
             </div>
         </div>
         <div id="dg" data-options="region:'center',split:true">
-            <table class="easyui-datagrid">
-              <!--  <thead>
-                <tr>
-                    <th data-options="field:'id',align:'center'" width="80">菜单ID</th>
-                    <th data-options="field:'name',align:'center'" width="80">菜单名称</th>
-                    <th data-options="field:'url',align:'center'" width="80">菜单路径</th>
-                    <th data-options="field:'parentId',align:'center'" width="80">上级ID</th>
-                    <th data-options="field:'isNeedAuth',align:'center'" width="80">权限控制</th>
-                    <th data-options="field:'menuCode',align:'center'" width="80">编码</th>
-                    <th data-options="field:'level',align:'center'" width="60">菜单级别</th>
-                </tr>
-                </thead> -->
-            </table>
+            <table class="easyui-datagrid"></table>
         </div>
         <SCRIPT type="text/javascript" th:inline="none">
             $(function(){

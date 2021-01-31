@@ -97,14 +97,14 @@ public class RoleUserServiceImpl implements RoleUserService {
 
     @Override
     public PageInfo queryUserByRoleCode(SimpleRequest<String> request) {
-        PageHelper.startPage(request.getPageNumber(), request.getPageSize());
+        PageHelper.startPage(request.getPage(), request.getRows());
         List<AdminRoleUserEntity> list = roleUserDao.queryUserByRoleCode(request.getRequest());
         return new PageInfo<>(list);
     }
 
     @Override
     public PageInfo queryRoleUserList(SimpleRequest<String> request) {
-        PageHelper.startPage(request.getPageNumber(), request.getPageSize());
+        PageHelper.startPage(request.getPage(), request.getRows());
         List<AdminRoleUserEntity> list = roleUserDao.queryRoleUserListByRoleCode(request.getRequest());
         return new PageInfo<>(list);
     }
