@@ -12,6 +12,12 @@
         $(function(){
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
+            $.messager.show({
+                title:'消息提醒',
+                msg:'上线',
+                timeout:5000,
+                showType:'slide'
+            });
         })
     </SCRIPT>
 </head>

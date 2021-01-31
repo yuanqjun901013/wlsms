@@ -387,8 +387,8 @@
 </div>
 
 </div>
-<div data-options="region:'east',title:'消息栏',split:true,collapsed:false,hideCollapsedContent:false" style="width:207px;">
-<iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="messagePage" id="messageIfm"></iframe>
+<div data-options="region:'east',title:'消息栏',split:true,collapsed:false,hideCollapsedContent:false" style="width:308px;">
+<iframe style="vertical-align:bottom;" width="100%" height="100%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="messagePage" id="messageIfm"></iframe>
 </div>
 <div data-options="region:'south'" style="height:40px;background:#eee;">
 	<table width=100%>
