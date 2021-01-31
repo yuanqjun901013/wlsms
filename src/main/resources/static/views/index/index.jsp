@@ -27,7 +27,7 @@
 				title: '首页',
 				iconCls:'icon-tip',
 				closable:false,
-				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" width="100%" height="99%"></iframe>'
+				content:'<iframe frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="mainBody" style="vertical-align:bottom;" width="100%" height="100%"></iframe>'
 			});
 			//屏蔽右键菜单
 			$(document).bind("contextmenu",function(e){ return false; });
@@ -154,7 +154,7 @@
 						title: obj.text,
 						iconCls:'icon-tip',
 						closable:true,
-						content:'<iframe id="'+obj.id+'" frameborder="0" height="99%" width="100%" border="0" marginwidth="1" SCROLLING="auto"></iframe>'
+						content:'<iframe id="'+obj.id+'" frameborder="0" style="vertical-align:bottom;" width="100%" height="100%" border="0" marginwidth="1" SCROLLING="auto"></iframe>'
 					});
 					document.getElementById(obj.id).src = "forwardToPage?url="+ obj.url + "&text=" + obj.text + "&menu=" + obj.menu;
 				}
@@ -242,15 +242,15 @@
 			});
 		}
 
-		var index = 0;
-		function addTab(node){
-			index++;
-			$('#tt').tabs('add',{
-				title: 'Tab'+index,
-				content: '<div style="padding:10px">Content'+index+'</div>',
-				closable: true
-			});
-		}
+		// var index = 0;
+		// function addTab(node){
+		// 	index++;
+		// 	$('#tt').tabs('add',{
+		// 		title: 'Tab'+index,
+		// 		content: '<div style="padding:10px">Content'+index+'</div>',
+		// 		closable: true
+		// 	});
+		// }
 
 		//注销登录
 		function logout() {
@@ -372,23 +372,25 @@
 </div>
 
 <!--/*@thymesVar id="main" type=""*/-->
-<div data-options="region:'center'" th:title="${main}">
-	<div id="mmTab" class="easyui-menu" style="width:120px;">
-		<div id="closeAll" data-options="iconCls:'icon-cancel'">关闭全部</div>
-		<div id="closeOthers" data-options="iconCls:'icon-no'">关闭其他</div>
-		<div id="closeCurrent" data-options="iconCls:'icon-no'">关闭当前</div>
-		<div id="closeRight" data-options="iconCls:'icon-right'">右侧全部关闭</div>
-		<div id="closeLeft" data-options="iconCls:'icon-left'">左侧全部关闭</div>
+<!--<div data-options="region:'center'" th:title="${main}">-->
+<div data-options="region:'center'">
+	<div id="myTabs" class="easyui-tabs" data-options="fit:true,border:false,plain:true">
+		<div id="mmTab" class="easyui-menu" style="width:120px;">
+			<div id="closeAll" data-options="iconCls:'icon-cancel'">关闭全部</div>
+			<div id="closeOthers" data-options="iconCls:'icon-no'">关闭其他</div>
+			<div id="closeCurrent" data-options="iconCls:'icon-no'">关闭当前</div>
+			<div id="closeRight" data-options="iconCls:'icon-right'">右侧全部关闭</div>
+			<div id="closeLeft" data-options="iconCls:'icon-left'">左侧全部关闭</div>
+		</div>
 	</div>
-	<div id="myTabs" class="easyui-tabs" data-options="fit:true,border:false,plain:true"></div>
  <!-- <iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="middlePage" id="bodyIfm"></iframe> -->
 </div>
 
 </div>
-<div data-options="region:'east',title:'消息栏',split:true,collapsed:true,hideCollapsedContent:false" style="width:207px;">
+<div data-options="region:'east',title:'消息栏',split:true,collapsed:false,hideCollapsedContent:false" style="width:207px;">
+<iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="messagePage" id="messageIfm"></iframe>
 </div>
 <div data-options="region:'south'" style="height:40px;background:#eee;">
-
 	<table width=100%>
 		<tr height =50%>
 			<td></td>

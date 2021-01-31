@@ -70,6 +70,11 @@ public class IndexController {
         return "views/middle/middle";
     }
 
+    @RequestMapping("messagePage")
+    public String messagePage(HttpServletRequest request) {
+        return "views/message/message";
+    }
+
     /**
      * 重定向页面请求
      * @param request
