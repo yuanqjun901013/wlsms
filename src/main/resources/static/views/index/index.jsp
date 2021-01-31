@@ -413,11 +413,11 @@
 </div>
 <div id="userInfo" class="easyui-window" title="个人资料" style="width:800px;height:380px;padding:10px;"
 	 data-options="iconCls:'icon-man',modal:true,resizable:false,minimizable:false,maximizable:false">
-	<iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="userModalPage"></iframe>
+	<iframe style="vertical-align:bottom;" width="100%" height="100%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="userModalPage"></iframe>
 </div>
 <div id="pwdW" class="easyui-window" title="修改密码" style="width:580px;height:400px;padding:10px;"
 	 data-options="iconCls:'icon-lock',modal:true,resizable:false,minimizable:false,maximizable:false">
-	<iframe width="100%" height="99%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="pwdModalPage"></iframe>
+	<iframe style="vertical-align:bottom;" width="100%" height="100%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="pwdModalPage"></iframe>
 </div>
 </body>
 </html>
