@@ -15,7 +15,7 @@ public interface MenuDao {
 
     AdminMenuEntity queryMenuConfig(String id);
 
-    List<AdminMenuEntity> queryChildrenMenu(Integer parentId);
+    List<AdminMenuEntity> queryChildrenMenu(Map<String, Object> map);
 
     int addMenu(MenuRequest request);
 

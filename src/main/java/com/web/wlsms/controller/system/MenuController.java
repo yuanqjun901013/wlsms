@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/index/menu")
@@ -62,7 +64,7 @@ public class MenuController {
      * @return
      */
     @RequestMapping("/queryMenu")
-    public BaseResponse<AdminMenuResponse> queryMenu(@RequestBody SimpleRequest<String> params) {
+    public BaseResponse<AdminMenuResponse> queryMenu(SimpleRequest<String> params) {
         try {
             return BaseResponse.ok(menuService.queryMenu(params.getRequest()));
         } catch (Exception e) {
@@ -78,13 +80,20 @@ public class MenuController {
      * @return
      */
     @RequestMapping("/pageQueryMenu")
-    public BaseResponse<PageInfo> pageQueryMenu(@RequestBody SimpleRequest params) {
+    public Map<String,Object> pageQueryMenu(SimpleRequest params,Integer page, Integer rows) {
+        Map<String,Object> resultMap = new HashMap<>();
         try {
-            return BaseResponse.ok(menuService.pageQueryAdminMenu(params));
+            params.setPageSize(rows);
+            params.setPageNumber(page);
+            PageInfo menuPageInfo = menuService.pageQueryAdminMenu(params);
+            resultMap.put("total", menuPageInfo.getTotal());
+            resultMap.put("rows", menuPageInfo.getList());
         } catch (Exception e) {
-            LOGGER.error("MenuController&&menuConfigList is error", e);
-            return BaseResponse.fail("操作失败！");
+            LOGGER.error("MenuController&&pageQueryMenu is error", e);
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
         }
+        return resultMap;
     }
 
     /**

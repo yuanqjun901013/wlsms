@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public PageInfo getRoleList(AdminRoleRequest request) {
-        PageHelper.startPage(request.getPage(),request.getPageSize());
+        PageHelper.startPage(request.getPageNumber(),request.getPageSize());
         List<AdminRoleUserEntity> list = roleDao.queryRoleList(request);
         return new PageInfo<>(list);
     }

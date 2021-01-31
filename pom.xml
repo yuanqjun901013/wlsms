@@ -126,11 +126,18 @@
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
     </dependency>
+<!--    <dependency>-->
+<!--        <groupId>com.github.pagehelper</groupId>-->
+<!--        <artifactId>pagehelper</artifactId>-->
+<!--        <version>5.2.0</version>-->
+<!--    </dependency>-->
+
     <dependency>
         <groupId>com.github.pagehelper</groupId>
-        <artifactId>pagehelper</artifactId>
-        <version>5.2.0</version>
+        <artifactId>pagehelper-spring-boot-starter</artifactId>
+        <version>1.2.10</version>
     </dependency>
+
     <dependency>
         <groupId>net.sf.jxls</groupId>
         <artifactId>jxls-core</artifactId>

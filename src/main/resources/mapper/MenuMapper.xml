@@ -28,9 +28,9 @@
     <!-- 根据id查询子菜单信息 -->
     <select id="queryChildrenMenu" parameterType="map" resultMap="MenuMap">
         select * from admin_menu
-        <where>
-            parent_id = #{parentId}
-        </where>
+<!--        <where>-->
+<!--            parent_id = #{parentId}-->
+<!--        </where>-->
         ORDER BY id ASC
     </select>
 

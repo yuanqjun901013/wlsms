@@ -221,8 +221,10 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public PageInfo pageQueryAdminMenu(SimpleRequest<Integer> request) {
-        PageHelper.startPage(request.getPage(), request.getPageSize());
-        List<AdminMenuEntity> list = menuDao.queryChildrenMenu(request.getRequest());
+        PageHelper.startPage(request.getPageNumber(), request.getPageSize());
+        Map map = new HashMap();
+        map.put("parentId",request.getRequest());
+        List<AdminMenuEntity> list = menuDao.queryChildrenMenu(map);
         return new PageInfo<>(list);
     }
 
