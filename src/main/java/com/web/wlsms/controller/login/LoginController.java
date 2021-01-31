@@ -3,8 +3,10 @@ package com.web.wlsms.controller.login;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.web.wlsms.constants.CookieConstants;
+import com.web.wlsms.entity.MessageEntity;
 import com.web.wlsms.entity.TokenEntity;
 import com.web.wlsms.entity.UserEntity;
+import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.service.system.TokenService;
 import com.web.wlsms.service.system.UserService;
 import com.web.wlsms.utils.CookieUtil;
@@ -30,6 +32,8 @@ public class LoginController {
     UserService userService;
     @Autowired
     TokenService tokenService;
+    @Autowired
+    MessageService messageService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
@@ -94,6 +98,7 @@ public class LoginController {
             response.addCookie(cookie);
             response.sendRedirect(request.getContextPath() + "/index/main");
             TokenEntity tokenEntity = tokenService.findByUserNo(user.getUserNo());
+            MessageEntity messageEntity = new MessageEntity();
             if(null != tokenEntity && StringUtils.isNotBlank(tokenEntity.getUserNo())){
                 tokenEntity.setToken(token);
                 tokenService.updateUserToken(tokenEntity);
@@ -102,6 +107,11 @@ public class LoginController {
                 tokenEntity.setUserNo(user.getUserNo());
                 tokenEntity.setToken(token);
                 tokenService.insertUserToken(tokenEntity);
+                //登录信息
+                messageEntity.setUserNo(user.getUserNo());
+                messageEntity.setTitle("上线");
+                messageEntity.setContent(userForBase.getUserName()+"("+user.getUserNo()+")");
+                messageService.insertMessage(messageEntity);
             }
 
         }
@@ -133,6 +143,12 @@ public class LoginController {
         }
         session.invalidate();//使Session变成无效，及用户退出
         tokenService.deleteUserToken(userNo);
+        UserEntity userForBase = userService.selectUserById(userNo);
+        MessageEntity messageEntity = new MessageEntity();
+        messageEntity.setUserNo(userNo);
+        messageEntity.setTitle("下线");
+        messageEntity.setContent(userForBase.getUserName()+"("+userNo+")");
+        messageService.insertMessage(messageEntity);
         return "views/login/login";
     }
 }

@@ -16,9 +16,8 @@
     </SCRIPT>
 </head>
 <body>
-<table id="dg" class="easyui-datagrid" title="Row Editing in DataGrid" style="width:700px;height:auto" rownumbers="true" pagination="true"
+<table id="dg" class="easyui-datagrid" style="width:700px;height:auto" rownumbers="true" pagination="true"
        data-options="
-				iconCls: 'icon-edit',
 				singleSelect: true,
 				toolbar: '#tb',
 				url: '../../demo/datagrid/datagrid_data1.json',
