@@ -4,6 +4,7 @@ import com.web.wlsms.dao.MessageDao;
 import com.web.wlsms.entity.MessageEntity;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @Service("MessageService")
@@ -11,9 +12,8 @@ public class MessageService {
 
 	@Resource
 	private MessageDao messageDao;
-
-	public MessageEntity selectMessage(){
-		return messageDao.selectMessage();
+	public List<MessageEntity> selectMessage(){
+		return messageDao.selectMessageList();
 	}
 	public void insertMessage(MessageEntity messageEntity){
 		messageDao.insertMessage(messageEntity);

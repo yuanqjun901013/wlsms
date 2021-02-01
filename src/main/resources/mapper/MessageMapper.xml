@@ -10,14 +10,16 @@
     </resultMap>
 
     <!-- 查询用户信息列表 -->
-    <select id="selectMessage" resultMap="messageMap">
+    <select id="selectMessageList" resultMap="messageMap">
         select
             id,
            user_no,
-           DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime
+           DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
            title,
            content
         from admin_operation
+        order by id desc
+        limit 0,6
     </select>
 
     <!-- 添加操作日志信息 -->
