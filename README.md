@@ -98,36 +98,37 @@ PRIMARY KEY (`id`)
 
 DROP TABLE IF EXISTS `wlsms_data`;
 CREATE TABLE `wlsms_data` (
-`id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-`data_value_a` decimal(10,0) DEFAULT NULL COMMENT '数值a',
-`data_value_b` decimal(10,0) DEFAULT NULL COMMENT '数值b',
-`data_value_c` decimal(10,0) DEFAULT NULL COMMENT '数值c',
-`data_value_d` decimal(10,0) DEFAULT NULL COMMENT '数值d',
-`data_value_e` decimal(10,0) DEFAULT NULL COMMENT '数值e',
-`data_value_f` decimal(10,0) DEFAULT NULL COMMENT '数值f',
-`data_value_g` decimal(10,0) DEFAULT NULL COMMENT '数值g',
-`data_value_h` decimal(10,0) DEFAULT NULL COMMENT '数值h',
-`data_value_i` decimal(10,0) DEFAULT NULL COMMENT '数值i',
-`data_value_j` decimal(10,0) DEFAULT NULL COMMENT '数值j',
-`data_value_k` decimal(10,0) DEFAULT NULL COMMENT '数值k',
-`data_value_l` decimal(10,0) DEFAULT NULL COMMENT '数值l',
-`data_value_m` decimal(10,0) DEFAULT NULL COMMENT '数值m',
-`data_value_n` decimal(10,0) DEFAULT NULL COMMENT '数值n',
-`data_value_o` decimal(10,0) DEFAULT NULL COMMENT '数值o',
-`data_value_p` decimal(10,0) DEFAULT NULL COMMENT '数值p',
-`data_value_q` decimal(10,0) DEFAULT NULL COMMENT '数值q',
-`data_value_r` decimal(10,0) DEFAULT NULL COMMENT '数值r',
-`data_value_s` decimal(10,0) DEFAULT NULL COMMENT '数值s',
-`data_value_t` decimal(10,0) DEFAULT NULL COMMENT '数值t',
-`data_value_u` decimal(10,0) DEFAULT NULL COMMENT '数值u',
-`data_value_v` decimal(10,0) DEFAULT NULL COMMENT '数值v',
-`data_value_w` decimal(10,0) DEFAULT NULL COMMENT '数值w',
-`data_value_x` decimal(10,0) DEFAULT NULL COMMENT '数值x',
-`data_value_y` decimal(10,0) DEFAULT NULL COMMENT '数值y',
-`data_value_z` decimal(10,0) DEFAULT NULL COMMENT '数值z',
-`creat_time` timestamp NULL DEFAULT NULL COMMENT '添加时间',
-`edit_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-PRIMARY KEY (`id`)
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `data_value_a` decimal(10,0) DEFAULT NULL COMMENT '数值a',
+  `data_value_b` decimal(10,0) DEFAULT NULL COMMENT '数值b',
+  `data_value_c` decimal(10,0) DEFAULT NULL COMMENT '数值c',
+  `data_value_d` decimal(10,0) DEFAULT NULL COMMENT '数值d',
+  `data_value_e` decimal(10,0) DEFAULT NULL COMMENT '数值e',
+  `data_value_f` decimal(10,0) DEFAULT NULL COMMENT '数值f',
+  `data_value_g` decimal(10,0) DEFAULT NULL COMMENT '数值g',
+  `data_value_h` decimal(10,0) DEFAULT NULL COMMENT '数值h',
+  `data_value_i` decimal(10,0) DEFAULT NULL COMMENT '数值i',
+  `data_value_j` decimal(10,0) DEFAULT NULL COMMENT '数值j',
+  `data_value_k` decimal(10,0) DEFAULT NULL COMMENT '数值k',
+  `data_value_l` decimal(10,0) DEFAULT NULL COMMENT '数值l',
+  `data_value_m` decimal(10,0) DEFAULT NULL COMMENT '数值m',
+  `data_value_n` decimal(10,0) DEFAULT NULL COMMENT '数值n',
+  `data_value_o` decimal(10,0) DEFAULT NULL COMMENT '数值o',
+  `data_value_p` decimal(10,0) DEFAULT NULL COMMENT '数值p',
+  `data_value_q` decimal(10,0) DEFAULT NULL COMMENT '数值q',
+  `data_value_r` decimal(10,0) DEFAULT NULL COMMENT '数值r',
+  `data_value_s` decimal(10,0) DEFAULT NULL COMMENT '数值s',
+  `data_value_t` decimal(10,0) DEFAULT NULL COMMENT '数值t',
+  `data_value_u` decimal(10,0) DEFAULT NULL COMMENT '数值u',
+  `data_value_v` decimal(10,0) DEFAULT NULL COMMENT '数值v',
+  `data_value_w` decimal(10,0) DEFAULT NULL COMMENT '数值w',
+  `data_value_x` decimal(10,0) DEFAULT NULL COMMENT '数值x',
+  `data_value_y` decimal(10,0) DEFAULT NULL COMMENT '数值y',
+  `data_value_z` decimal(10,0) DEFAULT NULL COMMENT '数值z',
+  `creat_time` timestamp NULL DEFAULT NULL COMMENT '添加时间',
+  `edit_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `position_code` varchar(100) DEFAULT NULL COMMENT '阵地编码',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='采集数据主表';
 
 DROP TABLE IF EXISTS `wlsms_position_config`;
@@ -139,15 +140,15 @@ PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阵地信息配置表';
 
 #新增数据
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '系统管理', NULL, 0, 0, 'systemManage', 'icon-config', '1');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '系统配置', NULL, 1, 1, 'authorityManage', NULL, '2');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '菜单配置', NULL, 1, 1, 'menuConfig', NULL, '2');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '基础参数', NULL, 2, 1, 'roleManage', NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '系统运维', NULL, 2, 1, 'basicManage', NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '菜单列表', 'views/menu/menuPage', 3, 1, 'menuConfigList', NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '用户管理', NULL, 0, 0, 'operation', 'icon-system', '1');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '用户设置', NULL, 7, 1, 'testManage', NULL, '2');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(admin', '个人信息', NULL, 7, 0, NULL, NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '系统管理', NULL, 0, 0, 'systemManage', 'icon-config', '1');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '系统配置', NULL, 1, 1, 'authorityManage', NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '菜单配置', NULL, 1, 1, 'menuConfig', NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '基础参数', NULL, 2, 1, 'roleManage', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '系统运维', NULL, 2, 1, 'basicManage', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '菜单列表', 'views/menu/menuPage', 3, 1, 'menuConfigList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户管理', NULL, 0, 0, 'operation', 'icon-system', '1');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户设置', NULL, 7, 1, 'testManage', NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '个人信息', NULL, 7, 0, NULL, NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户初始化', NULL, 8, 1, NULL, NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '个人资料', 'views/index/userModalPage', 9, 0, 'userModalPage', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '权限管理', NULL, 0, 0, NULL, 'icon-manager', '1');
