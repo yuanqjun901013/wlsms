@@ -24,7 +24,7 @@ CREATE TABLE `admin_operation` (
 `title` varchar(100) NOT NULL COMMENT '操作标题',
 `content` text COMMENT '操作内容',
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='操作审计日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作审计日志';
 
 DROP TABLE IF EXISTS `admin_role`;
 CREATE TABLE `admin_role` (
