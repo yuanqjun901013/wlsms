@@ -170,20 +170,20 @@ INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, 
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '协同管理', NULL, 0, 0, NULL, 'icon-large-smartart', '1');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '阵地配置', NULL, 18, 1, NULL, NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据管理', NULL, 18, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '阵地列表', NULL, 19, 1, NULL, NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据上报', NULL, 20, 0, NULL, NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '阵地列表', 'views/position/positionPage', 19, 1, 'getPositionList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据上报', 'views/data/dataPage', 20, 0, 'getDataList', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警管理', NULL, 0, 0, NULL, 'icon-qudong', '1');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警配置', NULL, 23, 1, NULL, NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警处理', NULL, 23, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警参数', NULL, 24, 1, NULL, NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警列表', NULL, 25, 0, NULL, NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警参数', 'views/alarm/alarmConfig', 24, 1, 'getAlarmConfig', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警列表', 'views/alarm/alarmInfoPage', 25, 0, 'getAlarmInfoList', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '统计分析', NULL, 0, 0, NULL, 'icon-large-chart', '1');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据分析', NULL, 28, 0, NULL, NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '报表统计', NULL, 28, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据分析处理', NULL, 29, 0, NULL, NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '报表总览', NULL, 30, 0, NULL, NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '详细报表', NULL, 30, 0, NULL, NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '阵地报表', NULL, 30, 0, NULL, NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据分析处理', 'views/data/dataQueryPage', 29, 0, 'queryDataList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '报表总览', 'views/data/dataBiPage', 30, 0, 'getDataBi', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '详细报表', 'views/data/dataDetailPage', 30, 0, 'getDataDetail', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '阵地报表', 'views/data/dataByPositionPage', 30, 0, 'getDataByPosition', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '修改密码', 'views/index/pwdModalPage', 9, 0, 'pwdModalPage', NULL, '3');
 
 INSERT INTO admin_role (ROLE_CODE, ROLE_NAME) VALUES('admin', '超级管理员');
