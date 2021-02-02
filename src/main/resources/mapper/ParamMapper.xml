@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.ParamDao">
+    <resultMap type="com.web.wlsms.entity.ParamEntity" id="paramMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="paramType" column="param_type" javaType="String"/>
+        <result property="paramName" column="param_name" javaType="String"/>
+        <result property="paramValue" column="param_value" javaType="String"/>
+    </resultMap>
+
+    <select id="getParametersList" resultMap="paramMap">
+        select
+            id,
+            param_type,
+            param_name,
+            param_value
+        from admin_parameters
+        order by id desc
+    </select>
+
+    <!-- 添加操作日志信息 -->
+    <insert id="insertParam" parameterType="com.web.wlsms.entity.ParamEntity">
+        INSERT INTO admin_parameters
+        (
+            param_type,
+            param_name,
+            param_value
+        )
+        VALUES
+        (
+            #{paramType},
+            #{paramName},
+            #{paramValue}
+        )
+    </insert>
+</mapper>
