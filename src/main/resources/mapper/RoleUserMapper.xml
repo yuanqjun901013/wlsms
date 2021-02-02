@@ -113,6 +113,7 @@
         <if test="_parameter != null and _parameter != ''">
            and aru.USER_NO like concat('%',#{_parameter},'%')
         </if>
+        order by id desc
     </select>
 
     <!-- 根据角色编码查询绑定用户 -->

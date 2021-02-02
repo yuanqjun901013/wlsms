@@ -25,4 +25,8 @@ public interface RoleDao {
     int deleteRoleAuthConfig(String roleCode);
 
     int insertRoleAuthConfig(List<AdminRoleAuthEntity> list);
+
+    List<AdminRoleAuthEntity> getAuthMenuRole();
+
+
 }

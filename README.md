@@ -165,8 +165,8 @@ INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, 
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '角色配置', NULL, 12, 1, NULL, NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '角色组配置', NULL, 12, 1, NULL, NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '角色列表', 'views/user/rolePage', 13, 1, 'queryRole', NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '菜单角色设置', NULL, 14, 1, NULL, NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户角色设置', NULL, 14, 1, NULL, NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '菜单角色设置', 'views/user/roleAuthPage', 14, 1, 'getAuthMenuRole', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户角色设置', 'views/user/roleUserPage', 14, 1, 'queryUserRoleInfo', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '协同管理', NULL, 0, 0, NULL, 'icon-large-smartart', '1');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '阵地配置', NULL, 18, 1, NULL, NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据管理', NULL, 18, 0, NULL, NULL, '2');

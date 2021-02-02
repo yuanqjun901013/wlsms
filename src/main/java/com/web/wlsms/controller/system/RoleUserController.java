@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -30,13 +31,18 @@ public class RoleUserController {
      * @return
      */
     @RequestMapping("/queryUserRoleInfo")
-    public BaseResponse<PageInfo> queryRoleUserInfo(@RequestBody SimpleRequest<String> params) {
+    public Map<String,Object> queryRoleUserInfo(SimpleRequest params) {
+        Map<String,Object> resultMap = new HashMap<>();
         try {
-            return BaseResponse.ok(roleUserService.queryRoleUserList(params));
+            PageInfo queryRoleUserList =  roleUserService.queryRoleUserList(params);
+            resultMap.put("total", queryRoleUserList.getTotal());
+            resultMap.put("rows", queryRoleUserList.getList());
         } catch (Exception e) {
             LOGGER.error("RoleUserController&&queryUserRoleInfo is error", e);
-            return BaseResponse.fail("查询失败！");
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
         }
+        return resultMap;
     }
 
     /**

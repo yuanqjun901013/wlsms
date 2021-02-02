@@ -1,11 +1,15 @@
 package com.web.wlsms.service.system.impl;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.web.wlsms.dao.MenuDao;
 import com.web.wlsms.dao.RoleDao;
 import com.web.wlsms.entity.AdminMenuEntity;
 import com.web.wlsms.entity.AdminRoleAuthEntity;
+import com.web.wlsms.entity.AdminRoleUserEntity;
 import com.web.wlsms.request.SaveRoleRequest;
+import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.service.system.MenuRoleService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -82,5 +86,12 @@ public class MenuRoleServiceImpl implements MenuRoleService {
                 seekParentMenuId(parentId,menusMap,set);
             }
         }
+    }
+
+    @Override
+    public PageInfo getAuthMenuRole(SimpleRequest request){
+        PageHelper.startPage(request.getPage(),request.getRows());
+        List<AdminRoleAuthEntity> list = roleDao.getAuthMenuRole();
+        return new PageInfo<>(list);
     }
 }

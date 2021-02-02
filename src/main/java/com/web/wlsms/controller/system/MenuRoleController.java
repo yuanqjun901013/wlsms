@@ -1,6 +1,7 @@
 package com.web.wlsms.controller.system;
 
 
+import com.github.pagehelper.PageInfo;
 import com.web.wlsms.request.SaveRoleRequest;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/menuRole")
@@ -61,6 +64,27 @@ public class MenuRoleController {
             LOGGER.error("MenuRoleController&&saveRoleAuthConfig is error", e);
             return BaseResponse.fail("操作失败！");
         }
+    }
+
+    /**
+     * 获取角色菜单
+     *
+     * @param params
+     * @return
+     */
+    @RequestMapping("/getAuthMenuRole")
+    public Map<String,Object> getAuthMenuRole(SimpleRequest params) {
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            PageInfo getRoleList =   menuRoleService.getAuthMenuRole(params);
+            resultMap.put("total", getRoleList.getTotal());
+            resultMap.put("rows", getRoleList.getList());
+        } catch (Exception e) {
+            LOGGER.error("RoleController&&queryRole is error", e);
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
     }
 
 }

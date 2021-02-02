@@ -41,6 +41,13 @@
         ORDER BY ar.ID desc
     </select>
 
+    <select id="getAuthMenuRole" resultMap="RoleAuthMap">
+        select ID,MENU_ID,ROLE_CODE
+        from admin_role_auth
+        order by id desc
+    </select>
+
+
     <!-- 删除某个用户权限配置信息 -->
     <delete id="deleteRoleAuthConfig">
         delete from admin_role_auth
