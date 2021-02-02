@@ -10,5 +10,6 @@ import java.util.List;
 public interface MessageDao {
 
    List<MessageEntity> selectMessageList();
+   List<MessageEntity> getOperationList();
    void insertMessage(MessageEntity messageEntity);
 }

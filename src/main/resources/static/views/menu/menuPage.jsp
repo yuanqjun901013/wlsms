@@ -30,9 +30,7 @@
                 </script>
             </div>
         </div>
-        <div id="dg" data-options="region:'center',split:true">
-            <table class="easyui-datagrid"></table>
-        </div>
+        <div id="dg" data-options="region:'center',split:true"></div>
         <SCRIPT type="text/javascript" th:inline="none">
             $(function(){
                 $('#dg').datagrid({

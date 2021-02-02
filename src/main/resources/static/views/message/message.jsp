@@ -27,28 +27,43 @@
                 showType:'slide'
             });
         }
-
-        function messageList() {//展示最新的动态消息列表
-            // $.ajax({
-            //     type: 'POST',
-            //     async: false,
-            //     dataType: "json",
-            //     url: '/admin/message/getMessageList',//获取菜单
-            //     data:{},
-            //     success: function(data) {
-            //
-            //     }
-            //
-            // });
-            $('#mL').datalist({
-                url: '/admin/message/getMessageList',
-                lines:true
-            });
-        }
-
     </SCRIPT>
 </head>
 <body>
-<ul id="mL"></ul>
+    <div id="message"></div>
+<script type="text/javascript" th:inline="none">
+    function messageList() {//展示最新的动态消息列表
+        // $.ajax({
+        //     type: 'POST',
+        //     async: false,
+        //     dataType: "json",
+        //     url: '/admin/message/getMessageList',//获取菜单
+        //     data:{},
+        //     success: function(data) {
+        //
+        //     }
+        //
+        // });
+        $('#message').datalist({
+            url: '/admin/message/getMessageList',
+            lines:false,
+            textField:"content",
+            valueField:"id",
+            fit:true
+        });
+
+
+        // $('#message').datalist({
+        //     url:'/admin/message/getMessageList',//消息
+        //     method: 'post',
+        //     //携带参数
+        //     fitColumns:true,
+        //     border:0,
+        //     columns:[[
+        //         {field:'title',align:'center'}
+        //     ]]
+        // });
+    }
+</script>
 </body>
 </html>

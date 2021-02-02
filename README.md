@@ -139,12 +139,21 @@ CREATE TABLE `wlsms_position_config` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阵地信息配置表';
 
+DROP TABLE IF EXISTS `admin_parameters`;
+CREATE TABLE `admin_parameters` (
+`id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+`param_type` varchar(100) DEFAULT NULL COMMENT '类型',
+`param_name` varchar(100) DEFAULT NULL COMMENT '参数名称',
+`param_value` varchar(200) DEFAULT NULL COMMENT '参数值',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='基础参数';
+
 #新增数据
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '系统管理', NULL, 0, 0, 'systemManage', 'icon-config', '1');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '系统配置', NULL, 1, 1, 'authorityManage', NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '菜单配置', NULL, 1, 1, 'menuConfig', NULL, '2');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '基础参数', NULL, 2, 1, 'roleManage', NULL, '3');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '系统运维', NULL, 2, 1, 'basicManage', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '基础参数', 'views/param/parameters', 2, 1, 'getParametersList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '系统审计', 'views/message/operation', 2, 1, 'getOperationList', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '菜单列表', 'views/menu/menuPage', 3, 1, 'menuConfigList', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户管理', NULL, 0, 0, 'operation', 'icon-system', '1');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户设置', NULL, 7, 1, 'testManage', NULL, '2');
