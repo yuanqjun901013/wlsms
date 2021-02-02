@@ -66,7 +66,7 @@ DROP TABLE IF EXISTS `admin_user`;
 CREATE TABLE `admin_user` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
 `user_no` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工号',
-`pwd` varchar(100) NOT NULL COMMENT '密码',
+`pwd` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '123' COMMENT '密码',
 `user_name` varchar(100) NOT NULL COMMENT '姓名',
 `sex` int(11) NOT NULL DEFAULT '1' COMMENT '性别',
 `age` int(11) DEFAULT NULL COMMENT '年龄',
@@ -74,7 +74,8 @@ CREATE TABLE `admin_user` (
 `tel` varchar(100) DEFAULT NULL COMMENT '电话',
 `phone` varchar(100) DEFAULT NULL COMMENT '手机',
 `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
-PRIMARY KEY (`id`)
+PRIMARY KEY (`id`),
+UNIQUE KEY `admin_user_user_no_IDX` (`user_no`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户资料表';
 
 DROP TABLE IF EXISTS `wlsms_alarm_config`;
@@ -158,7 +159,7 @@ INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, 
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户管理', NULL, 0, 0, 'operation', 'icon-system', '1');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户设置', NULL, 7, 1, 'testManage', NULL, '2');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '个人信息', NULL, 7, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户初始化', NULL, 8, 1, NULL, NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户初始化', 'views/user/userPage', 8, 1, 'getUserList', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '个人资料', 'views/index/userModalPage', 9, 0, 'userModalPage', NULL, '3');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '权限管理', NULL, 0, 0, NULL, 'icon-manager', '1');
 INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '角色配置', NULL, 12, 1, NULL, NULL, '2');

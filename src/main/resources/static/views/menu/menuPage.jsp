@@ -46,13 +46,13 @@
                     rownumbers:true,
                     singleSelect:true,
                     columns:[[
-                        {field:'id',title:'菜单ID',width:80,align:'center'},
+                        {field:'id',title:'菜单ID',width:40,align:'center'},
                         {field:'name',title:'菜单名称',width:80,align:'center'},
-                        {field:'url',title:'菜单路径',width:80,align:'center'},
-                        {field:'parentId',title:'上级ID',width:80,align:'center'},
-                        {field:'isNeedAuth',title:'权限控制',width:80,align:'center'},
+                        {field:'url',title:'菜单路径',width:150,align:'center'},
+                        {field:'parentId',title:'上级ID',width:20,align:'center'},
+                        {field:'isNeedAuth',title:'权限控制',width:20,align:'center'},
                         {field:'menuCode',title:'编码',width:80,align:'center'},
-                        {field:'level',title:'菜单级别',width:60,align:'center'},
+                        {field:'level',title:'菜单级别',width:30,align:'center'},
                         {field:'todo',title:'操作',width:60,align:'center'}
                     ]]
                 });
