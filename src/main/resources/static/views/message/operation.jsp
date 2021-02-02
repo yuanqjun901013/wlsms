@@ -35,7 +35,7 @@
             remoteFilter: true,
             clientPaging: false,
             columns:[[
-                {field:'id',title:'ID',width:80,align:'center'},
+                {field:'id',title:'编号',width:80,align:'center'},
                 {field:'userNo',title:'工号',width:80,align:'center'},
                 {field:'buildTime',title:'发生时间',width:80,align:'center'},
                 {field:'title',title:'操作类型',width:80,align:'center'},
