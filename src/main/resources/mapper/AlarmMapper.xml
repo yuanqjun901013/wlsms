@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.AlarmDao">
+    <resultMap type="com.web.wlsms.entity.AlarmConfigEntity" id="AlarmConfigMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="alarmCode" column="alarm_code" javaType="String"/>
+        <result property="alarmName" column="alarm_name" javaType="String"/>
+        <result property="alarmStartValue" column="alarm_start_value" javaType="String"/>
+        <result property="alarmEndValue" column="alarm_end_value" javaType="String"/>
+    </resultMap>
+
+    <select id="getAlarmConfig" resultMap="AlarmConfigMap">
+        select
+            id,
+    alarm_code,
+    alarm_name,
+  alarm_start_value,
+  alarm_end_value
+        from wlsms_alarm_config
+        order by id desc
+    </select>
+
+    <resultMap type="com.web.wlsms.entity.AlarmDataEntity" id="AlarmDataMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="alarmTitle" column="alarm_title" javaType="String"/>
+        <result property="alarmContent" column="alarm_content" javaType="String"/>
+        <result property="buildTime" column="buildTime" javaType="String"/>
+    </resultMap>
+    <select id="getAlarmInfoList" resultMap="AlarmDataMap">
+        select
+            id,
+            alarm_title,
+            alarm_content,
+            DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime
+        from wlsms_alarm_data
+        order by id desc
+    </select>
+
+    <!-- 添加操作日志信息 -->
+    <insert id="insertAlarmConfig" parameterType="com.web.wlsms.entity.AlarmConfigEntity">
+        INSERT INTO wlsms_alarm_config
+        (
+            alarm_code,
+            alarm_name,
+            alarm_start_value,
+            alarm_end_value
+        )
+        VALUES
+        (
+            #{alarmCode},
+            #{alarmName},
+            #{alarmStartValue},
+            #{alarmEndValue}
+        )
+    </insert>
+</mapper>

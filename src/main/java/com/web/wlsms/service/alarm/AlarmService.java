@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.web.wlsms.dao.AlarmDao;
 import com.web.wlsms.entity.AlarmConfigEntity;
+import com.web.wlsms.entity.AlarmDataEntity;
 import com.web.wlsms.request.SimpleRequest;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,17 @@ public class AlarmService {
 		alarmDao.insertAlarmConfig(alarmConfigEntity);
 	}
 
-	public PageInfo getPositionList(SimpleRequest<Integer> request) {
+	public PageInfo getAlarmConfig(SimpleRequest<Integer> request) {
 		PageHelper.startPage(request.getPage(), request.getRows());
 		Map map = new HashMap();
 		List<AlarmConfigEntity> list = alarmDao.getAlarmConfig();
+		return new PageInfo<>(list);
+	}
+
+	public PageInfo getAlarmInfoList(SimpleRequest<Integer> request) {
+		PageHelper.startPage(request.getPage(), request.getRows());
+		Map map = new HashMap();
+		List<AlarmDataEntity> list = alarmDao.getAlarmInfoList();
 		return new PageInfo<>(list);
 	}
 

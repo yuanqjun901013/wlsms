@@ -12,17 +12,17 @@
         $(function(){
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
-            getPositionList();
+            getAlarmConfig();
         })
     </SCRIPT>
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div id="getPositionList" data-options="region:'center',split:true"></div>
+    <div id="getAlarmConfig" data-options="region:'center',split:true"></div>
 <script type="text/javascript" th:inline="none">
-    function getPositionList() {//展示阵地列表
-      var dg =  $('#getPositionList').datagrid({
-            url:'/admin/position/getPositionList',//参数
+    function getAlarmConfig() {//展示列表
+      var dg =  $('#getAlarmConfig').datagrid({
+            url:'/alarm/alarm/getAlarmConfig',//参数
             method: 'post',
             //携带参数
             queryParams: {
@@ -36,8 +36,10 @@
             clientPaging: false,
             columns:[[
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'positionName',title:'阵地名称',width:80,align:'center'},
-                {field:'positionCode',title:'阵地编码',width:80,align:'center'},
+                {field:'alarmCode',title:'告警编码',width:80,align:'center'},
+                {field:'alarmName',title:'告警参数名称',width:80,align:'center'},
+                {field:'alarmStartValue',title:'范围阀值起',width:80,align:'center'},
+                {field:'alarmEndValue',title:'范围阀值止',width:80,align:'center'},
                 {field:'todo',title:'操作',width:100,align:'center'}
             ]]
         });

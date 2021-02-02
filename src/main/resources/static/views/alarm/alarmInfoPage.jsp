@@ -12,17 +12,17 @@
         $(function(){
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
-            getPositionList();
+            getAlarmInfoList();
         })
     </SCRIPT>
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div id="getPositionList" data-options="region:'center',split:true"></div>
+    <div id="getAlarmInfoList" data-options="region:'center',split:true"></div>
 <script type="text/javascript" th:inline="none">
-    function getPositionList() {//展示阵地列表
-      var dg =  $('#getPositionList').datagrid({
-            url:'/admin/position/getPositionList',//参数
+    function getAlarmInfoList() {//展示列表
+      var dg =  $('#getAlarmInfoList').datagrid({
+            url:'/alarm/alarm/getAlarmInfoList',//参数
             method: 'post',
             //携带参数
             queryParams: {
@@ -36,8 +36,9 @@
             clientPaging: false,
             columns:[[
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'positionName',title:'阵地名称',width:80,align:'center'},
-                {field:'positionCode',title:'阵地编码',width:80,align:'center'},
+                {field:'alarmTitle',title:'告警标题',width:80,align:'center'},
+                {field:'alarmContent',title:'告警内容',width:80,align:'center'},
+                {field:'buildTime',title:'告警时间',width:80,align:'center'},
                 {field:'todo',title:'操作',width:100,align:'center'}
             ]]
         });
