@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.DataDao">
+    <resultMap type="com.web.wlsms.entity.DataEntity" id="DataMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="dataValueA" column="data_value_a" javaType="String"/>
+        <result property="dataValueB" column="data_value_b" javaType="String"/>
+        <result property="dataValueC" column="data_value_c" javaType="String"/>
+        <result property="dataValueD" column="data_value_d" javaType="String"/>
+        <result property="dataValueE" column="data_value_e" javaType="String"/>
+        <result property="dataValueF" column="data_value_f" javaType="String"/>
+        <result property="dataValueG" column="data_value_g" javaType="String"/>
+        <result property="dataValueH" column="data_value_h" javaType="String"/>
+        <result property="dataValueI" column="data_value_i" javaType="String"/>
+        <result property="dataValueJ" column="data_value_j" javaType="String"/>
+        <result property="dataValueK" column="data_value_k" javaType="String"/>
+        <result property="dataValueL" column="data_value_l" javaType="String"/>
+        <result property="dataValueM" column="data_value_m" javaType="String"/>
+        <result property="dataValueN" column="data_value_n" javaType="String"/>
+        <result property="dataValueO" column="data_value_o" javaType="String"/>
+        <result property="dataValueP" column="data_value_p" javaType="String"/>
+        <result property="dataValueQ" column="data_value_q" javaType="String"/>
+        <result property="dataValueR" column="data_value_r" javaType="String"/>
+        <result property="dataValueS" column="data_value_s" javaType="String"/>
+        <result property="dataValueT" column="data_value_t" javaType="String"/>
+        <result property="dataValueU" column="data_value_u" javaType="String"/>
+        <result property="dataValueV" column="data_value_v" javaType="String"/>
+        <result property="dataValueW" column="data_value_w" javaType="String"/>
+        <result property="dataValueX" column="data_value_x" javaType="String"/>
+        <result property="dataValueY" column="data_value_y" javaType="String"/>
+        <result property="dataValueZ" column="data_value_z" javaType="String"/>
+        <result property="createTime" column="createTime" javaType="String"/>
+        <result property="editTime" column="editTime" javaType="String"/>
+        <result property="positionCode" column="position_code" javaType="String"/>
+    </resultMap>
+
+    <select id="getDataList" resultMap="DataMap">
+        SELECT id,
+               data_value_a,
+               data_value_b,
+               data_value_c,
+               data_value_d,
+               data_value_e,
+               data_value_f,
+               data_value_g,
+               data_value_h,
+               data_value_i,
+               data_value_j,
+               data_value_k,
+               data_value_l,
+               data_value_m,
+               data_value_n,
+               data_value_o,
+               data_value_p,
+               data_value_q,
+               data_value_r,
+               data_value_s,
+               data_value_t,
+               data_value_u,
+               data_value_v,
+               data_value_w,
+               data_value_x,
+               data_value_y,
+               data_value_z,
+               position_code,
+               DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime ,
+               DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+        FROM wlsms_data
+        order by id desc
+    </select>
+
+    <!-- 添加操作日志信息 -->
+    <insert id="insertData" parameterType="com.web.wlsms.entity.DataEntity">
+
+        INSERT INTO wlsms_data
+            (
+             data_value_a,
+             data_value_b,
+             data_value_c,
+             data_value_d,
+             data_value_e,
+             data_value_f,
+             data_value_g,
+             data_value_h,
+             data_value_i,
+             data_value_j,
+             data_value_k,
+             data_value_l,
+             data_value_m,
+             data_value_n,
+             data_value_o,
+             data_value_p,
+             data_value_q,
+             data_value_r,
+             data_value_s,
+             data_value_t,
+             data_value_u,
+             data_value_v,
+             data_value_w,
+             data_value_x,
+             data_value_y,
+             data_value_z,
+             position_code,
+             create_time,
+             edit_time)
+             VALUES
+            (
+            #{dataValueA},
+            #{dataValueB},
+            #{dataValueC},
+            #{dataValueD},
+            #{dataValueE},
+            #{dataValueF},
+            #{dataValueG},
+            #{dataValueH},
+            #{dataValueI},
+            #{dataValueJ},
+            #{dataValueK},
+            #{dataValueL},
+            #{dataValueM},
+            #{dataValueN},
+            #{dataValueO},
+            #{dataValueP},
+            #{dataValueQ},
+            #{dataValueR},
+            #{dataValueS},
+            #{dataValueT},
+            #{dataValueU},
+            #{dataValueV},
+            #{dataValueW},
+            #{dataValueX},
+            #{dataValueY},
+            #{dataValueZ},
+            #{positionCode},
+             now(),
+             now()
+        )
+    </insert>
+</mapper>

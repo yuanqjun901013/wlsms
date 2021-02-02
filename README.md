@@ -83,7 +83,7 @@ CREATE TABLE `wlsms_alarm_config` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
 `alarm_code` varchar(100) DEFAULT NULL COMMENT '告警项编码',
 `alarm_name` varchar(100) DEFAULT NULL COMMENT '告警项名称',
-`alarm_sart_value` decimal(10,2) DEFAULT NULL COMMENT '预警数值范围开始',
+`alarm_start_value` decimal(10,2) DEFAULT NULL COMMENT '预警数值范围开始',
 `alarm_end_value` decimal(10,2) DEFAULT NULL COMMENT '预警数值范围结束',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='告警预值配置表';
@@ -126,7 +126,7 @@ CREATE TABLE `wlsms_data` (
   `data_value_x` decimal(10,0) DEFAULT NULL COMMENT '数值x',
   `data_value_y` decimal(10,0) DEFAULT NULL COMMENT '数值y',
   `data_value_z` decimal(10,0) DEFAULT NULL COMMENT '数值z',
-  `creat_time` timestamp NULL DEFAULT NULL COMMENT '添加时间',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '添加时间',
   `edit_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   `position_code` varchar(100) DEFAULT NULL COMMENT '阵地编码',
   PRIMARY KEY (`id`)
