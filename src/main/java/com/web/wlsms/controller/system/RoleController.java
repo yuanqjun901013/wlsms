@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/admin/role")
@@ -28,13 +31,26 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/queryRole")
-    public BaseResponse<PageInfo> queryRole(@RequestBody AdminRoleRequest params) {
+//    public BaseResponse<PageInfo> queryRole(@RequestBody AdminRoleRequest params) {
+//        try {
+//            return BaseResponse.ok(roleService.getRoleList(params));
+//        } catch (Exception e) {
+//            LOGGER.error("RoleController&&queryRole is error", e);
+//            return BaseResponse.fail("查询失败！");
+//        }
+//    }
+    public Map<String,Object> queryRole(SimpleRequest params) {
+        Map<String,Object> resultMap = new HashMap<>();
         try {
-            return BaseResponse.ok(roleService.getRoleList(params));
+            PageInfo getRoleList =   roleService.getRoleList(params);
+            resultMap.put("total", getRoleList.getTotal());
+            resultMap.put("rows", getRoleList.getList());
         } catch (Exception e) {
             LOGGER.error("RoleController&&queryRole is error", e);
-            return BaseResponse.fail("查询失败！");
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
         }
+        return resultMap;
     }
 
 

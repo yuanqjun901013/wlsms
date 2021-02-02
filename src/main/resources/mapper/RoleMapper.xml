@@ -15,21 +15,30 @@
     </resultMap>
 
     <!-- 查询角色信息 -->
-    <select id="queryRoleList" parameterType="map" resultMap="RoleMap">
+<!--    <select id="queryRoleList" parameterType="map" resultMap="RoleMap">-->
+<!--        select-->
+<!--            ar.ID,-->
+<!--            ar.ROLE_CODE,-->
+<!--            ar.ROLE_NAME-->
+<!--        from admin_role ar-->
+<!--        <where>-->
+<!--            <if test="roleCode != null and roleCode != ''">-->
+<!--                AND ar.ROLE_CODE = #{roleCode}-->
+<!--            </if>-->
+<!--            <if test="roleName != null and roleName != ''">-->
+<!--                AND ar.ROLE_NAME LIKE  '%' #{roleName} '%'-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY ar.ID ASC-->
+<!--    </select>-->
+
+    <select id="queryRoleList" resultMap="RoleMap">
         select
-            ar.ID,
-            ar.ROLE_CODE,
-            ar.ROLE_NAME
+        ar.ID,
+        ar.ROLE_CODE,
+        ar.ROLE_NAME
         from admin_role ar
-        <where>
-            <if test="roleCode != null and roleCode != ''">
-                AND ar.ROLE_CODE = #{roleCode}
-            </if>
-            <if test="roleName != null and roleName != ''">
-                AND ar.ROLE_NAME LIKE  '%' #{roleName} '%'
-            </if>
-        </where>
-        ORDER BY ar.ID ASC
+        ORDER BY ar.ID desc
     </select>
 
     <!-- 删除某个用户权限配置信息 -->

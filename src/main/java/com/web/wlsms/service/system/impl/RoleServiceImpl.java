@@ -6,6 +6,7 @@ import com.web.wlsms.dao.RoleDao;
 import com.web.wlsms.dao.RoleUserDao;
 import com.web.wlsms.entity.AdminRoleUserEntity;
 import com.web.wlsms.request.AdminRoleRequest;
+import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.service.system.RoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,15 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public PageInfo getRoleList(AdminRoleRequest request) {
+//    public PageInfo getRoleList(AdminRoleRequest request) {
+//        PageHelper.startPage(request.getPage(),request.getRows());
+//        List<AdminRoleUserEntity> list = roleDao.queryRoleList(request);
+//        return new PageInfo<>(list);
+//    }
+
+    public PageInfo getRoleList(SimpleRequest request) {
         PageHelper.startPage(request.getPage(),request.getRows());
-        List<AdminRoleUserEntity> list = roleDao.queryRoleList(request);
+        List<AdminRoleUserEntity> list = roleDao.queryRoleList();
         return new PageInfo<>(list);
     }
 

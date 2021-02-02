@@ -2,6 +2,7 @@ package com.web.wlsms.service.system;
 
 import com.github.pagehelper.PageInfo;
 import com.web.wlsms.request.AdminRoleRequest;
+import com.web.wlsms.request.SimpleRequest;
 
 public interface RoleService {
 
@@ -11,7 +12,8 @@ public interface RoleService {
      * @param request
      * @return
      */
-    PageInfo getRoleList(AdminRoleRequest request);
+//    PageInfo getRoleList(AdminRoleRequest request);
+    PageInfo getRoleList(SimpleRequest request);
 
     /**
      * 添加角色

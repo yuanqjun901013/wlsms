@@ -14,7 +14,9 @@ public interface RoleDao {
 
     List<AdminRoleAuthEntity> queryAllMenuAuths(Map<String, Object> map);
 
-    List<AdminRoleUserEntity> queryRoleList(AdminRoleRequest map);
+//    List<AdminRoleUserEntity> queryRoleList(AdminRoleRequest map);
+
+    List<AdminRoleUserEntity> queryRoleList();
 
     int deleteOneRole(String roleCode);
 
