@@ -237,4 +237,14 @@ INSERT INTO admin_user (user_no, pwd, user_name, sex, age, job, tel, phone, emai
 INSERT INTO admin_user (user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES('15090389', '123', '测试', 2, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO admin_user (user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES('15090386', '123', '产品', 1, NULL, NULL, NULL, NULL, NULL);
 
+INSERT INTO admin_parameters (param_type, param_name, param_value) VALUES('测试类', '测试名称1', '5000');
+
+INSERT INTO wlsms_alarm_config (alarm_code, alarm_name, alarm_start_value, alarm_end_value) VALUES('gjcode1', '告警类型1', 55.00, 250.00);
+
+INSERT INTO wlsms_alarm_data (alarm_title, alarm_content, build_time) VALUES('数据上报告警', 'xx数据超过阀值范围', '2021-02-02 16:00:01');
+
+INSERT INTO wlsms_data (data_value_a, data_value_b, data_value_c, data_value_d, data_value_e, data_value_f, data_value_g, data_value_h, data_value_i, data_value_j, data_value_k, data_value_l, data_value_m, data_value_n, data_value_o, data_value_p, data_value_q, data_value_r, data_value_s, data_value_t, data_value_u, data_value_v, data_value_w, data_value_x, data_value_y, data_value_z, create_time, edit_time, position_code) VALUES(2313, 2323, 232123, 2312, 1233, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-02-02 16:00:01', '2021-02-02 16:00:01', 'code1');
+
+INSERT INTO wlsms_position_config (position_name, position_code) VALUES('阵地1', 'code1');
+
 
