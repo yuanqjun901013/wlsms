@@ -190,13 +190,18 @@
         <artifactId>java-jwt</artifactId>
         <version>3.4.0</version>
     </dependency>
-
+    <!-- 分表分库-->
     <dependency>
         <groupId>org.apache.shardingsphere</groupId>
         <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
         <version>4.0.0-RC1</version>
     </dependency>
 
+    <dependency>
+        <groupId>org.apache.shardingsphere</groupId>
+        <artifactId>sharding-jdbc-spring-namespace</artifactId>
+        <version>4.0.0-RC1</version>
+    </dependency>
 </dependencies>
     <build>
         <resources>
