@@ -48,8 +48,8 @@
             url: '/admin/message/getMessageList',
             lines:false,
             textField:"content",
-            valueField:"id",
-            fit:true
+            fit:true,
+            valueField:"id"
         });
 
 
