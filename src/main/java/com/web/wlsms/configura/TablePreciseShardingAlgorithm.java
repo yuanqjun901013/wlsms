@@ -1,5 +1,6 @@
 package com.web.wlsms.configura;
 
+import com.web.wlsms.utils.DateUtil;
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingValue;
 
@@ -7,23 +8,21 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
-public class DataPreciseShardingAlgorithm implements PreciseShardingAlgorithm<String> {
+public class TablePreciseShardingAlgorithm implements PreciseShardingAlgorithm<String> {
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<String> preciseShardingValue) {
         StringBuffer tableName = new StringBuffer();
-        String timeMonth = date2Str(preciseShardingValue.getValue(), "yyyyMM");
-        tableName.append(preciseShardingValue.getLogicTableName()).append(timeMonth);
+        tableName.append(preciseShardingValue.getLogicTableName())
+                .append("_").append(DateUtil.date2Str(dateValue(preciseShardingValue.getValue()), DateUtil.TIME_MONEN));
         return tableName.toString();
     }
 
-    public static String date2Str(String date, String format) {
+    public static Date dateValue(String date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         try {
-            Date dateTime = dateFormat.parse(date);
-            return sdf.format(dateTime);
+            return dateFormat.parse(date);
         }catch (Exception e){
-            return sdf.format(new Date());
+            return new Date();
         }
     }
 }
