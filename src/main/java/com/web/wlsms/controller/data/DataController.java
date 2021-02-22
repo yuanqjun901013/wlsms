@@ -89,6 +89,11 @@ public class DataController {
         return resultMap;
     }
 
+    /**
+     * 添加数据
+     * @param params
+     * @return
+     */
     @RequestMapping("insertData")
     public Map<String,Object> insertData(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
