@@ -17,6 +17,11 @@ public class TablePreciseShardingAlgorithm implements PreciseShardingAlgorithm<S
         return tableName.toString();
     }
 
+    /**
+     * 日期转换
+     * @param date
+     * @return
+     */
     public static Date dateValue(String date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
