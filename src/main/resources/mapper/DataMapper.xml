@@ -132,8 +132,8 @@
             #{dataValueY},
             #{dataValueZ},
             #{positionCode},
-             now(),
-             now()
+            #{createTime},
+            #{createTime}
         )
     </insert>
 </mapper>
