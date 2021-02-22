@@ -72,7 +72,6 @@
 
     <!-- 添加操作日志信息 -->
     <insert id="insertData" parameterType="com.web.wlsms.entity.DataEntity">
-
         INSERT INTO wlsms_data
             (
              data_value_a,
