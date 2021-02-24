@@ -22,10 +22,9 @@ public class DataService {
 		dataDao.insertData(dataEntity);
 	}
 
-	public PageInfo getDataList(SimpleRequest<Integer> request) {
+	public PageInfo getDataList(SimpleRequest<Map> request) {
 		PageHelper.startPage(request.getPage(), request.getRows());
-		Map map = new HashMap();
-		List<DataEntity> list = dataDao.getDataList();
+		List<DataEntity> list = dataDao.getDataList(request.getRequest());
 		return new PageInfo<>(list);
 	}
 

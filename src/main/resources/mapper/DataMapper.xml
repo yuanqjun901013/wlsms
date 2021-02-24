@@ -35,7 +35,7 @@
     </resultMap>
 
     <!-- 查询数据-->
-    <select id="getDataList" resultMap="DataMap">
+    <select id="getDataList" resultMap="DataMap" parameterType="java.util.HashMap">
         SELECT id,
                data_value_a,
                data_value_b,
@@ -67,6 +67,8 @@
                DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime ,
                DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
         FROM wlsms_data
+        where DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%S')
+        and DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%S')
         order by id desc
     </select>
 

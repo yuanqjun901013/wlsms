@@ -19,13 +19,23 @@ public class DataController {
     @Resource
     private DataService dataService;
 
+    /**
+     * 数据上报列表
+     * @param params
+     * @return
+     */
     @RequestMapping("getDataList")
     public Map<String,Object> getDataList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
+            Map map = new HashMap();
+            map.put("startTime","2021-02-01 00:00:01");
+            map.put("endTime","2021-02-23 12:00:01");
+            params.setRequest(map);
             PageInfo getDataList = dataService.getDataList(params);
             resultMap.put("total", getDataList.getTotal());
             resultMap.put("rows", getDataList.getList());
+
         }catch (Exception e){
             resultMap.put("total", 0);
             resultMap.put("rows", "");
@@ -33,6 +43,11 @@ public class DataController {
         return resultMap;
     }
 
+    /**
+     * 数据分析处理列表
+     * @param params
+     * @return
+     */
     @RequestMapping("queryDataList")
     public Map<String,Object> queryDataList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
@@ -47,6 +62,11 @@ public class DataController {
         return resultMap;
     }
 
+    /**
+     * 报表总览
+     * @param params
+     * @return
+     */
     @RequestMapping("getDataBi")
     public Map<String,Object> getDataBi(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
@@ -61,6 +81,11 @@ public class DataController {
         return resultMap;
     }
 
+    /**
+     * 详细报表
+     * @param params
+     * @return
+     */
     @RequestMapping("getDataDetail")
     public Map<String,Object> getDataDetail(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
@@ -75,6 +100,11 @@ public class DataController {
         return resultMap;
     }
 
+    /**
+     * 阵地报表
+     * @param params
+     * @return
+     */
     @RequestMapping("getDataByPosition")
     public Map<String,Object> getDataByPosition(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
