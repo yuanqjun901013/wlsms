@@ -124,14 +124,11 @@
         if (row){
             $.messager.confirm('Confirm','确定删除该用户?',function(r){
                 if (r){
-                    $.post('destroy_user.php',{id:row.id},function(result){
-                        if (result.success){
+                    $.post('/admin/user/deleteUser',{id:row.id},function(result){
+                        if (result == 1){
                             $('#userList').datagrid('reload');    // reload the user data
                         } else {
-                            $.messager.show({    // show error message
-                                title: 'Error',
-                                msg: result.errorMsg
-                            });
+                            $.messager.alert("消息提醒","删除失败，请重试");
                         }
                     },'json');
                 }

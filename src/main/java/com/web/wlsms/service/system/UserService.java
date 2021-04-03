@@ -10,4 +10,5 @@ public interface UserService {
     int editUserPwd(UserEntity userEntity);
     int saveUser(UserEntity userEntity);
     PageInfo getUserList(SimpleRequest<String> request);
+    int deleteUser(UserEntity userEntity);
 }

@@ -117,4 +117,11 @@
             #{email}
         )
     </insert>
+
+    <delete id="deleteUser">
+        delete from admin_user
+        <where>
+            id = #{id}
+        </where>
+    </delete>
 </mapper>

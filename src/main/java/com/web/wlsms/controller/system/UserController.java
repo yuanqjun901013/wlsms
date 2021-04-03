@@ -60,4 +60,12 @@ public class UserController {
         }
         return userService.saveUser(userEntity);
     }
+
+    @RequestMapping("deleteUser")
+    public int deleteUser(UserEntity userEntity){
+        if(null == userEntity){//信息不能为空
+            return 0;
+        }
+        return userService.deleteUser(userEntity);
+    }
 }

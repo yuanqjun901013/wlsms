@@ -13,4 +13,5 @@ public interface UserDao {
     int editUserPwd(UserEntity userEntity);
     int saveUser(UserEntity userEntity);
     List<UserEntity> getUserList(Map map);
+    int deleteUser(UserEntity userEntity);
 }
