@@ -58,14 +58,24 @@ public class UserController {
         if(StringUtils.isBlank(userEntity.getUserName())){
             return 4;
         }
-        return userService.saveUser(userEntity);
+        try {
+            return userService.saveUser(userEntity);
+        }catch (Exception e){
+            return 0;
+        }
+
     }
 
     @RequestMapping("deleteUser")
     public int deleteUser(UserEntity userEntity){
         if(null == userEntity){//信息不能为空
+            return 2;
+        }
+        try {
+            return userService.deleteUser(userEntity);
+        }catch (Exception e){
             return 0;
         }
-        return userService.deleteUser(userEntity);
+
     }
 }
