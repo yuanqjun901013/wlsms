@@ -1,11 +1,12 @@
 package com.web.wlsms;
 
+import io.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(exclude = {SpringBootConfiguration.class})
 @ComponentScan(basePackages = {"com.web.wlsms.*"})
 
 public class Application {
