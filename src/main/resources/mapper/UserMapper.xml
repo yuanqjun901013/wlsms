@@ -74,7 +74,7 @@
     </update>
 
     <!-- 查询用户信息列表 -->
-    <select id="getUserList" resultMap="userMap">
+    <select id="getUserList" parameterType="map" resultMap="userMap">
         select
             id,
             user_no,
@@ -86,6 +86,35 @@
             phone,
             email
         from admin_user
+        where 1=1
+        <if test="keyWord !=null and keyWord !=''">
+            and (user_no like concat('%',#{keyWord},'%') or user_name like concat('%',#{keyWord},'%'))
+        </if>
         order by id desc
     </select>
+
+    <insert id="saveUser" parameterType="com.web.wlsms.entity.UserEntity">
+        INSERT INTO admin_user
+        (
+            user_no,
+            user_name,
+            sex,
+            age,
+            job,
+            tel,
+            phone,
+            email
+        )
+        VALUES
+        (
+            #{userNo},
+            #{userName},
+            #{sex},
+            #{age},
+            #{job},
+            #{tel},
+            #{phone},
+            #{email}
+        )
+    </insert>
 </mapper>

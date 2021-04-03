@@ -8,5 +8,6 @@ public interface UserService {
     UserEntity selectUserById(String userNo);
     int editUserByUserNo(UserEntity userEntity);
     int editUserPwd(UserEntity userEntity);
-    PageInfo getUserList(SimpleRequest<Integer> request);
+    int saveUser(UserEntity userEntity);
+    PageInfo getUserList(SimpleRequest<String> request);
 }

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.web.wlsms.entity.UserEntity;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.service.system.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,4 +47,17 @@ public class UserController {
         return resultMap;
     }
 
+    @RequestMapping("saveUser")
+    public int saveUser(UserEntity userEntity){
+        if(null == userEntity){//信息不能为空
+            return 2;
+        }
+        if(StringUtils.isBlank(userEntity.getUserNo())){
+            return 3;
+        }
+        if(StringUtils.isBlank(userEntity.getUserName())){
+            return 4;
+        }
+        return userService.saveUser(userEntity);
+    }
 }

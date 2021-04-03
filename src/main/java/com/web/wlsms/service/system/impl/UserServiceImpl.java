@@ -34,11 +34,18 @@ public class UserServiceImpl implements UserService {
     public int editUserPwd(UserEntity userEntity){
         return userDao.editUserPwd(userEntity);
     }
+
     @Override
-    public PageInfo getUserList(SimpleRequest<Integer> request){
+    public PageInfo getUserList(SimpleRequest<String> request){
         PageHelper.startPage(request.getPage(), request.getRows());
         Map map = new HashMap();
-        List<UserEntity> getUserList = userDao.getUserList();
+        map.put("keyWord",request.getRequest());
+        List<UserEntity> getUserList = userDao.getUserList(map);
         return new PageInfo<>(getUserList);
+    }
+
+    @Override
+    public int saveUser(UserEntity userEntity){
+        return userDao.saveUser(userEntity);
     }
 }
