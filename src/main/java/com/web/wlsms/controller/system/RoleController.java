@@ -34,7 +34,7 @@ public class RoleController {
     public Map<String,Object> queryRole(SimpleRequest params) {
         Map<String,Object> resultMap = new HashMap<>();
         try {
-            PageInfo getRoleList =   roleService.getRoleList(params);
+            PageInfo getRoleList = roleService.getRoleList(params);
             resultMap.put("total", getRoleList.getTotal());
             resultMap.put("rows", getRoleList.getList());
         } catch (Exception e) {

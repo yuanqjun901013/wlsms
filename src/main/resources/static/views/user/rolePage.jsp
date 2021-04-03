@@ -35,11 +35,12 @@
             singleSelect:true,
             remoteFilter: true,
             clientPaging: false,
+            nowrap:false,//自动换行
             columns:[[
                 {field:'id',title:'编号',width:30,align:'center'},
                 {field:'roleCode',title:'角色编码',width:80,align:'center'},
                 {field:'roleName',title:'角色名称',width:80,align:'center'},
-                {field:'todo',title:'操作',width:60,align:'center'}
+                {field:'menuInfo',title:'菜单权限',width:500,align:'center'}
             ]]
         });
     }

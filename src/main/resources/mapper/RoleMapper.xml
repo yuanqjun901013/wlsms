@@ -102,4 +102,17 @@
             </if>
         </where>
     </select>
+
+    <!-- 查询角色下权限菜单名称 -->
+    <select id="getMenusByRole" parameterType="String" resultType="String">
+        SELECT
+            DISTINCT name as menuName
+        from
+            admin_menu am ,
+            admin_role_auth ara
+        where
+            (am.IS_NEED_AUTH = 0
+                OR ara.MENU_ID = am.ID)
+          and ara.ROLE_CODE = #{roleCode}
+    </select>
 </mapper>

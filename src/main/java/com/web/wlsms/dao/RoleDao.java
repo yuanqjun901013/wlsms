@@ -28,5 +28,7 @@ public interface RoleDao {
 
     List<AdminRoleAuthEntity> getAuthMenuRole();
 
+    List<String> getMenusByRole(String roleCode);
+
 
 }

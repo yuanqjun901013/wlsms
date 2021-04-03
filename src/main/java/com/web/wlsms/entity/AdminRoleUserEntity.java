@@ -17,4 +17,6 @@ public class AdminRoleUserEntity {
 
     private String userNo;
 
+    private String menuInfo;
+
 }

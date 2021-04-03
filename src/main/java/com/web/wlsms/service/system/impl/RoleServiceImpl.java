@@ -38,6 +38,12 @@ public class RoleServiceImpl implements RoleService {
     public PageInfo getRoleList(SimpleRequest request) {
         PageHelper.startPage(request.getPage(),request.getRows());
         List<AdminRoleUserEntity> list = roleDao.queryRoleList();
+        if(null != list && list.size()>0){
+            for(AdminRoleUserEntity ar:list){
+                List<String> menuNames = roleDao.getMenusByRole(ar.getRoleCode());
+                ar.setMenuInfo(menuNames.toString());
+            }
+        }
         return new PageInfo<>(list);
     }
 
