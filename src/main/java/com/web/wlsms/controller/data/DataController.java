@@ -129,20 +129,6 @@ public class DataController {
         Map<String,Object> resultMap = new HashMap<>();
         try {
             DataEntity dataEntity = new DataEntity();
-            dataEntity.setDataValueA("1");
-            dataEntity.setDataValueB("1");
-            dataEntity.setDataValueC("1");
-            dataEntity.setDataValueD("1");
-            dataEntity.setDataValueE("1");
-            dataEntity.setDataValueF("1");
-            dataEntity.setDataValueG("1");
-            dataEntity.setDataValueH("1");
-            dataEntity.setDataValueI("1");
-            dataEntity.setDataValueJ("1");
-            dataEntity.setDataValueK("1");
-            dataEntity.setDataValueL("1");
-            dataEntity.setDataValueM("1");
-            dataEntity.setDataValueN("1");
             dataEntity.setPositionCode("code1");
             SimpleDateFormat spf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String createTime = spf.format(new Date());

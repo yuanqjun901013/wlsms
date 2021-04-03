@@ -22,7 +22,7 @@
 <script type="text/javascript" th:inline="none">
     function roleList() {//展示角色列表
       var dg =  $('#roleList').datagrid({
-            url:'/admin/role/queryRole',//角色
+            url:'/admin/role/queryRole',//角色列表
             method: 'post',
             //携带参数
             queryParams: {

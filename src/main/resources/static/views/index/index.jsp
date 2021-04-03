@@ -123,7 +123,7 @@
 					$('#myTabs').tabs('close',i);
 				}
 			});
-			//关闭右边的选项卡
+			//关闭左边的选项卡
 			$("#closeLeft").bind("click",function(){
 				var tablist = $('#myTabs').tabs('tabs');
 				var tab = $('#myTabs').tabs('getSelected');

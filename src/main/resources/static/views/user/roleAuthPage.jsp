@@ -22,7 +22,7 @@
 <script type="text/javascript" th:inline="none">
     function roleAuthList() {//展示菜单角色列表
       var dg =  $('#roleAuthList').datagrid({
-            url:'/admin/menuRole/getAuthMenuRole',//角色
+            url:'/admin/menuRole/getAuthMenuRole',//角色权限
             method: 'post',
             //携带参数
             queryParams: {

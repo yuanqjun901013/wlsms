@@ -1,15 +1,9 @@
 package com.web.wlsms;
 
-
-//import com.web.bean.Product;
-//import com.web.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.Environment;
-//import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.web.wlsms.*"})

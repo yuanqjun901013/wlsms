@@ -31,14 +31,6 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/queryRole")
-//    public BaseResponse<PageInfo> queryRole(@RequestBody AdminRoleRequest params) {
-//        try {
-//            return BaseResponse.ok(roleService.getRoleList(params));
-//        } catch (Exception e) {
-//            LOGGER.error("RoleController&&queryRole is error", e);
-//            return BaseResponse.fail("查询失败！");
-//        }
-//    }
     public Map<String,Object> queryRole(SimpleRequest params) {
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -64,6 +56,8 @@ public class RoleController {
     public BaseResponse addRole(@RequestBody AdminRoleRequest params) {
         try {
             int num = roleService.addRole(params);
+            //todo
+            //绑定菜单
             if (num > 0) {
                 return BaseResponse.ok();
             }
