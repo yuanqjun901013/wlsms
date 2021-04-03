@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 @Slf4j
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.web.wlsms.*"})
-//@RestController
+
 public class Application {
 
     public static void main(String[] args){
@@ -19,8 +19,6 @@ public class Application {
 //        }
     }
 
-//    @Autowired
-//    private Environment env;
 
     /**
      * destroy-method="close"的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用.

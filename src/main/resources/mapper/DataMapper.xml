@@ -137,5 +137,4 @@
             #{dataValue}
         )
     </insert>
-
 </mapper>

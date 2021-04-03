@@ -1,7 +1,6 @@
 package com.web.wlsms.entity;
 
 import lombok.*;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

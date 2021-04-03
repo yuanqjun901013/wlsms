@@ -2,8 +2,6 @@ package com.web.wlsms.entity;
 
 import lombok.*;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

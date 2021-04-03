@@ -95,6 +95,7 @@
 				$("#myTabs").tabs("close",index);
 			});
 
+
 			//关闭其他页面（先关闭右侧，再关闭左侧）
 			$("#closeOthers").bind("click",function(){
 				var tablist = $('#myTabs').tabs('tabs');
