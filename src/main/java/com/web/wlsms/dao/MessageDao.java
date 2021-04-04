@@ -10,6 +10,6 @@ import java.util.List;
 public interface MessageDao {
 
    List<MessageEntity> selectMessageList();
-   List<MessageEntity> getOperationList();
+   List<MessageEntity> getOperationList(String keyWord);
    void insertMessage(MessageEntity messageEntity);
 }

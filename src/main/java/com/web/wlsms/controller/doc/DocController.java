@@ -110,6 +110,7 @@ public class DocController {
             docManagerEntity.setDocName(docInfo.getDocName());
             docManagerEntity.setFileName(docInfo.getFileName());
             docManagerEntity.setFilePath(docInfo.getFilePath());
+            docManagerEntity.setUserNo(userNo);
             return docManagerService.deleteDoc(docManagerEntity);
         }catch (Exception e){
             return BaseResponse.fail("文件删除异常");

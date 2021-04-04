@@ -19,6 +19,10 @@ public class MessageController {
     @Resource
     private MessageService messageService;
 
+    /**
+     * message推送状态用于右边栏
+     * @return
+     */
     @RequestMapping("getMessageList")
     public List<MessageEntity> getMessageList(){
         List<MessageEntity> selectMessage = messageService.selectMessage();
@@ -30,6 +34,11 @@ public class MessageController {
         return selectMessage;
     }
 
+    /**
+     * 查看所有审计状态
+     * @param params
+     * @return
+     */
     @RequestMapping("getOperationList")
     public Map<String,Object> getOperationList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();

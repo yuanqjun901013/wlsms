@@ -70,6 +70,7 @@ public class DocManagerService {
 			messageEntity.setUserNo(upLoadRequest.getUserNo());
 			messageEntity.setTitle("分享上传资料");
 			messageEntity.setContent(upLoadRequest.getUserNo()+":分享了"+upLoadRequest.getFileName());
+			messageEntity.setOperationType(1);
 			messageService.insertMessage(messageEntity);
 			return BaseResponse.ok("资料上传成功");
 		} catch (IOException e) {
@@ -108,6 +109,7 @@ public class DocManagerService {
 			messageEntity.setUserNo(userNo);
 			messageEntity.setTitle("下载资料");
 			messageEntity.setContent(userNo+":下载了"+name);
+			messageEntity.setOperationType(1);
 			messageService.insertMessage(messageEntity);
 		}
 	}
@@ -128,6 +130,12 @@ public class DocManagerService {
 			if (file.exists()){//文件是否存在
 				file.delete();//删除文件
 			}
+			MessageEntity messageEntity = new MessageEntity();
+			messageEntity.setUserNo(docManagerEntity.getUserNo());
+			messageEntity.setTitle("删除资料");
+			messageEntity.setContent(docManagerEntity.getUserNo()+":删除了"+docManagerEntity.getFileName());
+			messageEntity.setOperationType(1);
+			messageService.insertMessage(messageEntity);
 			return BaseResponse.ok("删除成功");
 		}else{
 			return BaseResponse.fail("删除失败");

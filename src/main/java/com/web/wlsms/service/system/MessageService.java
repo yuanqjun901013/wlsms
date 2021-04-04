@@ -25,10 +25,9 @@ public class MessageService {
 	}
 
 
-	public PageInfo getOperationList(SimpleRequest<Integer> request) {
+	public PageInfo getOperationList(SimpleRequest<String> request) {
 		PageHelper.startPage(request.getPage(), request.getRows());
-		Map map = new HashMap();
-		List<MessageEntity> list = messageDao.getOperationList();
+		List<MessageEntity> list = messageDao.getOperationList(request.getRequest());
 		return new PageInfo<>(list);
 	}
 

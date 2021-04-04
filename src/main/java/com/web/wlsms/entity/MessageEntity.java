@@ -13,4 +13,9 @@ public class MessageEntity {
     private String buildTime;
     private String title;
     private String content;
+    private String feedbackContent;
+    private int state;
+    private String feedbackTime;
+    private String feedbackUser;
+    private int operationType;
 }

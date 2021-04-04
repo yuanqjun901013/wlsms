@@ -7,6 +7,12 @@
         <result property="buildTime" column="buildTime" javaType="String"/>
         <result property="title" column="title" javaType="String"/>
         <result property="content" column="content" javaType="String"/>
+        <result property="feedbackContent" column="feedback_content" javaType="String"/>
+        <result property="state" column="state" javaType="int"/>
+        <result property="feedbackTime" column="feedbackTime" javaType="String"/>
+        <result property="feedbackUser" column="feedback_user" javaType="String"/>
+        <result property="operationType" column="operation_type" javaType="int"/>
+
     </resultMap>
 
     <select id="selectMessageList" resultMap="messageMap">
@@ -27,8 +33,17 @@
             user_no,
             DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
             title,
-            content
+            content,
+            feedback_content,
+            feedback_user,
+            state,
+            DATE_FORMAT(feedback_time,'%Y-%m-%d %H:%i:%S') as feedbackTime,
+            operation_type
         from admin_operation
+        where 1=1
+        <if test="keyWord != null and keyWord != ''">
+            and (content like concat('%',#{keyWord},'%') or title like concat('%',#{keyWord},'%') )
+        </if>
         order by id desc
     </select>
 
@@ -39,14 +54,16 @@
             user_no,
             title,
             build_time,
-            content
+            content,
+            operation_type
         )
         VALUES
         (
             #{userNo},
             #{title},
             now(),
-            #{content}
+            #{content},
+            #{operationType}
         )
     </insert>
 </mapper>

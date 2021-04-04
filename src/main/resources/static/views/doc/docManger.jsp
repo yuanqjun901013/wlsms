@@ -61,16 +61,15 @@
                 toolbar:'#toolbar',
                 columns:[[
                     {field:'id',title:'编号',width:20,align:'center'},
-                    {field:'docName',title:'资料名称',width:80,align:'center'},
+                    {field:'docName',title:'资料名称',width:60,align:'center'},
                     {field:'fileName',title:'文件名称',formatter:function(value,row,index)
                         {
                             return "<a href='/doc/doc/fileDownload/"+row.fileName+"'>"+row.fileName+"</a>";
                         },
                         width:100,align:'center'},
                     {field:'userName',title:'分享人',width:30,align:'center'},
-                    {field:'userName',title:'分享工号',width:30,align:'center'},
-                    {field:'createTime',title:'上传时间',width:80,align:'center'},
-                    {field:'editTime',title:'更新时间',width:80,align:'center'}
+                    {field:'userNo',title:'分享工号',width:30,align:'center'},
+                    {field:'createTime',title:'上传时间',width:150,align:'center'}
                 ]]
             });
         }
