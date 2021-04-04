@@ -33,7 +33,7 @@ public class RoleUserServiceImpl implements RoleUserService {
     @Transactional
     @Override
     public int saveUserRole(RoleUsersRequest request) {
-        String[] userNoArray = StringUtils.split(request.getUserNos(), ",");
+        String[] userNoArray = StringUtils.split(request.getUserNo(), ",");
         String roleCode = request.getRoleCode();
         List<AdminRoleUserEntity> list = new ArrayList<AdminRoleUserEntity>();
         for (String userNo : userNoArray) {

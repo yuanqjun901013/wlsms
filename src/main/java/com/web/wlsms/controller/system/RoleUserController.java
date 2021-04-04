@@ -52,7 +52,7 @@ public class RoleUserController {
      * @return
      */
     @RequestMapping("/saveUserRole")
-    public BaseResponse saveUserRole(@RequestBody RoleUsersRequest params) {
+    public BaseResponse saveUserRole(RoleUsersRequest params) {
         try {
             int num = roleUserService.saveUserRole(params);
             if (num > 0) {

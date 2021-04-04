@@ -50,7 +50,6 @@
                     女<input id="sexW" class="easyui-radiobutton" name="sex" value="2">
                 </form>
             </div>
-
         </form>
     </div>
     <div id="dlg-buttons">

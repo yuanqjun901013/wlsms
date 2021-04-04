@@ -6,6 +6,7 @@
         <result property="roleCode" column="ROLE_CODE" />
         <result property="roleName" column="ROLE_NAME" />
         <result property="userNo" column="USER_NO" />
+        <result property="userName" column="USER_NAME" />
     </resultMap>
 
 
@@ -101,17 +102,19 @@
 		where role_code = #{roleCode}
     </select>
 
-    <select id="queryRoleUserListByRoleCode" resultMap="RoleUserMap">
+    <select id="queryRoleUserListByRoleCode" parameterType="String" resultMap="RoleUserMap">
         select
         aru.ID as id,
         aru.ROLE_CODE,
         aru.USER_NO,
-        ar.ROLE_NAME
+        ar.ROLE_NAME,
+        au.USER_NAME
         from admin_role_user aru
         left join admin_role ar on aru.ROLE_CODE = ar.ROLE_CODE
+        left join admin_user au on au.USER_NO = aru.USER_NO
         where 1 = 1
-        <if test="_parameter != null and _parameter != ''">
-           and aru.USER_NO like concat('%',#{_parameter},'%')
+        <if test="roleCode != null and roleCode != ''">
+           and (aru.USER_NO like concat('%',#{roleCode},'%') or ar.USER_NAME like concat('%',#{roleCode},'%') )
         </if>
         order by id desc
     </select>
