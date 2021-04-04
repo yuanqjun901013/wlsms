@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.web.wlsms.dao.PositionDao;
 import com.web.wlsms.entity.PositionEntity;
 import com.web.wlsms.request.SimpleRequest;
+import com.web.wlsms.response.BaseResponse;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,8 +19,13 @@ public class PositionService {
 
 	@Resource
 	private PositionDao positionDao;
-	public void insertPosition(PositionEntity positionEntity){
-		positionDao.insertPosition(positionEntity);
+	public BaseResponse savePosition(PositionEntity positionEntity){
+		int num = positionDao.insertPosition(positionEntity);
+		if(num >0){
+			return BaseResponse.ok("新增阵地信息成功");
+		}else {
+			return BaseResponse.fail("保存失败");
+		}
 	}
 
 	public PageInfo getPositionList(SimpleRequest<String> request) {
@@ -29,4 +35,21 @@ public class PositionService {
 		return new PageInfo<>(list);
 	}
 
+	public BaseResponse updatePosition(PositionEntity positionEntity){
+		int num = positionDao.updatePosition(positionEntity);
+		if(num >0){
+			return BaseResponse.ok("更新阵地信息成功");
+		}else {
+			return BaseResponse.fail("更新失败");
+		}
+	}
+
+	public BaseResponse destroyPosition(PositionEntity positionEntity){
+		int num = positionDao.destroyPosition(positionEntity);
+		if(num >0){
+			return BaseResponse.ok("删除阵地信息成功");
+		}else {
+			return BaseResponse.fail("删除失败");
+		}
+	}
 }

@@ -33,4 +33,31 @@
             #{positionCode}
         )
     </insert>
+
+    <update id="updatePosition" parameterType="com.web.wlsms.entity.PositionEntity">
+        update wlsms_position_config
+        <set>
+            <if test="positionName !=null and positionName != ''">
+                position_name = #{positionName},
+            </if>
+            <if test="positionCode !=null and positionCode != ''">
+                position_code = #{positionCode},
+            </if>
+        </set>
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                and position_code = #{positionCode}
+            </if>
+        </where>
+    </update>
+
+    <delete id="destroyPosition">
+        delete from wlsms_position_config
+        <where>
+            id = #{id}
+        </where>
+    </delete>
 </mapper>
