@@ -36,6 +36,7 @@ public class MessageService {
 		int num = messageDao.feedbackSubmit(messageEntity);
 		if(num > 0){
 			return BaseResponse.ok("反馈成功");
+
 		}else {
 			return BaseResponse.fail("反馈失败");
 		}
