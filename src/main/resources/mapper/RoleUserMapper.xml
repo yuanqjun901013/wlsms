@@ -114,7 +114,7 @@
         left join admin_user au on au.USER_NO = aru.USER_NO
         where 1 = 1
         <if test="roleCode != null and roleCode != ''">
-           and (aru.USER_NO like concat('%',#{roleCode},'%') or ar.USER_NAME like concat('%',#{roleCode},'%') )
+           and (aru.USER_NO like concat('%',#{roleCode},'%') or au.USER_NAME like concat('%',#{roleCode},'%') )
         </if>
         order by id desc
     </select>
