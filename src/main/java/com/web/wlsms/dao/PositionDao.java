@@ -8,6 +8,6 @@ import java.util.List;
 @Mapper
 public interface PositionDao {
 
-   List<PositionEntity> getPositionList();
+   List<PositionEntity> getPositionList(String keyWord);
    void insertPosition(PositionEntity positionEntity);
 }

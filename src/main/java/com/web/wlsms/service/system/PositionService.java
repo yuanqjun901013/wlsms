@@ -22,10 +22,10 @@ public class PositionService {
 		positionDao.insertPosition(positionEntity);
 	}
 
-	public PageInfo getPositionList(SimpleRequest<Integer> request) {
+	public PageInfo getPositionList(SimpleRequest<String> request) {
 		PageHelper.startPage(request.getPage(), request.getRows());
 		Map map = new HashMap();
-		List<PositionEntity> list = positionDao.getPositionList();
+		List<PositionEntity> list = positionDao.getPositionList(request.getRequest());
 		return new PageInfo<>(list);
 	}
 

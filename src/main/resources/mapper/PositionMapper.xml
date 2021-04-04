@@ -13,6 +13,10 @@
             position_name,
             position_code
         from wlsms_position_config
+        where 1=1
+        <if test="keyWord != null and keyWord != ''">
+            and (position_name like concat('%',#{keyWord},'%') or position_code like concat('%',#{keyWord},'%') )
+        </if>
         order by id desc
     </select>
 

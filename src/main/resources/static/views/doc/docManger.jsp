@@ -45,7 +45,6 @@
             $('#docManager').datagrid({
                 url:'/doc/doc/docManager',//参数
                 method: 'post',
-                enctype:'multipart/form-data',
                 //携带参数
                 queryParams: {
                     "request":queryBt
