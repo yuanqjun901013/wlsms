@@ -67,10 +67,55 @@
     $("#queryBt").textbox({onClickButton:function(){
             operationList();
         }})
-    function feedbackOperation(){
 
+    function feedbackOperation(){
+        var row = $('#operationList').datagrid('getSelected');
+        if (row){
+            $('#dlgUpdate').dialog('open').dialog('center').dialog('setTitle','任务反馈');
+            $('#fmm').form('load',row);
+        }
+    }
+
+    function feedbackSubmit(){
+        $('#fmm').form('submit',{
+            url: '/admin/message/feedbackSubmit',
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if(result.success){
+                    $.messager.alert("消息提醒", result.data, "info",function (){
+                        $('#dlgUpdate').dialog('close');        // close the dialog
+                        $('#operationList').datagrid('reload');    // reload the user data
+                    });
+                }else {
+                    $.messager.alert("消息提醒","保存失败，请重试");
+                }
+            }
+        });
     }
 </script>
+</div>
+<div id="dlgUpdate" class="easyui-dialog" style="width:600px; height: 400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgUpdate-buttons'">
+    <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <h3>任务信息</h3>
+        <div style="margin-bottom:15px">
+            <input type="text" style="display: none" name = "id">
+            <input class="easyui-textbox" type="text" name="title" readonly label="标题:" labelPosition="left" style="width:100%;">&nbsp;&nbsp;
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="content" readonly="readonly" label="任务内容:" labelPosition="left" style="width:100%;">&nbsp;&nbsp;
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="feedbackContent" data-options="multiline:true"  label="反馈内容:" labelPosition="left" style="width:100%;">&nbsp;&nbsp;
+        </div>
+
+    </form>
+</div>
+<div id="dlgUpdate-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="feedbackSubmit()" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlgUpdate').dialog('close')" style="width:90px">取消</a>
 </div>
 </body>
 </html>

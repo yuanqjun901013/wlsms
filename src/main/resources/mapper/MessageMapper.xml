@@ -66,4 +66,21 @@
             #{operationType}
         )
     </insert>
+
+    <update id="feedbackSubmit" parameterType="com.web.wlsms.entity.MessageEntity">
+        update admin_operation
+        <set>
+            <if test="feedbackContent !=null and feedbackContent != ''">
+                feedback_content = #{feedbackContent},
+            </if>
+            <if test="feedbackUser !=null and feedbackUser != ''">
+                feedback_user = #{feedbackUser},
+            </if>
+            state = 2,
+            feedback_Time = now()
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
 </mapper>

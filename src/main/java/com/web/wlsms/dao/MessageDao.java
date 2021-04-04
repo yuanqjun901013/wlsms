@@ -12,4 +12,5 @@ public interface MessageDao {
    List<MessageEntity> selectMessageList();
    List<MessageEntity> getOperationList(String keyWord);
    void insertMessage(MessageEntity messageEntity);
+   int feedbackSubmit(MessageEntity messageEntity);
 }
