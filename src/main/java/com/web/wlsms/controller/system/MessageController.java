@@ -24,7 +24,7 @@ public class MessageController {
         List<MessageEntity> selectMessage = messageService.selectMessage();
         if(null != selectMessage && selectMessage.size()>0){
             for (MessageEntity messageEntity:selectMessage){
-                messageEntity.setContent(messageEntity.getUserNo()+ "  " + messageEntity.getTitle() + "  " + messageEntity.getBuildTime());
+                messageEntity.setContent(messageEntity.getUserNo()+ "  " + messageEntity.getTitle());
             }
         }
         return selectMessage;
