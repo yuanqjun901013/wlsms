@@ -46,6 +46,10 @@ public class RoleUserController {
     }
 
     /**
+     * 查询未授权的用户
+     */
+
+    /**
      * 保存用户角色
      *
      * @param params
@@ -68,13 +72,13 @@ public class RoleUserController {
     /**
      * 删除用户角色
      *
-     * @param params(userNo)
+     * @param id
      * @return
      */
     @RequestMapping("/delUserRole")
-    public BaseResponse<Map<String, Object>> delUserRole(@RequestBody SimpleRequest<String> params) {
+    public BaseResponse<Map<String, Object>> delUserRole(long id) {
         try {
-            int num = roleUserService.delUserRole(params.getRequest());
+            int num = roleUserService.delUserRole(id);
             if (num > 0) {
                 return BaseResponse.ok(null);
             }

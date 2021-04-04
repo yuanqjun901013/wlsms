@@ -113,7 +113,9 @@
                         $('#dlg').dialog('close');        // close the dialog
                         $('#userList').datagrid('reload');    // reload the user data
                     });
-                }else {
+                }else if(result == 0){
+                    $.messager.alert("消息提醒","用户工号已存在");
+                }else{
                     $.messager.alert("消息提醒","保存失败，请重试");
                 }
             }

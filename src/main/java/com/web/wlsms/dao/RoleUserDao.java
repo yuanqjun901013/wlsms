@@ -18,7 +18,9 @@ public interface RoleUserDao {
 
     int insertUserRole(List<AdminRoleUserEntity> list);
 
-    int deleteUserRoleById(String userNo);
+    int deleteUserRoleByUserNo(String userNo);
+
+    int deleteUserRoleById(long id);
 
     AdminRoleUserEntity queryRoleCodeByUserNo(String userNo);
 

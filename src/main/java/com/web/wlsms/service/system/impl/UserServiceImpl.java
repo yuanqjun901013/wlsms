@@ -2,6 +2,7 @@ package com.web.wlsms.service.system.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.web.wlsms.dao.RoleUserDao;
 import com.web.wlsms.dao.TokenDao;
 import com.web.wlsms.dao.UserDao;
 import com.web.wlsms.entity.TokenEntity;
@@ -20,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserDao userDao;
+
+    @Resource
+    private RoleUserDao roleUserDao;
 
     public UserEntity selectUserById(String userNo){
         return userDao.selectUserByNo(userNo);
@@ -51,6 +55,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int deleteUser(UserEntity userEntity){
-       return userDao.deleteUser(userEntity);
+       UserEntity userInfo = userDao.selectUserById(userEntity.getId());
+       if(null == userInfo){
+           return 0;
+       }
+       int userNum = userDao.deleteUser(userEntity);
+       if(userNum >0){
+           roleUserDao.deleteUserRoleByUserNo(userInfo.getUserNo());
+       }
+       return userNum;
     }
 }

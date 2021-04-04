@@ -19,10 +19,10 @@ public interface RoleUserService {
 
     /**
      * 删除用户角色
-     * @param userNo
+     * @param id
      * @return
      */
-    int delUserRole(String userNo);
+    int delUserRole(long id);
 
     String queryUserRoleCode(String userNo);
 

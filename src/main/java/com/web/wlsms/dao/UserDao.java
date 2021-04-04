@@ -14,4 +14,5 @@ public interface UserDao {
     int saveUser(UserEntity userEntity);
     List<UserEntity> getUserList(Map map);
     int deleteUser(UserEntity userEntity);
+    UserEntity selectUserById(long id);
 }

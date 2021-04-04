@@ -20,8 +20,7 @@
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newRoleUser()">添加</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delUserRole()">删除</a>
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonAlign:'left',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
     <div id="roleAuthList" data-options="region:'center',split:true"></div>
@@ -56,6 +55,7 @@
             pagination:true,
             rownumbers:true,
             singleSelect:true,
+            checkbox:false,
             remoteFilter: true,
             clientPaging: false,
             toolbar:'#toolbar',
@@ -85,6 +85,9 @@
         url: '/admin/user/getUserList',
         idField: 'userNo',
         textField: 'userName',
+        striped:true,
+        multiple: true,
+        fitColumns: true,
         columns: [[
             {field:'userNo',title:'工号',width:100,sortable:true},
             {field:'userName',title:'姓名',width:120,sortable:true}
@@ -97,6 +100,8 @@
         url: '/admin/role/queryRole',
         idField: 'roleCode',
         textField: 'roleName',
+        striped:true,
+        fitColumns: true,
         columns: [[
             {field:'roleCode',title:'角色编码',width:100,sortable:true},
             {field:'roleName',title:'角色名',width:120,sortable:true}
@@ -121,6 +126,23 @@
                 }
             }
         });
+    }
+
+    function delUserRole(){
+        var row = $('#roleAuthList').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('Confirm','确定删除用户权限?',function(r){
+                if (r){
+                    $.post('/admin/roleUser/delUserRole',{id:row.id},function(result){
+                        if (result.success){
+                            $('#roleAuthList').datagrid('reload');    // reload the user data
+                        } else {
+                            $.messager.alert("消息提醒","删除失败，请重试");
+                        }
+                    },'json');
+                }
+            });
+        }
     }
 </script>
 </div>

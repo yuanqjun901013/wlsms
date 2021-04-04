@@ -50,13 +50,13 @@ public class RoleUserServiceImpl implements RoleUserService {
     /**
      * 删除用户角色
      *
-     * @param userNo
+     * @param id
      * @return
      */
     @Transactional
     @Override
-    public int delUserRole(String userNo) {
-        return roleUserDao.deleteUserRoleById(userNo);
+    public int delUserRole(long id) {
+            return roleUserDao.deleteUserRoleById(id);
     }
 
     /**

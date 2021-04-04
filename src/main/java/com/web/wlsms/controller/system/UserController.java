@@ -33,6 +33,11 @@ public class UserController {
         return userService.editUserPwd(userEntity);
     }
 
+    /**
+     * 查询用户列表
+     * @param params
+     * @return
+     */
     @RequestMapping("getUserList")
     public Map<String,Object> getUserList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
