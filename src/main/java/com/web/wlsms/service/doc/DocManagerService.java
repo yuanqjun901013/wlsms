@@ -103,6 +103,44 @@ public class DocManagerService {
 				os.write(buffer, 0, i);
 				i = bis.read(buffer);
 			}
+			//上传资料信息
+			MessageEntity messageEntity = new MessageEntity();
+			messageEntity.setUserNo(userNo);
+			messageEntity.setTitle("下载资料");
+			messageEntity.setContent(userNo+":下载了"+name);
+			messageService.insertMessage(messageEntity);
 		}
+	}
+
+	/**
+	 * 删除资料
+	 * @param docManagerEntity
+	 * @return
+	 */
+	public BaseResponse deleteDoc(DocManagerEntity docManagerEntity){
+		int num = docManagerDao.deleteDoc(docManagerEntity);
+		if(num > 0){
+			//删除文件下文件
+			//定义文件路径
+			String filePath = docManagerEntity.getFilePath()+"/"+docManagerEntity.getFileName();
+			//这里因为我文件是相对路径 所以需要在路径前面加一个点
+			File file = new File(filePath);
+			if (file.exists()){//文件是否存在
+				file.delete();//删除文件
+			}
+			return BaseResponse.ok("删除成功");
+		}else{
+			return BaseResponse.fail("删除失败");
+		}
+
+	}
+
+	/**
+	 * 根据id查询信息
+	 * @param id
+	 * @return
+	 */
+	public DocManagerEntity getDocInfo(long id){
+		return docManagerDao.getDocInfoById(id);
 	}
 }

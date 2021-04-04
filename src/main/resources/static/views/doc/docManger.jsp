@@ -20,7 +20,7 @@
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addDoc()">添加</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delUserRole()">删除</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteDoc()">删除</a>
     <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonAlign:'left',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
     <div id="docManager" data-options="region:'center',split:true"></div>
@@ -97,23 +97,29 @@
                 success: function(result){
                     var result = eval('('+result+')');
                     if(result.success){
-                        $.messager.alert("消息提醒", "添加成功!", "info",function (){
+                        $.messager.alert("消息提醒", result.data, "info",function (){
                             $('#dlg').dialog('close');        // close the dialog
                             $('#docManager').datagrid('reload');    // reload the user data
                         });
                     }else {
-                        $.messager.alert("消息提醒","加载失败，请重试");
+                        $.messager.alert("消息提醒",result.data);
                     }
                 }
             });
         }
-
-        function downLoad(index){
-            var row = $('#docManager').datagrid('getData').rows[index];   //根据行索引获取该行数据
-            if (row) {
-                $.ajax({
-                    url: "/doc/doc/fileDownload/"+row.fileName,
-                    type: "get"
+        function deleteDoc(){
+            var row = $('#docManager').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('Confirm','确定删除该资料?',function(r){
+                    if (r){
+                        $.post('/doc/doc/deleteDoc',{id:row.id},function(result){
+                            if (result.success){
+                                $('#docManager').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.alert("消息提醒",result.data);
+                            }
+                        },'json');
+                    }
                 });
             }
         }

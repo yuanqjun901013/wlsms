@@ -2,6 +2,7 @@ package com.web.wlsms.controller.doc;
 
 
 import com.github.pagehelper.PageInfo;
+import com.web.wlsms.entity.DocManagerEntity;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.request.UpLoadRequest;
 import com.web.wlsms.response.BaseResponse;
@@ -83,5 +84,35 @@ public class DocController {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         docManagerService.fileDownload(userNo,name,response);
+    }
+
+    /**
+     * 删除资料资源
+     */
+    @RequestMapping("deleteDoc")
+    @ResponseBody
+    public BaseResponse deleteDoc(HttpServletRequest request, DocManagerEntity docManagerEntity){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        if(null == docManagerEntity){
+            return BaseResponse.fail("参数缺失，请重试");
+        }
+        DocManagerEntity docInfo = docManagerService.getDocInfo(docManagerEntity.getId());
+        if(null == docInfo){
+            return BaseResponse.fail("数据不存在");
+        }
+        if(StringUtils.isNotBlank(userNo)){
+            if(!userNo.equals(docInfo.getUserNo())){
+                return BaseResponse.fail("您无权限删除该资料！请联系分享人删除");
+            }
+        }
+        try {
+            docManagerEntity.setDocName(docInfo.getDocName());
+            docManagerEntity.setFileName(docInfo.getFileName());
+            docManagerEntity.setFilePath(docInfo.getFilePath());
+            return docManagerService.deleteDoc(docManagerEntity);
+        }catch (Exception e){
+            return BaseResponse.fail("文件删除异常");
+        }
     }
 }

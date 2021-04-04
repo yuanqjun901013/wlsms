@@ -17,5 +17,24 @@ public interface DocManagerDao {
     */
    List<DocManagerEntity> getDocList(String keyWord);
 
+   /**
+    * 插入资料记录
+    * @param upLoadRequest
+    * @return
+    */
    int insertDoc(UpLoadRequest upLoadRequest);
+
+   /**
+    * 删除资料记录
+    * @param docManagerEntity
+    * @return
+    */
+   int deleteDoc(DocManagerEntity docManagerEntity);
+
+   /**
+    * 根据id获取信息
+    * @param id
+    * @return
+    */
+   DocManagerEntity getDocInfoById(long id);
 }

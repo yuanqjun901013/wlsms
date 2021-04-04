@@ -51,4 +51,23 @@
             now()
         )
     </insert>
+
+
+    <select id="getDocInfoById" parameterType="long" resultMap="DocMap">
+        SELECT wd.id,
+        wd.doc_name,
+        wd.file_name,
+        wd.file_path,
+        wd.user_no,
+        au.user_name,
+        DATE_FORMAT(wd.create_time,'%Y-%m-%d %H:%i:%S') as createTime ,
+        DATE_FORMAT(wd.edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+        FROM wlsms_doc wd
+        left join admin_user au on wd.user_no = au.user_no
+        where wd.id = #{id}
+    </select>
+
+    <delete id="deleteDoc" parameterType="com.web.wlsms.entity.DocManagerEntity">
+        delete from wlsms_doc where id = #{id}
+    </delete>
 </mapper>
