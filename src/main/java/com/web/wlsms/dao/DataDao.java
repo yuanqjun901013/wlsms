@@ -15,4 +15,6 @@ public interface DataDao {
    List<ManualDataModel> getManualDataList(Map map);
    List<MachineDataModel> getMachineDataList(Map map);
    void insertData(DataEntity dataEntity);
+   int insertManualData(List<ManualDataModel> manualDataModels);
+   int insertMachineData(List<MachineDataModel> machineDataModels);
 }

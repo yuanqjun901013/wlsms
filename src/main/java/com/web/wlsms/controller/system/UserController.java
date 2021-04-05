@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -48,6 +49,18 @@ public class UserController {
         }catch (Exception e){
             resultMap.put("total", 0);
             resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    //供下拉框选择
+    @RequestMapping("getUserArr")
+    public Map<String,Object> getUserArr(){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            List<UserEntity> getUserList = userService.getUserArr();
+            resultMap.put("rows", getUserList);
+        }catch (Exception e){
         }
         return resultMap;
     }

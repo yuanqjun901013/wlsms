@@ -5,20 +5,29 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.web.wlsms.entity.DataEntity;
+import com.web.wlsms.entity.MachineDataModel;
 import com.web.wlsms.entity.ManualDataModel;
+import com.web.wlsms.entity.MessageEntity;
 import com.web.wlsms.request.ExcelReadResult;
 import com.web.wlsms.request.SimpleRequest;
+import com.web.wlsms.request.UpLoadRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.data.DataService;
+import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.utils.ExcelUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -27,6 +36,9 @@ import java.util.*;
 public class DataController {
     @Resource
     private DataService dataService;
+
+    @Autowired
+    MessageService messageService;
 
     /**
      * 数据汇总列表
@@ -58,13 +70,9 @@ public class DataController {
      * @return
      */
     @RequestMapping("getManualDataList")
-    public Map<String,Object> getManualDataList(SimpleRequest params){
+    public Map<String,Object> getManualDataList(SimpleRequest<Map> params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
-            Map map = new HashMap();
-            map.put("startTime","2021-02-01 00:00:01");
-            map.put("endTime","2021-02-23 12:00:01");
-            params.setRequest(map);
             PageInfo getDataList = dataService.getManualDataList(params);
             resultMap.put("total", getDataList.getTotal());
             resultMap.put("rows", getDataList.getList());
@@ -85,10 +93,6 @@ public class DataController {
     public Map<String,Object> getMachineDataList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
-            Map map = new HashMap();
-            map.put("startTime","2021-02-01 00:00:01");
-            map.put("endTime","2021-02-23 12:00:01");
-            params.setRequest(map);
             PageInfo getDataList = dataService.getMachineDataList(params);
             resultMap.put("total", getDataList.getTotal());
             resultMap.put("rows", getDataList.getList());
@@ -202,30 +206,18 @@ public class DataController {
      * 导入人工底数
      */
     @RequestMapping("importManual")
-    public BaseResponse importManual(@RequestParam(value = "file", required = false) MultipartFile file) {
+    @ResponseBody
+    public BaseResponse importManual(HttpServletRequest request,MultipartFile file, String positionCode) {
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
         try {
             if (null == file) return BaseResponse.fail("读取Excel异常！");
             InputStream inputStream = file.getInputStream();// 得到输入流
-            if (null != inputStream) {
+            if(null != inputStream) {
                 ExcelReadResult<ManualDataModel> excelRead = ExcelUtil.readList("manualData.xml", inputStream, ManualDataModel.class);
                 if (excelRead.isStatus() && !excelRead.getResult().isEmpty()) {
-                    // 数据预处理
-                    Map<String, Object> keyMap = new HashMap<>();
-                    for (ManualDataModel excelModel : excelRead.getResult()) {
-                        String msg = checkExcelData(excelModel);
-                        if (msg == null) {
-                            String key = excelModel.getSxzfqName().trim() + "#" + excelModel.getSxplValue().trim();
-                            if (keyMap.containsKey(key)) {
-                                return BaseResponse.fail("上行转发器=" + excelModel.getSxzfqName().trim() + ",上行频率=" + excelModel.getSxplValue().trim() + "的数据行存在重复！");
-                            }
-                            keyMap.put(key, null);
-                            continue;
-                        } else {
-                            return BaseResponse.fail(msg);
-                        }
-                    }
                     // 写入数据
-                    BaseResponse<Integer> result = this.writeExcelData(excelRead.getResult());
+                    BaseResponse<Integer> result = this.writeExcelData(excelRead.getResult(),positionCode,userNo);
                     if (result.getCode().equals("0000") && null != result.getData()) {
                         return BaseResponse.ok("成功导入" + result.getData() + "条数据！");
                     } else {
@@ -239,30 +231,156 @@ public class DataController {
         }
     }
 
-        //校验excel数据格式是否规范
-        private String checkExcelData(ManualDataModel excelModel) {
-            String sxzfqName = excelModel.getSxzfqName().trim();
-            if (StringUtils.isBlank(sxzfqName)){
-                return "上行转发器列存在空值";
-            }
-            String sxplValue = excelModel.getSxplValue().trim();
-            if (StringUtils.isBlank(sxplValue)) {
-                return "上行转发器="+sxzfqName+"的数据行，上行频率列存在空值";
-            }
-            return null;
+    public BaseResponse<Integer> writeExcelData(List<ManualDataModel> list,String positionCode,String userNo) {
+        if(null == list && list.size() ==0 ){
+            return BaseResponse.fail("数据为空");
         }
-
-    //写入excel数据
-    public BaseResponse<Integer> writeExcelData(List<ManualDataModel> list) {
+        int num = 0;
         List<ManualDataModel> strategyList = new ArrayList<>();
+        String proCode = getProCodeNum();//获取批次公文号
         for (ManualDataModel model : list) {
             ManualDataModel strategy = new ManualDataModel();
-            String sxzfqName = model.getSxzfqName().trim();
-            strategy.setSxzfqName(sxzfqName);
+            strategy.setSxzfqName(model.getSxzfqName().trim());
             strategy.setSxplValue(model.getSxplValue().trim());
+            strategy.setBpqplValue(model.getBpqplValue().trim());
+            strategy.setZplValue(model.getZplValue().trim());
+            strategy.setXxplValue(model.getXxplValue().trim());
+            strategy.setSystemName(model.getSystemName().trim());
+            strategy.setTzslValue(model.getTzslValue().trim());
+            strategy.setXxslValue(model.getXxslValue().trim());
+            strategy.setTzfsName(model.getTzfsName().trim());
+            strategy.setXdbmCode(model.getXdbmCode().trim());
+            strategy.setXzbValue(model.getXzbValue().trim());
+            strategy.setCjTime(model.getCjTime());
+            strategy.setWzlValue(model.getWzlValue());
+            strategy.setPositionCode(positionCode);
+            strategy.setProCode(proCode);
+            strategy.setUserNo(userNo);
+            strategyList.add(strategy);
+            }
+        if (null != strategyList && strategyList.size() >0){
+           num = dataService.insertManualData(strategyList);
+        }
+        if(num > 0){
+            MessageEntity messageEntity = new MessageEntity();
+            messageEntity.setUserNo(userNo);
+            messageEntity.setTitle("上报人工数据");
+            messageEntity.setContent(userNo+":上报人工数据,公文号为"+proCode);
+            messageEntity.setOperationType(1);
+            messageService.insertMessage(messageEntity);
+            return BaseResponse.ok(num);
+        }else {
+            return BaseResponse.fail("入库失败");
+        }
+    }
+
+
+
+    /**
+     * 生成公文号：5位项目名称 + 17为时间戳 + 6位随机数字
+     *
+     * @return 随机唯一字符串
+     */
+    private String getProCodeNum() {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        String dateStr = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+
+        //获取十位随机数
+        String randomStr = getNumberRandom(6);
+
+        return stringBuilder.append("WLSMS").append(dateStr).append("-").append(randomStr).toString();
+    }
+    /**
+     * 生成随机数字
+     *
+     * @param length 生成随机数的长度
+     * @return 随机唯一字符串
+     */
+    private String getNumberRandom(int length) {
+        StringBuilder val = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            SecureRandom random = new SecureRandom();
+            // 输出字母还是数字
+            if (random.nextBoolean()) {
+                // 输出大写或小写字母
+                char temp = random.nextBoolean() ? 'a' : 'A';
+                val.append((char) (random.nextInt(26) + temp));
+            } else {
+                // 输出数字
+                val.append(String.valueOf(random.nextInt(10)));
+            }
+        }
+        return val.toString();
+    }
+
+
+    /**
+     * 导入机器底数
+     */
+    @RequestMapping("importMachine")
+    @ResponseBody
+    public BaseResponse importMachine(HttpServletRequest request,MultipartFile file, String positionCode) {
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        try {
+            if (null == file) return BaseResponse.fail("读取Excel异常！");
+            InputStream inputStream = file.getInputStream();// 得到输入流
+            if(null != inputStream) {
+                ExcelReadResult<MachineDataModel> excelRead = ExcelUtil.readList("machineData.xml", inputStream, MachineDataModel.class);
+                if (excelRead.isStatus() && !excelRead.getResult().isEmpty()) {
+                    // 写入数据
+                    BaseResponse<Integer> result = this.writeExcelDataMachine(excelRead.getResult(),positionCode,userNo);
+                    if (result.getCode().equals("0000") && null != result.getData()) {
+                        return BaseResponse.ok("成功导入" + result.getData() + "条数据！");
+                    } else {
+                        return BaseResponse.fail("数据导入异常！");
+                    }
+                }
+            }
+            return BaseResponse.fail("excel文件内容为空!");
+        } catch (Exception e) {
+            return BaseResponse.fail("导入失败！");
+        }
+    }
+
+    public BaseResponse<Integer> writeExcelDataMachine(List<MachineDataModel> list,String positionCode,String userNo) {
+        if(null == list && list.size() ==0 ){
+            return BaseResponse.fail("数据为空");
+        }
+        int num = 0;
+        List<MachineDataModel> strategyList = new ArrayList<>();
+        String proCode = getProCodeNum();//获取批次公文号
+        for (MachineDataModel model : list) {
+            MachineDataModel strategy = new MachineDataModel();
+            strategy.setWxName(model.getWxName().trim());
+            strategy.setZplValue(model.getZplValue().trim());
+            strategy.setDplValue(model.getDplValue().trim());
+            strategy.setTkplValue(model.getTkplValue().trim());
+            strategy.setXhType(model.getXhType().trim());
+            strategy.setMslValue(model.getMslValue().trim());
+            strategy.setZzbValue(model.getZzbValue().trim());
+            strategy.setTzysName(model.getTzysName().trim());
+            strategy.setCjTime(model.getCjTime());
+            strategy.setPositionCode(positionCode);
+            strategy.setProCode(proCode);
+            strategy.setUserNo(userNo);
             strategyList.add(strategy);
         }
-        //调用接口写入数据
-        return null;
+        if (null != strategyList && strategyList.size() >0){
+            num = dataService.insertMachineData(strategyList);
+        }
+        if(num > 0){
+            MessageEntity messageEntity = new MessageEntity();
+            messageEntity.setUserNo(userNo);
+            messageEntity.setTitle("上报机器数据");
+            messageEntity.setContent(userNo+":上报机器数据,公文号为"+proCode);
+            messageEntity.setOperationType(1);
+            messageService.insertMessage(messageEntity);
+            return BaseResponse.ok(num);
+        }else {
+            return BaseResponse.fail("入库失败");
+        }
     }
+
 }

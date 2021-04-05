@@ -82,7 +82,7 @@
     $('#cbgUser').combogrid({
         delay: 250,
         mode: 'remote',
-        url: '/admin/user/getUserList',
+        url: '/admin/user/getUserArr',
         idField: 'userNo',
         textField: 'userName',
         striped:true,
@@ -97,7 +97,7 @@
     $('#cbgRole').combogrid({
         delay: 250,
         mode: 'remote',
-        url: '/admin/role/queryRole',
+        url: '/admin/role/queryRoleArr',
         idField: 'roleCode',
         textField: 'roleName',
         striped:true,

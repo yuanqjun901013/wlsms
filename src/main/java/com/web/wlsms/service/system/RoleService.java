@@ -1,8 +1,11 @@
 package com.web.wlsms.service.system;
 
 import com.github.pagehelper.PageInfo;
+import com.web.wlsms.entity.AdminRoleUserEntity;
 import com.web.wlsms.request.AdminRoleRequest;
 import com.web.wlsms.request.SimpleRequest;
+
+import java.util.List;
 
 public interface RoleService {
 
@@ -14,6 +17,8 @@ public interface RoleService {
      */
 //    PageInfo getRoleList(AdminRoleRequest request);
     PageInfo getRoleList(SimpleRequest request);
+
+    List<AdminRoleUserEntity> queryRoleArr();
 
     /**
      * 添加角色

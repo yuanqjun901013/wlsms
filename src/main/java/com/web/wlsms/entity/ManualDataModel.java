@@ -40,4 +40,5 @@ public class ManualDataModel {
     private String positionCode;
     private String state;
     private long id;
+    private String userNo;
 }

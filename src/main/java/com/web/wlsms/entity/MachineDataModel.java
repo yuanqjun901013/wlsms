@@ -32,4 +32,5 @@ public class MachineDataModel {
     private String positionCode;
     private String state;
     private long id;
+    private String userNo;
 }

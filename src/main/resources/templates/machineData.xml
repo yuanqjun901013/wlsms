@@ -2,7 +2,7 @@
 <workbook>
 <worksheet name="Sheet1">
 <section startRow="0" endRow="0"></section>
-<loop startRow="1" endRow="1" items="list" var="item" varType="com.web.wlsms.entity.ManualDataModel">
+<loop startRow="1" endRow="1" items="list" var="item" varType="com.web.wlsms.entity.MachineDataModel">
     <section startRow="1" endRow="1">
         <mapping row="1" col="0">item.wxName</mapping>
         <mapping row="1" col="1">item.zplValue</mapping>

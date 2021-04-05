@@ -1,6 +1,7 @@
 package com.web.wlsms.controller.system;
 
 import com.github.pagehelper.PageInfo;
+import com.web.wlsms.entity.AdminRoleUserEntity;
 import com.web.wlsms.request.AdminRoleRequest;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -45,6 +47,25 @@ public class RoleController {
         return resultMap;
     }
 
+
+    /**
+     * 查询角色列表供下拉框选择
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/queryRoleArr")
+    public Map<String,Object> queryRoleArr() {
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            List<AdminRoleUserEntity> getRoleList = roleService.queryRoleArr();
+            resultMap.put("rows", getRoleList);
+        } catch (Exception e) {
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
 
     /**
      * 添加角色

@@ -52,6 +52,7 @@
         <result property="positionCode" column="position_code" javaType="String"/>
         <result property="proCode" column="pro_code" javaType="String"/>
         <result property="state" column="state" javaType="String"/>
+        <result property="userNo" column="user_no" javaType="String"/>
     </resultMap>
 
 
@@ -69,6 +70,7 @@
         <result property="positionCode" column="position_code" javaType="String"/>
         <result property="proCode" column="pro_code" javaType="String"/>
         <result property="state" column="state" javaType="String"/>
+        <result property="userNo" column="user_no" javaType="String"/>
     </resultMap>
 
     <!-- 查询数据-->
@@ -193,10 +195,19 @@
                wzl_value,
                position_code,
                pro_code,
-               state
+               state,
+               user_no
         FROM wlsms_manual_data
-        where DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%S')
-          and DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%S')
+         where 1=1
+        <if test="queryBt != null and queryBt != ''">
+            and (sxzfq_name like concat('%',#{queryBt},'%') or system_name like concat('%',#{queryBt},'%') )
+        </if>
+        <if test="startTime != null and startTime != ''">
+         and DATE_FORMAT(cj_time,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and DATE_FORMAT(cj_time,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d')
+        </if>
         order by id desc
     </select>
 
@@ -215,12 +226,107 @@
     zzb_value,
     tzys_name,
     position_code,
-    data_value,
-    state
+    pro_code,
+    state,
+    user_no
     FROM
     wlsms_machine_data
-    where DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%S')
-      and DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%S')
+        where 1=1
+        <if test="queryBt != null and queryBt != ''">
+            and (wx_name like concat('%',#{queryBt},'%') or tzys_name like concat('%',#{queryBt},'%') )
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and DATE_FORMAT(cj_time,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and DATE_FORMAT(cj_time,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d')
+        </if>
     order by id desc
     </select>
+
+
+    <insert id="insertManualData" parameterType="java.util.List">
+        INSERT INTO wlsms_manual_data (
+        sxzfq_name,
+        sxpl_value,
+        bpqpl_value,
+        zpl_value,
+        xxpl_value,
+        system_name,
+        tzsl_value,
+        xxsl_value,
+        tzfs_name,
+        xdbm_code,
+        xzb_value,
+        cj_time,
+        wzl_value,
+        position_code,
+        pro_code,
+        user_no,
+        create_time,
+        edit_time
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.sxzfqName},
+            #{item.sxplValue},
+            #{item.bpqplValue},
+            #{item.zplValue},
+            #{item.xxplValue},
+            #{item.systemName},
+            #{item.tzslValue},
+            #{item.xxslValue},
+            #{item.tzfsName},
+            #{item.xdbmCode},
+            #{item.xzbValue},
+            #{item.cjTime},
+            #{item.wzlValue},
+            #{item.positionCode},
+            #{item.proCode},
+            #{item.userNo},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+
+
+    <insert id="insertMachineData" parameterType="java.util.List">
+        INSERT INTO wlsms_machine_data (
+        wx_name,
+        zpl_value,
+        dpl_value,
+        tkpl_value,
+        xh_type,
+        msl_value,
+        zzb_value,
+        tzys_name,
+        cj_time,
+        position_code,
+        pro_code,
+        user_no,
+        create_time,
+        edit_time
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.wxName},
+            #{item.zplValue},
+            #{item.dplValue},
+            #{item.tkplValue},
+            #{item.xhType},
+            #{item.mslValue},
+            #{item.zzbValue},
+            #{item.tzysName},
+            #{item.cjTime},
+            #{item.positionCode},
+            #{item.proCode},
+            #{item.userNo},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
 </mapper>

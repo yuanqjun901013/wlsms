@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
         return new PageInfo<>(getUserList);
     }
 
+    public List<UserEntity> getUserArr(){
+        Map map = new HashMap();
+       return userDao.getUserList(map);
+    }
+
     @Override
     public int saveUser(UserEntity userEntity){
         return userDao.saveUser(userEntity);

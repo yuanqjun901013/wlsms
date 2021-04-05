@@ -47,6 +47,17 @@ public class RoleServiceImpl implements RoleService {
         return new PageInfo<>(list);
     }
 
+    public List<AdminRoleUserEntity> queryRoleArr() {
+        List<AdminRoleUserEntity> list = roleDao.queryRoleList();
+        if(null != list && list.size()>0){
+            for(AdminRoleUserEntity ar:list){
+                List<String> menuNames = roleDao.getMenusByRole(ar.getRoleCode());
+                ar.setMenuInfo(menuNames.toString());
+            }
+        }
+        return list;
+    }
+
     @Transactional
     @Override
     public int addRole(AdminRoleRequest request) {

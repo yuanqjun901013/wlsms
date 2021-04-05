@@ -107,7 +107,7 @@ public class ExcelUtil {
         result.setResult(new ArrayList<T>());
         InputStream inputXML = null;
         try {
-            inputXML = ExcelUtil.class.getClassLoader().getResourceAsStream("templates/excel/read/" + templateFileName);
+            inputXML = ExcelUtil.class.getClassLoader().getResourceAsStream("templates/" + templateFileName);
             XLSReader mainReader = ReaderBuilder.buildFromXML(inputXML);
             Map<String, Object> beans = new HashMap<String, Object>();
             List<T> list = new ArrayList<T>();

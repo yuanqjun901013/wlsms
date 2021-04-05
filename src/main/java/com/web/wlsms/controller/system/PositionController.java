@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,6 +26,25 @@ public class PositionController {
             PageInfo getPositionList = positionService.getPositionList(params);
             resultMap.put("total", getPositionList.getTotal());
             resultMap.put("rows", getPositionList.getList());
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 供下拉列表适用
+     * @param
+     * @return
+     */
+
+    @RequestMapping("getPositionArr")
+    public Map<String,Object> getPositionArr(){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            List<PositionEntity> getPositionList = positionService.getPositionArr();
+            resultMap.put("rows", getPositionList);
         }catch (Exception e){
             resultMap.put("total", 0);
             resultMap.put("rows", "");

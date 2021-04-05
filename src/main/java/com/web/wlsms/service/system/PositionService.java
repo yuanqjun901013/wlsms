@@ -34,6 +34,11 @@ public class PositionService {
 		List<PositionEntity> list = positionDao.getPositionList(request.getRequest());
 		return new PageInfo<>(list);
 	}
+	public List<PositionEntity> getPositionArr() {
+		Map map = new HashMap();
+		List<PositionEntity> list = positionDao.getPositionList("");
+		return list;
+	}
 
 	public BaseResponse updatePosition(PositionEntity positionEntity){
 		int num = positionDao.updatePosition(positionEntity);
