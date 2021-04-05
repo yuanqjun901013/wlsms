@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<workbook>
+<worksheet name="Sheet1">
+<section startRow="0" endRow="0"></section>
+<loop startRow="1" endRow="1" items="list" var="item" varType="com.web.wlsms.entity.ManualDataModel">
+    <section startRow="1" endRow="1">
+        <mapping row="1" col="0">item.sxzfqName</mapping>
+        <mapping row="1" col="1">item.sxplValue</mapping>
+        <mapping row="1" col="2">item.bpqplValue</mapping>
+        <mapping row="1" col="3">item.zplValue</mapping>
+        <mapping row="1" col="4">item.xxplValue</mapping>
+        <mapping row="1" col="5">item.tzslValue</mapping>
+        <mapping row="1" col="6">item.xxslValue</mapping>
+        <mapping row="1" col="7">item.tzfsName</mapping>
+        <mapping row="1" col="8">item.xdbmCode</mapping>
+        <mapping row="1" col="9">item.xzbValue</mapping>
+        <mapping row="1" col="10">item.cjTime</mapping>
+        <mapping row="1" col="11">item.wzlValue</mapping>
+    </section>
+    <loopbreakcondition>
+        <rowcheck offset="0">
+            <cellcheck offset="0"></cellcheck>
+            <cellcheck offset="1"></cellcheck>
+            <cellcheck offset="2"></cellcheck>
+            <cellcheck offset="3"></cellcheck>
+            <cellcheck offset="4"></cellcheck>
+            <cellcheck offset="5"></cellcheck>
+            <cellcheck offset="6"></cellcheck>
+            <cellcheck offset="7"></cellcheck>
+            <cellcheck offset="8"></cellcheck>
+            <cellcheck offset="9"></cellcheck>
+            <cellcheck offset="10"></cellcheck>
+            <cellcheck offset="11"></cellcheck>
+        </rowcheck>
+    </loopbreakcondition>
+</loop>
+</worksheet>
+</workbook>

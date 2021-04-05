@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
     <script type="text/javascript" src="../../jquery.min.js"></script>
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../echarts.min.js"></script>
     <SCRIPT th:inline="javascript">
         $(function(){
             //屏蔽右键菜单
@@ -16,112 +17,108 @@
     </SCRIPT>
 </head>
 <body>
-<table id="dg" class="easyui-datagrid" style="width:700px;height:auto" rownumbers="true" pagination="true"
-       data-options="
-				singleSelect: true,
-				toolbar: '#tb',
-				url: '../../demo/datagrid/datagrid_data1.json',
-				method: 'get',
-				onClickCell: onClickCell,
-				onEndEdit: onEndEdit,
-				fit:true,
-				fitColumns:true
-			">
-    <thead>
-    <tr>
-        <th data-options="field:'itemid',width:80">Item ID</th>
-        <th data-options="field:'productid',width:100,
-						formatter:function(value,row){
-							return row.productname;
-						},
-						editor:{
-							type:'combobox',
-							options:{
-								valueField:'productid',
-								textField:'productname',
-								method:'get',
-								url:'products.json',
-								required:true
-							}
-						}">Product</th>
-        <th data-options="field:'listprice',width:80,align:'right',editor:{type:'numberbox',options:{precision:2}}">List Price</th>
-        <th data-options="field:'unitcost',width:80,align:'right',editor:{type:'numberbox',options:{precision:2}}">Unit Cost</th>
-        <th data-options="field:'attr1',width:250,editor:'textbox'">Attribute</th>
-        <th data-options="field:'status',width:60,align:'center',editor:{type:'checkbox',options:{on:'P',off:''}}">Status</th>
-    </tr>
-    </thead>
-</table>
-
-<div id="tb" style="height:auto">
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">添加</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">删除</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="acceptit()">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">撤销</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="getChanges()">查询</a>
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'west',split:true" style="width:50%">
+        <div id="container" style="width: 400px;height:400px" data-options="region:'center',split:true,fit:true"></div>
+    </div>
+    <div data-options="region:'center'">
+        <div id="data" style="width: 400px;height: 400px" data-options="region:'center',split:true,fit:true"></div>
+    </div>
 </div>
-
-<script type="text/javascript">
-    var editIndex = undefined;
-    function endEditing(){
-        if (editIndex == undefined){return true}
-        if ($('#dg').datagrid('validateRow', editIndex)){
-            $('#dg').datagrid('endEdit', editIndex);
-            editIndex = undefined;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    function onClickCell(index, field){
-        if (editIndex != index){
-            if (endEditing()){
-                $('#dg').datagrid('selectRow', index)
-                    .datagrid('beginEdit', index);
-                var ed = $('#dg').datagrid('getEditor', {index:index,field:field});
-                if (ed){
-                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+<script th:inline="javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option;
+    option = {
+        title: {
+            text: '系统总览',
+            subtext: '可供统计参考',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: '50%',
+                data: [
+                    {value: 1048, name: '用户数'},
+                    {value: 735, name: '告警数'},
+                    {value: 580, name: '角色数'},
+                    {value: 484, name: '底数'},
+                    {value: 300, name: '任务数'}
+                ],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 }
-                editIndex = index;
-            } else {
-                setTimeout(function(){
-                    $('#dg').datagrid('selectRow', editIndex);
-                },0);
             }
-        }
+        ]
+    };
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
     }
-    function onEndEdit(index, row){
-        var ed = $(this).datagrid('getEditor', {
-            index: index,
-            field: 'productid'
-        });
-        row.productname = $(ed.target).combobox('getText');
-    }
-    function append(){
-        if (endEditing()){
-            $('#dg').datagrid('appendRow',{status:'P'});
-            editIndex = $('#dg').datagrid('getRows').length-1;
-            $('#dg').datagrid('selectRow', editIndex)
-                .datagrid('beginEdit', editIndex);
-        }
-    }
-    function removeit(){
-        if (editIndex == undefined){return}
-        $('#dg').datagrid('cancelEdit', editIndex)
-            .datagrid('deleteRow', editIndex);
-        editIndex = undefined;
-    }
-    function acceptit(){
-        if (endEditing()){
-            $('#dg').datagrid('acceptChanges');
-        }
-    }
-    function reject(){
-        $('#dg').datagrid('rejectChanges');
-        editIndex = undefined;
-    }
-    function getChanges(){
-        var rows = $('#dg').datagrid('getChanges');
-        alert(rows.length+' rows are changed!');
+
+
+    //底数录入情况统计
+    var dataDom = document.getElementById("data");
+    var dataChart = echarts.init(dataDom);
+    var dataApp = {};
+    var dataOption;
+    dataOption = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    {value: 1048, name: '人工底数'},
+                    {value: 735, name: '机器底数'},
+                    {value: 300, name: '已校对'}
+                ]
+            }
+        ]
+    };
+
+    if (dataOption && typeof dataOption === 'object') {
+        dataChart.setOption(dataOption);
     }
 </script>
 </body>
