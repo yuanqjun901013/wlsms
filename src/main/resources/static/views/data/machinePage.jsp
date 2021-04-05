@@ -21,7 +21,7 @@
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addMachine()">上报机器数据</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteMachine()">删除</a>
+      <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteMachine()">删除</a>-->
         <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:250px;">
         <input class="easyui-datebox" id="endTime" label="结束日前:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:250px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
@@ -64,6 +64,7 @@
                 singleSelect:true,
                 remoteFilter: true,
                 clientPaging: false,
+                nowrap:false,//自动换行
                 toolbar:'#toolbar',
                 columns:[[
                     {field:'id',title:'编号',width:80,align:'center'},
@@ -76,8 +77,16 @@
                     {field:'mslValue',title:'码速率',width:80,align:'center'},
                     {field:'zzbValue',title:'载噪比',width:80,align:'center'},
                     {field:'tzysName',title:'调制样式',width:80,align:'center'},
-                    {field:'cjTime',title:'采集时间',width:80,align:'center'},
-                    {field:'proCode',title:'公文批次号',width:100,align:'center'}
+                    {field:'state',title:'状态',formatter:function(value,row,index)
+                        {
+                            if(row.state == 0){
+                                return "未校对";
+                            }else {
+                                return "已校对";
+                            }
+                        },width:50,align:'center'},
+                    {field:'cjTime',title:'采集时间',width:150,align:'center'},
+                    {field:'proCode',title:'公文批次号',width:200,align:'center'}
                 ]]
             });
         }

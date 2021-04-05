@@ -259,6 +259,9 @@ public class DataController {
             strategyList.add(strategy);
             }
         if (null != strategyList && strategyList.size() >0){
+            //排重
+            Set<ManualDataModel> setData = new HashSet<ManualDataModel>();
+            setData.addAll(strategyList);
            num = dataService.insertManualData(strategyList);
         }
         if(num > 0){
@@ -368,6 +371,9 @@ public class DataController {
             strategyList.add(strategy);
         }
         if (null != strategyList && strategyList.size() >0){
+            //排重
+            Set<MachineDataModel> setData = new HashSet<MachineDataModel>();
+            setData.addAll(strategyList);
             num = dataService.insertMachineData(strategyList);
         }
         if(num > 0){
