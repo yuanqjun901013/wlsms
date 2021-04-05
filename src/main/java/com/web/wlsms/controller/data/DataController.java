@@ -53,6 +53,54 @@ public class DataController {
     }
 
     /**
+     * 人工上报数据
+     * @param params
+     * @return
+     */
+    @RequestMapping("getManualDataList")
+    public Map<String,Object> getManualDataList(SimpleRequest params){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            Map map = new HashMap();
+            map.put("startTime","2021-02-01 00:00:01");
+            map.put("endTime","2021-02-23 12:00:01");
+            params.setRequest(map);
+            PageInfo getDataList = dataService.getManualDataList(params);
+            resultMap.put("total", getDataList.getTotal());
+            resultMap.put("rows", getDataList.getList());
+
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 机器上报数据
+     * @param params
+     * @return
+     */
+    @RequestMapping("getMachineDataList")
+    public Map<String,Object> getMachineDataList(SimpleRequest params){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            Map map = new HashMap();
+            map.put("startTime","2021-02-01 00:00:01");
+            map.put("endTime","2021-02-23 12:00:01");
+            params.setRequest(map);
+            PageInfo getDataList = dataService.getMachineDataList(params);
+            resultMap.put("total", getDataList.getTotal());
+            resultMap.put("rows", getDataList.getList());
+
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    /**
      * 数据分析处理列表
      * @param params
      * @return
@@ -129,7 +177,7 @@ public class DataController {
     }
 
     /**
-     * 添加数据
+     * 添加主表数据
      * @param params
      * @return
      */

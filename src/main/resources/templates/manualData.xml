@@ -9,13 +9,14 @@
         <mapping row="1" col="2">item.bpqplValue</mapping>
         <mapping row="1" col="3">item.zplValue</mapping>
         <mapping row="1" col="4">item.xxplValue</mapping>
-        <mapping row="1" col="5">item.tzslValue</mapping>
-        <mapping row="1" col="6">item.xxslValue</mapping>
-        <mapping row="1" col="7">item.tzfsName</mapping>
-        <mapping row="1" col="8">item.xdbmCode</mapping>
-        <mapping row="1" col="9">item.xzbValue</mapping>
-        <mapping row="1" col="10">item.cjTime</mapping>
-        <mapping row="1" col="11">item.wzlValue</mapping>
+        <mapping row="1" col="5">item.systemName</mapping>
+        <mapping row="1" col="6">item.tzslValue</mapping>
+        <mapping row="1" col="7">item.xxslValue</mapping>
+        <mapping row="1" col="8">item.tzfsName</mapping>
+        <mapping row="1" col="9">item.xdbmCode</mapping>
+        <mapping row="1" col="10">item.xzbValue</mapping>
+        <mapping row="1" col="11">item.cjTime</mapping>
+        <mapping row="1" col="12">item.wzlValue</mapping>
     </section>
     <loopbreakcondition>
         <rowcheck offset="0">
@@ -31,6 +32,7 @@
             <cellcheck offset="9"></cellcheck>
             <cellcheck offset="10"></cellcheck>
             <cellcheck offset="11"></cellcheck>
+            <cellcheck offset="12"></cellcheck>
         </rowcheck>
     </loopbreakcondition>
 </loop>

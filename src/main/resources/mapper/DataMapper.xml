@@ -34,6 +34,43 @@
         <result property="positionCode" column="position_code" javaType="String"/>
     </resultMap>
 
+    <resultMap type="com.web.wlsms.entity.ManualDataModel" id="ManualDataMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="sxzfqName" column="sxzfq_name" javaType="String"/>
+        <result property="sxplValue" column="sxpl_value" javaType="String"/>
+        <result property="bpqplValue" column="bpqpl_value" javaType="String"/>
+        <result property="zplValue" column="zpl_value" javaType="String"/>
+        <result property="xxplValue" column="xxpl_value" javaType="String"/>
+        <result property="systemName" column="system_name" javaType="String"/>
+        <result property="tzslValue" column="tzsl_value" javaType="String"/>
+        <result property="xxslValue" column="xxsl_value" javaType="String"/>
+        <result property="tzfsName" column="tzfs_name" javaType="String"/>
+        <result property="xdbmCode" column="xdbm_code" javaType="String"/>
+        <result property="xzbValue" column="xzb_value" javaType="String"/>
+        <result property="cjTime" column="cjTime" javaType="String"/>
+        <result property="wzlValue" column="wzl_value" javaType="String"/>
+        <result property="positionCode" column="position_code" javaType="String"/>
+        <result property="proCode" column="pro_code" javaType="String"/>
+        <result property="state" column="state" javaType="String"/>
+    </resultMap>
+
+
+    <resultMap type="com.web.wlsms.entity.MachineDataModel" id="MachineDataMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="wxName" column="wx_name" javaType="String"/>
+        <result property="zplValue" column="zpl_value" javaType="String"/>
+        <result property="dplValue" column="dpl_value" javaType="String"/>
+        <result property="tkplValue" column="tkpl_value" javaType="String"/>
+        <result property="xhType" column="xh_type" javaType="String"/>
+        <result property="mslValue" column="msl_value" javaType="String"/>
+        <result property="cjTime" column="cjTime" javaType="String"/>
+        <result property="zzbValue" column="zzb_value" javaType="String"/>
+        <result property="tzysName" column="tzys_name" javaType="String"/>
+        <result property="positionCode" column="position_code" javaType="String"/>
+        <result property="proCode" column="pro_code" javaType="String"/>
+        <result property="state" column="state" javaType="String"/>
+    </resultMap>
+
     <!-- 查询数据-->
     <select id="getDataList" resultMap="DataMap" parameterType="java.util.HashMap">
         SELECT id,
@@ -137,4 +174,53 @@
             #{dataValue}
         )
     </insert>
+
+
+    <select id="getManualDataList" resultMap="ManualDataMap" parameterType="java.util.HashMap">
+        SELECT id,
+               sxzfq_name,
+               sxpl_value,
+               bpqpl_value,
+               zpl_value,
+               xxpl_value,
+               system_name,
+               tzsl_value,
+               xxsl_value,
+               tzfs_name,
+               xdbm_code,
+               xzb_value,
+               DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') as cjTime,
+               wzl_value,
+               position_code,
+               pro_code,
+               state
+        FROM wlsms_manual_data
+        where DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%S')
+          and DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%S')
+        order by id desc
+    </select>
+
+
+
+    <select id="getMachineDataList" resultMap="MachineDataMap" parameterType="java.util.HashMap">
+    SELECT
+    id,
+    wx_name,
+    zpl_value,
+    dpl_value,
+    tkpl_value,
+    xh_type,
+    msl_value,
+    DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') as cjTime,
+    zzb_value,
+    tzys_name,
+    position_code,
+    data_value,
+    state
+    FROM
+    wlsms_machine_data
+    where DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%S')
+      and DATE_FORMAT(cj_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%S')
+    order by id desc
+    </select>
 </mapper>

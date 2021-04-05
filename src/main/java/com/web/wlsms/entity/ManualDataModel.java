@@ -34,4 +34,10 @@ public class ManualDataModel {
     private String cjTime;
     //误帧率
     private String wzlValue;
+    //公文批次号
+    private String proCode;
+    //阵地编码
+    private String positionCode;
+    private String state;
+    private long id;
 }

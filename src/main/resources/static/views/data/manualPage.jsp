@@ -12,18 +12,18 @@
         $(function(){
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
-            getDataList();
+            getManualDataList();
         })
     </SCRIPT>
 </head>
 
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div id="getDataList" data-options="region:'center',split:true"></div>
+    <div id="getManualDataList" data-options="region:'center',split:true"></div>
 <script type="text/javascript" th:inline="none">
-    function getDataList() {//展示列表
-      var dg =  $('#getDataList').datagrid({
-            url:'/data/data/getDataList',//参数
+    function getManualDataList() {//展示列表
+      $('#getManualDataList').datagrid({
+            url:'/data/data/getManualDataList',//参数
             method: 'post',
             //携带参数
             queryParams: {
@@ -48,17 +48,11 @@
                 {field:'xxslValue',title:'信息速率',width:80,align:'center'},
                 {field:'tzfsName',title:'调制方式',width:80,align:'center'},
                 {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
-                {field:'content',title:'内容',width:80,align:'center'},
                 {field:'xzbValue',title:'信噪比',width:80,align:'center'},
-                {field:'errorContent',title:'错误信息',width:80,align:'center'},
-                {field:'remark',title:'备注',width:80,align:'center'},
                 {field:'cjTime',title:'采集时间',width:80,align:'center'},
                 {field:'wzlValue',title:'误帧率',width:80,align:'center'},
-                {field:'qrxdValue',title:'嵌入信道',width:80,align:'center'},
-                {field:'qrxdContent',title:'嵌入信道',width:80,align:'center'},
-                {field:'zhsjContent',title:'载荷数据',width:80,align:'center'},
                 {field:'createTime',title:'上报时间',width:150,align:'center'},
-                {field:'todo',title:'操作',width:100,align:'center'}
+                {field:'proCode',title:'批次公文号',width:100,align:'center'}
             ]]
         });
     }

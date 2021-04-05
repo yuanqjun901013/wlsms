@@ -26,4 +26,10 @@ public class MachineDataModel {
     private String tzysName;
     //采集时间
     private String cjTime;
+    //公文批次号
+    private String proCode;
+    //阵地编码
+    private String positionCode;
+    private String state;
+    private long id;
 }
