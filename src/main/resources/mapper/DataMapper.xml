@@ -32,6 +32,8 @@
         <result property="createTime" column="createTime" javaType="String"/>
         <result property="editTime" column="editTime" javaType="String"/>
         <result property="positionCode" column="position_code" javaType="String"/>
+        <result property="proCodeManual" column="pro_code_manual" javaType="String"/>
+        <result property="proCodeMachine" column="pro_code_machine" javaType="String"/>
     </resultMap>
 
     <resultMap type="com.web.wlsms.entity.ManualDataModel" id="ManualDataMap">
@@ -104,10 +106,20 @@
                data_value,
                position_code,
                DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime ,
-               DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+               DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime,
+               pro_code_machine,
+               pro_code_manual
         FROM wlsms_data
-        where DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%S')
-        and DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%S')
+        where 1=1
+        <if test="queryBt != null and queryBt != ''">
+            and (sxzfq_name like concat('%',#{queryBt},'%') or system_name like concat('%',#{queryBt},'%') )
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and DATE_FORMAT(cj_time,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and DATE_FORMAT(cj_time,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d')
+        </if>
         order by id desc
     </select>
 
@@ -142,7 +154,9 @@
              create_time,
              edit_time,
              position_code,
-             data_value)
+             data_value,
+             pro_code_manual,
+             pro_code_machine)
              VALUES
             (
             #{sxzfqName},
@@ -173,7 +187,9 @@
             now(),
             now(),
             #{positionCode},
-            #{dataValue}
+            #{dataValue},
+            #{proCodeManual},
+            #{proCodeMachine}
         )
     </insert>
 

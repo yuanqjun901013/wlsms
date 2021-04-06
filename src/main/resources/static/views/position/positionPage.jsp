@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>WLSMS</title>
+    <title></title>
     <link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
     <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
@@ -28,12 +28,12 @@
     <div id="dlg" class="easyui-dialog" style="width:400px; height: 300px"
          data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
         <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
-            <h3>阵地信息</h3>
+            <h3>位置信息</h3>
             <div style="margin-bottom:15px">
-                <input id="positionName" class="easyui-textbox" type="text" name="positionName" data-options="required:true" label="阵地名称:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+                <input id="positionName" class="easyui-textbox" type="text" name="positionName" data-options="required:true" label="位置名称:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
             </div>
             <div style="margin-bottom:15px">
-                <input id="positionCode" class="easyui-textbox" type="text" name="positionCode" data-options="required:true" label="阵地编码:" labelPosition="left" style="width:230px;">
+                <input id="positionCode" class="easyui-textbox" type="text" name="positionCode" data-options="required:true" label="位置编码:" labelPosition="left" style="width:230px;">
             </div>
 
         </form>
@@ -43,7 +43,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
 <script type="text/javascript" th:inline="none">
-    function getPositionList() {//展示阵地列表
+    function getPositionList() {//展示列表
         var queryBt = $('#queryBt').textbox('getValue');
        $('#getPositionList').datagrid({
             url:'/admin/position/getPositionList',//参数
@@ -63,8 +63,8 @@
            toolbar:'#toolbar',
             columns:[[
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'positionName',title:'阵地名称',width:80,align:'center'},
-                {field:'positionCode',title:'阵地编码',width:80,align:'center'}
+                {field:'positionName',title:'位置名称',width:80,align:'center'},
+                {field:'positionCode',title:'位置编码',width:80,align:'center'}
             ]]
         });
     }
@@ -132,7 +132,7 @@
     function destroyPosition(){
         var row = $('#getPositionList').datagrid('getSelected');
         if (row){
-            $.messager.confirm('Confirm','确定删除该阵地信息?',function(r){
+            $.messager.confirm('Confirm','确定删除该位置信息?',function(r){
                 if (r){
                     $.post('/admin/position/destroyPosition',{id:row.id},function(result){
                         if (result.success){
@@ -152,11 +152,11 @@
     <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
         <h3>用户信息</h3>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="positionName" data-options="required:true" label="阵地名称:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="positionName" data-options="required:true" label="位置名称:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
 
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="positionCode" readonly="readonly" label="阵地编码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="positionCode" readonly="readonly" label="位置编码:" labelPosition="left" style="width:230px;">
         </div>
     </form>
 </div>

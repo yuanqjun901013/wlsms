@@ -320,7 +320,7 @@
 	<div class="login-box"  >
 		<div class="login-title">
 			<h1 class="text-center">
-				<small><span>WLSMS测试预览平台</span></small>
+				<small><span>测试预览平台</span></small>
 			</h1>
 		</div>
 		<div class="login-content" id="myDiv">

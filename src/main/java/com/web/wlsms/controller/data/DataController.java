@@ -8,6 +8,7 @@ import com.web.wlsms.entity.DataEntity;
 import com.web.wlsms.entity.MachineDataModel;
 import com.web.wlsms.entity.ManualDataModel;
 import com.web.wlsms.entity.MessageEntity;
+import com.web.wlsms.request.DataProCodeRequest;
 import com.web.wlsms.request.ExcelReadResult;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.request.UpLoadRequest;
@@ -46,13 +47,9 @@ public class DataController {
      * @return
      */
     @RequestMapping("getDataList")
-    public Map<String,Object> getDataList(SimpleRequest params){
+    public Map<String,Object> getDataList(SimpleRequest<Map> params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
-            Map map = new HashMap();
-            map.put("startTime","2021-02-01 00:00:01");
-            map.put("endTime","2021-02-23 12:00:01");
-            params.setRequest(map);
             PageInfo getDataList = dataService.getDataList(params);
             resultMap.put("total", getDataList.getTotal());
             resultMap.put("rows", getDataList.getList());
@@ -162,7 +159,7 @@ public class DataController {
     }
 
     /**
-     * 阵地报表
+     * 报表
      * @param params
      * @return
      */
@@ -387,6 +384,25 @@ public class DataController {
         }else {
             return BaseResponse.fail("入库失败");
         }
+    }
+
+    /**
+     * 校对机器、人工数据汇总
+     * @param request
+     * @return
+     */
+    @RequestMapping("saveBatch")
+    public BaseResponse saveBatch(DataProCodeRequest request){
+        try {
+            int num = dataService.saveBatch(request);
+            if (num > 0) {
+                return BaseResponse.ok("校对成功");
+            }
+            return BaseResponse.fail("校对汇总失败！");
+        } catch (Exception e) {
+            return BaseResponse.fail("操作失败！");
+        }
+
     }
 
 }

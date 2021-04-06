@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>WLSMS</title>
+    <title></title>
     <link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
     <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
@@ -36,7 +36,7 @@
                 clientPaging: false,
                 columns:[[
                     {field:'id',title:'编号',width:80,align:'center'},
-                    {field:'positionCode',title:'阵地编码',width:80,align:'center'},
+                    {field:'positionCode',title:'位置编码',width:80,align:'center'},
                     {field:'createTime',title:'上报时间',width:80,align:'center'},
                     {field:'todo',title:'操作',width:100,align:'center'}
                 ]]

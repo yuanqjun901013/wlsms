@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>卫星智能处理系统</title>
+    <title>智能处理系统</title>
     <link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">

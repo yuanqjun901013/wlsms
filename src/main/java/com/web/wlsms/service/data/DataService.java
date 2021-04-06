@@ -7,6 +7,7 @@ import com.web.wlsms.entity.DataEntity;
 import com.web.wlsms.entity.MachineDataModel;
 import com.web.wlsms.entity.ManualDataModel;
 import com.web.wlsms.entity.MessageEntity;
+import com.web.wlsms.request.DataProCodeRequest;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.request.UpLoadRequest;
 import com.web.wlsms.response.BaseResponse;
@@ -35,8 +36,23 @@ public class DataService {
 
 	public PageInfo getDataList(SimpleRequest<Map> request) {
 		PageHelper.startPage(request.getPage(), request.getRows());
-		List<DataEntity> list = dataDao.getDataList(request.getRequest());
+		Map<String,Object> param = new HashMap<>();
+		try {
+			if(StringUtils.isNotBlank(request.getQueryBt())){
+				param.put("queryBt",request.getQueryBt());
+			}
+			if(StringUtils.isNotBlank(request.getStartTime())){
+				param.put("startTime",request.getStartTime());
+			}
+			if(StringUtils.isNotBlank(request.getEndTime())){
+
+				param.put("endTime",request.getEndTime());
+			}
+		List<DataEntity> list = dataDao.getDataList(param);
 		return new PageInfo<>(list);
+		}catch (Exception e){
+			return new PageInfo();
+		}
 	}
 
 	public PageInfo getManualDataList(SimpleRequest request) {
@@ -115,6 +131,15 @@ public class DataService {
 
 	public int insertMachineData(List<MachineDataModel> machineDataModels){
 		return dataDao.insertMachineData(machineDataModels);
+	}
+
+	public int saveBatch(DataProCodeRequest request){
+		Map map = new HashMap();
+		//查出人工数据
+		List<ManualDataModel> manualDataModels = dataDao.getManualDataList(map);
+		//查出机器数据
+		List<MachineDataModel> machineDataModels = dataDao.getMachineDataList(map);
+		return 1;
 	}
 
 }

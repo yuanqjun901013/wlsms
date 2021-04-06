@@ -22,7 +22,7 @@ public class PositionService {
 	public BaseResponse savePosition(PositionEntity positionEntity){
 		int num = positionDao.insertPosition(positionEntity);
 		if(num >0){
-			return BaseResponse.ok("新增阵地信息成功");
+			return BaseResponse.ok("新增信息成功");
 		}else {
 			return BaseResponse.fail("保存失败");
 		}
@@ -43,7 +43,7 @@ public class PositionService {
 	public BaseResponse updatePosition(PositionEntity positionEntity){
 		int num = positionDao.updatePosition(positionEntity);
 		if(num >0){
-			return BaseResponse.ok("更新阵地信息成功");
+			return BaseResponse.ok("更新信息成功");
 		}else {
 			return BaseResponse.fail("更新失败");
 		}
@@ -52,7 +52,7 @@ public class PositionService {
 	public BaseResponse destroyPosition(PositionEntity positionEntity){
 		int num = positionDao.destroyPosition(positionEntity);
 		if(num >0){
-			return BaseResponse.ok("删除阵地信息成功");
+			return BaseResponse.ok("删除信息成功");
 		}else {
 			return BaseResponse.fail("删除失败");
 		}

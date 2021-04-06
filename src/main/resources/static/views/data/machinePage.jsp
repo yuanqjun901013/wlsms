@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>WLSMS</title>
+    <title></title>
     <link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
     <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
@@ -32,7 +32,7 @@
          data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
         <form id="fm" method="post" action="/data/data/importMachine" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
             <div style="margin-bottom:15px">
-                <input id="cbg" name="positionCode"  label="阵地编码:" style="width:400px;">
+                <input id="cbg" name="positionCode"  label="编码:" style="width:400px;">
             </div>
             <div style="margin-bottom:40px">
                 <input id="file" name="file" class="easyui-filebox" label="文件:" labelPosition="left"  style="width:400px">
@@ -68,8 +68,8 @@
                 toolbar:'#toolbar',
                 columns:[[
                     {field:'id',title:'编号',width:80,align:'center'},
-                    {field:'positionCode',title:'阵地编码',width:80,align:'center'},
-                    {field:'wxName',title:'wx名称',width:80,align:'center'},
+                    {field:'positionCode',title:'位置编码',width:80,align:'center'},
+                    {field:'wxName',title:'名称',width:80,align:'center'},
                     {field:'zplValue',title:'中频',width:80,align:'center'},
                     {field:'dplValue',title:'电平',width:80,align:'center'},
                     {field:'tkplValue',title:'天空频率',width:80,align:'center'},
@@ -154,8 +154,8 @@
             multiple: false,
             fitColumns: true,
             columns: [[
-                {field:'positionName',title:'阵地名称',width:100,sortable:true},
-                {field:'positionCode',title:'阵地编码',width:80,sortable:true}
+                {field:'positionName',title:'位置名称',width:100,sortable:true},
+                {field:'positionCode',title:'位置编码',width:80,sortable:true}
             ]]
         });
 

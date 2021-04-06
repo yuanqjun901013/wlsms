@@ -37,4 +37,6 @@ public class DataEntity {
   private String createTime;
   private String editTime;
   private String positionCode;
+  private String proCodeManual;
+  private String proCodeMachine;
 }

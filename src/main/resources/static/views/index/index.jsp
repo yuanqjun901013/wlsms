@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>WLSMS测试预览平台</title>
+	<title>测试预览平台</title>
 	<link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../../themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../../demo/demo.css">
@@ -340,7 +340,7 @@
 		<tr><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
 			<td align="left" width="200px">
 				<a class="easyui-linkbutton" style="width:200px;height: 98%;" data-options="iconCls:'icon-logo',size:'large',plain:true" onclick="reload();" >
-					WLSMS测试预览平台
+					测试预览平台
 				</a>
 			</td>
 			<!--/*@thymesVar id="menusParentList" type=""*/-->
@@ -400,7 +400,7 @@
 			<td align="middle">
 				<span style="font-family:arial;">&copy;</span>
 				<span style="font-size:12px;color: #000000;"><strong>2020-<label id="logInfo"/></strong></span>&nbsp;
-				<span style="font-size:12px;color: #000000;">WLSMS&nbsp;<strong>版权所有</strong></span>
+				<span style="font-size:12px;color: #000000;">&nbsp;<strong>版权所有</strong></span>
 			</td>
 		</tr>
 	</table>

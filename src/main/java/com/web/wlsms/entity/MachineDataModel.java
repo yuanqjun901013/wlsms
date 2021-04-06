@@ -28,7 +28,7 @@ public class MachineDataModel {
     private String cjTime;
     //公文批次号
     private String proCode;
-    //阵地编码
+    //编码
     private String positionCode;
     private String state;
     private long id;
