@@ -10,6 +10,7 @@
     <script type="text/javascript" src="../../jquery.min.js"></script>
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
     <SCRIPT th:inline="javascript">
+
         $(function(){
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
