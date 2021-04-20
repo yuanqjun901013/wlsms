@@ -135,11 +135,29 @@ public class DataService {
 
 	public int saveBatch(DataProCodeRequest request){
 		Map map = new HashMap();
+		map.put("proCodeManual",request.getProCodeManual());
+		map.put("proCodeMachine",request.getProCodeMachine());
 		//查出人工数据
 		List<ManualDataModel> manualDataModels = dataDao.getManualDataList(map);
 		//查出机器数据
 		List<MachineDataModel> machineDataModels = dataDao.getMachineDataList(map);
 		return 1;
+	}
+
+	/**
+	 * 查询未核对人工数据
+	 * @return
+	 */
+	public List<ManualDataModel> getManualDit(){
+		return dataDao.getManualDit();
+	}
+
+	/**
+	 * 查询未核对机器数据
+	 * @return
+	 */
+	public List<MachineDataModel> getMachineDit(){
+		return dataDao.getMachineDit();
 	}
 
 }

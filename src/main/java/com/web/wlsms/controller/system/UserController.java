@@ -61,6 +61,7 @@ public class UserController {
             List<UserEntity> getUserList = userService.getUserArr();
             resultMap.put("rows", getUserList);
         }catch (Exception e){
+            resultMap.put("rows", "");
         }
         return resultMap;
     }

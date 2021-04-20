@@ -122,15 +122,15 @@
     $('#cbgManual').combogrid({
         delay: 250,
         mode: 'remote',
-        url: '/data/data/getManualDataList',
+        url: '/data/data/getManualDit',
         idField: 'proCode',
         textField: 'proCodeManual',
         striped:true,
-        multiple: true,
         fitColumns: true,
         nowrap:false,//自动换行
         columns: [[
             {field:'proCode',title:'公文号',width:200,sortable:true},
+            {field:'positionCode',title:'位置编码',width:120,sortable:true},
             {field:'cjTime',title:'上报时间',width:120,sortable:true}
         ]]
     });
@@ -138,7 +138,7 @@
     $('#cbgMachine').combogrid({
         delay: 250,
         mode: 'remote',
-        url: '/data/data/getMachineDataList',
+        url: '/data/data/getMachineDit',
         idField: 'proCode',
         textField: 'proCodeMachine',
         striped:true,
@@ -146,6 +146,7 @@
         nowrap:false,//自动换行
         columns: [[
             {field:'proCode',title:'公文号',width:200,sortable:true},
+            {field:'positionCode',title:'位置编码',width:120,sortable:true},
             {field:'cjTime',title:'上报时间',width:120,sortable:true}
         ]]
     });

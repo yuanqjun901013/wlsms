@@ -102,6 +102,42 @@ public class DataController {
     }
 
     /**
+     * 人工未核对数据
+     * @return
+     */
+    @RequestMapping("getManualDit")
+    public Map<String,Object> getManualDit(){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            List<ManualDataModel> getDataList = dataService.getManualDit();
+            resultMap.put("rows", getDataList);
+        }catch (Exception e){
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 机器未核对数据
+     * @return
+     */
+    @RequestMapping("getMachineDit")
+    public Map<String,Object> getMachineDit(){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            List<MachineDataModel> getDataList = dataService.getMachineDit();
+            resultMap.put("rows", getDataList);
+
+        }catch (Exception e){
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+
+
+
+    /**
      * 数据分析处理列表
      * @param params
      * @return
