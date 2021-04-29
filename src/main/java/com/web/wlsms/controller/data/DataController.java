@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.web.wlsms.entity.DataEntity;
-import com.web.wlsms.entity.MachineDataModel;
-import com.web.wlsms.entity.ManualDataModel;
-import com.web.wlsms.entity.MessageEntity;
+import com.web.wlsms.entity.*;
 import com.web.wlsms.request.DataProCodeRequest;
 import com.web.wlsms.request.ExcelReadResult;
 import com.web.wlsms.request.SimpleRequest;
@@ -31,6 +28,7 @@ import java.io.InputStream;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/data/data")
@@ -295,7 +293,21 @@ public class DataController {
             //排重
             Set<ManualDataModel> setData = new HashSet<ManualDataModel>();
             setData.addAll(strategyList);
-           num = dataService.insertManualData(strategyList);
+            List<ManualDataModel> newAddData = new ArrayList<>();
+            newAddData.addAll(setData);
+            //分批次 批量保存
+            if (newAddData.size() > 200) {
+                long total = newAddData.size();
+                long remain = total % 200;
+                long times = total / 200;
+                long realTimes = remain == 0 ? times : times + 1;
+                for (long i = 0; i < realTimes; i++) {
+                    List<ManualDataModel> batchList = newAddData.stream().skip(i * 200).limit(200).collect(Collectors.toList());
+                    num += dataService.insertManualData(batchList);
+                }
+            } else {
+                num += dataService.insertManualData(newAddData);
+            }
         }
         if(num > 0){
             MessageEntity messageEntity = new MessageEntity();
@@ -348,6 +360,32 @@ public class DataController {
             }
         }
         return val.toString();
+    }
+
+    /**
+     * 删除人工底数
+     * @param
+     * @return
+     */
+    @RequestMapping("deleteManual")
+    public BaseResponse deleteManual(ManualDataModel manualDataModel){
+        if(null == manualDataModel){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        return dataService.deleteManual(manualDataModel);
+    }
+
+    /**
+     * 删除机器底数
+     * @param
+     * @return
+     */
+    @RequestMapping("deleteMachine")
+    public BaseResponse deleteMachine(MachineDataModel machineDataModel){
+        if(null == machineDataModel){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        return dataService.deleteMachine(machineDataModel);
     }
 
 
@@ -407,7 +445,21 @@ public class DataController {
             //排重
             Set<MachineDataModel> setData = new HashSet<MachineDataModel>();
             setData.addAll(strategyList);
-            num = dataService.insertMachineData(strategyList);
+            List<MachineDataModel> newAddData= new ArrayList<>();
+            newAddData.addAll(setData);
+            //分批次 批量保存
+            if (newAddData.size() > 200) {
+                long total = newAddData.size();
+                long remain = total % 200;
+                long times = total / 200;
+                long realTimes = remain == 0 ? times : times + 1;
+                for (long i = 0; i < realTimes; i++) {
+                    List<MachineDataModel> batchList = newAddData.stream().skip(i * 200).limit(200).collect(Collectors.toList());
+                    num += dataService.insertMachineData(batchList);
+                }
+            } else {
+                num += dataService.insertMachineData(newAddData);
+            }
         }
         if(num > 0){
             MessageEntity messageEntity = new MessageEntity();
@@ -431,8 +483,14 @@ public class DataController {
     public BaseResponse saveBatch(DataProCodeRequest request){
         try {
             int num = dataService.saveBatch(request);
-            if (num > 0) {
+            if (num == 1) {
                 return BaseResponse.ok("校对成功");
+            }
+            if(num == 2){
+                return BaseResponse.fail("人工数据为空");
+            }
+            if(num == 3){
+                return BaseResponse.fail("机器数据为空");
             }
             return BaseResponse.fail("校对汇总失败！");
         } catch (Exception e) {

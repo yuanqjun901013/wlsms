@@ -20,10 +20,11 @@
 <body>
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBatch()">数据校对汇总</a>
-        <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteMachine()">删除</a>-->
-        <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:250px;">
-        <input class="easyui-datebox" id="endTime" label="结束日前:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:250px;">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBatch()">底数归档</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editValue()">修改</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteValue()">删除</a>
+        <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:200px;">
+        <input class="easyui-datebox" id="endTime" label="结束日前:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:200px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
     <div id="getDataList" data-options="region:'center',split:true"></div>
@@ -57,18 +58,18 @@
                 "startTime":startTime,
                 "endTime":endTime
             },
-            fitColumns:true,
+            fitColumns:false,
             striped:true,
             pagination:true,
             rownumbers:true,
             singleSelect:true,
             remoteFilter: true,
             clientPaging: false,
-          nowrap:false,//自动换行
-          toolbar:'#toolbar',
+            nowrap:false,//自动换行
+            toolbar:'#toolbar',
             columns:[[
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'positionCode',title:'位置编码',width:80,align:'center'},
+                {field:'positionCode',title:'位置编码',width:100,align:'center'},
                 {field:'sxzfqName',title:'上行转发器',width:80,align:'center'},
                 {field:'sxplValue',title:'上行频率',width:80,align:'center'},
                 {field:'bpqplValue',title:'变频器频率',width:80,align:'center'},

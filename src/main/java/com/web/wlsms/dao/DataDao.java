@@ -19,4 +19,6 @@ public interface DataDao {
    int insertMachineData(List<MachineDataModel> machineDataModels);
    List<ManualDataModel> getManualDit();
    List<MachineDataModel> getMachineDit();
+   int deleteManual(ManualDataModel manualDataModel);
+   int deleteMachine(MachineDataModel machineDataModel);
 }

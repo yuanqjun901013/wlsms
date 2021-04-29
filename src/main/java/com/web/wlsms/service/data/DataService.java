@@ -141,6 +141,14 @@ public class DataService {
 		List<ManualDataModel> manualDataModels = dataDao.getManualDataList(map);
 		//查出机器数据
 		List<MachineDataModel> machineDataModels = dataDao.getMachineDataList(map);
+		if(null == manualDataModels || manualDataModels.size() == 0){
+			return 2;
+		}
+		if(null == machineDataModels || machineDataModels.size() == 0){
+			return 3;
+		}
+		//核对处理两个列数据
+
 		return 1;
 	}
 
@@ -158,6 +166,34 @@ public class DataService {
 	 */
 	public List<MachineDataModel> getMachineDit(){
 		return dataDao.getMachineDit();
+	}
+
+	/**
+	 * 删除人工底数
+	 * @param manualDataModel
+	 * @return
+	 */
+	public BaseResponse deleteManual(ManualDataModel manualDataModel){
+		int num = dataDao.deleteManual(manualDataModel);
+		if(num >0){
+			return BaseResponse.ok("删除信息成功");
+		}else {
+			return BaseResponse.fail("删除失败");
+		}
+	}
+
+	/**
+	 * 删除机器底数
+	 * @param machineDataModel
+	 * @return
+	 */
+	public BaseResponse deleteMachine(MachineDataModel machineDataModel){
+		int num = dataDao.deleteMachine(machineDataModel);
+		if(num >0){
+			return BaseResponse.ok("删除信息成功");
+		}else {
+			return BaseResponse.fail("删除失败");
+		}
 	}
 
 }

@@ -380,4 +380,18 @@
     </select>
 
     <!-- 未核对列表 end-->
+
+    <delete id="deleteManual">
+        delete from wlsms_manual_data
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <delete id="deleteMachine">
+        delete from wlsms_machine_data
+        <where>
+            id = #{id}
+        </where>
+    </delete>
 </mapper>

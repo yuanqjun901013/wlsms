@@ -20,10 +20,10 @@
 <body>
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addMachine()">上报机器数据</a>
-      <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteMachine()">删除</a>-->
-        <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:250px;">
-        <input class="easyui-datebox" id="endTime" label="结束日前:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:250px;">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addMachine()">添加数据</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteMachine()">删除</a>
+        <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
+        <input class="easyui-datebox" id="endTime" label="结束日前:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
 
     </div>
@@ -57,7 +57,7 @@
                     "startTime":startTime,
                     "endTime":endTime
                 },
-                fitColumns:true,
+                fitColumns:false,
                 striped:true,
                 pagination:true,
                 rownumbers:true,
@@ -68,7 +68,7 @@
                 toolbar:'#toolbar',
                 columns:[[
                     {field:'id',title:'编号',width:80,align:'center'},
-                    {field:'positionCode',title:'位置编码',width:80,align:'center'},
+                    {field:'positionCode',title:'位置编码',width:100,align:'center'},
                     {field:'wxName',title:'名称',width:80,align:'center'},
                     {field:'zplValue',title:'中频',width:80,align:'center'},
                     {field:'dplValue',title:'电平',width:80,align:'center'},
@@ -164,7 +164,7 @@
             if (row){
                 $.messager.confirm('Confirm','确定删除该资料?',function(r){
                     if (r){
-                        $.post('/data/data/deleteManual',{id:row.id},function(result){
+                        $.post('/data/data/deleteMachine',{id:row.id},function(result){
                             if (result.success){
                                 $('#getMachineDataList').datagrid('reload');    // reload the user data
                             } else {

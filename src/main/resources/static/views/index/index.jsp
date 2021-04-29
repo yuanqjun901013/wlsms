@@ -388,7 +388,7 @@
 </div>
 
 </div>
-<div data-options="region:'east',title:'任务状态栏',split:true,collapsed:false,hideCollapsedContent:false" style="width:308px;">
+<div data-options="region:'east',title:'任务状态栏',split:true,collapsed:false,hideCollapsedContent:false" style="width:230px;">
 <iframe style="vertical-align:bottom;" width="100%" height="100%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="messagePage" id="messageIfm"></iframe>
 </div>
 <div data-options="region:'south'" style="height:40px;background:#eee;">
