@@ -94,7 +94,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date tokenTime = formatter.parse(buildTime);
             int overTime=(int)(new Date().getTime()-tokenTime.getTime())/1000;
-            if(overTime > 60*60){
+            if(overTime > 300*300){
                 return false;
             }
             return true;

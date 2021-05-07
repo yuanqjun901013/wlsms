@@ -26,6 +26,30 @@
     </div>
 </div>
 <script th:inline="javascript">
+        var cotData;
+        var vcData;
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '/data/data/cotData',//获取系统总览
+            data:{},
+            success: function(data) {
+                cotData = data.data;
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '/data/data/vcData',//获取底数录入情况统计
+            data:{},
+            success: function(data) {
+                vcData = data.data;
+            }
+        });
+
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);
     var app = {};
@@ -48,13 +72,15 @@
                 name: '访问来源',
                 type: 'pie',
                 radius: '50%',
-                data: [
-                    {value: 1048, name: '用户数'},
-                    {value: 735, name: '告警数'},
-                    {value: 580, name: '角色数'},
-                    {value: 484, name: '底数'},
-                    {value: 300, name: '任务数'}
-                ],
+                data: cotData
+                    // [
+                    // {value: 1048, name: '用户数'},
+                    // {value: 735, name: '告警数'},
+                    // {value: 580, name: '角色数'},
+                    // {value: 484, name: '底数'},
+                    // {value: 300, name: '任务数'}
+                    // ]
+                ,
                 emphasis: {
                     itemStyle: {
                         shadowBlur: 10,
@@ -65,6 +91,7 @@
             }
         ]
     };
+
     if (option && typeof option === 'object') {
         myChart.setOption(option);
     }
@@ -108,11 +135,12 @@
                 labelLine: {
                     show: false
                 },
-                data: [
-                    {value: 1048, name: '人工底数'},
-                    {value: 735, name: '机器底数'},
-                    {value: 300, name: '已校对'}
-                ]
+                data: vcData
+                    // [
+                    // {value: 1048, name: '人工底数'},
+                    // {value: 735, name: '机器底数'},
+                    // {value: 300, name: '已校对'}
+                    // ]
             }
         ]
     };

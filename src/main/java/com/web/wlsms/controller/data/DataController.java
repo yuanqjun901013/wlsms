@@ -496,7 +496,43 @@ public class DataController {
         } catch (Exception e) {
             return BaseResponse.fail("操作失败！");
         }
-
     }
 
+
+    /**
+     * 系统总览
+     * @param request
+     * @return
+     */
+    @RequestMapping("cotData")
+    public BaseResponse cotData(HttpServletRequest request){
+        try {
+            List<AllParamEntity> allParamList = dataService.cotData();
+            if (null != allParamList && allParamList.size() > 0) {
+                return BaseResponse.ok(allParamList);
+            }
+            return BaseResponse.fail("统计汇总失败！");
+        } catch (Exception e) {
+            return BaseResponse.fail("查询异常！");
+        }
+    }
+
+    /**
+     * 底数录入情况统计
+     * @param request
+     * @return
+     */
+    @RequestMapping("vcData")
+    public BaseResponse vcData(HttpServletRequest request){
+        try {
+            List<AllParamEntity> allParamList = dataService.vcData();
+            if (null != allParamList && allParamList.size() > 0) {
+                return BaseResponse.ok(allParamList);
+            }
+            return BaseResponse.fail("统计汇总失败！");
+        } catch (Exception e) {
+            return BaseResponse.fail("查询异常！");
+        }
+
+    }
 }

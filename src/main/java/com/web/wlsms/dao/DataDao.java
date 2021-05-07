@@ -21,4 +21,13 @@ public interface DataDao {
    List<MachineDataModel> getMachineDit();
    int deleteManual(ManualDataModel manualDataModel);
    int deleteMachine(MachineDataModel machineDataModel);
+   Long userCount();
+   Long alarmCount();
+   Long roleCount();
+   Long wmdCount();
+   Long operationCount();
+   Long manualCount();
+   Long machineCount();
+   Long dataCount();
+
 }

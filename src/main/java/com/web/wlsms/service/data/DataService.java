@@ -3,10 +3,7 @@ package com.web.wlsms.service.data;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.web.wlsms.dao.DataDao;
-import com.web.wlsms.entity.DataEntity;
-import com.web.wlsms.entity.MachineDataModel;
-import com.web.wlsms.entity.ManualDataModel;
-import com.web.wlsms.entity.MessageEntity;
+import com.web.wlsms.entity.*;
 import com.web.wlsms.request.DataProCodeRequest;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.request.UpLoadRequest;
@@ -19,10 +16,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service("DataService")
@@ -149,6 +143,7 @@ public class DataService {
 		}
 		//核对处理两个列数据
 
+
 		return 1;
 	}
 
@@ -195,5 +190,52 @@ public class DataService {
 			return BaseResponse.fail("删除失败");
 		}
 	}
+	/**
+	 * 系统总览
+	 * @return
+	 */
+	public List<AllParamEntity> cotData(){
+		List<AllParamEntity> cotDataList = new ArrayList<>();
+		Long userCount = dataDao.userCount();
+		AllParamEntity user = getBat("用户数",userCount);
+		cotDataList.add(user);
+		Long alarmCount = dataDao.alarmCount();
+		AllParamEntity alarm = getBat("告警数",alarmCount);
+		cotDataList.add(alarm);
+		Long roleCount = dataDao.roleCount();
+		AllParamEntity role = getBat("角色数",roleCount);
+		cotDataList.add(role);
+		Long wmdCount = dataDao.wmdCount();
+		AllParamEntity wmd = getBat("底数",wmdCount);
+		cotDataList.add(wmd);
+		Long operationCount = dataDao.operationCount();
+		AllParamEntity operation = getBat("任务数",operationCount);
+		cotDataList.add(operation);
+		return cotDataList;
+	}
 
+	/**
+	 * 底数录入情况统计
+	 * @return
+	 */
+	public List<AllParamEntity> vcData(){
+		List<AllParamEntity> vcDataList = new ArrayList<>();
+		Long manualCount = dataDao.manualCount();
+		AllParamEntity manual = getBat("人工底数",manualCount);
+		vcDataList.add(manual);
+		Long machineCount = dataDao.machineCount();
+		AllParamEntity machine = getBat("机器底数",machineCount);
+		vcDataList.add(machine);
+		Long dataCount = dataDao.dataCount();
+		AllParamEntity data = getBat("已校对",dataCount);
+		vcDataList.add(data);
+        return vcDataList;
+	}
+
+	private AllParamEntity getBat(String name,Long value){
+		AllParamEntity allParamEntity = new AllParamEntity();
+		allParamEntity.setName(name);
+		allParamEntity.setValue(value);
+		return allParamEntity;
+	}
 }

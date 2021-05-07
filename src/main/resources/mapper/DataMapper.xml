@@ -394,4 +394,42 @@
             id = #{id}
         </where>
     </delete>
+
+    <!--查询用户数-->
+    <select id="userCount" resultType="java.lang.Long">
+     select count(*) as count from admin_user
+    </select>
+    <!--查询告警数-->
+    <select id="alarmCount" resultType="java.lang.Long">
+        select count(*) as count from wlsms_alarm_data
+    </select>
+    <!--查询角色数-->
+    <select id="roleCount" resultType="java.lang.Long">
+        select count(*) as count from admin_role
+    </select>
+    <!--查询底数-->
+    <select id="wmdCount" resultType="java.lang.Long">
+        select sum(count) from
+            (select count(*)as count from wlsms_manual_data wmd
+             union all
+             select count(*) as count from wlsms_machine_data wmd2) as addAll
+    </select>
+    <!--查询任务数-->
+    <select id="operationCount" resultType="java.lang.Long">
+        select count(*) as count from admin_operation
+    </select>
+
+    <!--人工底数-->
+    <select id="manualCount" resultType="java.lang.Long">
+    select count(*)as count from wlsms_manual_data
+    </select>
+    <!--机器底数-->
+    <select id="machineCount" resultType="java.lang.Long">
+    select count(*) as count from wlsms_machine_data
+    </select>
+    <!--已校对-->
+    <select id="dataCount" resultType="java.lang.Long">
+        select count(*) as count from wlsms_data
+    </select>
+
 </mapper>
