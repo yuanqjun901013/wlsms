@@ -9,12 +9,13 @@ CREATE TABLE `admin_menu` (
 `URL` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '菜单页面路径',
 `PARENT_ID` bigint(20) DEFAULT NULL COMMENT '父节点ID，如果是0则是一级节点',
 `IS_NEED_AUTH` smallint(6) DEFAULT '1' COMMENT '是否需要权限控制 0：不要 1：要',
-`menuCode` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '菜单请求编码',
+`menuCode` varchar(100) DEFAULT NULL COMMENT '菜单请求编码',
 `iconCls` varchar(100) DEFAULT NULL COMMENT '菜单图标',
 `level` varchar(100) DEFAULT NULL COMMENT '菜单级别',
 PRIMARY KEY (`ID`),
 KEY `idex_n_pi` (`PARENT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统菜单表';
+
 
 DROP TABLE IF EXISTS `admin_menu_copy`;
 CREATE TABLE `admin_menu_copy` (
@@ -29,20 +30,22 @@ CREATE TABLE `admin_menu_copy` (
 `level` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统菜单表备份';
 
+
 DROP TABLE IF EXISTS `admin_operation`;
 CREATE TABLE `admin_operation` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
 `user_no` varchar(100) NOT NULL COMMENT '工号',
-`build_time` timestamp NOT NULL COMMENT '操作时间',
+`build_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '操作时间',
 `title` varchar(100) NOT NULL COMMENT '操作标题',
 `content` text COMMENT '操作内容',
 `feedback_content` text COMMENT '反馈内容',
 `state` int(11) DEFAULT '1' COMMENT '状态1:未反馈；2:已反馈',
 `feedback_time` timestamp NULL DEFAULT NULL COMMENT '反馈时间',
-`feedback_user` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '反馈人工号',
+`feedback_user` varchar(100) DEFAULT NULL COMMENT '反馈人工号',
 `operation_type` int(11) DEFAULT NULL COMMENT '任务状态类型1:资料共享2:任务运行',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作审计日志';
+
 
 DROP TABLE IF EXISTS `admin_parameters`;
 CREATE TABLE `admin_parameters` (
@@ -53,6 +56,7 @@ CREATE TABLE `admin_parameters` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='基础参数';
 
+
 DROP TABLE IF EXISTS `admin_role`;
 CREATE TABLE `admin_role` (
 `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色表，自增主键',
@@ -60,7 +64,8 @@ CREATE TABLE `admin_role` (
 `ROLE_NAME` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '角色名称',
 PRIMARY KEY (`ID`),
 KEY `index_n_rc` (`ROLE_CODE`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
+
 
 DROP TABLE IF EXISTS `admin_role_auth`;
 CREATE TABLE `admin_role_auth` (
@@ -71,6 +76,7 @@ PRIMARY KEY (`ID`),
 KEY `index_n_rc` (`ROLE_CODE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
+
 DROP TABLE IF EXISTS `admin_role_user`;
 CREATE TABLE `admin_role_user` (
 `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色用户表，自增主键',
@@ -78,7 +84,8 @@ CREATE TABLE `admin_role_user` (
 `USER_NO` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '用户登录工号',
 PRIMARY KEY (`ID`),
 KEY `index_n_rc_un` (`ROLE_CODE`,`USER_NO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色用户表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色用户表';
+
 
 DROP TABLE IF EXISTS `admin_token`;
 CREATE TABLE `admin_token` (
@@ -89,11 +96,12 @@ CREATE TABLE `admin_token` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='token登录表';
 
+
 DROP TABLE IF EXISTS `admin_user`;
 CREATE TABLE `admin_user` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-`user_no` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工号',
-`pwd` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '123' COMMENT '密码',
+`user_no` varchar(8) NOT NULL COMMENT '工号',
+`pwd` varchar(100) NOT NULL DEFAULT '123' COMMENT '密码',
 `user_name` varchar(100) NOT NULL COMMENT '姓名',
 `sex` int(11) NOT NULL DEFAULT '1' COMMENT '性别',
 `age` int(11) DEFAULT NULL COMMENT '年龄',
@@ -105,6 +113,7 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `admin_user_user_no_IDX` (`user_no`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户资料表';
 
+
 DROP TABLE IF EXISTS `wlsms_alarm_config`;
 CREATE TABLE `wlsms_alarm_config` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -115,6 +124,7 @@ CREATE TABLE `wlsms_alarm_config` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='告警预值配置表';
 
+
 DROP TABLE IF EXISTS `wlsms_alarm_data`;
 CREATE TABLE `wlsms_alarm_data` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -124,10 +134,11 @@ CREATE TABLE `wlsms_alarm_data` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='告警采集表';
 
+
 DROP TABLE IF EXISTS `wlsms_data`;
 CREATE TABLE `wlsms_data` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-`sxzfq_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上行转发器',
+`sxzfq_name` varchar(50) DEFAULT NULL COMMENT '上行转发器',
 `sxpl_value` decimal(10,3) DEFAULT NULL COMMENT '上行频率',
 `bpqpl_value` decimal(10,3) DEFAULT NULL COMMENT '变频器频率',
 `zpl_value` decimal(10,3) DEFAULT NULL COMMENT '中频',
@@ -139,7 +150,7 @@ CREATE TABLE `wlsms_data` (
 `xdbm_code` varchar(100) DEFAULT NULL COMMENT '信道编码',
 `content` varchar(100) DEFAULT NULL COMMENT '内容',
 `xzb_value` decimal(10,3) DEFAULT NULL COMMENT '信噪比',
-`error_content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '错误信息',
+`error_content` varchar(200) DEFAULT NULL COMMENT '错误信息',
 `remark` varchar(500) DEFAULT NULL COMMENT '备注',
 `cj_time` timestamp NULL DEFAULT NULL COMMENT '采集时间',
 `wzl_value` decimal(10,3) DEFAULT NULL COMMENT '误帧率',
@@ -150,16 +161,17 @@ CREATE TABLE `wlsms_data` (
 `qrxd_value` varchar(50) DEFAULT NULL COMMENT '嵌入信道',
 `qrxd_content` varchar(500) DEFAULT NULL COMMENT '嵌入信道内容',
 `zhsj_content` varchar(500) DEFAULT NULL COMMENT '载荷数据内容',
-`passport_remark` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码情况',
+`passport_remark` varchar(100) DEFAULT NULL COMMENT '密码情况',
 `mobile_unit_value` varchar(100) DEFAULT NULL COMMENT '移动属性判定',
 `create_time` timestamp NULL DEFAULT NULL COMMENT '添加时间',
 `edit_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-`position_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '阵地编码',
+`position_code` varchar(100) DEFAULT NULL COMMENT '阵地编码',
 `data_value` decimal(10,0) DEFAULT NULL COMMENT '采集预值',
 `pro_code_manual` varchar(100) DEFAULT NULL COMMENT '人工底数公文号',
 `pro_code_machine` varchar(100) DEFAULT NULL COMMENT '机器公文号',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='校对后数据主表';
+
 
 DROP TABLE IF EXISTS `wlsms_doc`;
 CREATE TABLE `wlsms_doc` (
@@ -173,53 +185,56 @@ CREATE TABLE `wlsms_doc` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资料统一管理';
 
+
 DROP TABLE IF EXISTS `wlsms_machine_data`;
 CREATE TABLE `wlsms_machine_data` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-`wx_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '卫星名称',
+`wx_name` varchar(50) DEFAULT NULL COMMENT '卫星名称',
 `zpl_value` decimal(10,3) DEFAULT NULL COMMENT '中频',
 `dpl_value` decimal(10,3) DEFAULT NULL COMMENT '电平频率',
 `tkpl_value` decimal(10,3) DEFAULT NULL COMMENT '天空频率',
-`xh_type` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '信号类型',
+`xh_type` varchar(100) DEFAULT NULL COMMENT '信号类型',
 `msl_value` decimal(10,3) DEFAULT NULL COMMENT '码速率',
 `cj_time` timestamp NULL DEFAULT NULL COMMENT '采集时间',
 `zzb_value` decimal(10,3) DEFAULT NULL COMMENT '载噪比',
-`tzys_name` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '调制样式',
+`tzys_name` varchar(500) DEFAULT NULL COMMENT '调制样式',
 `create_time` timestamp NULL DEFAULT NULL COMMENT '添加时间',
 `edit_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-`position_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '阵地编码',
+`position_code` varchar(100) DEFAULT NULL COMMENT '阵地编码',
 `data_value` decimal(10,0) DEFAULT NULL COMMENT '采集预值',
 `state` int(11) DEFAULT '0' COMMENT '是否已校对0未校对；1已校对',
 `pro_code` varchar(100) DEFAULT NULL COMMENT '公文号',
-`user_no` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '工号',
+`user_no` varchar(100) DEFAULT NULL COMMENT '工号',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机器数据表';
+
 
 DROP TABLE IF EXISTS `wlsms_manual_data`;
 CREATE TABLE `wlsms_manual_data` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-`sxzfq_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上行转发器',
+`sxzfq_name` varchar(50) DEFAULT NULL COMMENT '上行转发器',
 `sxpl_value` decimal(10,3) DEFAULT NULL COMMENT '上行频率',
 `bpqpl_value` decimal(10,3) DEFAULT NULL COMMENT '变频器频率',
 `zpl_value` decimal(10,3) DEFAULT NULL COMMENT '中频',
 `xxpl_value` decimal(10,3) DEFAULT NULL COMMENT '下行频率',
-`system_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '系统',
+`system_name` varchar(50) DEFAULT NULL COMMENT '系统',
 `tzsl_value` decimal(10,3) DEFAULT NULL COMMENT '调制速率',
 `xxsl_value` decimal(10,3) DEFAULT NULL COMMENT '信息速率',
-`tzfs_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '调制方式',
-`xdbm_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '信道编码',
+`tzfs_name` varchar(100) DEFAULT NULL COMMENT '调制方式',
+`xdbm_code` varchar(100) DEFAULT NULL COMMENT '信道编码',
 `xzb_value` decimal(10,3) DEFAULT NULL COMMENT '信噪比',
 `cj_time` timestamp NULL DEFAULT NULL COMMENT '采集时间',
 `wzl_value` decimal(10,3) DEFAULT NULL COMMENT '误帧率',
 `create_time` timestamp NULL DEFAULT NULL COMMENT '添加时间',
 `edit_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-`position_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '阵地编码',
+`position_code` varchar(100) DEFAULT NULL COMMENT '阵地编码',
 `data_value` decimal(10,0) DEFAULT NULL COMMENT '采集预值',
 `state` int(11) DEFAULT '0' COMMENT '是否已校对0未校对；1已校对',
 `pro_code` varchar(100) DEFAULT NULL COMMENT '公文号',
 `user_no` varchar(100) DEFAULT NULL COMMENT '工号',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='人工数据表';
+
 
 DROP TABLE IF EXISTS `wlsms_position_config`;
 CREATE TABLE `wlsms_position_config` (
@@ -230,29 +245,30 @@ PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阵地信息配置表';
 
 -- 新增数据
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(1, 'admin', '组网协同', NULL, 0, 0, NULL, 'icon-large-smartart', '1');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(2, 'admin', '数据上报分析', NULL, 1, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(3, 'admin', '阵地配置', NULL, 1, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(4, 'admin', '任务管理', NULL, 1, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(5, 'admin', '人工底数上报', 'views/data/manualPage', 2, 1, 'getManualList', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(6, 'admin', '机器底数上报', 'views/data/machinePage', 2, 1, 'getMachineList', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(7, 'admin', '数据校对汇总', 'views/data/dataPage', 2, 1, 'getDataList', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(8, 'admin', '位置信息维护', 'views/position/positionPage', 3, 1, 'getPositionList', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(9, 'admin', '任务状态及反馈', 'views/message/operation', 4, 1, 'getOperationList', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(10, 'admin', '数据告警', NULL, 0, 0, NULL, 'icon-qudong', '1');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(11, 'admin', '告警管理', NULL, 10, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(12, 'admin', '告警列表', 'views/alarm/alarmInfoPage', 11, 1, 'getAlarmInfoList', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(13, 'admin', '资源管理', NULL, 0, 0, NULL, 'icon-doc', '1');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(14, 'admin', '资源管理', NULL, 13, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(15, 'admin', '资料统一管理', 'views/doc/docManger', 14, 1, 'docManager', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(16, 'admin', '用户权限', NULL, 0, 0, NULL, 'icon-system', '1');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(17, 'admin', '用户管理', NULL, 16, 0, NULL, NULL, '2');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(18, 'admin', '用户初始化', 'views/user/userPage', 17, 1, 'getUserList', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(19, 'admin', '个人资料', 'views/index/userModalPage', 17, 0, 'userModalPage', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(20, 'admin', '修改密码', 'views/index/pwdModalPage', 17, 0, 'pwdModalPage', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(21, 'admin', '权限管理', NULL, 16, 1, NULL, '', '2');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(22, 'admin', '默认角色', 'views/user/rolePage', 21, 1, 'queryRole', NULL, '3');
-INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(23, 'admin', '用户授权', 'views/user/roleUserPage', 21, 1, 'queryUserRoleInfo', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '组网协同', NULL, 0, 0, NULL, 'icon-large-smartart', '1');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据上报分析', NULL, 1, 0, NULL, NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '阵地配置', NULL, 1, 0, NULL, NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '任务管理', NULL, 1, 0, NULL, NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '人工底数上报', 'views/data/manualPage', 2, 1, 'getManualList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '机器底数上报', 'views/data/machinePage', 2, 1, 'getMachineList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '底数数据存档', 'views/data/dataPage', 2, 1, 'getDataList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '位置信息维护', 'views/position/positionPage', 3, 1, 'getPositionList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '任务状态及反馈', 'views/message/operation', 4, 1, 'getOperationList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '数据告警', NULL, 0, 0, NULL, 'icon-qudong', '1');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警管理', NULL, 10, 0, NULL, NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '告警列表', 'views/alarm/alarmInfoPage', 11, 1, 'getAlarmInfoList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '资源管理', NULL, 0, 0, NULL, 'icon-doc', '1');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '资源管理', NULL, 13, 0, NULL, NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '资料统一管理', 'views/doc/docManger', 14, 1, 'docManager', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户权限', NULL, 0, 0, NULL, 'icon-system', '1');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户管理', NULL, 16, 0, NULL, NULL, '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户初始化', 'views/user/userPage', 17, 1, 'getUserList', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '个人资料', 'views/index/userModalPage', 17, 0, 'userModalPage', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '修改密码', 'views/index/pwdModalPage', 17, 0, 'pwdModalPage', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '权限管理', NULL, 16, 0, NULL, '', '2');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '默认角色', 'views/user/rolePage', 21, 1, 'queryRole', NULL, '3');
+INSERT INTO admin_menu (SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES('admin', '用户授权', 'views/user/roleUserPage', 21, 1, 'queryUserRoleInfo', NULL, '3');
+
 
 INSERT INTO admin_menu_copy (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(1, 'admin', '系统管理', NULL, 0, 0, 'systemManage', 'icon-config', '1');
 INSERT INTO admin_menu_copy (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(2, 'admin', '系统配置', NULL, 1, 1, 'authorityManage', NULL, '2');
@@ -290,41 +306,64 @@ INSERT INTO admin_menu_copy (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, m
 INSERT INTO admin_menu_copy (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(34, 'admin', '阵地报表', 'views/data/dataByPositionPage', 30, 0, 'getDataByPosition', NULL, '3');
 INSERT INTO admin_menu_copy (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(35, 'admin', '修改密码', 'views/index/pwdModalPage', 9, 0, 'pwdModalPage', NULL, '3');
 
-INSERT INTO admin_role (ID, ROLE_CODE, ROLE_NAME) VALUES(1, 'admin', '超级管理员');
-INSERT INTO admin_role (ID, ROLE_CODE, ROLE_NAME) VALUES(2, 'user', '普通用户');
-INSERT INTO admin_role (ID, ROLE_CODE, ROLE_NAME) VALUES(3, 'leder', '高管');
 
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(1, 5, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(2, 6, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(3, 7, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(4, 8, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(5, 9, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(6, 12, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(7, 15, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(8, 18, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(9, 21, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(10, 22, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(11, 23, 'admin');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(12, 5, 'leder');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(13, 6, 'leder');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(14, 7, 'leder');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(15, 8, 'leder');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(16, 9, 'leder');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(17, 12, 'leder');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(18, 15, 'leder');
-INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(19, 12, 'user');
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-19 11:10:14', '分享上传资料', '15090387:分享了pdfL3面试逐字稿.txt', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-19 11:10:17', '下载资料', '15090387:下载了pdfL3面试逐字稿.txt', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-19 11:11:29', '删除资料', '15090387:删除了pdfL3面试逐字稿.txt', '知道了', 2, '2021-04-19 11:11:29', '15090387', 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-19 11:19:22', '上报人工数据', '15090387:上报人工数据,公文号为WLSMS20210419111922311-jTIXk3', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-19 11:20:22', '上报人工数据', '15090387:上报人工数据,公文号为WLSMS20210419112022730-3pNjpM', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-19 11:21:02', '上报机器数据', '15090387:上报机器数据,公文号为WLSMS20210419112102150-065UZL', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-19 11:21:30', '上报机器数据', '15090387:上报机器数据,公文号为WLSMS20210419112130115-328B4M', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-21 11:15:31', '上报人工数据', '15090387:上报人工数据,公文号为WLSMS20210421111531090-2Hp8h1', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-21 11:16:51', '上报人工数据', '15090387:上报人工数据,公文号为WLSMS20210421111615413-d55l9Y', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-21 11:31:53', '上报人工数据', '15090387:上报人工数据,公文号为WLSMS20210421113137622-l6rD09', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-21 11:33:51', '上报机器数据', '15090387:上报机器数据,公文号为WLSMS20210421113351184-Cx612M', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-21 11:39:24', '上报机器数据', '15090387:上报机器数据,公文号为WLSMS20210421113924035-375182', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-21 20:33:11', '上报人工数据', '15090387:上报人工数据,公文号为WLSMS20210421203311210-Mz2i78', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-22 16:49:53', '上报人工数据', '15090387:上报人工数据,公文号为WLSMS20210422164953912-INb9ql', NULL, 1, NULL, NULL, 1);
+INSERT INTO admin_operation (user_no, build_time, title, content, feedback_content, state, feedback_time, feedback_user, operation_type) VALUES('15090387', '2021-04-22 16:50:06', '上报机器数据', '15090387:上报机器数据,公文号为WLSMS20210422165006563-882Gz3', NULL, 1, NULL, NULL, 1);
 
-INSERT INTO admin_role_user (ID, ROLE_CODE, USER_NO) VALUES(14, 'admin', '15090387');
-INSERT INTO admin_role_user (ID, ROLE_CODE, USER_NO) VALUES(28, 'user', '15090383');
-INSERT INTO admin_role_user (ID, ROLE_CODE, USER_NO) VALUES(29, 'user', '15090384');
-INSERT INTO admin_role_user (ID, ROLE_CODE, USER_NO) VALUES(31, 'user', '15090388');
-INSERT INTO admin_role_user (ID, ROLE_CODE, USER_NO) VALUES(30, 'user', '15090389');
 
-INSERT INTO admin_user (id, user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES(1, '15090387', '123', '袁其军', 1, 31, '管理员', '0000', '18600000000', 'yuanjun901013@163.com');
-INSERT INTO admin_user (id, user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES(3, '15090388', '123456a', '用户a', 2, 22, '高工', NULL, NULL, NULL);
-INSERT INTO admin_user (id, user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES(4, '15090389', '123', '用户b', 2, 33, '高工', NULL, NULL, NULL);
-INSERT INTO admin_user (id, user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES(32, '15090384', '123', '大爷的', 1, NULL, '', '', '', '');
-INSERT INTO admin_user (id, user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES(34, '15090383', '123', '张大大', 1, NULL, 'dfsf ff ', '213', '', '');
+INSERT INTO admin_role (ROLE_CODE, ROLE_NAME) VALUES('admin', '超级管理员');
+INSERT INTO admin_role (ROLE_CODE, ROLE_NAME) VALUES('user', '普通用户');
+INSERT INTO admin_role (ROLE_CODE, ROLE_NAME) VALUES('leder', '高管');
+
+
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(5, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(6, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(7, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(8, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(9, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(12, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(15, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(18, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(22, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(23, 'admin');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(5, 'leder');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(6, 'leder');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(7, 'leder');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(8, 'leder');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(9, 'leder');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(12, 'leder');
+INSERT INTO admin_role_auth (MENU_ID, ROLE_CODE) VALUES(15, 'leder');
+
+
+INSERT INTO admin_role_user (ROLE_CODE, USER_NO) VALUES('admin', '15090387');
+INSERT INTO admin_role_user (ROLE_CODE, USER_NO) VALUES('leder', '15090383');
+INSERT INTO admin_role_user (ROLE_CODE, USER_NO) VALUES('user', '15090384');
+INSERT INTO admin_role_user (ROLE_CODE, USER_NO) VALUES('user', '15090388');
+INSERT INTO admin_role_user (ROLE_CODE, USER_NO) VALUES('user', '15090389');
+
+
+INSERT INTO admin_user (user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES('15090387', '123', '袁其军', 1, 31, '管理员', '0000', '18600000000', 'yuanjun901013@163.com');
+INSERT INTO admin_user (user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES('15090388', '123456a', '用户a', 2, 22, '高工', NULL, NULL, NULL);
+INSERT INTO admin_user (user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES('15090389', '123', '用户b', 2, 33, '高工', NULL, NULL, NULL);
+INSERT INTO admin_user (user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES('15090384', '123', '大爷的', 1, NULL, '', '', '', '');
+INSERT INTO admin_user (user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES('15090383', '123', '张大大', 1, NULL, 'dfsf ff ', '213', '', '');
+
+
+INSERT INTO wlsms_position_config (position_name, position_code) VALUES('测试位置1', '1');
+INSERT INTO wlsms_position_config (position_name, position_code) VALUES('测试位置2', '2');
 
 
 
