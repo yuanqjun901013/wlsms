@@ -141,9 +141,14 @@ public class DataService {
 		if(null == machineDataModels || machineDataModels.size() == 0){
 			return 3;
 		}
-		//核对处理两个列数据
+		List<DataEntity> dataEntities = new ArrayList<>();
+		//处理两条数据
+		if(manualDataModels.size() > machineDataModels.size()){
+        //todo
+			for(ManualDataModel manualDataModel:manualDataModels){
 
-
+			}
+		}
 		return 1;
 	}
 
