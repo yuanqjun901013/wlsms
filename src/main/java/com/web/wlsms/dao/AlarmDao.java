@@ -11,5 +11,6 @@ public interface AlarmDao {
 
    List<AlarmConfigEntity> getAlarmConfig();
    void insertAlarmConfig(AlarmConfigEntity alarmConfigEntity);
+   void insertAlarmData(AlarmDataEntity alarmDataEntity);
    List<AlarmDataEntity> getAlarmInfoList();
 }

@@ -141,7 +141,7 @@
                         $('#getManualDataList').datagrid('reload');    // reload the user data
                     });
                 }else {
-                    $.messager.alert("消息提醒",result.data);
+                    $.messager.alert("消息提醒",result.msg);
                 }
             }
         });

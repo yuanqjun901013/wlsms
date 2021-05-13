@@ -8,6 +8,7 @@ import com.web.wlsms.request.DataProCodeRequest;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.request.UpLoadRequest;
 import com.web.wlsms.response.BaseResponse;
+import com.web.wlsms.service.alarm.AlarmService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,8 @@ public class DataService {
 
 	@Resource
 	private DataDao dataDao;
+	@Resource
+	private AlarmService alarmService;
 	public void insertData(DataEntity dataEntity){
 		dataDao.insertData(dataEntity);
 	}
@@ -127,7 +130,7 @@ public class DataService {
 		return dataDao.insertMachineData(machineDataModels);
 	}
 
-	public int saveBatch(DataProCodeRequest request){
+	public BaseResponse saveBatch(DataProCodeRequest request){
 		Map map = new HashMap();
 		map.put("proCodeManual",request.getProCodeManual());
 		map.put("proCodeMachine",request.getProCodeMachine());
@@ -136,20 +139,65 @@ public class DataService {
 		//查出机器数据
 		List<MachineDataModel> machineDataModels = dataDao.getMachineDataList(map);
 		if(null == manualDataModels || manualDataModels.size() == 0){
-			return 2;
+			return BaseResponse.fail("人工底数为空");
 		}
 		if(null == machineDataModels || machineDataModels.size() == 0){
-			return 3;
+			return BaseResponse.fail("机器底数为空");
+		}
+		if(!manualDataModels.get(0).getPositionCode().equals(machineDataModels.get(0).getPositionCode())){
+			return BaseResponse.fail("人工数据和机器数据非同位置数据，请新选择匹配");
 		}
 		List<DataEntity> dataEntities = new ArrayList<>();
 		//处理两条数据
 		if(manualDataModels.size() > machineDataModels.size()){
-        //todo
-			for(ManualDataModel manualDataModel:manualDataModels){
-
-			}
+			//数据量有差异1，生成一条告警保存到告警表
+			AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
+			alarmDataEntity.setAlarmTitle("人工上传底数行数据多于机器底数");
+			alarmDataEntity.setAlarmContent("公文批次号:"+ request.getProCodeManual() +
+					";人工底数量:"+manualDataModels.size()+"条;公文批次号:"+ request.getProCodeMachine()
+					+ ";机器底数量:"+machineDataModels.size()+"条;");
+			alarmService.insertAlarmData(alarmDataEntity);
 		}
-		return 1;
+		if(manualDataModels.size() < machineDataModels.size()){
+			//数据量有差异2，生成一条告警保存到告警表
+			AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
+			alarmDataEntity.setAlarmTitle("人工上传底数行数据少于机器底数");
+			alarmDataEntity.setAlarmContent("公文批次号:"+ request.getProCodeManual() +
+					";人工底数量:"+manualDataModels.size()+"条;公文批次号:"+ request.getProCodeMachine()
+					+ ";机器底数量:"+machineDataModels.size()+"条;");
+			alarmService.insertAlarmData(alarmDataEntity);
+		}
+		for(ManualDataModel manualDataModel:manualDataModels){
+				DataEntity dataEntity = new DataEntity();
+				dataEntity.setSxzfqName(manualDataModel.getSxzfqName());
+				dataEntity.setSxplValue(manualDataModel.getSxplValue());
+				dataEntity.setBpqplValue(manualDataModel.getBpqplValue());
+				dataEntity.setZplValue(manualDataModel.getZplValue());
+				dataEntity.setXxplValue(manualDataModel.getXxplValue());
+				dataEntity.setSystemName(manualDataModel.getSystemName());
+				dataEntity.setTzslValue(manualDataModel.getTzslValue());
+				dataEntity.setXxslValue(manualDataModel.getXxslValue());
+				dataEntity.setTzfsName(manualDataModel.getTzfsName());
+				dataEntity.setXdbmCode(manualDataModel.getXdbmCode());
+				dataEntity.setXzbValue(manualDataModel.getXzbValue());
+				dataEntity.setCjTime(manualDataModel.getCjTime());
+				dataEntity.setWzlValue(manualDataModel.getWzlValue());
+				dataEntity.setProCodeManual(request.getProCodeManual());
+				dataEntity.setProCodeMachine(request.getProCodeMachine());
+				dataEntity.setPositionCode(manualDataModel.getPositionCode());
+				dataEntities.add(dataEntity);
+			}
+
+		//存储归档数据
+		int saveDataNum = dataDao.insertBatchData(dataEntities);
+		if(saveDataNum >0){
+			//更新人工数据和机器数据状态
+           dataDao.updateManualState(request.getProCodeManual());
+           dataDao.updateMachineState(request.getProCodeMachine());
+			return BaseResponse.ok("底数归档成功");
+		}else {
+			return BaseResponse.fail("底数归档失败");
+		}
 	}
 
 	/**
@@ -195,6 +243,35 @@ public class DataService {
 			return BaseResponse.fail("删除失败");
 		}
 	}
+
+	/**
+	 * 删除归档底数
+	 * @param dataEntity
+	 * @return
+	 */
+	public BaseResponse deleteData(DataEntity dataEntity){
+		int num = dataDao.deleteData(dataEntity);
+		if(num >0){
+			return BaseResponse.ok("删除信息成功");
+		}else {
+			return BaseResponse.fail("删除失败");
+		}
+	}
+
+	/**
+	 * 编辑归档底数
+	 * @param dataEntity
+	 * @return
+	 */
+	public BaseResponse updateData(DataEntity dataEntity){
+		int num = dataDao.updateData(dataEntity);
+		if(num >0){
+			return BaseResponse.ok("更新数据成功");
+		}else {
+			return BaseResponse.fail("更新数据失败");
+		}
+	}
+
 	/**
 	 * 系统总览
 	 * @return

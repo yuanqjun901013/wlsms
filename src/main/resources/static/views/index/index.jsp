@@ -367,7 +367,7 @@
 		<div data-options="iconCls:'icon-edit'" onclick="editPwd();">修改密码</div>
 	</div>
 </div>
-<div data-options="region:'west',split:true,collapsed:false,hideCollapsedContent:false" title="菜单栏" style="width:207px;">
+<div data-options="region:'west',split:true,collapsed:false,hideCollapsedContent:false" title="菜单栏" style="width:170px;">
 	<div id="layout_west_accordion" class="easyui-accordion" data-options="fit:true,border:false,nimate:true,lines:true">
 	</div>
 </div>
@@ -388,7 +388,7 @@
 </div>
 
 </div>
-<div data-options="region:'east',title:'任务状态栏',split:true,collapsed:false,hideCollapsedContent:false" style="width:230px;">
+<div data-options="region:'east',title:'任务状态栏',split:true,collapsed:false,hideCollapsedContent:false" style="width:190px;">
 <iframe style="vertical-align:bottom;" width="100%" height="100%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="messagePage" id="messageIfm"></iframe>
 </div>
 <div data-options="region:'south'" style="height:40px;background:#eee;">
@@ -400,7 +400,7 @@
 			<td align="middle">
 				<span style="font-family:arial;">&copy;</span>
 				<span style="font-size:12px;color: #000000;"><strong>2020-<label id="logInfo"/></strong></span>&nbsp;
-				<span style="font-size:12px;color: #000000;">&nbsp;<strong>版权所有</strong></span>
+				<span style="font-size:12px;color: #000000;">&nbsp;<strong>某某版权所有</strong></span>
 			</td>
 		</tr>
 	</table>

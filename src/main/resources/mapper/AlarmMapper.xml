@@ -53,4 +53,20 @@
             #{alarmEndValue}
         )
     </insert>
+
+    <!-- 添加操作日志信息 -->
+    <insert id="insertAlarmData" parameterType="com.web.wlsms.entity.AlarmDataEntity">
+        INSERT INTO wlsms_alarm_data
+        (
+            alarm_title,
+            alarm_content,
+            build_time
+        )
+        VALUES
+        (
+            #{alarmTitle},
+            #{alarmContent},
+            now()
+        )
+    </insert>
 </mapper>

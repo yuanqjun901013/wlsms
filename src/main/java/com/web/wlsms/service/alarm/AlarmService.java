@@ -23,6 +23,10 @@ public class AlarmService {
 		alarmDao.insertAlarmConfig(alarmConfigEntity);
 	}
 
+	public void insertAlarmData(AlarmDataEntity alarmDataEntity){
+		alarmDao.insertAlarmData(alarmDataEntity);
+	}
+
 	public PageInfo getAlarmConfig(SimpleRequest<Integer> request) {
 		PageHelper.startPage(request.getPage(), request.getRows());
 		Map map = new HashMap();

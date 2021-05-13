@@ -21,6 +21,7 @@ public interface DataDao {
    List<MachineDataModel> getMachineDit();
    int deleteManual(ManualDataModel manualDataModel);
    int deleteMachine(MachineDataModel machineDataModel);
+   int deleteData(DataEntity dataEntity);
    Long userCount();
    Long alarmCount();
    Long roleCount();
@@ -29,5 +30,8 @@ public interface DataDao {
    Long manualCount();
    Long machineCount();
    Long dataCount();
-
+   int insertBatchData(List<DataEntity> dataEntityList);
+   int updateManualState(String proCode);
+   int updateMachineState(String proCode);
+   int updateData(DataEntity dataEntity);
 }

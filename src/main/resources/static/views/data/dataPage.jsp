@@ -13,6 +13,7 @@
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
             getDataList();
+            getReload();
         })
     </SCRIPT>
 </head>
@@ -83,7 +84,8 @@
                 {field:'xzbValue',title:'信噪比',width:80,align:'center'},
                 {field:'cjTime',title:'采集时间',width:80,align:'center'},
                 {field:'wzlValue',title:'误帧率',width:80,align:'center'},
-                {field:'createTime',title:'上报时间',width:150,align:'center'}
+                {field:'createTime',title:'归档时间',width:150,align:'center'},
+                {field:'proCodeManual',title:'人工公文号',width:150,align:'center'}
             ]]
         });
     }
@@ -116,10 +118,11 @@
     }
 
     function addBatch(){
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增授权');
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','数据归档');
         $('#fm').form('clear');
     }
 
+    function getReload(){
     $('#cbgManual').combogrid({
         delay: 250,
         mode: 'remote',
@@ -151,7 +154,7 @@
             {field:'cjTime',title:'上报时间',width:120,sortable:true}
         ]]
     });
-
+    }
     function saveBatch(){
         $('#fm').form('submit',{
             url: '/data/data/saveBatch',
@@ -161,17 +164,100 @@
             success: function(result){
                 var result = eval('('+result+')');
                 if(result.success){
-                    $.messager.alert("消息提醒", "校对成功!", "info",function (){
+                    $.messager.alert("消息提醒", result.data, "info",function (){
                         $('#dlg').dialog('close');        // close the dialog
-                        $('#roleAuthList').datagrid('reload');    // reload the user data
+                        $('#getDataList').datagrid('reload');    // reload the user data
+                        getReload();
                     });
                 }else {
-                    $.messager.alert("消息提醒","校对失败，请重试");
+                    $.messager.alert("消息提醒",result.msg);
+                }
+            }
+        });
+    }
+
+    function deleteValue(){
+        var row = $('#getDataList').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('Confirm','确定删除此条数据?',function(r){
+                if (r){
+                    $.post('/data/data/deleteData',{id:row.id},function(result){
+                        if (result.success){
+                            $('#getDataList').datagrid('reload');    // reload the user data
+                        } else {
+                            $.messager.alert("消息提醒",result.msg);
+                        }
+                    },'json');
+                }
+            });
+        }
+    }
+
+    function editValue(){
+        var row = $('#getDataList').datagrid('getSelected');
+        if (row){
+            $('#dataUpdate').dialog('open').dialog('center').dialog('setTitle','修改');
+            $('#fmm').form('load',row);
+        }
+    }
+
+    function updateData(){
+        $('#fmm').form('submit',{
+            url: '/data/data/updateData',
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if(result.success){
+                    $.messager.alert("消息提醒", result.data, "info",function (){
+                        $('#dataUpdate').dialog('close');        // close the dialog
+                        $('#getDataList').datagrid('reload');    // reload the user data
+                    });
+                }else {
+                    $.messager.alert("消息提醒",result.msg);
                 }
             }
         });
     }
 </script>
+</div>
+<div id="dataUpdate" class="easyui-dialog" style="width:600px; height: 500px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgUpdate-buttons'">
+    <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <h3>归档底数信息</h3>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="上行转发器:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="sxplValue" data-options="required:true" label="上行频率:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="bpqplValue" data-options="required:true" label="变频器频率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="zplValue" data-options="required:true" label="中频:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="xxplValue" data-options="required:true" label="下行频率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="系统:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="tzslValue" data-options="required:true" label="调制速率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="xxslValue" data-options="required:true" label="信息速率:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="tzfsName" data-options="required:true" label="调制方式:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="xdbmCode" data-options="required:true" label="信道编码:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="cjTime" readonly="readonly" label="采集时间:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="wzlValue" data-options="required:true" label="误帧率:" labelPosition="left" style="width:230px;">
+            <input type="text" style="display: none" name = "id">
+        </div>
+    </form>
+</div>
+<div id="dlgUpdate-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateData()" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dataUpdate').dialog('close')" style="width:90px">取消</a>
 </div>
 </body>
 </html>

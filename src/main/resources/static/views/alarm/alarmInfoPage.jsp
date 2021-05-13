@@ -27,19 +27,19 @@
             //携带参数
             queryParams: {
             },
-            fitColumns:true,
-            striped:true,
-            pagination:true,
-            rownumbers:true,
-            singleSelect:true,
-            remoteFilter: true,
-            clientPaging: false,
+          fitColumns:true,
+          striped:true,
+          pagination:true,
+          rownumbers:true,
+          singleSelect:true,
+          remoteFilter: true,
+          clientPaging: false,
+          nowrap:false,//自动换行
             columns:[[
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'alarmTitle',title:'告警标题',width:80,align:'center'},
-                {field:'alarmContent',title:'告警内容',width:80,align:'center'},
-                {field:'buildTime',title:'告警时间',width:80,align:'center'},
-                {field:'todo',title:'操作',width:100,align:'center'}
+                {field:'alarmTitle',title:'告警标题',width:120,align:'center'},
+                {field:'alarmContent',title:'告警内容',width:160,align:'center'},
+                {field:'buildTime',title:'告警时间',width:80,align:'center'}
             ]]
         });
     }

@@ -112,7 +112,7 @@
         FROM wlsms_data
         where 1=1
         <if test="queryBt != null and queryBt != ''">
-            and (sxzfq_name like concat('%',#{queryBt},'%') or system_name like concat('%',#{queryBt},'%') )
+            and (sxzfq_name like concat('%',#{queryBt},'%') or system_name like concat('%',#{queryBt},'%') or pro_code_manual like concat('%',#{queryBt},'%'))
         </if>
         <if test="startTime != null and startTime != ''">
             and DATE_FORMAT(cj_time,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d')
@@ -123,7 +123,7 @@
         order by id desc
     </select>
 
-    <!-- 添加操作日志信息 -->
+    <!-- 添加主数据信息 -->
     <insert id="insertData" parameterType="com.web.wlsms.entity.DataEntity">
         INSERT INTO wlsms_data
             (sxzfq_name,
@@ -214,7 +214,7 @@
                state,
                user_no
         FROM wlsms_manual_data
-         where 1=1
+         where state = 0
         <if test="queryBt != null and queryBt != ''">
             and (sxzfq_name like concat('%',#{queryBt},'%') or system_name like concat('%',#{queryBt},'%') or pro_code like concat('%',#{queryBt},'%'))
         </if>
@@ -229,8 +229,6 @@
         </if>
         order by id desc
     </select>
-
-
 
     <select id="getMachineDataList" resultMap="MachineDataMap" parameterType="java.util.HashMap">
     SELECT
@@ -250,7 +248,7 @@
     user_no
     FROM
     wlsms_machine_data
-        where 1=1
+        where state = 0
         <if test="queryBt != null and queryBt != ''">
             and (wx_name like concat('%',#{queryBt},'%') or tzys_name like concat('%',#{queryBt},'%')  or pro_code like concat('%',#{queryBt},'%'))
         </if>
@@ -313,6 +311,52 @@
         </foreach>
     </insert>
 
+    <!--批量归档主数据-->
+    <insert id="insertBatchData" parameterType="java.util.List">
+        INSERT INTO wlsms_data (
+        sxzfq_name,
+        sxpl_value,
+        bpqpl_value,
+        zpl_value,
+        xxpl_value,
+        system_name,
+        tzsl_value,
+        xxsl_value,
+        tzfs_name,
+        xdbm_code,
+        xzb_value,
+        cj_time,
+        wzl_value,
+        create_time,
+        edit_time,
+        position_code,
+        pro_code_manual,
+        pro_code_machine
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.sxzfqName},
+            #{item.sxplValue},
+            #{item.bpqplValue},
+            #{item.zplValue},
+            #{item.xxplValue},
+            #{item.systemName},
+            #{item.tzslValue},
+            #{item.xxslValue},
+            #{item.tzfsName},
+            #{item.xdbmCode},
+            #{item.xzbValue},
+            #{item.cjTime},
+            #{item.wzlValue},
+            now(),
+            now(),
+            #{item.positionCode},
+            #{item.proCodeManual},
+            #{item.proCodeMachine}
+            )
+        </foreach>
+    </insert>
 
     <insert id="insertMachineData" parameterType="java.util.List">
         INSERT INTO wlsms_machine_data (
@@ -395,6 +439,13 @@
         </where>
     </delete>
 
+    <delete id="deleteData">
+        delete from wlsms_data
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
     <!--查询用户数-->
     <select id="userCount" resultType="java.lang.Long">
      select count(*) as count from admin_user
@@ -431,5 +482,60 @@
     <select id="dataCount" resultType="java.lang.Long">
         select count(*) as count from wlsms_data
     </select>
+
+    <update id="updateManualState" parameterType="java.lang.String">
+      update wlsms_manual_data set state = 1 where pro_code = #{proCode}
+    </update>
+
+    <update id="updateMachineState" parameterType="java.lang.String">
+      update wlsms_machine_data set state = 1 where pro_code = #{proCode}
+    </update>
+
+    <update id="updateData" parameterType="com.web.wlsms.entity.DataEntity">
+        update wlsms_data
+        <set>
+            <if test="sxzfqName !=null and sxzfqName != ''">
+                sxzfq_name = #{sxzfqName},
+            </if>
+            <if test="sxplValue !=null and sxplValue != ''">
+                sxpl_value = #{sxplValue},
+            </if>
+            <if test="bpqplValue !=null and bpqplValue != ''">
+                bpqpl_value = #{bpqplValue},
+            </if>
+            <if test="zplValue !=null and zplValue != ''">
+                zpl_value = #{zplValue},
+            </if>
+            <if test="xxplValue !=null and xxplValue != ''">
+                xxpl_value = #{xxplValue},
+            </if>
+            <if test="systemName !=null and systemName != ''">
+                system_name = #{systemName},
+            </if>
+            <if test="tzslValue !=null and tzslValue != ''">
+                tzsl_value = #{tzslValue},
+            </if>
+            <if test="xxslValue !=null and xxslValue != ''">
+                xxsl_value = #{xxslValue},
+            </if>
+            <if test="tzfsName !=null and tzfsName != ''">
+                tzfs_name = #{tzfsName},
+            </if>
+            <if test="xdbmCode !=null and xdbmCode != ''">
+                xdbm_code = #{xdbmCode},
+            </if>
+            <if test="xzbValue !=null and xzbValue != ''">
+                xzb_value = #{xzbValue},
+            </if>
+            <if test="wzlValue !=null and wzlValue != ''">
+                wzl_value = #{wzlValue},
+            </if>
+            </set>
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+        </where>
+    </update>
 
 </mapper>

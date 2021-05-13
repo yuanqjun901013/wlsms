@@ -388,6 +388,32 @@ public class DataController {
         return dataService.deleteMachine(machineDataModel);
     }
 
+    /**
+     * 删除汇总归档底数
+     * @param
+     * @return
+     */
+    @RequestMapping("deleteData")
+    public BaseResponse deleteData(DataEntity dataEntity){
+        if(null == dataEntity){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        return dataService.deleteData(dataEntity);
+    }
+
+    /**
+     * 修改汇总归档底数
+     * @param
+     * @return
+     */
+    @RequestMapping("updateData")
+    public BaseResponse updateData(DataEntity dataEntity){
+        if(null == dataEntity){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        return dataService.updateData(dataEntity);
+    }
+
 
     /**
      * 导入机器底数
@@ -482,17 +508,7 @@ public class DataController {
     @RequestMapping("saveBatch")
     public BaseResponse saveBatch(DataProCodeRequest request){
         try {
-            int num = dataService.saveBatch(request);
-            if (num == 1) {
-                return BaseResponse.ok("校对成功");
-            }
-            if(num == 2){
-                return BaseResponse.fail("人工数据为空");
-            }
-            if(num == 3){
-                return BaseResponse.fail("机器数据为空");
-            }
-            return BaseResponse.fail("校对汇总失败！");
+            return dataService.saveBatch(request);
         } catch (Exception e) {
             return BaseResponse.fail("操作失败！");
         }
