@@ -20,7 +20,7 @@
 <body>
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addMachine()">添加数据</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addMachine()">导入数据</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteMachine()">删除</a>
         <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-datebox" id="endTime" label="结束日前:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">

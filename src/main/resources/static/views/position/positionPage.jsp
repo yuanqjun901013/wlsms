@@ -74,13 +74,13 @@
             getPositionList();
         }})
 
-    //新增用户信息
+    //新增位置信息
     function newPosition(){
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
         $('#fm').form('clear');
     }
 
-    //修改用户信息
+    //修改位置信息
     function editPosition(){
         var row = $('#getPositionList').datagrid('getSelected');
         if (row){

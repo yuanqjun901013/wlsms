@@ -103,12 +103,10 @@
                zhsj_content,
                passport_remark,
                mobile_unit_value,
-               data_value,
                position_code,
                DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime ,
                DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime,
-               pro_code_machine,
-               pro_code_manual
+               pro_code
         FROM wlsms_data
         where 1=1
         <if test="queryBt != null and queryBt != ''">
@@ -154,9 +152,8 @@
              create_time,
              edit_time,
              position_code,
-             data_value,
-             pro_code_manual,
-             pro_code_machine)
+             pro_code,
+             user_no)
              VALUES
             (
             #{sxzfqName},
@@ -187,9 +184,8 @@
             now(),
             now(),
             #{positionCode},
-            #{dataValue},
-            #{proCodeManual},
-            #{proCodeMachine}
+            #{proCode},
+            #{userNo}
         )
     </insert>
 
@@ -324,14 +320,26 @@
         xxsl_value,
         tzfs_name,
         xdbm_code,
+        content,
         xzb_value,
+        error_content,
+        remark,
         cj_time,
         wzl_value,
+        other_user_code,
+        other_kx_code,
+        other_user_title,
+        other_kx_title,
+        qrxd_value,
+        qrxd_content,
+        zhsj_content,
+        passport_remark,
+        mobile_unit_value,
         create_time,
         edit_time,
         position_code,
-        pro_code_manual,
-        pro_code_machine
+        pro_code,
+        user_no
         )
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
@@ -346,14 +354,26 @@
             #{item.xxslValue},
             #{item.tzfsName},
             #{item.xdbmCode},
+            #{item.content},
             #{item.xzbValue},
+            #{item.errorContent},
+            #{item.remark},
             #{item.cjTime},
             #{item.wzlValue},
+            #{item.otherUserCode},
+            #{item.otherKxCode},
+            #{item.otherUserTitle},
+            #{item.otherKxTitle},
+            #{item.qrxdValue},
+            #{item.qrxdContent},
+            #{item.zhsjContent},
+            #{item.passportRemark},
+            #{item.mobileUnitValue},
             now(),
             now(),
             #{item.positionCode},
-            #{item.proCodeManual},
-            #{item.proCodeMachine}
+            #{item.proCode},
+            #{item.userNo}
             )
         </foreach>
     </insert>
@@ -538,4 +558,27 @@
         </where>
     </update>
 
+    <select id="getRecommend" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.ReDataValue">
+        select
+            avg(sxpl_value)as reSxplValue,
+            avg(bpqpl_value)as reBpqplValue,
+            avg(zpl_value)as reZplValue,
+            avg(xxpl_value)as reXxplValue,
+            avg(tzsl_value)as reTzslValue,
+            avg(xxsl_value)as reXxslValue,
+            avg(xzb_value)as reXzbValue,
+            avg(wzl_value)as reWzlValue
+        from
+            wlsms_data
+        <where>
+            <if test="cjTime != null and cjTime != ''">
+             and  DATE_FORMAT(cj_time, '%Y-%m-%d') = date_sub(DATE_FORMAT(#{cjTime}, '%Y-%m-%d'), interval 1 day)
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+            and position_code = #{positionCode}
+            </if>
+        </where>
+
+
+    </select>
 </mapper>

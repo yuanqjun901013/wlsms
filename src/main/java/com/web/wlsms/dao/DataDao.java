@@ -3,6 +3,7 @@ package com.web.wlsms.dao;
 import com.web.wlsms.entity.DataEntity;
 import com.web.wlsms.entity.MachineDataModel;
 import com.web.wlsms.entity.ManualDataModel;
+import com.web.wlsms.entity.ReDataValue;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -34,4 +35,5 @@ public interface DataDao {
    int updateManualState(String proCode);
    int updateMachineState(String proCode);
    int updateData(DataEntity dataEntity);
+   ReDataValue getRecommend(Map<String, Object> param);
 }

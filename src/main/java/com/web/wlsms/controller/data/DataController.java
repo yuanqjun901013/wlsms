@@ -15,11 +15,9 @@ import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.utils.ExcelUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.MapUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -549,6 +547,115 @@ public class DataController {
         } catch (Exception e) {
             return BaseResponse.fail("查询异常！");
         }
+    }
 
+    @RequestMapping("getRecommend")
+    public BaseResponse getRecommend(HttpServletRequest request){
+        String cjTime = request.getParameter("cjTime");
+        if(StringUtils.isBlank(cjTime)){
+            return BaseResponse.fail("采集时间参数为空，请重试");
+        }
+        return dataService.getRecommend(cjTime);
+    }
+
+
+    /**
+     * 导入人工底数
+     */
+    @RequestMapping("importBatchData")
+    @ResponseBody
+    public BaseResponse importBatchData(HttpServletRequest request,MultipartFile file, String positionCode) {
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        try {
+            if (null == file) return BaseResponse.fail("读取Excel异常！");
+            InputStream inputStream = file.getInputStream();// 得到输入流
+            if(null != inputStream) {
+                ExcelReadResult<DataEntity> excelRead = ExcelUtil.readList("batchData.xml", inputStream, DataEntity.class);
+                if (excelRead.isStatus() && !excelRead.getResult().isEmpty()) {
+                    // 写入数据
+                    BaseResponse<Integer> result = this.writeExcelBatchData(excelRead.getResult(),positionCode,userNo);
+                    if (result.getCode().equals("0000") && null != result.getData()) {
+                        return BaseResponse.ok("成功导入" + result.getData() + "条数据！");
+                    } else {
+                        return BaseResponse.fail("数据导入异常！");
+                    }
+                }
+            }
+            return BaseResponse.fail("excel文件内容为空!");
+        } catch (Exception e) {
+            return BaseResponse.fail("导入失败！");
+        }
+    }
+
+    public BaseResponse<Integer> writeExcelBatchData(List<DataEntity> list,String positionCode,String userNo) {
+        if(null == list && list.size() ==0 ){
+            return BaseResponse.fail("数据为空");
+        }
+        int num = 0;
+        List<DataEntity> strategyList = new ArrayList<>();
+        String proCode = getProCodeNum();//获取批次公文号
+        for (DataEntity model : list) {
+            DataEntity strategy = new DataEntity();
+            strategy.setSxzfqName(model.getSxzfqName().trim());
+            strategy.setSxplValue(model.getSxplValue().trim());
+            strategy.setBpqplValue(model.getBpqplValue().trim());
+            strategy.setZplValue(model.getZplValue().trim());
+            strategy.setXxplValue(model.getXxplValue().trim());
+            strategy.setSystemName(model.getSystemName().trim());
+            strategy.setTzslValue(model.getTzslValue().trim());
+            strategy.setXxslValue(model.getXxslValue().trim());
+            strategy.setTzfsName(model.getTzfsName().trim());
+            strategy.setXdbmCode(model.getXdbmCode().trim());
+            strategy.setContent(model.getContent().trim());
+            strategy.setXzbValue(model.getXzbValue().trim());
+            strategy.setErrorContent(model.getErrorContent());
+            strategy.setRemark(model.getRemark());
+            strategy.setCjTime(model.getCjTime());
+            strategy.setWzlValue(model.getWzlValue());
+            strategy.setOtherUserCode(model.getOtherUserCode());
+            strategy.setOtherKxCode(model.getOtherKxCode());
+            strategy.setOtherUserTitle(model.getOtherUserTitle());
+            strategy.setOtherKxTitle(model.getOtherKxTitle());
+            strategy.setQrxdContent(model.getQrxdContent());
+            strategy.setZhsjContent(model.getZhsjContent());
+            strategy.setPassportRemark(model.getPassportRemark());
+            strategy.setMobileUnitValue(model.getMobileUnitValue());
+            strategy.setPositionCode(positionCode);
+            strategy.setProCode(proCode);
+            strategy.setUserNo(userNo);
+            strategyList.add(strategy);
+        }
+        if (null != strategyList && strategyList.size() >0){
+            //排重
+            Set<DataEntity> setData = new HashSet<>();
+            setData.addAll(strategyList);
+            List<DataEntity> newAddData = new ArrayList<>();
+            newAddData.addAll(setData);
+            //分批次 批量保存
+            if (newAddData.size() > 200) {
+                long total = newAddData.size();
+                long remain = total % 200;
+                long times = total / 200;
+                long realTimes = remain == 0 ? times : times + 1;
+                for (long i = 0; i < realTimes; i++) {
+                    List<DataEntity> batchList = newAddData.stream().skip(i * 200).limit(200).collect(Collectors.toList());
+                    num += dataService.insertBatchData(batchList);
+                }
+            } else {
+                num += dataService.insertBatchData(newAddData);
+            }
+        }
+        if(num > 0){
+            MessageEntity messageEntity = new MessageEntity();
+            messageEntity.setUserNo(userNo);
+            messageEntity.setTitle("批量导入人工数据");
+            messageEntity.setContent(userNo+":批量导入人工数据,公文号为"+proCode);
+            messageEntity.setOperationType(1);
+            messageService.insertMessage(messageEntity);
+            return BaseResponse.ok(num);
+        }else {
+            return BaseResponse.fail("入库失败");
+        }
     }
 }

@@ -46,6 +46,21 @@ public class DataService {
 				param.put("endTime",request.getEndTime());
 			}
 		List<DataEntity> list = dataDao.getDataList(param);
+			if(list.size() > 0){
+				for(DataEntity dataEntity:list){
+				  ReDataValue reDataValue =	getReValue(dataEntity.getCjTime(),dataEntity.getPositionCode());
+				  if(null != reDataValue) {
+					  dataEntity.setReSxplValue(reDataValue.getReSxplValue());
+					  dataEntity.setReBpqplValue(reDataValue.getReBpqplValue());
+					  dataEntity.setReZplValue(reDataValue.getReZplValue());
+					  dataEntity.setReXxplValue(reDataValue.getReXxplValue());
+					  dataEntity.setReTzslValue(reDataValue.getReTzslValue());
+					  dataEntity.setReXxslValue(reDataValue.getReXxslValue());
+					  dataEntity.setReXzbValue(reDataValue.getReXzbValue());
+					  dataEntity.setReWzlValue(reDataValue.getReWzlValue());
+				  }
+				}
+			}
 		return new PageInfo<>(list);
 		}catch (Exception e){
 			return new PageInfo();
@@ -130,6 +145,10 @@ public class DataService {
 		return dataDao.insertMachineData(machineDataModels);
 	}
 
+	public int insertBatchData(List<DataEntity> dataEntities) {
+		return dataDao.insertBatchData(dataEntities);
+	}
+
 	public BaseResponse saveBatch(DataProCodeRequest request){
 		Map map = new HashMap();
 		map.put("proCodeManual",request.getProCodeManual());
@@ -182,8 +201,7 @@ public class DataService {
 				dataEntity.setXzbValue(manualDataModel.getXzbValue());
 				dataEntity.setCjTime(manualDataModel.getCjTime());
 				dataEntity.setWzlValue(manualDataModel.getWzlValue());
-				dataEntity.setProCodeManual(request.getProCodeManual());
-				dataEntity.setProCodeMachine(request.getProCodeMachine());
+				dataEntity.setProCode(request.getProCodeManual());
 				dataEntity.setPositionCode(manualDataModel.getPositionCode());
 				dataEntities.add(dataEntity);
 			}
@@ -319,5 +337,34 @@ public class DataService {
 		allParamEntity.setName(name);
 		allParamEntity.setValue(value);
 		return allParamEntity;
+	}
+
+	/**
+	 * 查询推荐值
+	 * @param cjTime
+	 * @return
+	 */
+	public BaseResponse getRecommend(String cjTime){
+		Map<String, Object> param = new HashMap<>();
+		param.put("cjTime",cjTime);
+		param.put("positionCode","");
+		ReDataValue reDataValue = dataDao.getRecommend(param);
+	   if(null != reDataValue && StringUtils.isNotBlank(reDataValue.getReSxplValue())){
+	   	return BaseResponse.ok(reDataValue);
+	   }else {
+	   	return BaseResponse.fail("查询推荐数据失败");
+	   }
+	}
+
+	private ReDataValue getReValue(String cjTime,String positionCode){
+		Map<String, Object> param = new HashMap<>();
+		param.put("cjTime",cjTime);
+		param.put("positionCode",positionCode);
+		ReDataValue reDataValue = dataDao.getRecommend(param);
+		if(null != reDataValue && StringUtils.isNotBlank(reDataValue.getReSxplValue())){
+			return reDataValue;
+		}else {
+			return null;
+		}
 	}
 }
