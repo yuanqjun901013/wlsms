@@ -109,49 +109,49 @@
 
     <insert id="saveManual" parameterType="com.web.wlsms.entity.ManualModel">
         INSERT INTO wlsms_auto_manual
-        (
-            sxzfq_name,
-            sxpl_value,
-            bpqpl_value,
-            zpl_value,
-            xxpl_value,
-            system_name,
-            tzsl_value,
-            xxsl_value,
-            tzfs_name,
-            xdbm_code,
-            xzb_value,
-            build_date,
-            position_code,
-            pro_code,
-            user_no,
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sxzfqName != null and sxzfqName != '' ">sxzfq_name,</if>
+            <if test="sxplValue != null and sxplValue != '' ">sxpl_value,</if>
+            <if test="bpqplValue != null and bpqplValue != '' ">bpqpl_value,</if>
+            <if test="zplValue != null and zplValue != '' ">zpl_value,</if>
+            <if test="xxplValue != null and xxplValue != '' ">xxpl_value,</if>
+            <if test="systemName != null and systemName != '' ">system_name,</if>
+            <if test="tzslValue != null and tzslValue != '' ">tzsl_value,</if>
+            <if test="xxslValue != null and xxslValue != '' ">xxsl_value,</if>
+            <if test="tzfsName != null and tzfsName != '' ">tzfs_name,</if>
+            <if test="xdbmCode != null and xdbmCode != '' ">xdbm_code,</if>
+            <if test="xzbValue != null and xzbValue != '' ">xzb_value,</if>
+            <if test="buildDate != null and buildDate != '' ">build_date,</if>
+            <if test="positionCode != null and positionCode != '' ">position_code,</if>
+            <if test="proCode != null and proCode != '' ">pro_code,</if>
+            <if test="userNo != null and userNo != '' ">user_no,</if>
             create_time,
-            edit_time
-        )
-        VALUES
-        (
-            #{sxzfqName},
-            #{sxplValue},
-            #{bpqplValue},
-            #{zplValue},
-            #{xxplValue},
-            #{systemName},
-            #{tzslValue},
-            #{xxslValue},
-            #{tzfsName},
-            #{xdbmCode},
-            #{xzbValue},
-            #{buildDate},
-            #{positionCode},
-            #{proCode},
-            #{userNo},
+            edit_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sxzfqName != null and sxzfqName != '' ">#{sxzfqName},</if>
+            <if test="sxplValue != null and sxplValue != '' ">#{sxplValue},</if>
+            <if test="bpqplValue != null and bpqplValue != '' ">#{bpqplValue},</if>
+            <if test="zplValue != null and zplValue != '' ">#{zplValue},</if>
+            <if test="xxplValue != null and xxplValue != '' ">#{xxplValue},</if>
+            <if test="systemName != null and systemName != '' ">#{systemName},</if>
+            <if test="tzslValue != null and tzslValue != '' ">#{tzslValue},</if>
+            <if test="xxslValue != null and xxslValue != '' ">#{xxslValue},</if>
+            <if test="tzfsName != null and tzfsName != '' ">#{tzfsName},</if>
+            <if test="xdbmCode != null and xdbmCode != '' ">#{xdbmCode},</if>
+            <if test="xzbValue != null and xzbValue != '' ">#{xzbValue},</if>
+            <if test="buildDate != null and buildDate != '' ">#{buildDate},</if>
+            <if test="positionCode != null and positionCode != '' ">#{positionCode},</if>
+            <if test="proCode != null and proCode != '' ">#{proCode},</if>
+            <if test="userNo != null and userNo != '' ">#{userNo},</if>
             now(),
             now()
-        )
+        </trim>
     </insert>
 
     <insert id="insertManual" parameterType="java.util.List">
-        INSERT INTO wlsms_auto_manual (
+        INSERT INTO wlsms_auto_manual
+       (
         sxzfq_name,
         sxpl_value,
         bpqpl_value,
@@ -313,5 +313,74 @@
         </where>
     </delete>
 
+    <!-- 日分组人工比对数据 -->
+    <select id="queryManualByDate" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoBuildEntity">
+        select
+        DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+        count(id) as count
+        from wlsms_auto_manual
+        where 1=1
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+        group by build_date
+        order by build_date desc
+    </select>
 
+    <select id="queryMachineByDate" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoBuildEntity">
+        select
+        DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+        count(id) as count
+        from wlsms_auto_machine
+        where 1=1
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d') =  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+        group by build_time
+        order by build_time desc
+    </select>
+
+    <!-- 查看比对标记表数据 -->
+    <select id="queryAutoBuildList" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoBuildEntity">
+        select
+            id,
+            DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+            DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+            remark,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,
+            DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+       from wlsms_auto_build
+       where 1=1
+        <if test="queryBt != null and queryBt != ''">
+            and remark like concat('%',#{queryBt},'%')
+        </if>
+        <if test="buildDate != null and buildDate != ''"> and ( DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') or DATE_FORMAT(build_time,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d')) </if>
+        order by build_time desc
+    </select>
+
+    <select id="getAutoDataList" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoDataEntity">
+        select
+        id,
+        xxpl_value as xxplValue,
+        tkpl_value as tkplValue,
+        xtdValue,
+        system_name as systemName,
+        xh_type as xhType,
+        tzsl_value as tzslValue,
+        msl_value as mslValue,
+        tzdValue,
+        tzfs_name as tzfsName,
+        tzys_name as tzysName,
+        xdbm_code as xdbmCode,
+        bm_type as bmType,
+        ml_name as mlName,
+        xzb_value as xzbValue,
+        zzb_value as zzbValue,
+        user_no as userNo,
+        DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+        DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+        DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,
+        DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+        from wlsms_auto_build
+        where 1=1
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+        <if test="buildTime != null and buildTime != ''"> DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
+        order by build_time desc
+    </select>
 </mapper>

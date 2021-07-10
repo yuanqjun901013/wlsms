@@ -70,17 +70,17 @@ public class MacAutoController {
         String proCode = getProCodeNum();//获取批次公文号
         for (ManualModel model : list) {
             ManualModel strategy = new ManualModel();
-            strategy.setSxzfqName(model.getSxzfqName().trim());
-            strategy.setSxplValue(model.getSxplValue().trim());
-            strategy.setBpqplValue(model.getBpqplValue().trim());
-            strategy.setZplValue(model.getZplValue().trim());
-            strategy.setXxplValue(model.getXxplValue().trim());
-            strategy.setSystemName(model.getSystemName().trim());
-            strategy.setTzslValue(model.getTzslValue().trim());
-            strategy.setXxslValue(model.getXxslValue().trim());
-            strategy.setTzfsName(model.getTzfsName().trim());
-            strategy.setXdbmCode(model.getXdbmCode().trim());
-            strategy.setXzbValue(model.getXzbValue().trim());
+            strategy.setSxzfqName(model.getSxzfqName().replace(" ","").trim());
+            strategy.setSxplValue(model.getSxplValue().replace(" ","").trim());
+            strategy.setBpqplValue(model.getBpqplValue().replace(" ","").trim());
+            strategy.setZplValue(model.getZplValue().replace(" ","").trim());
+            strategy.setXxplValue(model.getXxplValue().replace(" ","").trim());
+            strategy.setSystemName(model.getSystemName().replace(" ","").trim());
+            strategy.setTzslValue(model.getTzslValue().replace(" ","").trim());
+            strategy.setXxslValue(model.getXxslValue().replace(" ","").trim());
+            strategy.setTzfsName(model.getTzfsName().replace(" ","").trim());
+            strategy.setXdbmCode(model.getXdbmCode().replace(" ","").trim());
+            strategy.setXzbValue(model.getXzbValue().replace(" ","").trim());
             strategy.setBuildDate(model.getBuildDate());
             strategy.setPositionCode(positionCode);
             strategy.setProCode(proCode);
@@ -199,17 +199,17 @@ public class MacAutoController {
         String proCode = getProCodeNum();//获取批次公文号
         for (MachineModel model : list) {
             MachineModel strategy = new MachineModel();
-            strategy.setWxName(model.getWxName().trim());
-            strategy.setZplValue(model.getZplValue().trim());
-            strategy.setDplValue(model.getDplValue().trim());
-            strategy.setTkplValue(model.getTkplValue().trim());
-            strategy.setXhType(model.getXhType().trim());
-            strategy.setMslValue(model.getMslValue().trim());
-            strategy.setZzbValue(model.getZzbValue().trim());
-            strategy.setTzysName(model.getTzysName().trim());
+            strategy.setWxName(model.getWxName().replace(" ","").trim());
+            strategy.setZplValue(model.getZplValue().replace(" ","").trim());
+            strategy.setDplValue(model.getDplValue().replace(" ","").trim());
+            strategy.setTkplValue(model.getTkplValue().replace(" ","").trim());
+            strategy.setXhType(model.getXhType().replace(" ","").trim());
+            strategy.setMslValue(model.getMslValue().replace(" ","").trim());
+            strategy.setZzbValue(model.getZzbValue().replace(" ","").trim());
+            strategy.setTzysName(model.getTzysName().replace(" ","").trim());
             strategy.setBuildTime(model.getBuildTime());
-            strategy.setBmType(model.getBmType());
-            strategy.setMlName(model.getMlName());
+            strategy.setBmType(model.getBmType().replace(" ","").trim());
+            strategy.setMlName(model.getMlName().replace(" ","").trim());
             strategy.setPositionCode(positionCode);
             strategy.setProCode(proCode);
             strategy.setUserNo(userNo);
@@ -300,6 +300,17 @@ public class MacAutoController {
         }
         manualModel.setUserNo(userNo);
         manualModel.setProCode(getProCodeNum());
+        manualModel.setXdbmCode(manualModel.getXdbmCode().replace(" ","").trim());
+        manualModel.setSxzfqName(manualModel.getSxzfqName().replace(" ","").trim());
+        manualModel.setSxplValue(manualModel.getSxplValue().replace(" ","").trim());
+        manualModel.setBpqplValue(manualModel.getBpqplValue().replace(" ","").trim());
+        manualModel.setZplValue(manualModel.getZplValue().replace(" ","").trim());
+        manualModel.setXxplValue(manualModel.getXxplValue().replace(" ","").trim());
+        manualModel.setSystemName(manualModel.getSystemName().replace(" ","").trim());
+        manualModel.setTzslValue(manualModel.getTzslValue().replace(" ","").trim());
+        manualModel.setXxslValue(manualModel.getXxslValue().replace(" ","").trim());
+        manualModel.setTzfsName(manualModel.getTzfsName().replace(" ","").trim());
+        manualModel.setXzbValue(manualModel.getXzbValue().replace(" ","").trim());
         return macAutoService.saveManual(manualModel);
     }
 
@@ -308,6 +319,17 @@ public class MacAutoController {
         if(null == manualModel){
             return BaseResponse.fail("入参有误，请重试");
         }
+        manualModel.setXdbmCode(manualModel.getXdbmCode().replace(" ","").trim());
+        manualModel.setSxzfqName(manualModel.getSxzfqName().replace(" ","").trim());
+        manualModel.setSxplValue(manualModel.getSxplValue().replace(" ","").trim());
+        manualModel.setBpqplValue(manualModel.getBpqplValue().replace(" ","").trim());
+        manualModel.setZplValue(manualModel.getZplValue().replace(" ","").trim());
+        manualModel.setXxplValue(manualModel.getXxplValue().replace(" ","").trim());
+        manualModel.setSystemName(manualModel.getSystemName().replace(" ","").trim());
+        manualModel.setTzslValue(manualModel.getTzslValue().replace(" ","").trim());
+        manualModel.setXxslValue(manualModel.getXxslValue().replace(" ","").trim());
+        manualModel.setTzfsName(manualModel.getTzfsName().replace(" ","").trim());
+        manualModel.setXzbValue(manualModel.getXzbValue().replace(" ","").trim());
         return macAutoService.updateManual(manualModel);
     }
 
@@ -338,4 +360,81 @@ public class MacAutoController {
     }
 
 
+    /**
+     * 人工上报数据以日期为分类
+     * @param params
+     * @return
+     */
+    @RequestMapping("queryManualByDate")
+    public Map<String,Object> queryManualByDate(Map params){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            List<AutoBuildEntity> getDataList = macAutoService.queryManualByDate(params);
+            resultMap.put("rows", getDataList);
+
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 机器上报数据以时间点为分类
+     * @param params
+     * @return
+     */
+    @RequestMapping("queryMachineByDate")
+    public Map<String,Object> queryMachineByDate(Map params){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            List<AutoBuildEntity> getDataList = macAutoService.queryMachineByDate(params);
+            resultMap.put("rows", getDataList);
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 查询比对标记表数据
+     * @param params
+     * @return
+     */
+    @RequestMapping("queryAutoBuildList")
+    public Map<String,Object> queryAutoBuildList(SimpleRequest<Map> params){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            PageInfo getDataList = macAutoService.queryAutoBuildList(params);
+            resultMap.put("total", getDataList.getTotal());
+            resultMap.put("rows", getDataList.getList());
+
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+
+    /**
+     * 查询比对详情表数据
+     * @param params
+     * @return
+     */
+    @RequestMapping("getAutoDataList")
+    public Map<String,Object> getAutoDataList(SimpleRequest<Map> params){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            PageInfo getDataList = macAutoService.getAutoDataList(params);
+            resultMap.put("total", getDataList.getTotal());
+            resultMap.put("rows", getDataList.getList());
+
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
 }

@@ -16,5 +16,8 @@ public interface MacAutoDao {
    int updateManual(ManualModel manualModel);
    int deleteManual(ManualModel manualModel);
    int deleteMachine(MachineModel machineModel);
-
+   List<AutoBuildEntity> queryManualByDate(Map<String, Object> param);
+   List<AutoBuildEntity> queryMachineByDate(Map<String, Object> param);
+   List<AutoBuildEntity> queryAutoBuildList(Map<String, Object> param);
+   List<AutoDataEntity> getAutoDataList(Map<String, Object> param);
 }

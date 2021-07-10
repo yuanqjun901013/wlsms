@@ -8,425 +8,138 @@
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
     <script type="text/javascript" src="../../jquery.min.js"></script>
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../echarts.min.js"></script>
     <SCRIPT th:inline="javascript">
         $(function(){
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
-            getDataList();
             getReload();
+            getAutoDataList();
         })
     </SCRIPT>
 </head>
-
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div id="toolbar">
-        <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBatch()">底数归档</a>-->
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBatchData()">批量导入</a>
-        <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addData()">添加</a>-->
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editValue()">修改</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteValue()">删除</a>
-        <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:200px;">
-        <input class="easyui-datebox" id="endTime" label="结束日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:200px;">
-        <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
-    </div>
-    <div id="getDataList" data-options="region:'center',split:true"></div>
-    <!--
-    <div id="dlg" class="easyui-dialog" style="width:650px; height: 300px"
-         data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
-            <h3>数据校对</h3>
-            <div style="margin-bottom:15px">
-                <input id="cbgManual" name="proCodeManual"  label="人工底数公文号:" style="width:400px;">
-            </div>
-            <div style="margin-bottom:15px">
-                <input id="cbgMachine" name="proCodeMachine"  label="机器底数公文号:" style="width:400px;">
-            </div>
+    <div data-options="region:'west',split:true" style="width:30%" align="middle">
+        <form id="fm" method="post" enctype="multipart/form-data">
+        <h3>数据校对</h3>
+        <div style="margin-bottom:15px">
+            <input id="cbgManual" name="buildDate" label="人工登记日期:" style="width:280px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input id="cbgMachine" name="buildTime" label="机器数据时间:" style="width:280px;">
+        </div>
         </form>
+        <div id="dlg-buttons">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="openAuto()" style="width:90px">开始</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="clearFrom()" style="width:90px">重置</a>
+        </div>
+     </div>
+    <div data-options="region:'center',fit:true">
+        <div id="getAutoDataList" data-options="region:'center',split:true"></div>
     </div>
-    <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveBatch()" style="width:90px">保存</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
-    </div>
-    -->
-    <div id="dlg" class="easyui-dialog" style="width:520px; height: 260px"
-         data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form id="fm" method="post" action="/data/data/importBatchData" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
-            <div style="margin-bottom:15px">
-                <input id="cbg" name="positionCode"  label="位置:" style="width:400px;">
-            </div>
-            <div style="margin-bottom:40px">
-                <input id="file" name="file" class="easyui-filebox" label="文件:" labelPosition="left"  style="width:400px">
-            </div>
-        </form>
-    </div>
-    <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveBatchData()" style="width:90px">保存</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
-    </div>
-<script type="text/javascript" th:inline="none">
-    function getDataList() {//展示列表
-        var queryBt = $('#queryBt').textbox('getValue');
-        var startTime = $('#startTime').datebox('getValue');
-        var endTime = $('#endTime').datebox('getValue');
-        $('#getDataList').datagrid({
-            url:'/data/data/getDataList',//参数
-            method: 'post',
-            //携带参数
-            queryParams: {
-                "queryBt":queryBt,
-                "startTime":startTime,
-                "endTime":endTime
-            },
-            fitColumns:false,
-            striped:true,
-            pagination:true,
-            rownumbers:true,
-            singleSelect:true,
-            remoteFilter: true,
-            clientPaging: false,
-            nowrap:false,//自动换行
-            toolbar:'#toolbar',
-            columns:[[
-                {field:'id',title:'编号',width:80,align:'center'},
-                {field:'positionCode',title:'位置编码',width:100,align:'center'},
-                {field:'sxzfqName',title:'上行转发器',width:80,align:'center'},
-                {field:'sxplValue',title:'上行频率',width:80,align:'center'},
-                {field:'bpqplValue',title:'变频器频率',width:80,align:'center'},
-                {field:'zplValue',title:'中频',width:80,align:'center'},
-                {field:'xxplValue',title:'下行频率',width:80,align:'center'},
-                {field:'systemName',title:'系统',width:80,align:'center'},
-                {field:'tzslValue',title:'调制速率',width:80,align:'center'},
-                {field:'xxslValue',title:'信息速率',width:80,align:'center'},
-                {field:'tzfsName',title:'调制方式',width:80,align:'center'},
-                {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
-                {field:'xzbValue',title:'信噪比',width:80,align:'center'},
-                {field:'cjTime',title:'采集时间',width:80,align:'center'},
-                {field:'wzlValue',title:'误帧率',width:80,align:'center'},
-                {field:'createTime',title:'归档时间',width:150,align:'center'},
-                {field:'reSxplValue',title:'上一日建议上行频率',width:150,align:'center'},
-                {field:'reBpqplValue',title:'上一日建议变频器频率',width:150,align:'center'},
-                {field:'reZplValue',title:'上一日建议中频',width:150,align:'center'},
-                {field:'reXxplValue',title:'上一日建议下行频率',width:150,align:'center'},
-                {field:'reTzslValue',title:'上一日建议调制速率',width:150,align:'center'},
-                {field:'reXxslValue',title:'上一日建议信息速率',width:150,align:'center'},
-                {field:'reXzbValue',title:'上一日建议信噪比',width:150,align:'center'},
-                {field:'reWzlValue',title:'上一日建议误帧率',width:150,align:'center'},
-                {field:'proCode',title:'人工公文号',width:150,align:'center'}
-            ]]
-        });
-    }
+    <script type="text/javascript" th:inline="none">
+        function getReload(){
+            $('#cbgManual').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/data/macAuto/queryManualByDate',
+                idField: 'buildDate',
+                textField: 'buildDate',
+                striped:true,
+                labelPosition:"top",
+                fitColumns: true,
+                nowrap:false,//自动换行
+                columns: [[
+                    {field:'buildDate',title:'人工登记日期',width:180,sortable:true},
+                    {field:'count',title:'数据量',width:60,sortable:true}
 
-    //查询按钮
-    $("#queryBt").textbox({onClickButton:function(){
-            getDataList();
-        }})
+                ]]
+            });
 
-    //日前格式化1
-    function dateFormatter(date){
-        var y = date.getFullYear();
-        var m = date.getMonth()+1;
-        var d = date.getDate();
-        return  y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
-
-    }
-    //日前格式化2
-    function dateParser(s){
-        var reg=/[\u4e00-\u9fa5]/  //利用正则表达式分隔
-        var ss = (s.split("-"));
-        var y = parseInt(ss[0],10);
-        var m = parseInt(ss[1],10);
-        var d = parseInt(ss[2],10);
-        if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
-            return new Date(y,m-1,d);
-        } else {
-            return new Date();
-        }
-    }
-
-    // function addBatch(){
-    //     $('#dlg').dialog('open').dialog('center').dialog('setTitle','数据归档');
-    //     $('#fm').form('clear');
-    // }
-
-   function addData(){
-       $('#dataAdd').dialog('open').dialog('center').dialog('setTitle','新增底数');
-       $('#fmAdd').form('clear');
-   }
-
-    //批量导入信息
-    function addBatchData(){
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle','导入人工底数');
-        $('#fm').form('clear');
-    }
-    function getReload(){
-    $('#cbg').combogrid({
-        delay: 250,
-        mode: 'remote',
-        url: '/admin/position/getPositionArr',
-        idField: 'positionCode',
-        textField: 'positionName',
-        striped:true,
-        multiple: false,
-        fitColumns: true,
-        columns: [[
-            {field:'positionName',title:'位置名称',width:100,sortable:true},
-            {field:'positionCode',title:'位置编码',width:80,sortable:true}
-        ]]
-    });
-
-    $('#cbs').combogrid({
-        delay: 250,
-        mode: 'remote',
-        url: '/admin/position/getPositionArr',
-        idField: 'positionCode',
-        textField: 'positionName',
-        striped:true,
-        multiple: false,
-        fitColumns: true,
-        columns: [[
-            {field:'positionName',title:'位置名称',width:100,sortable:true},
-            {field:'positionCode',title:'位置编码',width:80,sortable:true}
-        ]]
-    });
-    }
-    function saveBatchData(){
-        $('#fm').form('submit',{
-            url: '/data/data/importBatchData',
-            onSubmit: function(){
-                return $(this).form('validate');
-            },
-            success: function(result){
-                var result = eval('('+result+')');
-                if(result.success){
-                    $.messager.alert("消息提醒", result.data, "info",function (){
-                        $('#dlg').dialog('close');        // close the dialog
-                        $('#getDataList').datagrid('reload');    // reload the user data
-                    });
-                }else {
-                    $.messager.alert("消息提醒",result.msg);
-                }
-            }
-        });
-    }
-
-    // function getReload(){
-    // $('#cbgManual').combogrid({
-    //     delay: 250,
-    //     mode: 'remote',
-    //     url: '/data/data/getManualDit',
-    //     idField: 'proCode',
-    //     textField: 'proCodeManual',
-    //     striped:true,
-    //     fitColumns: true,
-    //     nowrap:false,//自动换行
-    //     columns: [[
-    //         {field:'proCode',title:'公文号',width:200,sortable:true},
-    //         {field:'positionCode',title:'位置编码',width:120,sortable:true},
-    //         {field:'cjTime',title:'上报时间',width:120,sortable:true}
-    //     ]]
-    // });
-
-    // $('#cbgMachine').combogrid({
-    //     delay: 250,
-    //     mode: 'remote',
-    //     url: '/data/data/getMachineDit',
-    //     idField: 'proCode',
-    //     textField: 'proCodeMachine',
-    //     striped:true,
-    //     fitColumns: true,
-    //     nowrap:false,//自动换行
-    //     columns: [[
-    //         {field:'proCode',title:'公文号',width:200,sortable:true},
-    //         {field:'positionCode',title:'位置编码',width:120,sortable:true},
-    //         {field:'cjTime',title:'上报时间',width:120,sortable:true}
-    //     ]]
-    // });
-    // }
-    function saveBatch(){
-        $('#fm').form('submit',{
-            url: '/data/data/saveBatch',
-            onSubmit: function(){
-                return $(this).form('validate');
-            },
-            success: function(result){
-                var result = eval('('+result+')');
-                if(result.success){
-                    $.messager.alert("消息提醒", result.data, "info",function (){
-                        $('#dlg').dialog('close');        // close the dialog
-                        $('#getDataList').datagrid('reload');    // reload the user data
-                        getReload();
-                    });
-                }else {
-                    $.messager.alert("消息提醒",result.msg);
-                }
-            }
-        });
-    }
-
-    function deleteValue(){
-        var row = $('#getDataList').datagrid('getSelected');
-        if (row){
-            $.messager.confirm('确认提醒','确定删除此条数据?',function(r){
-                if (r){
-                    $.post('/data/data/deleteData',{id:row.id},function(result){
-                        if (result.success){
-                            $('#getDataList').datagrid('reload');    // reload the user data
-                        } else {
-                            $.messager.alert("消息提醒",result.msg);
-                        }
-                    },'json');
-                }
+            $('#cbgMachine').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/data/macAuto/queryMachineByDate',
+                idField: 'buildTime',
+                textField: 'buildTime',
+                labelPosition:"top",
+                striped:true,
+                fitColumns: true,
+                nowrap:false,//自动换行
+                columns: [[
+                    {field:'buildTime',title:'机器上报时间',width:180,sortable:true},
+                    {field:'count',title:'数据量',width:60,sortable:true}
+                ]]
             });
         }
-    }
-    var cjTime;
-    function editValue(){
-        var row = $('#getDataList').datagrid('getSelected');
-        if (row){
-            $('#dataUpdate').dialog('open').dialog('center').dialog('setTitle','修改');
-            $('#fmm').form('load',row);
+
+        function clearFrom(){
+            $('#fm').form('clear');
         }
-    }
 
-    function updateData(){
-        $('#fmm').form('submit',{
-            url: '/data/data/updateData',
-            onSubmit: function(){
-                return $(this).form('validate');
-            },
-            success: function(result){
-                var result = eval('('+result+')');
-                if(result.success){
-                    $.messager.alert("消息提醒", result.data, "info",function (){
-                        $('#dataUpdate').dialog('close');        // close the dialog
-                        $('#getDataList').datagrid('reload');    // reload the user data
-                    });
-                }else {
-                    $.messager.alert("消息提醒",result.msg);
-                }
-            }
-        });
-    }
-</script>
-</div>
-<div id="dataAdd" class="easyui-dialog" style="width:600px; height: 500px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgData-buttons'">
-    <form id="fmAdd" method="post" novalidate style="margin:0;padding:20px 50px">
-        <h3>新增底数信息</h3>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="上行转发器:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
-            <input class="easyui-textbox" type="text" name="sxplValue" data-options="required:true" label="上行频率:" labelPosition="left" style="width:230px;">
-            </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="bpqplValue" data-options="required:true" label="变频器频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="zplValue" data-options="required:true" label="中频:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="xxplValue" data-options="required:true" label="下行频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="系统:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="tzslValue" data-options="required:true" label="调制速率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xxslValue" data-options="required:true" label="信息速率:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="tzfsName" data-options="required:true" label="调制方式:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xdbmCode" data-options="required:true" label="信道编码:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="cjTime" data-options="required:true"  label="采集时间:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="wzlValue" data-options="required:true" label="误帧率:" labelPosition="left" style="width:230px;">
-            <input id="cbs" name="positionCode"  label="位置:" style="width:230px;">
-        </div>
-    </form>
-</div>
-<div id="dlgData-buttons">
-    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveData()" style="width:90px">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dataAdd').dialog('close')" style="width:90px">取消</a>
-</div>
-
-
-<div id="dataUpdate" class="easyui-dialog" style="width:600px; height: 500px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgUpdate-buttons'">
-    <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
-        <h3>编辑底数信息</h3>
-      <!--  <a href="javascript:void(0)" class="easyui-linkbutton c6" onclick="getRecommend()" style="width:90px">建议数值</a> -->
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="上行转发器:" labelPosition="left" style="width:200px;">&nbsp;&nbsp;
-            <input class="easyui-textbox" type="text" name="cjTime" readonly="readonly" label="采集时间:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-        <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="系统:" labelPosition="left" style="width:230px;">
-        <input class="easyui-textbox" type="text" name="positionCode" readonly="readonly" label="位置编码:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="sxplValue" data-options="required:true" label="上行频率:" labelPosition="left" style="width:200px;">
-            <input class="easyui-textbox" type="text" name="reSxplValue"  label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="bpqplValue" data-options="required:true" label="变频器频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reBpqplValue"  label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="zplValue" data-options="required:true" label="中频:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reZplValue"  label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="xxplValue" data-options="required:true" label="下行频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reXxplValue"  label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="tzslValue" data-options="required:true" label="调制速率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reTzslValue"  label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="xxslValue" data-options="required:true" label="信息速率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reXxslValue"  label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="tzfsName" data-options="required:true" label="调制方式:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xdbmCode" data-options="required:true" label="信道编码:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reXzbValue"  label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="wzlValue" data-options="required:true" label="误帧率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reWzlValue"  label="建议值:" labelPosition="left" style="width:200px;">
-            <input type="text" style="display: none" name = "id">
-        </div>
-    </form>
-    <!--
-    <script type="text/javascript" th:inline="none">
-        function getRecommend(){
-            $.ajax({
-                type: 'POST',
-                async: false,
-                dataType: "json",
-                url: '/data/data/getRecommend',//获取系统总览
-                data:{
-                    "cjTime":cjTime
+        function openAuto(){
+            //比对开始
+            $('#fm').form('submit',{
+                url: '/data/macAuto/openAuto',
+                onSubmit: function(){
+                    return $(this).form('validate');
                 },
                 success: function(result){
                     var result = eval('('+result+')');
                     if(result.success){
-
+                        $.messager.alert("消息提醒", result.data, "info",function (){
+                            $('#getAutoDataList').datagrid('reload');    // reload the user data
+                        });
                     }else {
                         $.messager.alert("消息提醒",result.msg);
                     }
                 }
             });
+        }
 
+        function getAutoDataList() {//展示列表
+            var cbgManual = $('#cbgManual').combogrid('getValue');
+            var cbgMachine = $('#cbgMachine').combogrid('getValue');
+            $('#getAutoDataList').datagrid({
+                url:'/data/macAuto/getAutoDataList',//参数
+                method: 'post',
+                //携带参数
+                queryParams: {
+                    "buildDate": cbgManual,
+                    "buildTime": cbgMachine
+                },
+                fitColumns:false,
+                fit:false,
+                striped:true,
+                pagination:true,
+                rownumbers:true,
+                singleSelect:true,
+                remoteFilter: true,
+                clientPaging: false,
+                nowrap:false,//自动换行
+                columns:[[
+                    {field:'id',title:'编号',width:80,align:'center'},
+                    {field:'xxpl_value',title:'下行频率',width:80,align:'center'},
+                    {field:'tkplValue',title:'天空频率',width:80,align:'center'},
+                    {field:'xtdValue',title:'差值',width:80,align:'center'},
+                    {field:'systemName',title:'系统',width:80,align:'center'},
+                    {field:'xhType',title:'信号类型',width:80,align:'center'},
+                    {field:'tzslValue',title:'调制速率',width:80,align:'center'},
+                    {field:'mslValue',title:'码速率',width:80,align:'center'},
+                    {field:'tzdValue',title:'差值',width:80,align:'center'},
+                    {field:'tzfsName',title:'调制方式',width:80,align:'center'},
+                    {field:'tzysName',title:'调制样式',width:80,align:'center'},
+                    {field:'xxslValue',title:'信息速率',width:80,align:'center'},
+                    {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
+                    {field:'bmType',title:'编码类型',width:80,align:'center'},
+                    {field:'mlName',title:'码率',width:80,align:'center'},
+                    {field:'buildDate',title:'人工登记时间',width:150,align:'center'},
+                    {field:'buildTime',title:'机器发生时间',width:200,align:'center'}
+                ]]
+            });
         }
     </script>
-    -->
-</div>
-<div id="dlgUpdate-buttons">
-    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateData()" style="width:90px">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dataUpdate').dialog('close')" style="width:90px">取消</a>
 </div>
 </body>
 </html>

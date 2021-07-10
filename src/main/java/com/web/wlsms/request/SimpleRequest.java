@@ -10,5 +10,7 @@ public class SimpleRequest<T> extends PageRequest {
     private String queryBt;
     private String startTime;
     private String endTime;
+    private String buildDate;
+    private String buildTime;
 
 }

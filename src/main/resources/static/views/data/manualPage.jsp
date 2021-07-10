@@ -146,7 +146,6 @@
                     $.messager.alert("消息提醒", result.data, "info",function (){
                         $('#dataAdd').dialog('close');        // close the dialog
                         $('#getManualList').datagrid('reload');    // reload the user data
-                        getReload();
                     });
                 }else {
                     $.messager.alert("消息提醒",result.msg);

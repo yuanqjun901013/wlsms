@@ -25,7 +25,7 @@
         <div id="data" style="width: 400px;height: 400px" data-options="region:'center',split:true,fit:true"></div>
     </div>
 </div>
-<script th:inline="javascript">
+<script type="text/javascript" th:inline="none">
         var cotData;
         var vcData;
         $.ajax({

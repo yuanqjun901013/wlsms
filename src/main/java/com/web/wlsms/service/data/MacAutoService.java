@@ -123,9 +123,71 @@ public class MacAutoService {
     }
 
     /**
+     * 查询人工以日期为分类数据
+     * @param param
+     * @return
+     */
+    public List<AutoBuildEntity> queryManualByDate(Map param){
+        return macAutoDao.queryManualByDate(param);
+    }
+    /**
+     * 查询人工以时间点为分类数据
+     * @param param
+     * @return
+     */
+    public List<AutoBuildEntity> queryMachineByDate(Map param){
+        return macAutoDao.queryMachineByDate(param);
+    }
+
+
+    /**
+     * 查询比对标记表数据
+     * @param request
+     * @return
+     */
+    public PageInfo queryAutoBuildList(SimpleRequest<Map> request){
+        PageHelper.startPage(request.getPage(), request.getRows());
+        Map<String,Object> param = new HashMap<>();
+        try {
+            if (StringUtils.isNotBlank(request.getBuildDate())) {
+                param.put("buildDate", request.getBuildDate());
+            }
+            if(StringUtils.isNotBlank(request.getQueryBt())){
+                param.put("queryBt", request.getQueryBt());
+            }
+            List<AutoBuildEntity> list = macAutoDao.queryAutoBuildList(param);
+            return new PageInfo<>(list);
+        }catch (Exception e){
+            return new PageInfo();
+        }
+    }
+
+    /**
+     * 查询比对详情表数据
+     * @param request
+     * @return
+     */
+    public PageInfo getAutoDataList(SimpleRequest<Map> request){
+        PageHelper.startPage(request.getPage(), request.getRows());
+        Map<String,Object> param = new HashMap<>();
+        try {
+            if (StringUtils.isNotBlank(request.getBuildDate())) {
+                param.put("buildDate", request.getBuildDate());
+            }
+            if (StringUtils.isNotBlank(request.getBuildTime())) {
+                param.put("buildTime", request.getBuildTime());
+            }
+            List<AutoDataEntity> list = macAutoDao.getAutoDataList(param);
+            return new PageInfo<>(list);
+        }catch (Exception e){
+            return new PageInfo();
+        }
+    }
+
+    /**
      * 数据比对业务操作
      */
-    public void dataAutoBatch(){
+    public void openAuto(){
         //对比某个时间点机器的数据
         //核心是对比下频vs天频；调制速率vs码速率
         //机器的码速率要*1000
