@@ -107,6 +107,48 @@
     order by id desc
     </select>
 
+    <insert id="saveManual" parameterType="com.web.wlsms.entity.ManualModel">
+        INSERT INTO wlsms_auto_manual
+        (
+            sxzfq_name,
+            sxpl_value,
+            bpqpl_value,
+            zpl_value,
+            xxpl_value,
+            system_name,
+            tzsl_value,
+            xxsl_value,
+            tzfs_name,
+            xdbm_code,
+            xzb_value,
+            build_date,
+            position_code,
+            pro_code,
+            user_no,
+            create_time,
+            edit_time
+        )
+        VALUES
+        (
+            #{sxzfqName},
+            #{sxplValue},
+            #{bpqplValue},
+            #{zplValue},
+            #{xxplValue},
+            #{systemName},
+            #{tzslValue},
+            #{xxslValue},
+            #{tzfsName},
+            #{xdbmCode},
+            #{xzbValue},
+            #{buildDate},
+            #{positionCode},
+            #{proCode},
+            #{userNo},
+            now(),
+            now()
+        )
+    </insert>
 
     <insert id="insertManual" parameterType="java.util.List">
         INSERT INTO wlsms_auto_manual (
@@ -152,6 +194,48 @@
         </foreach>
     </insert>
 
+
+    <insert id="saveMachine" parameterType="com.web.wlsms.entity.MachineModel">
+        INSERT INTO wlsms_auto_manual
+        (
+            wx_name,
+            zpl_value,
+            dpl_value,
+            tkpl_value,
+            xh_type,
+            msl_value,
+            zzb_value,
+            tzys_name,
+            bm_type,
+            ml_name,
+            build_time,
+            position_code,
+            pro_code,
+            user_no,
+            create_time,
+            edit_time
+        )
+        VALUES
+        (
+            #{wxName},
+            #{zplValue},
+            #{dplValue},
+            #{tkplValue},
+            #{xhType},
+            #{mslValue},
+            #{zzbValue},
+            #{tzysName},
+            #{bmType},
+            #{mlName},
+            #{buildTime},
+            #{positionCode},
+            #{proCode},
+            #{userNo},
+            now(),
+            now()
+        )
+    </insert>
+
     <insert id="insertMachine" parameterType="java.util.List">
         INSERT INTO wlsms_auto_machine (
         wx_name,
@@ -194,6 +278,27 @@
         </foreach>
     </insert>
 
+    <update id="updateManual" parameterType="com.web.wlsms.entity.ManualModel">
+        update wlsms_auto_manual
+        <set>
+            sxzfq_name = #{sxzfqName},
+            sxpl_value = #{sxplValue},
+            bpqpl_value = #{bpqplValue},
+            zpl_value = #{zplValue},
+            xxpl_value = #{xxplValue},
+            system_name = #{systemName},
+            tzsl_value = #{tzslValue},
+            xxsl_value = #{xxslValue},
+            tzfs_name = #{tzfsName},
+            xdbm_code = #{xdbmCode},
+            xzb_value = #{xzbValue},
+            edit_time = now()
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
     <delete id="deleteManual">
         delete from wlsms_auto_manual
         <where>
@@ -207,4 +312,6 @@
             id = #{id}
         </where>
     </delete>
+
+
 </mapper>

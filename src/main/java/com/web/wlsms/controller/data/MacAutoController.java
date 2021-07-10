@@ -8,6 +8,7 @@ import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.data.MacAutoService;
 import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.utils.ExcelUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -286,4 +287,55 @@ public class MacAutoController {
         }
         return resultMap;
     }
+
+    @RequestMapping("saveManual")
+    public BaseResponse saveManual(HttpServletRequest request, ManualModel manualModel){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        if(null == manualModel){
+            return BaseResponse.fail("入参有误");
+        }
+        if(StringUtils.isBlank(userNo)){
+            return BaseResponse.fail("用户没登录");
+        }
+        manualModel.setUserNo(userNo);
+        manualModel.setProCode(getProCodeNum());
+        return macAutoService.saveManual(manualModel);
+    }
+
+    @RequestMapping("updateManual")
+    public BaseResponse updateManual(ManualModel manualModel){
+        if(null == manualModel){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        return macAutoService.updateManual(manualModel);
+    }
+
+    /**
+     * 删除人工底数
+     * @param
+     * @return
+     */
+    @RequestMapping("deleteManual")
+    public BaseResponse deleteManual(ManualModel manualModel){
+        if(null == manualModel){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        return macAutoService.deleteManual(manualModel);
+    }
+
+    /**
+     * 删除机器底数
+     * @param
+     * @return
+     */
+    @RequestMapping("deleteMachine")
+    public BaseResponse deleteMachine(MachineModel machineModel){
+        if(null == machineModel){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        return macAutoService.deleteMachine(machineModel);
+    }
+
+
 }

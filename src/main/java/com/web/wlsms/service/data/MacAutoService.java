@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.web.wlsms.dao.MacAutoDao;
 import com.web.wlsms.entity.*;
 import com.web.wlsms.request.SimpleRequest;
+import com.web.wlsms.response.BaseResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,57 @@ public class MacAutoService {
         }
     }
 
+    public BaseResponse saveManual(ManualModel manualModel){
+        int num = macAutoDao.saveManual(manualModel);
+        if(num > 0){
+            return BaseResponse.ok("新增成功");
+        }else {
+            return BaseResponse.fail("新增失败");
+        }
+    }
+
+    /**
+     * 编辑人工底数
+     * @param manualModel
+     * @return
+     */
+    public BaseResponse updateManual(ManualModel manualModel){
+        int num = macAutoDao.updateManual(manualModel);
+        if(num >0){
+            return BaseResponse.ok("更新数据成功");
+        }else {
+            return BaseResponse.fail("更新数据失败");
+        }
+    }
+
+    /**
+     * 删除人工底数
+     * @param manualModel
+     * @return
+     */
+    public BaseResponse deleteManual(ManualModel manualModel){
+        int num = macAutoDao.deleteManual(manualModel);
+        if(num >0){
+            return BaseResponse.ok("删除信息成功");
+        }else {
+            return BaseResponse.fail("删除失败");
+        }
+    }
+
+    /**
+     * 删除机器底数
+     * @param machineModel
+     * @return
+     */
+    public BaseResponse deleteMachine(MachineModel machineModel){
+        int num = macAutoDao.deleteMachine(machineModel);
+        if(num >0){
+            return BaseResponse.ok("删除信息成功");
+        }else {
+            return BaseResponse.fail("删除失败");
+        }
+    }
+
     /**
      * 数据比对业务操作
      */
@@ -77,8 +129,8 @@ public class MacAutoService {
         //对比某个时间点机器的数据
         //核心是对比下频vs天频；调制速率vs码速率
         //机器的码速率要*1000
-        List<MachineDataModel> machineDataModels = new ArrayList<>();
-        List<ManualDataModel> manualDataModels = new ArrayList<>();
+        List<MachineModel> machineModels = new ArrayList<>();
+        List<ManualModel> manualModels = new ArrayList<>();
         //用户选择xx时间点的机器底数
 
     }

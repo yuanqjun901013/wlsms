@@ -12,4 +12,9 @@ public interface MacAutoDao {
    int insertMachine(List<MachineModel> machineModels);
    List<ManualModel> getManualList(Map map);
    List<MachineModel> getMachineList(Map map);
+   int saveManual(ManualModel manualModel);
+   int updateManual(ManualModel manualModel);
+   int deleteManual(ManualModel manualModel);
+   int deleteMachine(MachineModel machineModel);
+
 }
