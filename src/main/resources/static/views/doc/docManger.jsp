@@ -108,7 +108,7 @@
         function deleteDoc(){
             var row = $('#docManager').datagrid('getSelected');
             if (row){
-                $.messager.confirm('Confirm','确定删除该资料?',function(r){
+                $.messager.confirm('确认提醒','确定删除该资料?',function(r){
                     if (r){
                         $.post('/doc/doc/deleteDoc',{id:row.id},function(result){
                             if (result.success){

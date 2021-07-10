@@ -131,7 +131,7 @@
     function delUserRole(){
         var row = $('#roleAuthList').datagrid('getSelected');
         if (row){
-            $.messager.confirm('Confirm','确定删除用户权限?',function(r){
+            $.messager.confirm('确认提醒','确定删除用户权限?',function(r){
                 if (r){
                     $.post('/admin/roleUser/delUserRole',{id:row.id},function(result){
                         if (result.success){

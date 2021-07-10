@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface ParamDao {
 
-   List<ParamEntity> getParametersList();
+   List<ParamEntity> getParametersList(String keyWord);
    void insertParam(ParamEntity messageEntity);
+   int paramSubmit(ParamEntity paramEntity);
 }

@@ -132,7 +132,7 @@
     function destroyPosition(){
         var row = $('#getPositionList').datagrid('getSelected');
         if (row){
-            $.messager.confirm('Confirm','确定删除该位置信息?',function(r){
+            $.messager.confirm('确认提醒','确定删除该位置信息?',function(r){
                 if (r){
                     $.post('/admin/position/destroyPosition',{id:row.id},function(result){
                         if (result.success){

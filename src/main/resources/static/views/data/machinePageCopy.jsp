@@ -12,7 +12,7 @@
         $(function(){
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
-            getMachineList();
+            getMachineDataList();
         })
     </SCRIPT>
 </head>
@@ -27,10 +27,10 @@
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
 
     </div>
-    <div id="getMachineList" data-options="region:'center',split:true"></div>
+    <div id="getMachineDataList" data-options="region:'center',split:true"></div>
     <div id="dlg" class="easyui-dialog" style="width:520px; height: 260px"
          data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form id="fm" method="post" action="/data/macAuto/importMachine" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
+        <form id="fm" method="post" action="/data/data/importMachine" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
             <div style="margin-bottom:15px">
                 <input id="cbg" name="positionCode"  label="编码:" style="width:400px;">
             </div>
@@ -44,12 +44,12 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
     <script type="text/javascript" th:inline="none">
-        function getMachineList() {//展示列表
+        function getMachineDataList() {//展示列表
             var queryBt = $('#queryBt').textbox('getValue');
             var startTime = $('#startTime').datebox('getValue');
             var endTime = $('#endTime').datebox('getValue');
-            $('#getMachineList').datagrid({
-                url:'/data/macAuto/getMachineList',//参数
+            $('#getMachineDataList').datagrid({
+                url:'/data/data/getMachineDataList',//参数
                 method: 'post',
                 //携带参数
                 queryParams: {
@@ -77,17 +77,23 @@
                     {field:'mslValue',title:'码速率',width:80,align:'center'},
                     {field:'zzbValue',title:'载噪比',width:80,align:'center'},
                     {field:'tzysName',title:'调制样式',width:80,align:'center'},
-                    {field:'bmType',title:'编码样式(信道)',width:80,align:'center'},
-                    {field:'mlName',title:'码率(信道)',width:80,align:'center'},
-                    {field:'buildTime',title:'采集时间',width:150,align:'center'},
-                    {field:'proCode',title:'批次号',width:200,align:'center'}
+                    {field:'state',title:'状态',formatter:function(value,row,index)
+                        {
+                            if(row.state == 0){
+                                return "未校对";
+                            }else {
+                                return "已校对";
+                            }
+                        },width:50,align:'center'},
+                    {field:'cjTime',title:'采集时间',width:150,align:'center'},
+                    {field:'proCode',title:'公文批次号',width:200,align:'center'}
                 ]]
             });
         }
 
         //查询按钮
         $("#queryBt").textbox({onClickButton:function(){
-                getMachineList();
+                getMachineDataList();
             }})
 
         //日前格式化1
@@ -120,7 +126,7 @@
 
         function saveMachine(){
             $('#fm').form('submit',{
-                url: '/data/macAuto/importMachine',
+                url: '/data/data/importMachine',
                 onSubmit: function(){
                     return $(this).form('validate');
                 },
@@ -129,7 +135,7 @@
                     if(result.success){
                         $.messager.alert("消息提醒", result.data, "info",function (){
                             $('#dlg').dialog('close');        // close the dialog
-                            $('#getMachineList').datagrid('reload');    // reload the user data
+                            $('#getMachineDataList').datagrid('reload');    // reload the user data
                         });
                     }else {
                         $.messager.alert("消息提醒",result.msg);
@@ -154,13 +160,13 @@
         });
 
         function deleteMachine(){
-            var row = $('#getMachineList').datagrid('getSelected');
+            var row = $('#getMachineDataList').datagrid('getSelected');
             if (row){
                 $.messager.confirm('确认提醒','确定删除该资料?',function(r){
                     if (r){
-                        $.post('/data/macAuto/deleteMachine',{id:row.id},function(result){
+                        $.post('/data/data/deleteMachine',{id:row.id},function(result){
                             if (result.success){
-                                $('#getMachineList').datagrid('reload');    // reload the user data
+                                $('#getMachineDataList').datagrid('reload');    // reload the user data
                             } else {
                                 $.messager.alert("消息提醒",result.msg);
                             }

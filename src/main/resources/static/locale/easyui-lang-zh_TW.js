@@ -10,7 +10,7 @@ if ($.fn.treegrid && $.fn.datagrid){
 	$.fn.treegrid.defaults.loadMsg = $.fn.datagrid.defaults.loadMsg;
 }
 if ($.messager){
-	$.messager.defaults.ok = '確定';
+	$.messager.defaults.ok = '确定';
 	$.messager.defaults.cancel = '取消';
 }
 $.map(['validatebox','textbox','passwordbox','filebox','searchbox',
@@ -33,8 +33,8 @@ if ($.fn.calendar){
 }
 if ($.fn.datebox){
 	$.fn.datebox.defaults.currentText = '今天';
-	$.fn.datebox.defaults.closeText = '關閉';
-	$.fn.datebox.defaults.okText = '確定';
+	$.fn.datebox.defaults.closeText = '关闭';
+	$.fn.datebox.defaults.okText = '确定';
 }
 if ($.fn.datetimebox && $.fn.datebox){
 	$.extend($.fn.datetimebox.defaults,{

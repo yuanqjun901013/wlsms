@@ -124,7 +124,7 @@
     function destroyUser(){
         var row = $('#userList').datagrid('getSelected');
         if (row){
-            $.messager.confirm('Confirm','确定删除该用户?',function(r){
+            $.messager.confirm('确认提醒','确定删除该用户?',function(r){
                 if (r){
                     $.post('/admin/user/deleteUser',{id:row.id},function(result){
                         if (result == 1){
