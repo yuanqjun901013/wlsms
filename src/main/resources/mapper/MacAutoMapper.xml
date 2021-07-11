@@ -320,7 +320,7 @@
         count(id) as count
         from wlsms_auto_manual
         where 1=1
-        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
         group by build_date
         order by build_date desc
     </select>
@@ -359,12 +359,12 @@
         id,
         xxpl_value as xxplValue,
         tkpl_value as tkplValue,
-        xtdValue,
+        xtd_value as xtdValue,
         system_name as systemName,
         xh_type as xhType,
         tzsl_value as tzslValue,
         msl_value as mslValue,
-        tzdValue,
+        tzd_value as tzdValue,
         tzfs_name as tzfsName,
         tzys_name as tzysName,
         xdbm_code as xdbmCode,
@@ -377,10 +377,162 @@
         DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
         DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,
         DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
-        from wlsms_auto_build
+        from wlsms_auto_data
         where 1=1
         <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
-        <if test="buildTime != null and buildTime != ''"> DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
+        <if test="buildTime != null and buildTime != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
         order by build_time desc
+    </select>
+
+    <select id="queryLimitDate" resultType="java.lang.String">
+        select
+        DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate
+        from wlsms_auto_manual
+        where 1=1
+        group by build_date
+        order by build_date desc
+        limit 0,1
+    </select>
+
+    <select id="getManualListByDate" parameterType="java.util.HashMap" resultMap="ManualMap">
+        SELECT id,
+               sxzfq_name,
+               sxpl_value,
+               bpqpl_value,
+               zpl_value,
+               xxpl_value,
+               system_name,
+               tzsl_value,
+               xxsl_value,
+               tzfs_name,
+               xdbm_code,
+               xzb_value,
+               DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+               position_code,
+               pro_code,
+               user_no
+        FROM wlsms_auto_manual
+        where 1=1
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') =  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+    </select>
+
+    <select id="getMachineListByDate" parameterType="java.util.HashMap" resultMap="MachineMap">
+        SELECT
+        id,
+        wx_name,
+        zpl_value,
+        dpl_value,
+        tkpl_value,
+        xh_type,
+        msl_value,
+        DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+        zzb_value,
+        tzys_name,
+        bm_type,
+        ml_name,
+        position_code,
+        pro_code,
+        user_no
+        FROM
+        wlsms_auto_machine
+        where 1=1
+        <if test="buildTime != null and buildTime != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') =  DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
+    </select>
+
+    <select id="getParamValue" resultType="String">
+        select param_value as paramValue from admin_parameters where param_type = '阀值'
+    </select>
+
+    <select id="getAutoBuildCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+
+        select count(*) from wlsms_auto_build where DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') =  DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S')
+    </select>
+
+    <update id="updateAutoBuild" parameterType="com.web.wlsms.entity.AutoBuildEntity">
+        update wlsms_auto_build set edit_time = now() where DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') =  DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S')
+    </update>
+
+    <insert id="insertAutoBuild" parameterType="com.web.wlsms.entity.AutoBuildEntity">
+     insert into wlsms_auto_build (
+          build_date,
+          build_time,
+          remark,
+          create_time,
+          edit_time
+     )values (
+              #{buildDate},
+              #{buildTime},
+              #{remark},
+              now(),
+              now()
+         )
+    </insert>
+
+    <insert id="insertAutoDatas" parameterType="java.util.List">
+        INSERT INTO wlsms_auto_data
+        (
+        xxpl_value,
+        tkpl_value,
+        xtd_value,
+        system_name,
+        xh_type,
+        tzsl_value,
+        msl_value,
+        tzd_value,
+        tzfs_name,
+        tzys_name,
+        xdbm_code,
+        bm_type,
+        ml_name,
+        xzb_value,
+        zzb_value,
+        user_no,
+        build_date,
+        build_time,
+        create_time,
+        edit_time
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.xxplValue},
+            #{item.tkplValue},
+            #{item.xtdValue},
+            #{item.systemName},
+            #{item.xhType},
+            #{item.tzslValue},
+            #{item.mslValue},
+            #{item.tzdValue},
+            #{item.tzfsName},
+            #{item.tzysName},
+            #{item.xdbmCode},
+            #{item.bmType},
+            #{item.mlName},
+            #{item.xzbValue},
+            #{item.zzbValue},
+            'admin',
+            #{item.buildDate},
+            #{item.buildTime},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteAutoDateByThis" parameterType="java.util.HashMap">
+        delete from wlsms_auto_data where  DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S')
+    </delete>
+
+    <!-- 查看比对标记表数据根据id -->
+    <select id="getAutoBuildById" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoBuildEntity">
+        select
+        id,
+        DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+        DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+        remark,
+        DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,
+        DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+        from wlsms_auto_build
+        where id = #{id}
     </select>
 </mapper>

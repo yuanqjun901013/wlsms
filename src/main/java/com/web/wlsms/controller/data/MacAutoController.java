@@ -234,6 +234,16 @@ public class MacAutoController {
             } else {
                 num += macAutoService.insertMachine(newAddData);
             }
+            //自动比对人工数据(获取最新日期的人工数据)
+            String buildDate = macAutoService.queryLimitDate();
+            List<ManualModel> getManualList = macAutoService.getManualListByDate(buildDate);
+            //处理对比
+            try {
+                macAutoService.getAutoDocker(newAddData, getManualList, "系统");
+            }catch (Exception e){
+
+            }
+
         }
         if(num > 0){
             MessageEntity messageEntity = new MessageEntity();
@@ -418,6 +428,7 @@ public class MacAutoController {
     }
 
 
+
     /**
      * 查询比对详情表数据
      * @param params
@@ -436,5 +447,38 @@ public class MacAutoController {
             resultMap.put("rows", "");
         }
         return resultMap;
+    }
+
+    /**
+     * 根据主表id查询比对详情表数据
+     * @param params
+     * @return
+     */
+    @RequestMapping("getAutoDataListById")
+    public Map<String,Object> getAutoDataListById(SimpleRequest<Map> params){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            AutoBuildEntity autoBuildById = macAutoService.getAutoBuildById(params);
+            if(null != autoBuildById){
+                params.setBuildDate(autoBuildById.getBuildDate());
+                params.setBuildTime(autoBuildById.getBuildTime());
+            }
+            PageInfo getDataList = macAutoService.getAutoDataList(params);
+            resultMap.put("total", getDataList.getTotal());
+            resultMap.put("rows", getDataList.getList());
+
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    @RequestMapping("openAuto")
+    public BaseResponse openAuto(SimpleRequest<Map> params){
+        if(null == params){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        return macAutoService.openAuto(params);
     }
 }

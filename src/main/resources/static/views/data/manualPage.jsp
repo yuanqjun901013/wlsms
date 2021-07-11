@@ -289,27 +289,15 @@
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="sxplValue" data-options="required:true" label="上行频率:" labelPosition="left" style="width:200px;">
-            <input class="easyui-textbox" type="text" name="reSxplValue"  label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="bpqplValue" data-options="required:true" label="变频器频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reBpqplValue" readonly label="建议值:" labelPosition="left" style="width:200px;">
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="zplValue" data-options="required:true" label="中频:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reZplValue" readonly label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="xxplValue" data-options="required:true" label="下行频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reXxplValue" readonly label="建议值:" labelPosition="left" style="width:200px;">
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="tzslValue" data-options="required:true" label="调制速率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reTzslValue" readonly label="建议值:" labelPosition="left" style="width:200px;">
-        </div>
-        <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="xxslValue" data-options="required:true" label="信息速率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reXxslValue" readonly label="建议值:" labelPosition="left" style="width:200px;">
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="tzfsName" data-options="required:true" label="调制方式:" labelPosition="left" style="width:230px;">
@@ -317,7 +305,6 @@
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="reXzbValue" readonly label="建议值:" labelPosition="left" style="width:200px;">
         </div>
         <div style="margin-bottom:15px">
             <input type="text" style="display: none" name = "id">

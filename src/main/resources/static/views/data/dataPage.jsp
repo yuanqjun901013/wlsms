@@ -14,7 +14,6 @@
             //屏蔽右键菜单
             $(document).bind("contextmenu",function(e){ return false; });
             getReload();
-            getAutoDataList();
         })
     </SCRIPT>
 </head>
@@ -35,7 +34,7 @@
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="clearFrom()" style="width:90px">重置</a>
         </div>
      </div>
-    <div data-options="region:'center',fit:true">
+    <div data-options="region:'center'">
         <div id="getAutoDataList" data-options="region:'center',split:true"></div>
     </div>
     <script type="text/javascript" th:inline="none">
@@ -89,7 +88,7 @@
                     var result = eval('('+result+')');
                     if(result.success){
                         $.messager.alert("消息提醒", result.data, "info",function (){
-                            $('#getAutoDataList').datagrid('reload');    // reload the user data
+                            getAutoDataList();    // reload the user data
                         });
                     }else {
                         $.messager.alert("消息提醒",result.msg);
@@ -110,17 +109,16 @@
                     "buildTime": cbgMachine
                 },
                 fitColumns:false,
-                fit:false,
                 striped:true,
                 pagination:true,
                 rownumbers:true,
                 singleSelect:true,
                 remoteFilter: true,
                 clientPaging: false,
-                nowrap:false,//自动换行
+                nowrap:true,//自动换行
                 columns:[[
                     {field:'id',title:'编号',width:80,align:'center'},
-                    {field:'xxpl_value',title:'下行频率',width:80,align:'center'},
+                    {field:'xxplValue',title:'下行频率',width:80,align:'center'},
                     {field:'tkplValue',title:'天空频率',width:80,align:'center'},
                     {field:'xtdValue',title:'差值',width:80,align:'center'},
                     {field:'systemName',title:'系统',width:80,align:'center'},
@@ -130,7 +128,6 @@
                     {field:'tzdValue',title:'差值',width:80,align:'center'},
                     {field:'tzfsName',title:'调制方式',width:80,align:'center'},
                     {field:'tzysName',title:'调制样式',width:80,align:'center'},
-                    {field:'xxslValue',title:'信息速率',width:80,align:'center'},
                     {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
                     {field:'bmType',title:'编码类型',width:80,align:'center'},
                     {field:'mlName',title:'码率',width:80,align:'center'},

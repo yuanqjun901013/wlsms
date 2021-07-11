@@ -20,4 +20,14 @@ public interface MacAutoDao {
    List<AutoBuildEntity> queryMachineByDate(Map<String, Object> param);
    List<AutoBuildEntity> queryAutoBuildList(Map<String, Object> param);
    List<AutoDataEntity> getAutoDataList(Map<String, Object> param);
+   String queryLimitDate();
+   List<ManualModel> getManualListByDate(Map<String, Object> param);
+   List<MachineModel> getMachineListByDate(Map<String, Object> param);
+   String getParamValue();
+   Integer getAutoBuildCount(Map<String, Object> param);
+   int updateAutoBuild(AutoBuildEntity buildEntity);
+   int insertAutoBuild(AutoBuildEntity buildEntity);
+   int insertAutoDatas(List<AutoDataEntity> autoDatas);
+   int deleteAutoDateByThis(Map<String, Object> param);
+   AutoBuildEntity getAutoBuildById(Map<String, Object> param);
 }
