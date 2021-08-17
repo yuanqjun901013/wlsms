@@ -187,6 +187,20 @@ public class MacAutoService {
                 param.put("buildTime", request.getBuildTime());
             }
             List<AutoDataEntity> list = macAutoDao.getAutoDataList(param);
+            if(CollectionUtils.isNotEmpty(list)){
+                for(AutoDataEntity autoDataEntity:list){
+                    if(StringUtils.isNotBlank(autoDataEntity.getXtdValue())){
+                        BigDecimal c1 = new BigDecimal(autoDataEntity.getXtdValue());
+                        BigDecimal oneCl = c1.divide(new BigDecimal(autoDataEntity.getMslValue()).multiply(new BigDecimal(1000)),4);
+                        autoDataEntity.setOneCl(oneCl.toString());//策略1
+                    }
+                    if(StringUtils.isNotBlank(autoDataEntity.getTzdValue())){
+                        BigDecimal c2 = new BigDecimal(autoDataEntity.getTzdValue());
+                        BigDecimal twoCl = c2.divide(new BigDecimal(autoDataEntity.getMslValue()).multiply(new BigDecimal(1000)),4);
+                        autoDataEntity.setTwoCl(twoCl.toString());//策略2
+                    }
+                }
+            }
             return new PageInfo<>(list);
         }catch (Exception e){
             return new PageInfo();
@@ -297,8 +311,8 @@ public class MacAutoService {
                     }
                     BigDecimal tzslValue = new BigDecimal(manualModel.getTzslValue());//调制速率
                     BigDecimal mslValue = new BigDecimal(machineModel.getMslValue());//码速率
-                    if(tzslValue.compareTo(mslValue) > 0){
-                        BigDecimal tzdValue = tzslValue.subtract(mslValue);//调制速率与码速率差值
+                    if(tzslValue.compareTo(mslValue.multiply(new BigDecimal(1000))) > 0){
+                        BigDecimal tzdValue = tzslValue.subtract(mslValue.multiply(new BigDecimal(1000)));//调制速率与码速率差值
                         if(tzdValue.compareTo(paramValue) < 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());

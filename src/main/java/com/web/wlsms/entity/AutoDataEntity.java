@@ -45,6 +45,10 @@ public class AutoDataEntity {
     private String buildTime;
     //信息速率
     private String xxslValue;
+    //单次策略1
+    private String oneCl;
+    //单次策略2
+    private String twoCl;
     //登录用户
     private String userNo;
     private String createTime;

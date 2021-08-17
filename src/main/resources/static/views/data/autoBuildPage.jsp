@@ -123,6 +123,8 @@
                     {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
                     {field:'bmType',title:'编码类型',width:80,align:'center'},
                     {field:'mlName',title:'码率',width:80,align:'center'},
+                    {field:'oneCl',title:'单次策略1',width:80,align:'center'},
+                    {field:'twoCl',title:'单次策略2',width:80,align:'center'},
                     {field:'buildDate',title:'人工登记时间',width:150,align:'center'},
                     {field:'buildTime',title:'机器发生时间',width:200,align:'center'}
                 ]]
