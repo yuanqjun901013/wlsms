@@ -1,6 +1,5 @@
 package com.web.wlsms.controller.mongodb;
 
-
 import com.web.wlsms.dao.DemoDao;
 import com.web.wlsms.entity.DemoEntity;
 import com.web.wlsms.response.BaseResponse;
@@ -9,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/mongo/demo")
@@ -67,8 +68,9 @@ public class DemoController {
     @RequestMapping("queryDemo")
     public BaseResponse queryDemo(HttpServletRequest request, Long id){
         try {
+            List<Map> obList = demoDao.findAllObject("demo");
             DemoEntity demoEntity = demoDao.findDemoById(id);
-            return BaseResponse.ok(demoEntity);
+            return BaseResponse.ok(obList);
         } catch (Exception e) {
             return BaseResponse.fail("查询异常！");
         }

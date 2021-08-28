@@ -9,6 +9,9 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class DemoDaoImpl implements DemoDao {
     @Resource
@@ -42,5 +45,10 @@ public class DemoDaoImpl implements DemoDao {
         Query query = new Query(Criteria.where("id").is(id));
         DemoEntity demoEntity = mongoTemplate.findOne(query, DemoEntity.class);
         return demoEntity;
+    }
+
+    @Override
+    public List<Map> findAllObject(String collectionName){
+        return mongoTemplate.findAll(Map.class, collectionName);
     }
 }

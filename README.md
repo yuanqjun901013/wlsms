@@ -321,23 +321,6 @@ CREATE TABLE `wlsms_position_config` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阵地信息配置表';
 
-DROP TABLE IF EXISTS `wlsms_mongodb_conf`;
-create table wlsms_mongodb_conf
-(
-id bigint auto_increment comment '主键id'
-primary key,
-wx_name       varchar(50)  null comment '卫星名称',
-zpl_value     double       null comment '中频',
-dpl_value     double       null comment '电平频率',
-tkpl_value    double       null comment '天空频率',
-xh_type       varchar(100) null comment '信号类型',
-msl_value     double       null comment '码速率',
-build_time    timestamp    null comment '机器登记时间',
-zzb_value     double       null comment '载噪比',
-tzys_name     varchar(500) null comment '调制样式'
-)
-comment 'mongo数据库配置表';
-
 #数据
 
 INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(1, 'admin', '组网协同', NULL, 0, 0, NULL, 'icon-large-smartart', '1');
@@ -445,5 +428,30 @@ INSERT INTO admin_user (id, user_no, pwd, user_name, sex, age, job, tel, phone, 
 INSERT INTO admin_user (id, user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES(32, '15090384', '123', '大爷的', 1, NULL, '', '', '', '');
 INSERT INTO admin_user (id, user_no, pwd, user_name, sex, age, job, tel, phone, email) VALUES(34, '15090383', '123', '张大大', 1, NULL, 'dfsf ff ', '213', '', '');
 
-
 INSERT INTO wlsms_position_config (position_name, position_code) VALUES('', '');
+# 202108新增表和数据
+DROP TABLE IF EXISTS `wlsms_mongodb_conf`;
+CREATE TABLE `wlsms_mongodb_conf` (
+`id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+`wx_name` varchar(100) DEFAULT NULL COMMENT '卫星名称',
+`zpl_value` varchar(100) DEFAULT NULL COMMENT '中频',
+`dpl_value` varchar(100) DEFAULT NULL COMMENT '电平频率',
+`tkpl_value` varchar(100) DEFAULT NULL COMMENT '天空频率',
+`xh_type` varchar(100) DEFAULT NULL COMMENT '信号类型',
+`msl_value` varchar(100) DEFAULT NULL COMMENT '码速率',
+`build_time` varchar(100) DEFAULT NULL COMMENT '机器登记时间',
+`zzb_value` varchar(100) DEFAULT NULL COMMENT '载噪比',
+`tzys_name` varchar(100) DEFAULT NULL COMMENT '调制样式',
+`collection_name` varchar(100) DEFAULT NULL COMMENT 'collection名称',
+`mongodb_ip` varchar(100) DEFAULT NULL COMMENT 'mongodb服务器ip',
+`mongodb_database` varchar(100) DEFAULT NULL COMMENT 'database名称',
+`mongo_user` varchar(100) DEFAULT NULL COMMENT '访问用户名',
+`mongo_pwd` varchar(100) DEFAULT NULL COMMENT '访问登录密码',
+`bm_type` varchar(100) DEFAULT NULL COMMENT '编码类型(信道)',
+`ml_name` varchar(100) DEFAULT NULL COMMENT '码率(信道)',
+`status` tinyint(4) DEFAULT '1' COMMENT '是否开启',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='mongo数据库配置表';
+
+INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(27, 'admin', 'mongo库配置', 'views/param/mongoConf', 24, 1, 'getMongoDbList', NULL, '3');
+INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(20, 27, 'admin');
