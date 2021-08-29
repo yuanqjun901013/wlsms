@@ -49,7 +49,7 @@ public class WlsmsMongodbConf {
     //码率(信道)
     private String mlName;
     //是否开启
-    private int status;
+    private String status;
 
     @Id
     @Column(name = "id")
@@ -193,11 +193,11 @@ public class WlsmsMongodbConf {
         this.mlName = mlName;
     }
     @Column(name = "status")
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

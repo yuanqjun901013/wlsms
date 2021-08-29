@@ -1,6 +1,7 @@
 package com.web.wlsms.dao.impl;
 
 import com.web.wlsms.dao.DemoDao;
+import com.web.wlsms.entity.AbcDataCount;
 import com.web.wlsms.entity.DemoEntity;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -20,6 +21,11 @@ public class DemoDaoImpl implements DemoDao {
     @Override
     public void saveDemo(DemoEntity demoEntity) {
         mongoTemplate.save(demoEntity);
+    }
+
+    @Override
+    public void saveAbcData(AbcDataCount abcDataCount) {
+        mongoTemplate.save(abcDataCount);
     }
 
     @Override

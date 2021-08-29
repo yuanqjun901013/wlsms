@@ -1,6 +1,7 @@
 package com.web.wlsms.controller.mongodb;
 
 import com.web.wlsms.dao.DemoDao;
+import com.web.wlsms.entity.AbcDataCount;
 import com.web.wlsms.entity.DemoEntity;
 import com.web.wlsms.response.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,32 @@ public class DemoController {
             demoEntity.setBy("souyunku");
             demoEntity.setUrl("http://www.souyunku.com");
             demoDao.saveDemo(demoEntity);
+            return BaseResponse.ok("保存成功！");
+        } catch (Exception e) {
+            return BaseResponse.fail("保存异常！");
+        }
+    }
+
+    @RequestMapping("saveAbcData")
+    public BaseResponse saveAbcData(HttpServletRequest request){
+        try {
+            AbcDataCount abcDataCount = new AbcDataCount();
+            abcDataCount.setId(1L);
+            abcDataCount.setSatePlatName("测试1");
+            abcDataCount.setFreq("测试1");
+            abcDataCount.setSNR("测试1");
+            abcDataCount.setMulAdrmode("测试1");
+            abcDataCount.setCarraerType("测试1");
+            abcDataCount.setModulateRate("测试1");
+            abcDataCount.setFrameLen("测试1");
+            abcDataCount.setCodeMode("测试1");
+            abcDataCount.setCodeRate("测试1");
+            abcDataCount.setSignalType("测试1");
+            abcDataCount.setXINXIFENZU("测试1");
+            abcDataCount.setIsRaoMa("测试1");
+            abcDataCount.setAppearTime("测试1");
+            abcDataCount.setDisAppearTime("测试1");
+            demoDao.saveAbcData(abcDataCount);
             return BaseResponse.ok("保存成功！");
         } catch (Exception e) {
             return BaseResponse.fail("保存异常！");

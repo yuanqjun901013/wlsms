@@ -1,5 +1,6 @@
 package com.web.wlsms.dao;
 
+import com.web.wlsms.entity.AbcDataCount;
 import com.web.wlsms.entity.DemoEntity;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface DemoDao {
 
     List<Map> findAllObject(String collectionName);
 
+    void saveAbcData(AbcDataCount abcDataCount);
 }

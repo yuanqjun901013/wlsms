@@ -41,10 +41,20 @@
             toolbar:'#toolbar',
             columns:[[
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'mongodbIp',title:'mongo数据IP地址',width:80,align:'center'},
-                {field:'mongodbDatabase',title:'数据库名称',width:80,align:'center'},
-                {field:'mongoUser',title:'用户名',width:80,align:'center'},
-                {field:'collectionName',title:'集合名',width:80,align:'center'}
+                // {field:'mongodbIp',title:'mongo数据IP地址',width:80,align:'center'},
+                // {field:'mongodbDatabase',title:'数据库名称',width:80,align:'center'},
+                // {field:'mongoUser',title:'用户名',width:80,align:'center'},
+                {field:'collectionName',title:'集合名',width:80,align:'center'},
+                {field:'status',title:'状态',
+                    formatter:function(value,row,index)
+                    {
+                        if(value == 'on'){
+                            return "<label>开</label>";
+                        }else{
+                            return "<label>关</label>";
+                        }
+                    },
+                    width:80,align:'center'}
             ]]
         });
     }
@@ -54,6 +64,7 @@
         if (row){
             $('#dlgUpdate').dialog('open').dialog('center').dialog('setTitle','mongo配置修改');
             $('#fmm').form('load',row);
+
         }
     }
 
@@ -71,7 +82,7 @@
                         $('#mongoDbList').datagrid('reload');    // reload the user data
                     });
                 }else {
-                    $.messager.alert("消息提醒","保存失败，请重试");
+                    $.messager.alert("消息提醒",result.msg);
                 }
             }
         });
@@ -83,20 +94,24 @@
         <h3>参数信息</h3>
         <div style="margin-bottom:15px">
             <input type="text" style="display: none" name = "id">
+           <!--
             <input class="easyui-textbox" type="text" name="mongodbIp" label="数据库ip:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
             <input class="easyui-textbox" type="text" name="mongodbDatabase" label="数据库名:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            -->
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="collectionName" data-options="multiline:true"  label="collection:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
-            <input id="status" class="easyui-switchbutton" label="是否开启:" checked style="width:100px;height:30px">
+            <input id="status" name = "status" class="easyui-switchbutton" label="状态:" checked style="width:100px;height:30px">
         </div>
+        <!--
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="mongoUser" data-options="multiline:true"  label="用户名:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
             <input class="easyui-textbox" type="text" name="mongoPwd" data-options="multiline:true"  label="密码:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
         </div>
+        -->
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="wxName" data-options="multiline:true"  label="卫星名称:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
-            <input class="easyui-textbox" type="text" name="zplValue" data-options="multiline:true"  label="中频:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="wxName" data-options="multiline:true"  label="设备名称:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="xhType" data-options="multiline:true"  label="信号类型:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="dplValue" data-options="multiline:true"  label="电平:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
@@ -113,6 +128,9 @@
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="bmType" data-options="multiline:true"  label="编码类型:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
             <input class="easyui-textbox" type="text" name="mlName" data-options="multiline:true"  label="码率:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="zplValue" data-options="multiline:true"  label="中频:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
         </div>
     </form>
 </div>

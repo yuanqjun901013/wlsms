@@ -442,14 +442,14 @@ CREATE TABLE `wlsms_mongodb_conf` (
 `build_time` varchar(100) DEFAULT NULL COMMENT '机器登记时间',
 `zzb_value` varchar(100) DEFAULT NULL COMMENT '载噪比',
 `tzys_name` varchar(100) DEFAULT NULL COMMENT '调制样式',
-`collection_name` varchar(100) DEFAULT NULL COMMENT 'collection名称',
+`bm_type` varchar(100) DEFAULT NULL COMMENT '编码类型(信道)',
+`ml_name` varchar(100) DEFAULT NULL COMMENT '码率(信道)',
 `mongodb_ip` varchar(100) DEFAULT NULL COMMENT 'mongodb服务器ip',
 `mongodb_database` varchar(100) DEFAULT NULL COMMENT 'database名称',
 `mongo_user` varchar(100) DEFAULT NULL COMMENT '访问用户名',
 `mongo_pwd` varchar(100) DEFAULT NULL COMMENT '访问登录密码',
-`bm_type` varchar(100) DEFAULT NULL COMMENT '编码类型(信道)',
-`ml_name` varchar(100) DEFAULT NULL COMMENT '码率(信道)',
-`status` tinyint(4) DEFAULT '1' COMMENT '是否开启',
+`collection_name` varchar(100) DEFAULT NULL COMMENT 'collection名称',
+`status` varchar(50) DEFAULT 'on' COMMENT '是否开启',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='mongo数据库配置表';
 

@@ -3,22 +3,20 @@ package com.web.wlsms.service.mongodb;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mongodb.*;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.web.wlsms.entity.WlsmsMongodbConf;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-
 import javax.sql.DataSource;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
+import java.util.Map;
 
 @Service("MongoService")
 public class MongoService {
@@ -59,9 +57,35 @@ public class MongoService {
             wlsmsMongodbConf.setMongoPwd(resultSet.getString("mongoPwd"));
             wlsmsMongodbConf.setBmType(resultSet.getString("bmType"));
             wlsmsMongodbConf.setMlName(resultSet.getString("mlName"));
-            wlsmsMongodbConf.setStatus(resultSet.getInt("status"));
+            wlsmsMongodbConf.setStatus(resultSet.getString("status"));
             return wlsmsMongodbConf;
         });
         return new PageInfo<>(mongodbConfList);
+    }
+
+    public BaseResponse getTestConnect(WlsmsMongodbConf conf){
+        String sURI = String.format("mongodb://%s:%s@%s:%d/%s", conf.getMongoUser(), conf.getMongoPwd(), conf.getMongodbIp(), 27017, conf.getMongodbDatabase());
+        MongoClientURI uri = new MongoClientURI(sURI);
+        MongoClient mongoClient = new MongoClient(uri);
+        MongoDatabase mongoDatabase = mongoClient.getDatabase(conf.getMongodbDatabase());
+        MongoCollection coll = mongoDatabase.getCollection(conf.getCollectionName());
+        return BaseResponse.ok(coll);
+    }
+
+    public WlsmsMongodbConf getConf(){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.setFetchSize(500);
+        StringBuilder sql = new StringBuilder("SELECT id, wx_name as wxName, zpl_value as zplValue, dpl_value as dplValue, tkpl_value as tkplValue, " +
+                "xh_type as xhType, msl_value as mslValue, build_time as buildTime, zzb_value as zzbValue, tzys_name as tzysName, " +
+                "collection_name as collectionName, mongodb_ip as mongodbIp, mongodb_database as mongodbDatabase, mongo_user as mongoUser, " +
+                "mongo_pwd as mongoPwd, bm_type as bmType, ml_name as mlName, status FROM wlsms_mongodb_conf where 1 = 1");
+        sql.append(" AND status = 'on'");
+        WlsmsMongodbConf wlsmsMongodbConf = new WlsmsMongodbConf();
+        List<Map<String, Object>> queryForList = jdbcTemplate.queryForList(sql.toString());
+        if(null != queryForList && queryForList.size() >0){
+            Map<String, Object> map = queryForList.get(0);
+            wlsmsMongodbConf = JSON.parseObject(JSON.toJSONString(map), WlsmsMongodbConf.class);
+        }
+        return wlsmsMongodbConf;
     }
 }
