@@ -455,3 +455,4 @@ PRIMARY KEY (`id`)
 
 INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(27, 'admin', 'mongo库配置', 'views/param/mongoConf', 24, 1, 'getMongoDbList', NULL, '3');
 INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(20, 27, 'admin');
+INSERT INTO wlsms_mongodb_conf (wx_name, zpl_value, dpl_value, tkpl_value, xh_type, msl_value, build_time, zzb_value, tzys_name, bm_type, ml_name, mongodb_ip, mongodb_database, mongo_user, mongo_pwd, collection_name, status) VALUES('SatePlatName', 'freq', 'MulAdrmode', 'Modulate Rate', 'FrameLen', 'Code Rate', 'AppearTime', 'SNR', 'Carraer Type', 'Signal Type', 'IsRaoMa', NULL, NULL, NULL, NULL, 'ABC_DataCount', 'on');
