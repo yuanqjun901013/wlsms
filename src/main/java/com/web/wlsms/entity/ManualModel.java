@@ -34,8 +34,19 @@ public class ManualModel {
     private String buildDate;
     //公文批次号
     private String proCode;
-    //位置编码
+    //地址识别码
     private String positionCode;
+    //地址
+    private String positionName;
     private long id;
     private String userNo;
+    //极化方式
+    private String carPol;
+    //帧长
+    private String flen;
+    //备注
+    private String remark;
+    //码率
+    private String mlName;
+
 }

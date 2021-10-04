@@ -44,7 +44,7 @@ public class MongoTaskJob {
     /**
      * 十分钟获取一次mongo生成的机器数据
      */
-    @Scheduled(cron = "0 0/10 * * * ?")
+    @Scheduled(cron = "*/10 * * * * ?")
 //    @Scheduled(cron = "0/50 * * * * ?")
     public void job2(){
       log.info("自动获取mongo数据定时任务" + new Date()+" start:");
@@ -66,34 +66,66 @@ public class MongoTaskJob {
             String endTime = spf.format(date);
             //连接mongo数据库
             Criteria criteria = new Criteria();
-            Query query = new Query(criteria.and("AppearTime").gte(startTime).lte(endTime));
-            List<Map> collections = mongoTemplate.find(query, Map.class, conf.getCollectionName());
+            Query query = new Query(criteria.and("appearTime").gte(startTime).lte(endTime));
+            log.info("自动获取mongo集合:" + conf.getCollectionName()+";");
+//            List<Map> collections = mongoTemplate.find(query, Map.class, conf.getCollectionName()); //根据条件查询
+            List<Map> collections = mongoTemplate.findAll(Map.class, conf.getCollectionName());
+            log.info("自动获取mongo collections:" + JSON.toJSONString(collections) +";");
             List<MachineModel> machineModelList = new ArrayList<>();
             if(null != collections && collections.size() > 0){
                 String proCode = getProCodeNum();
+                //获取当前日期
+                SimpleDateFormat bartDateFormat =
+                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date dateNow = new Date();
+                String buildTime = bartDateFormat.format(dateNow);
                 for(Map map:collections){
                     MachineModel machineModel = new MachineModel();
-                    machineModel.setWxName(StringUtils.isBlank((String) map.get(conf.getWxName())) == true ? "0" : (String) map.get(conf.getWxName()));
-                    machineModel.setZplValue(StringUtils.isBlank((String) map.get(conf.getZplValue())) == true ? "0" : (String) map.get(conf.getZplValue()));
-                    machineModel.setDplValue(StringUtils.isBlank((String) map.get(conf.getDplValue())) == true ? "0" : (String) map.get(conf.getDplValue()));
-                    machineModel.setTkplValue(StringUtils.isBlank((String) map.get(conf.getTkplValue())) == true ? "0" : (String) map.get(conf.getTkplValue()));
-                    machineModel.setXhType(StringUtils.isBlank((String) map.get(conf.getTkplValue())) == true ? "0" : (String) map.get(conf.getXhType()));
-                    machineModel.setMslValue(StringUtils.isBlank((String) map.get(conf.getMslValue())) == true ? "0" : (String) map.get(conf.getMslValue()));
-                    machineModel.setZzbValue(StringUtils.isBlank((String) map.get(conf.getZzbValue())) == true ? "0" : (String) map.get(conf.getZzbValue()));
-                    machineModel.setTzysName(StringUtils.isBlank((String) map.get(conf.getTzysName())) == true ? "0" : (String) map.get(conf.getTzysName()));
-                    machineModel.setBuildTime(StringUtils.isBlank((String) map.get(conf.getBuildTime())) == true ? "0" : (String) map.get(conf.getBuildTime()));
-                    machineModel.setBmType(StringUtils.isBlank((String) map.get(conf.getBmType())) == true ? "0" : (String) map.get(conf.getBmType()));
-                    machineModel.setMlName(StringUtils.isBlank((String) map.get(conf.getMlName())) == true ? "0" : (String) map.get(conf.getMlName()));
+                    machineModel.setWxName(StringUtils.isBlank(String.valueOf(map.get(conf.getWxName()))) == true ? "0" : String.valueOf(map.get(conf.getWxName())));
+                    machineModel.setCarPol(StringUtils.isBlank(String.valueOf(map.get(conf.getCarPol()))) == true ? "0" : String.valueOf(map.get(conf.getCarPol())));
+                    machineModel.setDplValue(StringUtils.isBlank(String.valueOf(map.get(conf.getDplValue()))) == true ? "0" : String.valueOf(map.get(conf.getDplValue())));
+                    machineModel.setTkplValue(StringUtils.isBlank(String.valueOf(map.get(conf.getTkplValue()))) == true ? "0" : String.valueOf(map.get(conf.getTkplValue())));
+                    machineModel.setXhType(StringUtils.isBlank(String.valueOf(map.get(conf.getTkplValue()))) == true ? "0" : String.valueOf(map.get(conf.getTkplValue())));
+                    machineModel.setMslValue(StringUtils.isBlank(String.valueOf(map.get(conf.getMslValue()))) == true ? "0" : String.valueOf(map.get(conf.getMslValue())));
+                    machineModel.setZzbValue(StringUtils.isBlank(String.valueOf(map.get(conf.getZzbValue()))) == true ? "0" : String.valueOf(map.get(conf.getZzbValue())));
+                    machineModel.setTzysName(StringUtils.isBlank(String.valueOf(map.get(conf.getTzysName()))) == true ? "0" : String.valueOf(map.get(conf.getTzysName())));
+                    machineModel.setBmType(StringUtils.isBlank(String.valueOf(map.get(conf.getBmType()))) == true ? "0" : String.valueOf(map.get(conf.getBmType())));
+                    machineModel.setMlName(StringUtils.isBlank(String.valueOf(map.get(conf.getMlName()))) == true ? "0" : String.valueOf(map.get(conf.getMlName())));
+                    machineModel.setMuladdr(StringUtils.isBlank(String.valueOf(map.get(conf.getMuladdr()))) == true ? "0" : String.valueOf(map.get(conf.getMuladdr())));
+                    machineModel.setOthers(StringUtils.isBlank(String.valueOf(map.get(conf.getOthers()))) == true ? "0" : String.valueOf(map.get(conf.getOthers())));
+                    machineModel.setExmlen(StringUtils.isBlank(String.valueOf(map.get(conf.getExmlen()))) == true ? "0" : String.valueOf(map.get(conf.getExmlen())));
+                    machineModel.setFcycle(StringUtils.isBlank(String.valueOf(map.get(conf.getFcycle()))) == true ? "0" : String.valueOf(map.get(conf.getFcycle())));
+                    machineModel.setFlen(StringUtils.isBlank(String.valueOf(map.get(conf.getFlen()))) == true ? "0" : String.valueOf(map.get(conf.getFlen())));
+                    machineModel.setCf(StringUtils.isBlank(String.valueOf(map.get(conf.getCf()))) == true ? "0" : String.valueOf(map.get(conf.getCf())));
+                    machineModel.setRm(StringUtils.isBlank(String.valueOf(map.get(conf.getRm()))) == true ? "0" : String.valueOf(map.get(conf.getRm())));
+                    machineModel.setSindex(StringUtils.isBlank(String.valueOf(map.get(conf.getSindex()))) == true ? "0" : String.valueOf(map.get(conf.getSindex())));
+                    machineModel.setUserProperties(StringUtils.isBlank(String.valueOf(map.get(conf.getUserProperties()))) == true ? "0" : String.valueOf(map.get(conf.getUserProperties())));
+                    machineModel.setAppearTime(StringUtils.isBlank(String.valueOf(map.get(conf.getAppearTime()))) == true ? "0" : String.valueOf(map.get(conf.getAppearTime())));
                     machineModel.setPositionCode("1");
                     machineModel.setUserNo("admin");
+                    machineModel.setBuildTime(buildTime);
                     machineModel.setProCode(proCode);
+                    machineModel.setBuildType("机器采集");
+                    //简化码率分数(mlName)
+                    machineModel.setMlName(getMlName(machineModel.getMlName()));
                     machineModelList.add(machineModel);
                 }
+                List<MachineModel> newMachineList = new ArrayList<>();
+                //筛选数据是否在数据库中存在
                 if(null != machineModelList && machineModelList.size() > 0){
+                    for(MachineModel machineModel:machineModelList){
+                        int count = macAutoService.queryMachineCountByInfo(machineModel);
+                        if(count == 0){
+                            newMachineList.add(machineModel);
+                        }
+                    }
+                }
+
+                if(null != newMachineList && newMachineList.size() > 0){
                     int num = 0;
                     //排重
                     Set<MachineModel> setData = new HashSet<>();
-                    setData.addAll(machineModelList);
+                    setData.addAll(newMachineList);
                     List<MachineModel> newAddData= new ArrayList<>();
                     newAddData.addAll(setData);
                     //分批次 批量保存
@@ -167,5 +199,27 @@ public class MongoTaskJob {
             }
         }
         return val.toString();
+    }
+
+    //简化分数
+    private String getMlName(String mlNameOld){
+        String[] strArr= mlNameOld.split("/");
+        boolean isNumA = strArr[1].matches("[0-9]+");
+        boolean isNumB = strArr[0].matches("[0-9]+");
+        if(isNumA && isNumB) {
+            int a = Integer.parseInt(strArr[1]), b = Integer.parseInt(strArr[0]);//a 是分母
+            int gcd = gcd(a, b);
+//            System.out.println(b / gcd + "/" + a / gcd); // 输出了 5/6
+            return b / gcd + "/" + a / gcd;
+        }else {
+            return mlNameOld;
+        }
+    }
+
+    private static int gcd(int x, int y){ // 这个是运用辗转相除法求 两个数的 最大公约数 看不懂可以百度 // 下
+        if(y == 0)
+            return x;
+        else
+            return gcd(y,x%y);
     }
 }

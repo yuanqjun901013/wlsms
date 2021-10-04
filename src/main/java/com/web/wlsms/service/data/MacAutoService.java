@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.web.wlsms.dao.MacAutoDao;
+import com.web.wlsms.dao.PositionDao;
 import com.web.wlsms.entity.*;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.system.MessageService;
+import com.web.wlsms.service.system.PositionService;
 import com.web.wlsms.utils.CollectionUtils;
 import org.apache.axis2.databinding.types.xsd._boolean;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +30,8 @@ public class MacAutoService {
     private MacAutoDao macAutoDao;
     @Autowired
     MessageService messageService;
+    @Resource
+    private PositionService positionService;
     //todo
     //自动查出机器底数出数的数据到mysql表中（待实现）
     public int insertMachine(List<MachineModel> machineModels){
@@ -53,6 +57,14 @@ public class MacAutoService {
                 param.put("endTime",request.getEndTime());
             }
             List<ManualModel> list = macAutoDao.getManualList(param);
+            if(CollectionUtils.isNotEmpty(list) && list.size() > 0){
+                for (ManualModel manualModel:list){
+                    PositionEntity positionEntity = positionService.getPositionInfoById(manualModel.getPositionCode());
+                    if(null != positionEntity) {
+                        manualModel.setPositionName(positionEntity.getPositionName());
+                    }
+                }
+            }
             return new PageInfo<>(list);
         }catch (Exception e){
             return new PageInfo();
@@ -74,6 +86,14 @@ public class MacAutoService {
                 param.put("endTime", request.getEndTime());
             }
             List<MachineModel> list = macAutoDao.getMachineList(param);
+            if(CollectionUtils.isNotEmpty(list) && list.size() > 0){
+                for (MachineModel machineModel:list){
+                    PositionEntity positionEntity = positionService.getPositionInfoById(machineModel.getPositionCode());
+                    if(null != positionEntity) {
+                        machineModel.setPositionName(positionEntity.getPositionName());
+                    }
+                }
+            }
             return new PageInfo<>(list);
         }catch (Exception e){
             return new PageInfo();
@@ -105,11 +125,11 @@ public class MacAutoService {
 
     /**
      * 删除人工底数
-     * @param manualModel
+     * @param ids
      * @return
      */
-    public BaseResponse deleteManual(ManualModel manualModel){
-        int num = macAutoDao.deleteManual(manualModel);
+    public BaseResponse deleteManual(List<String> ids){
+        int num = macAutoDao.deleteManual(ids);
         if(num >0){
             return BaseResponse.ok("删除信息成功");
         }else {
@@ -119,11 +139,11 @@ public class MacAutoService {
 
     /**
      * 删除机器底数
-     * @param machineModel
+     * @param ids
      * @return
      */
-    public BaseResponse deleteMachine(MachineModel machineModel){
-        int num = macAutoDao.deleteMachine(machineModel);
+    public BaseResponse deleteMachine(List<String> ids){
+        int num = macAutoDao.deleteMachine(ids);
         if(num >0){
             return BaseResponse.ok("删除信息成功");
         }else {
@@ -274,7 +294,7 @@ public class MacAutoService {
                 AutoDataEntity autoDataEntity = new AutoDataEntity();
                 if(manualModel.getTzfsName().equalsIgnoreCase(machineModel.getTzysName())
                         && manualModel.getSystemName().equalsIgnoreCase(machineModel.getXhType())
-                        && manualModel.getXdbmCode().equalsIgnoreCase(machineModel.getBmType().concat(machineModel.getMlName())))
+                        && manualModel.getXdbmCode().concat(manualModel.getMlName()).equalsIgnoreCase(machineModel.getBmType().concat(machineModel.getMlName())))
                 {
                     autoDataEntity.setSystemName(manualModel.getSystemName());
                     autoDataEntity.setXhType(machineModel.getXhType());
@@ -282,7 +302,7 @@ public class MacAutoService {
                     autoDataEntity.setZzbValue(machineModel.getZzbValue());
                     autoDataEntity.setTzfsName(manualModel.getTzfsName());
                     autoDataEntity.setTzysName(machineModel.getTzysName());
-                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode());
+                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode() + machineModel.getMlName());
                     autoDataEntity.setBmType(machineModel.getBmType());
                     autoDataEntity.setMlName(machineModel.getMlName());
                     autoDataEntity.setBuildDate(manualModel.getBuildDate());
@@ -311,30 +331,34 @@ public class MacAutoService {
                     }
                     BigDecimal tzslValue = new BigDecimal(manualModel.getTzslValue());//调制速率
                     BigDecimal mslValue = new BigDecimal(machineModel.getMslValue());//码速率
-                    if(tzslValue.compareTo(mslValue.multiply(new BigDecimal(1000))) > 0){
+                    if(tzslValue.compareTo(mslValue.multiply(new BigDecimal(1000))) >= 0){
                         BigDecimal tzdValue = tzslValue.subtract(mslValue.multiply(new BigDecimal(1000)));//调制速率与码速率差值
-                        if(tzdValue.compareTo(paramValue) < 0){
+                        if(tzdValue.compareTo(paramValue) <= 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());
                             autoDataEntity.setTzdValue(tzdValue.toString());
-                        }else if(tzdValue.compareTo(paramValue) == 0){
-                            autoDataEntity.setTzslValue(tzslValue.toString());
-                            autoDataEntity.setMslValue(mslValue.toString());
-                            autoDataEntity.setTzdValue("0");
-                        }else {
+                        }
+//                        else if(tzdValue.compareTo(paramValue) == 0){
+//                            autoDataEntity.setTzslValue(tzslValue.toString());
+//                            autoDataEntity.setMslValue(mslValue.toString());
+//                            autoDataEntity.setTzdValue("0");
+//                        }
+                        else {
                             continue;
                         }
                     }else {
-                        BigDecimal tzdValue = mslValue.subtract(tzslValue);//调制速率与码速率差值
-                        if(tzdValue.compareTo(paramValue) < 0){
+                        BigDecimal tzdValue = mslValue.multiply(new BigDecimal(1000)).subtract(tzslValue);//调制速率与码速率差值
+                        if(tzdValue.compareTo(paramValue) <= 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());
                             autoDataEntity.setTzdValue("-" + tzdValue);
-                        }else if(tzdValue.compareTo(paramValue) == 0){
-                            autoDataEntity.setTzslValue(tzslValue.toString());
-                            autoDataEntity.setMslValue(mslValue.toString());
-                            autoDataEntity.setTzdValue("0");
-                        }else {
+                        }
+//                        else if(tzdValue.compareTo(paramValue) == 0){
+//                            autoDataEntity.setTzslValue(tzslValue.toString());
+//                            autoDataEntity.setMslValue(mslValue.toString());
+//                            autoDataEntity.setTzdValue("0");
+//                        }
+                        else {
                             continue;
                         }
                     }
@@ -381,7 +405,7 @@ public class MacAutoService {
                     autoDataEntity.setSystemName(manualModel.getSystemName());
                     autoDataEntity.setTzslValue(manualModel.getTzslValue());
                     autoDataEntity.setTzfsName(manualModel.getTzfsName());
-                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode());
+                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode()+manualModel.getMlName());
                     autoDataEntity.setXzbValue(manualModel.getXzbValue());
                     autoDataEntity.setXxslValue(manualModel.getXxslValue());
                     autoDataEntities.add(autoDataEntity);
@@ -425,5 +449,9 @@ public class MacAutoService {
         Map<String, Object> param = new HashMap<>();
         param.put("id", params.getQueryBt());
         return macAutoDao.getAutoBuildById(param);
+    }
+
+    public int queryMachineCountByInfo(MachineModel machineModel){
+        return macAutoDao.queryMachineCountByInfo(machineModel);
     }
 }

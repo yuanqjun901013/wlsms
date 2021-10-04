@@ -1,13 +1,20 @@
 package com.web.wlsms.controller.test;
 
+import com.web.wlsms.entity.MachineModel;
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class DutySchedulingNew {
     public static void main(String[] args) {
+        MachineModel machineModel = new MachineModel();
+        Map map = new HashMap();
+        double dplValue = -44.33;
+        map.put("dplValue",dplValue);
+        machineModel.setDplValue(StringUtils.isBlank(String.valueOf(map.get("dplValue"))) == true ? "0" : String.valueOf(map.get("dplValue")));
+
         // 用户输入窗口
         System.out.println("输入下列查询条件之一：(格式: 日期20xx-0x-0x、 月份20xx-0x) 开始查询！");
         Scanner sc=new Scanner(System.in);

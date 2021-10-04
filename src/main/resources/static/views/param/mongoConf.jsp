@@ -110,7 +110,7 @@
         </div>
         -->
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="wxName" data-options="multiline:true"  label="设备名称:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="wxName" data-options="multiline:true"  label="卫星名称:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
             <input class="easyui-textbox" type="text" name="xhType" data-options="multiline:true"  label="信号类型:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
         </div>
         <div style="margin-bottom:15px">
@@ -119,7 +119,7 @@
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="mslValue" data-options="multiline:true"  label="码速率:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
-            <input class="easyui-textbox" type="text" name="buildTime" data-options="multiline:true"  label="采集时间:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="appearTime" data-options="multiline:true"  label="发现时间:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="zzbValue" data-options="multiline:true"  label="载噪比:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
@@ -130,7 +130,24 @@
             <input class="easyui-textbox" type="text" name="mlName" data-options="multiline:true"  label="码率:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="zplValue" data-options="multiline:true"  label="中频:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="carPol" data-options="multiline:true"  label="极化方式:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="muladdr" data-options="multiline:true"  label="多址方式:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="others" data-options="multiline:true"  label="其他:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="exmlen" data-options="multiline:true"  label="分组长度:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="fcycle" data-options="multiline:true"  label="突发周期:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="flen" data-options="multiline:true"  label="帧长:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="cf" data-options="multiline:true"  label="差分:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="rm" data-options="multiline:true"  label="扰码:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="sindex" data-options="multiline:true"  label="索引号:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="userProperties" data-options="multiline:true"  label="用户属性:" labelPosition="left" style="width:250px;">&nbsp;&nbsp;
         </div>
     </form>
 </div>

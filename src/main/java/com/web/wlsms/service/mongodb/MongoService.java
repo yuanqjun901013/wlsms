@@ -32,8 +32,9 @@ public class MongoService {
     public PageInfo getMongoDbList(SimpleRequest<String> request){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.setFetchSize(500);
-        StringBuilder sql = new StringBuilder("SELECT id, wx_name as wxName, zpl_value as zplValue, dpl_value as dplValue, tkpl_value as tkplValue, " +
+        StringBuilder sql = new StringBuilder("SELECT id, wx_name as wxName, car_pol as carPol, dpl_value as dplValue, tkpl_value as tkplValue, " +
                 "xh_type as xhType, msl_value as mslValue, build_time as buildTime, zzb_value as zzbValue, tzys_name as tzysName, " +
+                "muladdr, others, exmlen, fcycle, flen, cf, rm, sindex, user_properties as userProperties, appear_time as appearTime, "+
                 "collection_name as collectionName, mongodb_ip as mongodbIp, mongodb_database as mongodbDatabase, mongo_user as mongoUser, " +
                 "mongo_pwd as mongoPwd, bm_type as bmType, ml_name as mlName, status FROM wlsms_mongodb_conf where 1 = 1");
         PageHelper.startPage(request.getPage(), request.getRows());
@@ -42,12 +43,12 @@ public class MongoService {
             WlsmsMongodbConf wlsmsMongodbConf = new WlsmsMongodbConf();
             wlsmsMongodbConf.setId(Long.valueOf(id));
             wlsmsMongodbConf.setWxName(resultSet.getString("wxName"));
-            wlsmsMongodbConf.setZplValue(resultSet.getString("zplValue"));
+            wlsmsMongodbConf.setCarPol(resultSet.getString("carPol"));
             wlsmsMongodbConf.setDplValue(resultSet.getString("dplValue"));
             wlsmsMongodbConf.setTkplValue(resultSet.getString("tkplValue"));
             wlsmsMongodbConf.setXhType(resultSet.getString("xhType"));
             wlsmsMongodbConf.setMslValue(resultSet.getString("mslValue"));
-            wlsmsMongodbConf.setBuildTime(resultSet.getString("buildTime"));
+//            wlsmsMongodbConf.setBuildTime(resultSet.getString("buildTime"));
             wlsmsMongodbConf.setZzbValue(resultSet.getString("zzbValue"));
             wlsmsMongodbConf.setTzysName(resultSet.getString("tzysName"));
             wlsmsMongodbConf.setCollectionName(resultSet.getString("collectionName"));
@@ -57,6 +58,16 @@ public class MongoService {
             wlsmsMongodbConf.setMongoPwd(resultSet.getString("mongoPwd"));
             wlsmsMongodbConf.setBmType(resultSet.getString("bmType"));
             wlsmsMongodbConf.setMlName(resultSet.getString("mlName"));
+            wlsmsMongodbConf.setMuladdr(resultSet.getString("muladdr"));
+            wlsmsMongodbConf.setOthers(resultSet.getString("others"));
+            wlsmsMongodbConf.setExmlen(resultSet.getString("exmlen"));
+            wlsmsMongodbConf.setFcycle(resultSet.getString("fcycle"));
+            wlsmsMongodbConf.setFlen(resultSet.getString("flen"));
+            wlsmsMongodbConf.setCf(resultSet.getString("cf"));
+            wlsmsMongodbConf.setRm(resultSet.getString("rm"));
+            wlsmsMongodbConf.setSindex(resultSet.getString("sindex"));
+            wlsmsMongodbConf.setUserProperties(resultSet.getString("userProperties"));
+            wlsmsMongodbConf.setAppearTime(resultSet.getString("appearTime"));
             wlsmsMongodbConf.setStatus(resultSet.getString("status"));
             return wlsmsMongodbConf;
         });
@@ -75,8 +86,9 @@ public class MongoService {
     public WlsmsMongodbConf getConf(){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.setFetchSize(500);
-        StringBuilder sql = new StringBuilder("SELECT id, wx_name as wxName, zpl_value as zplValue, dpl_value as dplValue, tkpl_value as tkplValue, " +
+        StringBuilder sql = new StringBuilder("SELECT id, wx_name as wxName, car_pol as carPol, dpl_value as dplValue, tkpl_value as tkplValue, " +
                 "xh_type as xhType, msl_value as mslValue, build_time as buildTime, zzb_value as zzbValue, tzys_name as tzysName, " +
+                "muladdr, others, exmlen, fcycle, flen, cf, rm, sindex, user_properties as userProperties, appear_time as appearTime, "+
                 "collection_name as collectionName, mongodb_ip as mongodbIp, mongodb_database as mongodbDatabase, mongo_user as mongoUser, " +
                 "mongo_pwd as mongoPwd, bm_type as bmType, ml_name as mlName, status FROM wlsms_mongodb_conf where 1 = 1");
         sql.append(" AND status = 'on'");

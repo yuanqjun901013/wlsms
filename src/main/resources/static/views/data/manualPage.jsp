@@ -33,7 +33,7 @@
          data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
         <form id="fm" method="post" action="/data/macAuto/importManual" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
             <div style="margin-bottom:15px">
-                <input id="cbg" name="positionCode"  label="编码:" style="width:400px;">
+                <input id="cbg" name="positionCode"  label="地址:" style="width:400px;">
             </div>
             <div style="margin-bottom:40px">
                 <input id="file" name="file" class="easyui-filebox" label="文件:" labelPosition="left"  style="width:400px">
@@ -63,27 +63,33 @@
             striped:true,
             pagination:true,
             rownumbers:true,
-            singleSelect:true,
             remoteFilter: true,
             clientPaging: false,
             nowrap:false,//自动换行
             toolbar:'#toolbar',
+            singleSelect:false,
+            checkOnSelect:true,
+            selectOnCheck:true,
             columns:[[
+                {field:'ck',checkbox:true,align:'center'},
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'positionCode',title:'位置编码',width:80,align:'center'},
-                {field:'sxzfqName',title:'上行转发器',width:80,align:'center'},
-                {field:'sxplValue',title:'上行频率',width:80,align:'center'},
+                {field:'positionName',title:'地址',width:80,align:'center'},
+                {field:'sxzfqName',title:'卫星',width:80,align:'center'},
+                {field:'carPol',title:'极化',width:80,align:'center'},
+                // {field:'sxplValue',title:'上行频率',width:80,align:'center'},
                 {field:'bpqplValue',title:'变频器频率',width:80,align:'center'},
                 {field:'zplValue',title:'中频',width:80,align:'center'},
                 {field:'xxplValue',title:'下行频率',width:80,align:'center'},
-                {field:'systemName',title:'系统',width:80,align:'center'},
+                {field:'systemName',title:'信号类型',width:80,align:'center'},
                 {field:'tzslValue',title:'调制速率',width:80,align:'center'},
                 {field:'xxslValue',title:'信息速率',width:80,align:'center'},
                 {field:'tzfsName',title:'调制方式',width:80,align:'center'},
                 {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
+                {field:'mlName',title:'码率',width:80,align:'center'},
                 {field:'xzbValue',title:'信噪比',width:80,align:'center'},
-                {field:'buildDate',title:'登记时间',width:150,align:'center'},
-                {field:'proCode',title:'批次公文号',width:200,align:'center'}
+                {field:'flen',title:'帧长',width:80,align:'center'},
+                {field:'remark',title:'备注',width:80,align:'center'},
+                {field:'buildDate',title:'登记日期',width:150,align:'center'}
             ]]
         });
     }
@@ -128,8 +134,8 @@
             multiple: false,
             fitColumns: true,
             columns: [[
-                {field:'positionName',title:'位置名称',width:100,sortable:true},
-                {field:'positionCode',title:'位置编码',width:80,sortable:true}
+                {field:'positionName',title:'地址',width:100,sortable:true},
+                {field:'positionCode',title:'标识码',width:80,sortable:true}
             ]]
         });
     }
@@ -168,8 +174,8 @@
             multiple: false,
             fitColumns: true,
             columns: [[
-                {field:'positionName',title:'位置名称',width:100,sortable:true},
-                {field:'positionCode',title:'位置编码',width:80,sortable:true}
+                {field:'positionName',title:'地址',width:100,sortable:true},
+                {field:'positionCode',title:'标识码',width:80,sortable:true}
             ]]
         });
     }
@@ -223,11 +229,17 @@
     }
 
     function deleteManual(){
-        var row = $('#getManualList').datagrid('getSelected');
+        // var row = $('#getManualList').datagrid('getSelected');
+        var row = $('#getManualList').datagrid('getChecked');
         if (row){
+            var ids = "";
+            for (var i=0;i < row.length;i++)
+            {
+                ids += row[i].id + ",";
+            }
             $.messager.confirm('确认提醒','确定删除此条数据?',function(r){
                 if (r){
-                    $.post('/data/macAuto/deleteManual',{id:row.id},function(result){
+                    $.post('/data/macAuto/deleteManual',{ids:ids},function(result){
                         if (result.success){
                             $('#getManualList').datagrid('reload');    // reload the user data
                         } else {
@@ -244,11 +256,11 @@
     <form id="fmAdd" method="post" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
         <h3>新增底数信息</h3>
         <div style="margin-bottom:15px">
-            <input id="cbgAdd" name="positionCode"  label="编码:" style="width:400px;">
+            <input id="cbgAdd" name="positionCode"  label="地址:" style="width:400px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="上行转发器:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
-            <input class="easyui-textbox" type="text" name="sxplValue" data-options="required:true" label="上行频率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="卫星:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="carPol" data-options="required:true" label="极化:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="bpqplValue" data-options="required:true" label="变频器频率:" labelPosition="left" style="width:230px;">
@@ -256,7 +268,7 @@
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="xxplValue" data-options="required:true" label="下行频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="系统:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="信号类型:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="tzslValue" data-options="required:true" label="调制速率:" labelPosition="left" style="width:230px;">
@@ -267,7 +279,14 @@
             <input class="easyui-textbox" type="text" name="xdbmCode" data-options="required:true" label="信道编码:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="mlName" data-options="required:true" label="码率:" labelPosition="left" style="width:230px;">
             <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="flen" data-options="required:true" label="码率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="remark" data-options="required:true" label="帧长:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
             <input class="easyui-datebox" id="buildDate" name ="buildDate" label="登记日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser,required:true" style="width:230px;">
         </div>
     </form>
@@ -280,15 +299,15 @@
     <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
         <h3>编辑底数信息</h3>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="上行转发器:" labelPosition="left" style="width:200px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="卫星:" labelPosition="left" style="width:200px;">&nbsp;&nbsp;
             <input class="easyui-textbox" type="text" name="buildDate" readonly="readonly" label="登记时间:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="系统:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="positionCode" readonly="readonly" label="位置编码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="信号类型:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="positionName" readonly="readonly" label="地址:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="sxplValue" data-options="required:true" label="上行频率:" labelPosition="left" style="width:200px;">
+            <input class="easyui-textbox" type="text" name="carPol" data-options="required:true" label="极化:" labelPosition="left" style="width:200px;">
             <input class="easyui-textbox" type="text" name="bpqplValue" data-options="required:true" label="变频器频率:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
@@ -301,10 +320,15 @@
         </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="tzfsName" data-options="required:true" label="调制方式:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xdbmCode" data-options="required:true" label="信道编码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="xdbmCode" data-options="required:true" label="信道编码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="mlName" data-options="required:true" label="码率:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="flen" data-options="required:true" label="帧长:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="remark" data-options="required:true" label="备注:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
             <input type="text" style="display: none" name = "id">

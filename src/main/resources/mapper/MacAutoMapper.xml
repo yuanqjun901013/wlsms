@@ -4,6 +4,7 @@
     <resultMap type="com.web.wlsms.entity.ManualModel" id="ManualMap">
         <id property="id" column="ID" javaType="long"/>
         <result property="sxzfqName" column="sxzfq_name" javaType="String"/>
+        <result property="carPol" column="car_pol" javaType="String"/>
         <result property="sxplValue" column="sxpl_value" javaType="String"/>
         <result property="bpqplValue" column="bpqpl_value" javaType="String"/>
         <result property="zplValue" column="zpl_value" javaType="String"/>
@@ -13,7 +14,10 @@
         <result property="xxslValue" column="xxsl_value" javaType="String"/>
         <result property="tzfsName" column="tzfs_name" javaType="String"/>
         <result property="xdbmCode" column="xdbm_code" javaType="String"/>
+        <result property="mlName" column="ml_name" javaType="String"/>
         <result property="xzbValue" column="xzb_value" javaType="String"/>
+        <result property="flen" column="flen" javaType="String"/>
+        <result property="remark" column="remark" javaType="String"/>
         <result property="buildDate" column="buildDate" javaType="String"/>
         <result property="positionCode" column="position_code" javaType="String"/>
         <result property="proCode" column="pro_code" javaType="String"/>
@@ -23,7 +27,7 @@
     <resultMap type="com.web.wlsms.entity.MachineModel" id="MachineMap">
         <id property="id" column="ID" javaType="long"/>
         <result property="wxName" column="wx_name" javaType="String"/>
-        <result property="zplValue" column="zpl_value" javaType="String"/>
+        <result property="carPol" column="car_pol" javaType="String"/>
         <result property="dplValue" column="dpl_value" javaType="String"/>
         <result property="tkplValue" column="tkpl_value" javaType="String"/>
         <result property="xhType" column="xh_type" javaType="String"/>
@@ -33,14 +37,26 @@
         <result property="tzysName" column="tzys_name" javaType="String"/>
         <result property="bmType" column="bm_type" javaType="String"/>
         <result property="mlName" column="ml_name" javaType="String"/>
+        <result property="muladdr" column="muladdr" javaType="String"/>
+        <result property="others" column="others" javaType="String"/>
+        <result property="exmlen" column="exmlen" javaType="String"/>
+        <result property="fcycle" column="fcycle" javaType="String"/>
+        <result property="flen" column="flen" javaType="String"/>
+        <result property="cf" column="cf" javaType="String"/>
+        <result property="rm" column="rm" javaType="String"/>
+        <result property="sindex" column="sindex" javaType="String"/>
+        <result property="userProperties" column="user_properties" javaType="String"/>
+        <result property="appearTime" column="appear_time" javaType="String"/>
         <result property="positionCode" column="position_code" javaType="String"/>
         <result property="proCode" column="pro_code" javaType="String"/>
         <result property="userNo" column="user_no" javaType="String"/>
+        <result property="buildType" column="build_type" javaType="String"/>
     </resultMap>
 
     <select id="getManualList" resultMap="ManualMap" parameterType="java.util.HashMap">
         SELECT id,
                sxzfq_name,
+               car_pol,
                sxpl_value,
                bpqpl_value,
                zpl_value,
@@ -50,7 +66,10 @@
                xxsl_value,
                tzfs_name,
                xdbm_code,
+               ml_name,
                xzb_value,
+               flen,
+               remark,
                DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
                position_code,
                pro_code,
@@ -76,7 +95,7 @@
     SELECT
     id,
     wx_name,
-    zpl_value,
+    car_pol,
     dpl_value,
     tkpl_value,
     xh_type,
@@ -86,9 +105,20 @@
     tzys_name,
     bm_type,
     ml_name,
+    muladdr,
+    others,
+    exmlen,
+    fcycle,
+    flen,
+    cf,
+    rm,
+    sindex,
+    user_properties,
+    appear_time,
     position_code,
     pro_code,
-    user_no
+    user_no,
+    build_type
     FROM
     wlsms_auto_machine
         where 1=1
@@ -111,7 +141,7 @@
         INSERT INTO wlsms_auto_manual
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="sxzfqName != null and sxzfqName != '' ">sxzfq_name,</if>
-            <if test="sxplValue != null and sxplValue != '' ">sxpl_value,</if>
+            <if test="carPol != null and carPol != '' ">car_pol,</if>
             <if test="bpqplValue != null and bpqplValue != '' ">bpqpl_value,</if>
             <if test="zplValue != null and zplValue != '' ">zpl_value,</if>
             <if test="xxplValue != null and xxplValue != '' ">xxpl_value,</if>
@@ -120,7 +150,10 @@
             <if test="xxslValue != null and xxslValue != '' ">xxsl_value,</if>
             <if test="tzfsName != null and tzfsName != '' ">tzfs_name,</if>
             <if test="xdbmCode != null and xdbmCode != '' ">xdbm_code,</if>
+            <if test="mlName != null and mlName != '' ">ml_name,</if>
             <if test="xzbValue != null and xzbValue != '' ">xzb_value,</if>
+            <if test="flen != null and flen != '' ">flen,</if>
+            <if test="remark != null and remark != '' ">remark,</if>
             <if test="buildDate != null and buildDate != '' ">build_date,</if>
             <if test="positionCode != null and positionCode != '' ">position_code,</if>
             <if test="proCode != null and proCode != '' ">pro_code,</if>
@@ -130,7 +163,7 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="sxzfqName != null and sxzfqName != '' ">#{sxzfqName},</if>
-            <if test="sxplValue != null and sxplValue != '' ">#{sxplValue},</if>
+            <if test="carPol != null and carPol != '' ">#{carPol},</if>
             <if test="bpqplValue != null and bpqplValue != '' ">#{bpqplValue},</if>
             <if test="zplValue != null and zplValue != '' ">#{zplValue},</if>
             <if test="xxplValue != null and xxplValue != '' ">#{xxplValue},</if>
@@ -139,7 +172,10 @@
             <if test="xxslValue != null and xxslValue != '' ">#{xxslValue},</if>
             <if test="tzfsName != null and tzfsName != '' ">#{tzfsName},</if>
             <if test="xdbmCode != null and xdbmCode != '' ">#{xdbmCode},</if>
+            <if test="mlName != null and mlName != '' ">#{mlName},</if>
             <if test="xzbValue != null and xzbValue != '' ">#{xzbValue},</if>
+            <if test="flen != null and flen != '' ">#{flen},</if>
+            <if test="remark != null and remark != '' ">#{remark},</if>
             <if test="buildDate != null and buildDate != '' ">#{buildDate},</if>
             <if test="positionCode != null and positionCode != '' ">#{positionCode},</if>
             <if test="proCode != null and proCode != '' ">#{proCode},</if>
@@ -153,7 +189,7 @@
         INSERT INTO wlsms_auto_manual
        (
         sxzfq_name,
-        sxpl_value,
+        car_pol,
         bpqpl_value,
         zpl_value,
         xxpl_value,
@@ -162,7 +198,10 @@
         xxsl_value,
         tzfs_name,
         xdbm_code,
+        ml_name,
         xzb_value,
+        flen,
+        remark,
         build_date,
         position_code,
         pro_code,
@@ -174,7 +213,7 @@
         <foreach collection="list" item="item" index="index" separator=",">
             (
             #{item.sxzfqName},
-            #{item.sxplValue},
+            #{item.carPol},
             #{item.bpqplValue},
             #{item.zplValue},
             #{item.xxplValue},
@@ -183,7 +222,10 @@
             #{item.xxslValue},
             #{item.tzfsName},
             #{item.xdbmCode},
+            #{item.mlName},
             #{item.xzbValue},
+            #{item.flen},
+            #{item.remark},
             #{item.buildDate},
             #{item.positionCode},
             #{item.proCode},
@@ -196,10 +238,10 @@
 
 
     <insert id="saveMachine" parameterType="com.web.wlsms.entity.MachineModel">
-        INSERT INTO wlsms_auto_manual
+        INSERT INTO wlsms_auto_machine
         (
             wx_name,
-            zpl_value,
+            car_pol,
             dpl_value,
             tkpl_value,
             xh_type,
@@ -208,17 +250,28 @@
             tzys_name,
             bm_type,
             ml_name,
+            muladdr,
+            others,
+            exmlen,
+            fcycle,
+            flen,
+            cf,
+            rm,
+            sindex,
+            user_properties,
+            appear_time,
             build_time,
             position_code,
             pro_code,
             user_no,
+            build_type,
             create_time,
             edit_time
         )
         VALUES
         (
             #{wxName},
-            #{zplValue},
+            #{carPol},
             #{dplValue},
             #{tkplValue},
             #{xhType},
@@ -227,10 +280,21 @@
             #{tzysName},
             #{bmType},
             #{mlName},
+            #{muladdr},
+            #{others},
+            #{exmlen},
+            #{fcycle},
+            #{flen},
+            #{cf},
+            #{rm},
+            #{sindex},
+            #{userProperties},
+            #{appearTime},
             #{buildTime},
             #{positionCode},
             #{proCode},
             #{userNo},
+            #{buildType},
             now(),
             now()
         )
@@ -239,7 +303,7 @@
     <insert id="insertMachine" parameterType="java.util.List">
         INSERT INTO wlsms_auto_machine (
         wx_name,
-        zpl_value,
+        car_pol,
         dpl_value,
         tkpl_value,
         xh_type,
@@ -248,10 +312,21 @@
         tzys_name,
         bm_type,
         ml_name,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties,
+        appear_time,
         build_time,
         position_code,
         pro_code,
         user_no,
+        build_type,
         create_time,
         edit_time
         )
@@ -259,7 +334,7 @@
         <foreach collection="list" item="item" index="index" separator=",">
             (
             #{item.wxName},
-            #{item.zplValue},
+            #{item.carPol},
             #{item.dplValue},
             #{item.tkplValue},
             #{item.xhType},
@@ -268,10 +343,21 @@
             #{item.tzysName},
             #{item.bmType},
             #{item.mlName},
+            #{item.muladdr},
+            #{item.others},
+            #{item.exmlen},
+            #{item.fcycle},
+            #{item.flen},
+            #{item.cf},
+            #{item.rm},
+            #{item.sindex},
+            #{item.userProperties},
+            #{item.appearTime},
             #{item.buildTime},
             #{item.positionCode},
             #{item.proCode},
             #{item.userNo},
+            #{item.buildType},
             now(),
             now()
             )
@@ -282,7 +368,7 @@
         update wlsms_auto_manual
         <set>
             sxzfq_name = #{sxzfqName},
-            sxpl_value = #{sxplValue},
+            car_pol = #{carPol},
             bpqpl_value = #{bpqplValue},
             zpl_value = #{zplValue},
             xxpl_value = #{xxplValue},
@@ -291,7 +377,10 @@
             xxsl_value = #{xxslValue},
             tzfs_name = #{tzfsName},
             xdbm_code = #{xdbmCode},
+            ml_name = #{mlName},
             xzb_value = #{xzbValue},
+            flen = #{flen},
+            remark = #{remark},
             edit_time = now()
         </set>
         <where>
@@ -302,14 +391,20 @@
     <delete id="deleteManual">
         delete from wlsms_auto_manual
         <where>
-            id = #{id}
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
         </where>
     </delete>
 
     <delete id="deleteMachine">
         delete from wlsms_auto_machine
         <where>
-            id = #{id}
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
         </where>
     </delete>
 
@@ -351,7 +446,7 @@
             and remark like concat('%',#{queryBt},'%')
         </if>
         <if test="buildDate != null and buildDate != ''"> and ( DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') or DATE_FORMAT(build_time,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d')) </if>
-        order by build_time desc
+        order by editTime desc
     </select>
 
     <select id="getAutoDataList" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoDataEntity">
@@ -397,7 +492,7 @@
     <select id="getManualListByDate" parameterType="java.util.HashMap" resultMap="ManualMap">
         SELECT id,
                sxzfq_name,
-               sxpl_value,
+               car_pol,
                bpqpl_value,
                zpl_value,
                xxpl_value,
@@ -406,11 +501,14 @@
                xxsl_value,
                tzfs_name,
                xdbm_code,
+               ml_name,
                xzb_value,
                DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
                position_code,
                pro_code,
-               user_no
+               user_no,
+               flen,
+               remark
         FROM wlsms_auto_manual
         where 1=1
         <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') =  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
@@ -420,7 +518,7 @@
         SELECT
         id,
         wx_name,
-        zpl_value,
+        car_pol,
         dpl_value,
         tkpl_value,
         xh_type,
@@ -430,6 +528,16 @@
         tzys_name,
         bm_type,
         ml_name,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties,
+        appear_time,
         position_code,
         pro_code,
         user_no
@@ -534,5 +642,34 @@
         DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
         from wlsms_auto_build
         where id = #{id}
+    </select>
+
+    <select id="queryMachineCountByInfo" parameterType="com.web.wlsms.entity.MachineModel" resultType="java.lang.Integer">
+        SELECT
+            count(1) as count
+        FROM
+            wlsms_auto_machine
+        where
+    wx_name = #{wxName} and
+    car_pol = #{carPol} and
+    dpl_value = #{dplValue} and
+    tkpl_value = #{tkplValue} and
+    xh_type = #{xhType} and
+    msl_value = #{mslValue} and
+    zzb_value = #{zzbValue} and
+    tzys_name = #{tzysName} and
+    bm_type = #{bmType} and
+    ml_name = #{mlName} and
+    muladdr = #{muladdr} and
+    others = #{others} and
+    exmlen = #{exmlen} and
+    fcycle = #{fcycle} and
+    flen = #{flen} and
+    cf = #{cf} and
+    rm = #{rm} and
+    sindex = #{sindex} and
+    user_properties = #{userProperties} and
+    appear_time = #{appearTime} and
+    build_type = #{buildType}
     </select>
 </mapper>

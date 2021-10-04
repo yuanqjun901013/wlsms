@@ -57,4 +57,8 @@ public class PositionService {
 			return BaseResponse.fail("删除失败");
 		}
 	}
+
+	public PositionEntity getPositionInfoById(String id){
+		return positionDao.getPositionInfoById(id);
+	}
 }

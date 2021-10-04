@@ -18,8 +18,8 @@ public class WlsmsMongodbConf {
      * 名称
      */
     private String wxName;
-    //中频
-    private String zplValue;
+//    //中频
+//    private String zplValue;
     //电平
     private String dplValue;
     //天空频率
@@ -28,8 +28,8 @@ public class WlsmsMongodbConf {
     private String xhType;
     //码速率
     private String mslValue;
-    //采集时间
-    private String buildTime;
+//    //采集时间
+//    private String buildTime;
     //载噪比
     private String zzbValue;
     //调制样式
@@ -50,6 +50,28 @@ public class WlsmsMongodbConf {
     private String mlName;
     //是否开启
     private String status;
+    //极化方式
+    private String carPol;
+    //多址方式
+    private String muladdr;
+    //其他
+    private String others;
+    //分组长度
+    private String exmlen;
+    //突发周期
+    private String fcycle;
+    //帧长
+    private String flen;
+    //差分
+    private String cf;
+    //扰码
+    private String rm;
+    //索引号
+    private String sindex;
+    //用户属性
+    private String userProperties;
+    //发现时间
+    private String appearTime;
 
     @Id
     @Column(name = "id")
@@ -70,14 +92,16 @@ public class WlsmsMongodbConf {
     public void setWxName(String wxName) {
         this.wxName = wxName;
     }
-    @Column(name = "zpl_value")
-    public String getZplValue() {
-        return zplValue;
+
+    @Column(name = "car_pol")
+    public String getCarPol() {
+        return carPol;
     }
 
-    public void setZplValue(String zplValue) {
-        this.zplValue = zplValue;
+    public void setCarPol(String carPol) {
+        this.carPol = carPol;
     }
+
     @Column(name = "dpl_value")
     public String getDplValue() {
         return dplValue;
@@ -110,14 +134,15 @@ public class WlsmsMongodbConf {
     public void setMslValue(String mslValue) {
         this.mslValue = mslValue;
     }
-    @Column(name = "build_time")
-    public String getBuildTime() {
-        return buildTime;
+    @Column(name = "appear_time")
+    public String getAppearTime() {
+        return appearTime;
     }
 
-    public void setBuildTime(String buildTime) {
-        this.buildTime = buildTime;
+    public void setAppearTime(String appearTime) {
+        this.appearTime = appearTime;
     }
+
     @Column(name = "zzb_value")
     public String getZzbValue() {
         return zzbValue;
@@ -192,6 +217,7 @@ public class WlsmsMongodbConf {
     public void setMlName(String mlName) {
         this.mlName = mlName;
     }
+
     @Column(name = "status")
     public String getStatus() {
         return status;
@@ -199,5 +225,86 @@ public class WlsmsMongodbConf {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Column(name = "muladdr")
+    public String getMuladdr() {
+        return muladdr;
+    }
+
+    public void setMuladdr(String muladdr) {
+        this.muladdr = muladdr;
+    }
+
+    @Column(name = "others")
+    public String getOthers() {
+        return others;
+    }
+
+    public void setOthers(String others) {
+        this.others = others;
+    }
+
+    @Column(name = "exmlen")
+    public String getExmlen() {
+        return exmlen;
+    }
+
+    public void setExmlen(String exmlen) {
+        this.exmlen = exmlen;
+    }
+
+    @Column(name = "fcycle")
+    public String getFcycle() {
+        return fcycle;
+    }
+
+    public void setFcycle(String fcycle) {
+        this.fcycle = fcycle;
+    }
+
+    @Column(name = "flen")
+    public String getFlen() {
+        return flen;
+    }
+
+    public void setFlen(String flen) {
+        this.flen = flen;
+    }
+
+    @Column(name = "cf")
+    public String getCf() {
+        return cf;
+    }
+
+    public void setCf(String cf) {
+        this.cf = cf;
+    }
+
+    @Column(name = "rm")
+    public String getRm() {
+        return rm;
+    }
+
+    public void setRm(String rm) {
+        this.rm = rm;
+    }
+
+    @Column(name = "sindex")
+    public String getSindex() {
+        return sindex;
+    }
+
+    public void setSindex(String sindex) {
+        this.sindex = sindex;
+    }
+
+    @Column(name = "user_properties")
+    public String getUserProperties() {
+        return userProperties;
+    }
+
+    public void setUserProperties(String userProperties) {
+        this.userProperties = userProperties;
     }
 }

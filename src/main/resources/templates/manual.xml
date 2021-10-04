@@ -5,7 +5,7 @@
 <loop startRow="1" endRow="1" items="list" var="item" varType="com.web.wlsms.entity.ManualModel">
     <section startRow="1" endRow="1">
         <mapping row="1" col="0">item.sxzfqName</mapping>
-        <mapping row="1" col="1">item.sxplValue</mapping>
+        <mapping row="1" col="1">item.carPol</mapping>
         <mapping row="1" col="2">item.bpqplValue</mapping>
         <mapping row="1" col="3">item.zplValue</mapping>
         <mapping row="1" col="4">item.xxplValue</mapping>
@@ -14,8 +14,10 @@
         <mapping row="1" col="7">item.xxslValue</mapping>
         <mapping row="1" col="8">item.tzfsName</mapping>
         <mapping row="1" col="9">item.xdbmCode</mapping>
-        <mapping row="1" col="10">item.xzbValue</mapping>
-        <mapping row="1" col="11">item.buildDate</mapping>
+        <mapping row="1" col="10">item.mlName</mapping>
+        <mapping row="1" col="11">item.xzbValue</mapping>
+        <mapping row="1" col="12">item.flen</mapping>
+        <mapping row="1" col="13">item.remark</mapping>
     </section>
     <loopbreakcondition>
         <rowcheck offset="0">
@@ -31,6 +33,8 @@
             <cellcheck offset="9"></cellcheck>
             <cellcheck offset="10"></cellcheck>
             <cellcheck offset="11"></cellcheck>
+            <cellcheck offset="12"></cellcheck>
+            <cellcheck offset="13"></cellcheck>
         </rowcheck>
     </loopbreakcondition>
 </loop>

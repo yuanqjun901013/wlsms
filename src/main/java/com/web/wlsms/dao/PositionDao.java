@@ -12,4 +12,5 @@ public interface PositionDao {
    int insertPosition(PositionEntity positionEntity);
    int updatePosition(PositionEntity positionEntity);
    int destroyPosition(PositionEntity positionEntity);
+   PositionEntity getPositionInfoById(String id);
 }

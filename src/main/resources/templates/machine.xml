@@ -4,17 +4,26 @@
 <section startRow="0" endRow="0"></section>
 <loop startRow="1" endRow="1" items="list" var="item" varType="com.web.wlsms.entity.MachineModel">
     <section startRow="1" endRow="1">
-        <mapping row="1" col="0">item.wxName</mapping>
-        <mapping row="1" col="1">item.zplValue</mapping>
-        <mapping row="1" col="2">item.dplValue</mapping>
+        <mapping row="1" col="0">item.numb</mapping>
+        <mapping row="1" col="1">item.wxName</mapping>
+        <mapping row="1" col="2">item.carPol</mapping>
         <mapping row="1" col="3">item.tkplValue</mapping>
-        <mapping row="1" col="4">item.xhType</mapping>
-        <mapping row="1" col="5">item.mslValue</mapping>
+        <mapping row="1" col="4">item.mslValue</mapping>
+        <mapping row="1" col="5">item.dplValue</mapping>
         <mapping row="1" col="6">item.zzbValue</mapping>
-        <mapping row="1" col="7">item.tzysName</mapping>
-        <mapping row="1" col="8">item.bmType</mapping>
-        <mapping row="1" col="9">item.mlName</mapping>
-        <mapping row="1" col="10">item.buildTime</mapping>
+        <mapping row="1" col="7">item.xhType</mapping>
+        <mapping row="1" col="8">item.muladdr</mapping>
+        <mapping row="1" col="9">item.others</mapping>
+        <mapping row="1" col="10">item.tzysName</mapping>
+        <mapping row="1" col="11">item.bmType</mapping>
+        <mapping row="1" col="12">item.mlName</mapping>
+        <mapping row="1" col="13">item.exmlen</mapping>
+        <mapping row="1" col="14">item.fcycle</mapping>
+        <mapping row="1" col="15">item.flen</mapping>
+        <mapping row="1" col="16">item.cf</mapping>
+        <mapping row="1" col="17">item.rm</mapping>
+        <mapping row="1" col="18">item.sindex</mapping>
+        <mapping row="1" col="19">item.userProperties</mapping>
     </section>
     <loopbreakcondition>
         <rowcheck offset="0">
@@ -29,6 +38,15 @@
             <cellcheck offset="8"></cellcheck>
             <cellcheck offset="9"></cellcheck>
             <cellcheck offset="10"></cellcheck>
+            <cellcheck offset="11"></cellcheck>
+            <cellcheck offset="12"></cellcheck>
+            <cellcheck offset="13"></cellcheck>
+            <cellcheck offset="14"></cellcheck>
+            <cellcheck offset="15"></cellcheck>
+            <cellcheck offset="16"></cellcheck>
+            <cellcheck offset="17"></cellcheck>
+            <cellcheck offset="18"></cellcheck>
+            <cellcheck offset="19"></cellcheck>
         </rowcheck>
     </loopbreakcondition>
 </loop>

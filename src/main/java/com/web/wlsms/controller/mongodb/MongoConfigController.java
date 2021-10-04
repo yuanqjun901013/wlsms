@@ -44,8 +44,8 @@ public class MongoConfigController {
         if(StringUtils.isBlank(wlsmsMongodbConf.getWxName())){
             return BaseResponse.fail("系统名称为空");
         }
-        if(StringUtils.isBlank(wlsmsMongodbConf.getZplValue())){
-            return BaseResponse.fail("中频为空");
+        if(StringUtils.isBlank(wlsmsMongodbConf.getCarPol())){
+            return BaseResponse.fail("极化方式为空");
         }
         if(StringUtils.isBlank(wlsmsMongodbConf.getDplValue())){
             return BaseResponse.fail("电平为空");
@@ -56,8 +56,8 @@ public class MongoConfigController {
         if(StringUtils.isBlank(wlsmsMongodbConf.getMslValue())){
             return BaseResponse.fail("码速率为空");
         }
-        if(StringUtils.isBlank(wlsmsMongodbConf.getBuildTime())){
-            return BaseResponse.fail("采集时间为空");
+        if(StringUtils.isBlank(wlsmsMongodbConf.getAppearTime())){
+            return BaseResponse.fail("发现时间为空");
         }
         if(StringUtils.isBlank(wlsmsMongodbConf.getZzbValue())){
             return BaseResponse.fail("载噪比为空");
@@ -70,6 +70,36 @@ public class MongoConfigController {
         }
         if(StringUtils.isBlank(wlsmsMongodbConf.getMlName())){
             return BaseResponse.fail("码率为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getMuladdr())){
+            return BaseResponse.fail("多址方式为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getOthers())){
+            return BaseResponse.fail("其他为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getExmlen())){
+            return BaseResponse.fail("分组长度为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getFcycle())){
+            return BaseResponse.fail("突发周期为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getFlen())){
+            return BaseResponse.fail("帧长为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getCf())){
+            return BaseResponse.fail("差分为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getRm())){
+            return BaseResponse.fail("扰码为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getSindex())){
+            return BaseResponse.fail("索引号为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getUserProperties())){
+            return BaseResponse.fail("用户属性为空");
+        }
+        if(StringUtils.isBlank(wlsmsMongodbConf.getAppearTime())){
+            return BaseResponse.fail("发现时间为空");
         }
         if(StringUtils.isBlank(wlsmsMongodbConf.getStatus())){
             wlsmsMongodbConf.setStatus("off");

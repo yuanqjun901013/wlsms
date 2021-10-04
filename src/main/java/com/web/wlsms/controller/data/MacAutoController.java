@@ -68,23 +68,34 @@ public class MacAutoController {
         int num = 0;
         List<ManualModel> strategyList = new ArrayList<>();
         String proCode = getProCodeNum();//获取批次公文号
+        //获取当前日期
+        SimpleDateFormat bartDateFormat =
+                new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String buildDate = bartDateFormat.format(date);
         for (ManualModel model : list) {
             ManualModel strategy = new ManualModel();
-            strategy.setSxzfqName(model.getSxzfqName().replace(" ","").trim());
-            strategy.setSxplValue(model.getSxplValue().replace(" ","").trim());
-            strategy.setBpqplValue(model.getBpqplValue().replace(" ","").trim());
-            strategy.setZplValue(model.getZplValue().replace(" ","").trim());
-            strategy.setXxplValue(model.getXxplValue().replace(" ","").trim());
-            strategy.setSystemName(model.getSystemName().replace(" ","").trim());
-            strategy.setTzslValue(model.getTzslValue().replace(" ","").trim());
-            strategy.setXxslValue(model.getXxslValue().replace(" ","").trim());
-            strategy.setTzfsName(model.getTzfsName().replace(" ","").trim());
-            strategy.setXdbmCode(model.getXdbmCode().replace(" ","").trim());
-            strategy.setXzbValue(model.getXzbValue().replace(" ","").trim());
-            strategy.setBuildDate(model.getBuildDate());
+            strategy.setSxzfqName(StringUtils.isBlank(model.getSxzfqName()) == true ? "" : model.getSxzfqName().replace(" ","").trim());
+//            strategy.setSxplValue(model.getSxplValue().replace(" ","").trim());
+            strategy.setCarPol(StringUtils.isBlank(model.getCarPol()) == true ? "" : model.getCarPol().replace(" ","").trim());
+            strategy.setBpqplValue(StringUtils.isBlank(model.getBpqplValue()) == true ? "0" : model.getBpqplValue().replace(" ","").trim());
+            strategy.setZplValue(StringUtils.isBlank(model.getZplValue()) == true ? "0" : model.getZplValue().replace(" ","").trim());
+            strategy.setXxplValue(StringUtils.isBlank(model.getXxplValue()) == true ? "0" : model.getXxplValue().replace(" ","").trim());
+            strategy.setSystemName(StringUtils.isBlank(model.getSystemName()) == true ? "" : model.getSystemName().replace(" ","").trim());
+            strategy.setTzslValue(StringUtils.isBlank(model.getTzslValue()) == true ? "0" : model.getTzslValue().replace(" ","").trim());
+            strategy.setXxslValue(StringUtils.isBlank(model.getXxslValue()) == true ? "0" : model.getXxslValue().replace(" ","").trim());
+            strategy.setTzfsName(StringUtils.isBlank(model.getTzfsName()) == true ? "" : model.getTzfsName().replace(" ","").trim());
+            strategy.setXdbmCode(StringUtils.isBlank(model.getXdbmCode()) == true ? "" : model.getXdbmCode().replace(" ","").trim());
+            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").trim());
+            strategy.setXzbValue(StringUtils.isBlank(model.getXzbValue()) == true ? "0" : model.getXzbValue().replace(" ","").trim());
+            strategy.setFlen(StringUtils.isBlank(model.getFlen()) == true ? "" : model.getFlen().replace(" ","").trim());
+            strategy.setRemark(StringUtils.isBlank(model.getRemark()) == true ? "" : model.getRemark().replace(" ","").trim());
+            strategy.setBuildDate(buildDate);
             strategy.setPositionCode(positionCode);
             strategy.setProCode(proCode);
             strategy.setUserNo(userNo);
+            //简化码率分数(mlName)
+            strategy.setMlName(getMlName(strategy.getMlName()));
             strategyList.add(strategy);
         }
         if (null != strategyList && strategyList.size() >0){
@@ -160,6 +171,28 @@ public class MacAutoController {
         return val.toString();
     }
 
+    //简化分数
+    private String getMlName(String mlNameOld){
+        String[] mlArr= mlNameOld.split("/");
+        boolean isNumA = mlArr[1].matches("[0-9]+");
+        boolean isNumB = mlArr[0].matches("[0-9]+");
+        if(isNumA && isNumB) {
+            int a = Integer.parseInt(mlArr[1]), b = Integer.parseInt(mlArr[0]);//a 是分母
+            int gcd = gcd(a, b);
+//            System.out.println(b / gcd + "/" + a / gcd); // 输出了 5/6
+            return b / gcd + "/" + a / gcd;
+        }else {
+            return mlNameOld;
+        }
+    }
+
+    private static int gcd(int x, int y){ // 这个是运用辗转相除法求 两个数的 最大公约数 看不懂可以百度 // 下
+        if(y == 0)
+            return x;
+        else
+            return gcd(y,x%y);
+    }
+
 
     /**
      * 导入机器底数
@@ -197,28 +230,56 @@ public class MacAutoController {
         int num = 0;
         List<MachineModel> strategyList = new ArrayList<>();
         String proCode = getProCodeNum();//获取批次公文号
+        //获取当前日期
+        SimpleDateFormat bartDateFormat =
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String buildTime = bartDateFormat.format(date);
         for (MachineModel model : list) {
             MachineModel strategy = new MachineModel();
-            strategy.setWxName(model.getWxName().replace(" ","").trim());
-            strategy.setZplValue(model.getZplValue().replace(" ","").trim());
-            strategy.setDplValue(model.getDplValue().replace(" ","").trim());
-            strategy.setTkplValue(model.getTkplValue().replace(" ","").trim());
-            strategy.setXhType(model.getXhType().replace(" ","").trim());
-            strategy.setMslValue(model.getMslValue().replace(" ","").trim());
-            strategy.setZzbValue(model.getZzbValue().replace(" ","").trim());
-            strategy.setTzysName(model.getTzysName().replace(" ","").trim());
-            strategy.setBuildTime(model.getBuildTime());
-            strategy.setBmType(model.getBmType().replace(" ","").trim());
-            strategy.setMlName(model.getMlName().replace(" ","").trim());
+            strategy.setWxName(StringUtils.isBlank(model.getWxName()) == true ? "" : model.getWxName().replace(" ","").trim());
+            strategy.setCarPol(StringUtils.isBlank(model.getCarPol()) == true ? "" : model.getCarPol().replace(" ","").trim());
+            strategy.setDplValue(StringUtils.isBlank(model.getDplValue()) == true ? "0" : model.getDplValue().replace(" ","").trim());
+            strategy.setTkplValue(StringUtils.isBlank(model.getTkplValue()) == true ? "0" : model.getTkplValue().replace(" ","").trim());
+            strategy.setXhType(StringUtils.isBlank(model.getXhType()) == true ? "" : model.getXhType().replace(" ","").trim());
+            strategy.setMslValue(StringUtils.isBlank(model.getMslValue()) == true ? "0" : model.getMslValue().replace(" ","").trim());
+            strategy.setZzbValue(StringUtils.isBlank(model.getZzbValue()) == true ? "0" : model.getZzbValue().replace(" ","").trim());
+            strategy.setTzysName(StringUtils.isBlank(model.getTzysName()) == true ? "" : model.getTzysName().replace(" ","").trim());
+            strategy.setBmType(StringUtils.isBlank(model.getBmType()) == true ? "" : model.getBmType().replace(" ","").trim());
+            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").trim());
+            strategy.setMuladdr(StringUtils.isBlank(model.getMuladdr()) == true ? "" : model.getMuladdr().replace(" ","").trim());
+            strategy.setOthers(StringUtils.isBlank(model.getOthers()) == true ? "" : model.getOthers().replace(" ","").trim());
+            strategy.setExmlen(StringUtils.isBlank(model.getExmlen()) == true ? "" : model.getExmlen().replace(" ","").trim());
+            strategy.setFcycle(StringUtils.isBlank(model.getFcycle()) == true ? "" : model.getFcycle().replace(" ","").trim());
+            strategy.setFlen(StringUtils.isBlank(model.getFlen()) == true ? "" : model.getFlen().replace(" ","").trim());
+            strategy.setCf(StringUtils.isBlank(model.getCf()) == true ? "" : model.getCf().replace(" ","").trim());
+            strategy.setRm(StringUtils.isBlank(model.getRm()) == true ? "" : model.getRm().replace(" ","").trim());
+            strategy.setSindex(StringUtils.isBlank(model.getSindex()) == true ? "" : model.getSindex().replace(" ","").trim());
+            strategy.setUserProperties(StringUtils.isBlank(model.getUserProperties()) == true ? "" : model.getUserProperties().replace(" ","").trim());
+            strategy.setAppearTime(buildTime);
+            strategy.setBuildTime(buildTime);
+            strategy.setBuildType("手动导入");
             strategy.setPositionCode(positionCode);
             strategy.setProCode(proCode);
             strategy.setUserNo(userNo);
+            //简化码率分数(mlName)
+            strategy.setMlName(getMlName(strategy.getMlName()));
             strategyList.add(strategy);
         }
-        if (null != strategyList && strategyList.size() >0){
+        List<MachineModel> newMachineList = new ArrayList<>();
+        //筛选数据是否在数据库中存在
+        if(null != strategyList && strategyList.size() > 0){
+            for(MachineModel machineModel:strategyList){
+                int count = macAutoService.queryMachineCountByInfo(machineModel);
+                if(count == 0){
+                    newMachineList.add(machineModel);
+                }
+            }
+        }
+        if (null != newMachineList && newMachineList.size() >0){
             //排重
             Set<MachineModel> setData = new HashSet<MachineModel>();
-            setData.addAll(strategyList);
+            setData.addAll(newMachineList);
             List<MachineModel> newAddData= new ArrayList<>();
             newAddData.addAll(setData);
             //分批次 批量保存
@@ -312,7 +373,7 @@ public class MacAutoController {
         manualModel.setProCode(getProCodeNum());
         manualModel.setXdbmCode(manualModel.getXdbmCode().replace(" ","").trim());
         manualModel.setSxzfqName(manualModel.getSxzfqName().replace(" ","").trim());
-        manualModel.setSxplValue(manualModel.getSxplValue().replace(" ","").trim());
+//        manualModel.setSxplValue(manualModel.getSxplValue().replace(" ","").trim());
         manualModel.setBpqplValue(manualModel.getBpqplValue().replace(" ","").trim());
         manualModel.setZplValue(manualModel.getZplValue().replace(" ","").trim());
         manualModel.setXxplValue(manualModel.getXxplValue().replace(" ","").trim());
@@ -321,6 +382,10 @@ public class MacAutoController {
         manualModel.setXxslValue(manualModel.getXxslValue().replace(" ","").trim());
         manualModel.setTzfsName(manualModel.getTzfsName().replace(" ","").trim());
         manualModel.setXzbValue(manualModel.getXzbValue().replace(" ","").trim());
+        manualModel.setMlName(manualModel.getMlName().replace(" ","").trim());
+        manualModel.setCarPol(manualModel.getCarPol().replace(" ","").trim());
+        manualModel.setFlen(manualModel.getFlen().replace(" ","").trim());
+        manualModel.setRemark(manualModel.getRemark().replace(" ","").trim());
         return macAutoService.saveManual(manualModel);
     }
 
@@ -330,8 +395,10 @@ public class MacAutoController {
             return BaseResponse.fail("入参有误，请重试");
         }
         manualModel.setXdbmCode(manualModel.getXdbmCode().replace(" ","").trim());
+        manualModel.setMlName(manualModel.getMlName().replace(" ","").trim());
         manualModel.setSxzfqName(manualModel.getSxzfqName().replace(" ","").trim());
-        manualModel.setSxplValue(manualModel.getSxplValue().replace(" ","").trim());
+        manualModel.setCarPol(manualModel.getCarPol().replace(" ","").trim());
+//        manualModel.setSxplValue(manualModel.getSxplValue().replace(" ","").trim());
         manualModel.setBpqplValue(manualModel.getBpqplValue().replace(" ","").trim());
         manualModel.setZplValue(manualModel.getZplValue().replace(" ","").trim());
         manualModel.setXxplValue(manualModel.getXxplValue().replace(" ","").trim());
@@ -340,6 +407,8 @@ public class MacAutoController {
         manualModel.setXxslValue(manualModel.getXxslValue().replace(" ","").trim());
         manualModel.setTzfsName(manualModel.getTzfsName().replace(" ","").trim());
         manualModel.setXzbValue(manualModel.getXzbValue().replace(" ","").trim());
+        manualModel.setFlen(manualModel.getFlen().replace(" ","").trim());
+        manualModel.setRemark(manualModel.getRemark().replace(" ","").trim());
         return macAutoService.updateManual(manualModel);
     }
 
@@ -349,11 +418,12 @@ public class MacAutoController {
      * @return
      */
     @RequestMapping("deleteManual")
-    public BaseResponse deleteManual(ManualModel manualModel){
-        if(null == manualModel){
+    public BaseResponse deleteManual(String ids){
+        if(null == ids){
             return BaseResponse.fail("入参有误，请重试");
         }
-        return macAutoService.deleteManual(manualModel);
+        List<String> idsArr = Arrays.asList(ids.split(","));
+        return macAutoService.deleteManual(idsArr);
     }
 
     /**
@@ -362,11 +432,12 @@ public class MacAutoController {
      * @return
      */
     @RequestMapping("deleteMachine")
-    public BaseResponse deleteMachine(MachineModel machineModel){
-        if(null == machineModel){
+    public BaseResponse deleteMachine(String ids){
+        if(null == ids){
             return BaseResponse.fail("入参有误，请重试");
         }
-        return macAutoService.deleteMachine(machineModel);
+        List<String> idsArr = Arrays.asList(ids.split(","));
+        return macAutoService.deleteMachine(idsArr);
     }
 
 

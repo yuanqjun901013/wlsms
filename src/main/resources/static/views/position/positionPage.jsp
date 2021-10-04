@@ -28,12 +28,12 @@
     <div id="dlg" class="easyui-dialog" style="width:400px; height: 300px"
          data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
         <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
-            <h3>位置信息</h3>
+            <h3>地址信息</h3>
             <div style="margin-bottom:15px">
-                <input id="positionName" class="easyui-textbox" type="text" name="positionName" data-options="required:true" label="位置名称:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+                <input id="positionName" class="easyui-textbox" type="text" name="positionName" data-options="required:true" label="地址:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
             </div>
             <div style="margin-bottom:15px">
-                <input id="positionCode" class="easyui-textbox" type="text" name="positionCode" data-options="required:true" label="位置编码:" labelPosition="left" style="width:230px;">
+                <input id="positionCode" class="easyui-textbox" type="text" name="positionCode" data-options="required:true" label="识别标识:" labelPosition="left" style="width:230px;">
             </div>
 
         </form>
@@ -63,8 +63,8 @@
            toolbar:'#toolbar',
             columns:[[
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'positionName',title:'位置名称',width:80,align:'center'},
-                {field:'positionCode',title:'位置编码',width:80,align:'center'}
+                {field:'positionName',title:'地址',width:80,align:'center'},
+                {field:'positionCode',title:'识别标识',width:80,align:'center'}
             ]]
         });
     }
@@ -150,13 +150,13 @@
 </div>
 <div id="dlgUpdate" class="easyui-dialog" style="width:400px; height: 300px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgUpdate-buttons'">
     <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
-        <h3>用户信息</h3>
+        <h3>地址信息</h3>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="positionName" data-options="required:true" label="位置名称:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="positionName" data-options="required:true" label="地址:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
 
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="positionCode" readonly="readonly" label="位置编码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="positionCode" readonly="readonly" label="识别标识:" labelPosition="left" style="width:230px;">
         </div>
     </form>
 </div>

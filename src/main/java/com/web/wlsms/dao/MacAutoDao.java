@@ -14,8 +14,8 @@ public interface MacAutoDao {
    List<MachineModel> getMachineList(Map map);
    int saveManual(ManualModel manualModel);
    int updateManual(ManualModel manualModel);
-   int deleteManual(ManualModel manualModel);
-   int deleteMachine(MachineModel machineModel);
+   int deleteManual(List<String> ids);
+   int deleteMachine(List<String> ids);
    List<AutoBuildEntity> queryManualByDate(Map<String, Object> param);
    List<AutoBuildEntity> queryMachineByDate(Map<String, Object> param);
    List<AutoBuildEntity> queryAutoBuildList(Map<String, Object> param);
@@ -30,4 +30,5 @@ public interface MacAutoDao {
    int insertAutoDatas(List<AutoDataEntity> autoDatas);
    int deleteAutoDateByThis(Map<String, Object> param);
    AutoBuildEntity getAutoBuildById(Map<String, Object> param);
+   int queryMachineCountByInfo(MachineModel machineModel);
 }
