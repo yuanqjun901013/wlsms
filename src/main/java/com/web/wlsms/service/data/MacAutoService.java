@@ -280,6 +280,7 @@ public class MacAutoService {
         if(CollectionUtils.isEmpty(manualModels)){
             return;
         }
+
         //查询误差范围
         BigDecimal paramValue = new BigDecimal(0);
         if(StringUtils.isNotBlank(macAutoDao.getParamValue())){
