@@ -9,14 +9,17 @@ import com.web.wlsms.service.data.MacAutoService;
 import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.utils.ExcelUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.security.SecureRandom;
@@ -340,6 +343,20 @@ public class MacAutoController {
             resultMap.put("rows", "");
         }
         return resultMap;
+    }
+
+    /**
+     * Excel导出
+     * @return
+     */
+    @RequestMapping("exportConfig")
+    public void exportConfig(@RequestParam String productCode, HttpServletRequest request, HttpServletResponse response) {
+        Map<String,Object> queryParams = new HashMap<>();
+        if (StringUtils.isNotEmpty(productCode)) {
+            queryParams.put("productCode",productCode);
+        }
+        String destFileName = "服务计价策略数据" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + ".xlsx";
+        ExcelUtil.export(request,response,"priceExportTemplate.xlsx", destFileName, this.priceStrategy.queryStrategyAll(queryParams));
     }
 
     /**
