@@ -173,6 +173,9 @@ public class MacAutoController {
 
     //简化分数
     private String getMlName(String mlNameOld){
+        if(StringUtils.isBlank(mlNameOld)){
+            return "";
+        }
         String[] mlArr= mlNameOld.split("/");
         boolean isNumA = mlArr[1].matches("[0-9]+");
         boolean isNumB = mlArr[0].matches("[0-9]+");
