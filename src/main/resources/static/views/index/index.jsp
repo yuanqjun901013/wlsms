@@ -10,16 +10,16 @@
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 	<SCRIPT th:inline="javascript">
 		var oInterval = "";
-		var welcomeValue = [[${welcomeValue}]]; //判断是否需要欢迎页
+		// var welcomeValue = [[${welcomeValue}]]; //判断是否需要欢迎页
 		var menuLevel = [[${menuLevel}]];//默认加载parentId为1的菜单列表
 		$(function(){
-			if(welcomeValue == "1"){//需要欢迎页面
+			// if(welcomeValue == "1"){//需要欢迎页面
 			//欢迎页
-			$("#mWind").window("open");
-			oInterval = setInterval(CountDown, 1000);
-			}else {//不需要
-				$("#mWind").window('close');
-			}
+			// $("#mWind").window("open");
+			// oInterval = setInterval(CountDown, 1000);
+			// }else {//不需要
+			// 	$("#mWind").window('close');
+			// }
 			$("#userInfo").window("close");
 			$("#pwdW").window("close");
 			//首页默认选项卡
@@ -405,6 +405,7 @@
 		</tr>
 	</table>
 </div>
+<!--
 <div id="mWind" class="easyui-window" title=""
 	 data-options="modal:true,resizable:false,collapsible:false,minimizable:false,maximizable:false,closable:false"
 	 style="width:831px;height:600px;padding:10px;background-image: url('../../views/bg_welcome.png')">
@@ -412,6 +413,7 @@
 			<span style="font-size:15px;color: #e2e2e2;">欢迎页将在&nbsp;<input style="font-size:18px;color: #000000;" type="button" id="number" value="5" disabled="disabled"/>&nbsp;秒后自动关闭</span>
 		</div>
 </div>
+-->
 <div id="userInfo" class="easyui-window" title="个人资料" style="width:800px;height:380px;padding:10px;"
 	 data-options="iconCls:'icon-man',modal:true,resizable:false,minimizable:false,maximizable:false">
 	<iframe style="vertical-align:bottom;" width="100%" height="100%"  frameborder="no" border="0" marginwidth="1" SCROLLING="auto" src="userModalPage"></iframe>
