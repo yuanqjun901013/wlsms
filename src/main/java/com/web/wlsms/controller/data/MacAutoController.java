@@ -349,15 +349,15 @@ public class MacAutoController {
      * Excel导出
      * @return
      */
-    @RequestMapping("exportConfig")
-    public void exportConfig(@RequestParam String productCode, HttpServletRequest request, HttpServletResponse response) {
-        Map<String,Object> queryParams = new HashMap<>();
-        if (StringUtils.isNotEmpty(productCode)) {
-            queryParams.put("productCode",productCode);
-        }
-        String destFileName = "服务计价策略数据" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + ".xlsx";
-        ExcelUtil.export(request,response,"priceExportTemplate.xlsx", destFileName, this.priceStrategy.queryStrategyAll(queryParams));
-    }
+//    @RequestMapping("exportConfig")
+//    public void exportConfig(@RequestParam String productCode, HttpServletRequest request, HttpServletResponse response) {
+//        Map<String,Object> queryParams = new HashMap<>();
+//        if (StringUtils.isNotEmpty(productCode)) {
+//            queryParams.put("productCode",productCode);
+//        }
+//        String destFileName = "服务计价策略数据" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + ".xlsx";
+//        ExcelUtil.export(request,response,"priceExportTemplate.xlsx", destFileName, this.priceStrategy.queryStrategyAll(queryParams));
+//    }
 
     /**
      * 机器上报数据

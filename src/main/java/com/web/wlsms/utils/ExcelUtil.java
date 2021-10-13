@@ -61,7 +61,7 @@ public class ExcelUtil {
             response.setContentType("application/octet-stream");
 
             in = ExcelUtil.class.getClassLoader().getResourceAsStream(
-                    "templates/excel/export/" + templateFileName);
+                    "export/" + templateFileName);
             Workbook workbook = transformer.transformXLS(in, beans);
             out = response.getOutputStream();
             // 将内容写入输出流并把缓存的内容全部发出去
