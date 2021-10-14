@@ -408,6 +408,26 @@
         </where>
     </delete>
 
+    <delete id="deleteAutoBuild">
+        delete from wlsms_auto_build
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <delete id="deleteAutoData">
+        delete from wlsms_auto_data
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
     <!-- 日分组人工比对数据 -->
     <select id="queryManualByDate" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoBuildEntity">
         select

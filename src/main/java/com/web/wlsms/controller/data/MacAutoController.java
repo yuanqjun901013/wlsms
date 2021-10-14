@@ -460,7 +460,6 @@ public class MacAutoController {
         return macAutoService.deleteMachine(idsArr);
     }
 
-
     /**
      * 人工上报数据以日期为分类
      * @param params
@@ -563,6 +562,20 @@ public class MacAutoController {
             resultMap.put("rows", "");
         }
         return resultMap;
+    }
+
+    /**
+     * 删除汇总融合数据
+     * @param
+     * @return
+     */
+    @RequestMapping("deleteAutoBuild")
+    public BaseResponse deleteAutoBuild(String ids){
+        if(null == ids){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        List<String> idsArr = Arrays.asList(ids.split(","));
+        return macAutoService.deleteAutoBuild(idsArr);
     }
 
     @RequestMapping("openAuto")

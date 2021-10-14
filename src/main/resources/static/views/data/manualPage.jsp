@@ -21,9 +21,10 @@
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addManual()">新增</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBatchManual()">批量导入</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBatchManual()">导入</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editValue()">修改</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteManual()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true" onclick="getClear()">清空</a>
         <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-datebox" id="endTime" label="结束日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
@@ -237,7 +238,7 @@
             {
                 ids += row[i].id + ",";
             }
-            $.messager.confirm('确认提醒','确定删除此条数据?',function(r){
+            $.messager.confirm('确认提醒','确定删除这些数据?',function(r){
                 if (r){
                     $.post('/data/macAuto/deleteManual',{ids:ids},function(result){
                         if (result.success){
@@ -249,6 +250,54 @@
                 }
             });
         }
+    }
+
+    function getClear(){
+        var queryBt = $('#queryBt').textbox('getValue');
+        var startTime = $('#startTime').datebox('getValue');
+        var endTime = $('#endTime').datebox('getValue');
+        $('#getManualList').datagrid({
+            url:'/batch/common/getClear',//参数
+            method: 'post',
+            //携带参数
+            queryParams: {
+                "queryBt":queryBt,
+                "startTime":startTime,
+                "endTime":endTime
+            },
+            fitColumns:false,
+            striped:true,
+            pagination:true,
+            rownumbers:true,
+            remoteFilter: true,
+            clientPaging: false,
+            nowrap:false,//自动换行
+            toolbar:'#toolbar',
+            singleSelect:false,
+            checkOnSelect:true,
+            selectOnCheck:true,
+            columns:[[
+                {field:'ck',checkbox:true,align:'center'},
+                {field:'id',title:'编号',width:80,align:'center'},
+                {field:'positionName',title:'地址',width:80,align:'center'},
+                {field:'sxzfqName',title:'卫星',width:80,align:'center'},
+                {field:'carPol',title:'极化',width:80,align:'center'},
+                // {field:'sxplValue',title:'上行频率',width:80,align:'center'},
+                {field:'bpqplValue',title:'变频器频率',width:80,align:'center'},
+                {field:'zplValue',title:'中频',width:80,align:'center'},
+                {field:'xxplValue',title:'下行频率',width:80,align:'center'},
+                {field:'systemName',title:'信号类型',width:80,align:'center'},
+                {field:'tzslValue',title:'调制速率',width:80,align:'center'},
+                {field:'xxslValue',title:'信息速率',width:80,align:'center'},
+                {field:'tzfsName',title:'调制方式',width:80,align:'center'},
+                {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
+                {field:'mlName',title:'码率',width:80,align:'center'},
+                {field:'xzbValue',title:'信噪比',width:80,align:'center'},
+                {field:'flen',title:'帧长',width:80,align:'center'},
+                {field:'remark',title:'备注',width:80,align:'center'},
+                {field:'buildDate',title:'登记日期',width:150,align:'center'}
+            ]]
+        });
     }
 </script>
 </div>

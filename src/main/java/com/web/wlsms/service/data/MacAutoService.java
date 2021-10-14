@@ -131,7 +131,7 @@ public class MacAutoService {
     public BaseResponse deleteManual(List<String> ids){
         int num = macAutoDao.deleteManual(ids);
         if(num >0){
-            return BaseResponse.ok("删除信息成功");
+            return BaseResponse.ok("删除数据成功");
         }else {
             return BaseResponse.fail("删除失败");
         }
@@ -145,11 +145,14 @@ public class MacAutoService {
     public BaseResponse deleteMachine(List<String> ids){
         int num = macAutoDao.deleteMachine(ids);
         if(num >0){
-            return BaseResponse.ok("删除信息成功");
+            return BaseResponse.ok("删除数据成功");
         }else {
             return BaseResponse.fail("删除失败");
         }
     }
+
+
+
 
     /**
      * 查询人工以日期为分类数据
@@ -450,6 +453,44 @@ public class MacAutoService {
         Map<String, Object> param = new HashMap<>();
         param.put("id", params.getQueryBt());
         return macAutoDao.getAutoBuildById(param);
+    }
+
+    /**
+     * 删除汇总融合数据
+     * @param ids
+     * @return
+     */
+    public BaseResponse deleteAutoBuild(List<String> ids){
+        List<AutoDataEntity> list = new ArrayList<>();
+        //删除融合数据
+        if(null != ids && ids.size() > 0) {
+            for(String id:ids) {
+                Map<String, Object> param = new HashMap<>();
+                param.put("id", id);
+                AutoBuildEntity autoBuildById = macAutoDao.getAutoBuildById(param);
+                Map<String, Object> paramValue = new HashMap<>();
+                if(null != autoBuildById){
+                    paramValue.put("buildDate", autoBuildById.getBuildDate());
+                    paramValue.put("buildTime", autoBuildById.getBuildTime());
+                    list.addAll(macAutoDao.getAutoDataList(param));
+                }
+            }
+        }
+        int num = macAutoDao.deleteAutoBuild(ids);
+        if(num >0){
+            List<String> dataIds = new ArrayList<>();
+            if(null != list && list.size() > 0){
+                for(AutoDataEntity autoDataEntity:list){
+                    dataIds.add(String.valueOf(autoDataEntity.getId()));
+                }
+                if(null != dataIds && dataIds.size() > 0){
+                    macAutoDao.deleteAutoData(dataIds);
+                }
+            }
+            return BaseResponse.ok("删除数据成功");
+        }else {
+            return BaseResponse.fail("删除失败");
+        }
     }
 
     public int queryMachineCountByInfo(MachineModel machineModel){

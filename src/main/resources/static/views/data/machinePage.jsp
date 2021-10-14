@@ -20,8 +20,9 @@
 <body>
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addMachine()">导入数据</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addMachine()">导入</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteMachine()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true" onclick="getClear()">清空</a>
         <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-datebox" id="endTime" label="结束日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
@@ -50,6 +51,61 @@
             var endTime = $('#endTime').datebox('getValue');
             $('#getMachineList').datagrid({
                 url:'/data/macAuto/getMachineList',//参数
+                method: 'post',
+                //携带参数
+                queryParams: {
+                    "queryBt":queryBt,
+                    "startTime":startTime,
+                    "endTime":endTime
+                },
+                fitColumns:false,
+                striped:true,
+                pagination:true,
+                rownumbers:true,
+                remoteFilter: true,
+                clientPaging: false,
+                nowrap:false,//自动换行
+                toolbar:'#toolbar',
+                singleSelect:false,
+                checkOnSelect:true,
+                selectOnCheck:true,
+                columns:[[
+                    {field:'ck',checkbox:true,align:'center'},
+                    {field:'id',title:'编号',width:80,align:'center'},
+                    {field:'buildType',title:'生成方式',width:100,align:'center'},
+                    {field:'positionName',title:'地址',width:100,align:'center'},
+                    {field:'wxName',title:'卫星名称',width:80,align:'center'},
+                    {field:'carPol',title:'极化',width:80,align:'center'},
+                    // {field:'zplValue',title:'中频',width:80,align:'center'},
+                    {field:'tkplValue',title:'天空频率',width:80,align:'center'},
+                    {field:'mslValue',title:'码速率',width:80,align:'center'},
+                    {field:'dplValue',title:'电平',width:80,align:'center'},
+                    {field:'zzbValue',title:'载噪比',width:80,align:'center'},
+                    {field:'xhType',title:'信号类型',width:80,align:'center'},
+                    {field:'muladdr',title:'多址方式',width:80,align:'center'},
+                    {field:'others',title:'其他',width:80,align:'center'},
+                    {field:'tzysName',title:'调制样式',width:80,align:'center'},
+                    {field:'bmType',title:'编码类型',width:80,align:'center'},
+                    {field:'mlName',title:'码率',width:80,align:'center'},
+                    {field:'exmlen',title:'分组长度',width:80,align:'center'},
+                    {field:'fcycle',title:'突发周期',width:80,align:'center'},
+                    {field:'flen',title:'帧长',width:80,align:'center'},
+                    {field:'cf',title:'差分',width:80,align:'center'},
+                    {field:'rm',title:'扰码',width:80,align:'center'},
+                    {field:'sindex',title:'索引号',width:80,align:'center'},
+                    {field:'userProperties',title:'用户属性',width:80,align:'center'},
+                    {field:'appearTime',title:'发现时间',width:150,align:'center'},
+                    {field:'buildTime',title:'登记时间',width:150,align:'center'}
+                ]]
+            });
+        }
+
+        function getClear(){
+            var queryBt = $('#queryBt').textbox('getValue');
+            var startTime = $('#startTime').datebox('getValue');
+            var endTime = $('#endTime').datebox('getValue');
+            $('#getMachineList').datagrid({
+                url:'/batch/common/getClear',//参数
                 method: 'post',
                 //携带参数
                 queryParams: {
@@ -176,7 +232,7 @@
                 {
                     ids += row[i].id + ",";
                 }
-                $.messager.confirm('确认提醒','确定删除该资料?',function(r){
+                $.messager.confirm('确认提醒','确定删除这些数据?',function(r){
                     if (r){
                         $.post('/data/macAuto/deleteMachine',{ids:ids},function(result){
                             if (result.success){

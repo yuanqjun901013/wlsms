@@ -20,6 +20,8 @@
 <body>
 <div class="easyui-layout" data-options="fit:true">
     <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="getDelete()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true" onclick="getClear()">清空</a>
         <input class="easyui-datebox" id="buildDate" label="数据日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
@@ -40,12 +42,15 @@
                 striped:true,
                 pagination:true,
                 rownumbers:true,
-                singleSelect:true,
                 remoteFilter: true,
                 clientPaging: false,
                 nowrap:false,//自动换行
                 toolbar:'#toolbar',
+                singleSelect:false,
+                checkOnSelect:true,
+                selectOnCheck:true,
                 columns:[[
+                    {field:'ck',checkbox:true,align:'center'},
                     {field:'id',title:'编号',width:80,align:'center'},
                     {field:'详情',title:'操作',formatter:function(value,row,index)
                         {
@@ -59,6 +64,67 @@
                     {field:'editTime',title:'更新时间',width:200,align:'center'}
                 ]]
             });
+        }
+
+        function getClear() {//展示列表
+            var queryBt = $('#queryBt').textbox('getValue');
+            var buildDate = $('#buildDate').datebox('getValue');
+            $('#queryAutoBuildList').datagrid({
+                url:'/batch/common/getClear',//参数
+                method: 'post',
+                //携带参数
+                queryParams: {
+                    "queryBt":queryBt,
+                    "buildDate":buildDate,
+                },
+                fitColumns:false,
+                striped:true,
+                pagination:true,
+                rownumbers:true,
+                remoteFilter: true,
+                clientPaging: false,
+                nowrap:false,//自动换行
+                toolbar:'#toolbar',
+                singleSelect:false,
+                checkOnSelect:true,
+                selectOnCheck:true,
+                columns:[[
+                    {field:'ck',checkbox:true,align:'center'},
+                    {field:'id',title:'编号',width:80,align:'center'},
+                    {field:'详情',title:'操作',formatter:function(value,row,index)
+                        {
+                            return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>";
+                        },
+                        width:100,align:'center'},
+                    {field:'remark',title:'策略比对说明',width:250,align:'center'},
+                    {field:'buildTime',title:'机器数据时间',width:200,align:'center'},
+                    {field:'buildDate',title:'人工数据日期',width:150,align:'center'},
+                    {field:'createTime',title:'首次发生时间',width:200,align:'center'},
+                    {field:'editTime',title:'更新时间',width:200,align:'center'}
+                ]]
+            });
+        }
+
+        function getDelete(){
+            var row = $('#queryAutoBuildList').datagrid('getChecked');
+            if (row){
+                var ids = "";
+                for (var i=0;i < row.length;i++)
+                {
+                    ids += row[i].id + ",";
+                }
+                $.messager.confirm('确认提醒','确定删除这些数据?',function(r){
+                    if (r){
+                        $.post('/data/macAuto/deleteAutoBuild',{ids:ids},function(result){
+                            if (result.success){
+                                $('#getMachineList').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.alert("消息提醒",result.msg);
+                            }
+                        },'json');
+                    }
+                });
+            }
         }
 
         //查询按钮
