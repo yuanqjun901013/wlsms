@@ -117,7 +117,7 @@
                     if (r){
                         $.post('/data/macAuto/deleteAutoBuild',{ids:ids},function(result){
                             if (result.success){
-                                $('#getMachineList').datagrid('reload');    // reload the user data
+                                $('#queryAutoBuildList').datagrid('reload');    // reload the user data
                             } else {
                                 $.messager.alert("消息提醒",result.msg);
                             }

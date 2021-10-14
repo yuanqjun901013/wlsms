@@ -472,7 +472,7 @@ public class MacAutoService {
                 if(null != autoBuildById){
                     paramValue.put("buildDate", autoBuildById.getBuildDate());
                     paramValue.put("buildTime", autoBuildById.getBuildTime());
-                    list.addAll(macAutoDao.getAutoDataList(param));
+                    list.addAll(macAutoDao.getAutoDataList(paramValue));
                 }
             }
         }
