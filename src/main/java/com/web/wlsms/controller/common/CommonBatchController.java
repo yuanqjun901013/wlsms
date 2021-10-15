@@ -55,7 +55,7 @@ public class CommonBatchController {
     public void exportCommon(SimpleRequest<Map> params, HttpServletRequest request, HttpServletResponse response) {
         TableEntity entity = new TableEntity();
         if (StringUtils.isNotEmpty(params.getQueryBt())) {
-            entity.setValues("select * from " + params.getQueryBt());
+            entity.setValues("select * from " + params.getQueryBt() + "order by id desc");
         }
         String destFileName = params.getQueryBt() + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + ".xlsx";
         ExcelUtil.export(request,response,params.getQueryBt() + ".xlsx", destFileName, batchService.queryTableBySql(entity));
