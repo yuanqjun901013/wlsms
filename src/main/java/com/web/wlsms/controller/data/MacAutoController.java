@@ -356,7 +356,7 @@ public class MacAutoController {
 //            queryParams.put("productCode",productCode);
 //        }
 //        String destFileName = "服务计价策略数据" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + ".xlsx";
-//        ExcelUtil.export(request,response,"priceExportTemplate.xlsx", destFileName, this.priceStrategy.queryStrategyAll(queryParams));
+//        ExcelUtil.export(request,response,"wlsms_auto_manual.xlsx", destFileName, this.priceStrategy.queryStrategyAll(queryParams));
 //    }
 
     /**

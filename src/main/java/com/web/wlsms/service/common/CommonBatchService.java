@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service("CommonBatchService")
 public class CommonBatchService {
@@ -28,4 +29,10 @@ public class CommonBatchService {
             return BaseResponse.fail("一键清空失败");
         }
     }
+
+    public List<Map<String, Object>> queryTableBySql(TableEntity entity){
+        return batchDao.queryTableBySql(entity);
+    }
+
+
 }
