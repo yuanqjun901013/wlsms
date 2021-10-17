@@ -269,8 +269,188 @@ public class MacAutoService {
 
     }
 
+//    /**
+//     * 处理比对数据(旧)
+//     * @param machineModels
+//     * @param manualModels
+//     */
+//    @Transactional
+//    public void getAutoDocker(List<MachineModel> machineModels, List<ManualModel> manualModels, String remark){
+//
+//        if(CollectionUtils.isEmpty(machineModels)){
+//            return;
+//        }
+//        if(CollectionUtils.isEmpty(manualModels)){
+//            return;
+//        }
+//
+//        //查询误差范围
+//        BigDecimal paramValue = new BigDecimal(0);
+//        if(StringUtils.isNotBlank(macAutoDao.getParamValue())){
+//            paramValue = new BigDecimal(macAutoDao.getParamValue());
+//        }
+//        List<AutoDataEntity> autoDataEntities = new ArrayList<>();
+//        List<ManualModel> newManualList = new ArrayList<>();
+//        List<MachineModel> newMachineList = new ArrayList<>();
+//        //处理数据
+//        for(ManualModel manualModel:manualModels){
+//            for(MachineModel machineModel:machineModels){
+//                AutoDataEntity autoDataEntity = new AutoDataEntity();
+//                if(manualModel.getTzfsName().equalsIgnoreCase(machineModel.getTzysName())
+//                        && manualModel.getSystemName().equalsIgnoreCase(machineModel.getXhType())
+//                        && manualModel.getXdbmCode().concat(manualModel.getMlName()).equalsIgnoreCase(machineModel.getBmType().concat(machineModel.getMlName())))
+//                {
+//                    autoDataEntity.setSystemName(manualModel.getSystemName());
+//                    autoDataEntity.setXhType(machineModel.getXhType());
+//                    autoDataEntity.setXzbValue(manualModel.getXzbValue());
+//                    autoDataEntity.setZzbValue(machineModel.getZzbValue());
+//                    autoDataEntity.setTzfsName(manualModel.getTzfsName());
+//                    autoDataEntity.setTzysName(machineModel.getTzysName());
+//                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode() + machineModel.getMlName());
+//                    autoDataEntity.setBmType(machineModel.getBmType());
+//                    autoDataEntity.setMlName(machineModel.getMlName());
+//                    autoDataEntity.setBuildDate(manualModel.getBuildDate());
+//                    autoDataEntity.setBuildTime(machineModel.getBuildTime());
+//                    //判断系统=信号类型 调制方式=调制样式 信号编码=编码类型+码率
+//                    BigDecimal xxplValue = new BigDecimal(manualModel.getXxplValue());//下行频率
+//                    BigDecimal tkplValue = new BigDecimal(machineModel.getTkplValue());//天空频率
+//                    if(xxplValue.compareTo(tkplValue) >= 0){
+//                        BigDecimal xtdValue = xxplValue.subtract(tkplValue);//下行频率与天空频率差值
+//                        if(xtdValue.compareTo(paramValue) <= 0){
+//                            autoDataEntity.setXxplValue(xxplValue.toString());
+//                            autoDataEntity.setTkplValue(tkplValue.toString());
+//                            autoDataEntity.setXtdValue(xtdValue.toString());
+//                        }else {
+//                            continue;
+//                        }
+//                    }else {
+//                        BigDecimal xtdValue = tkplValue.subtract(xxplValue);
+//                        if(xtdValue.compareTo(paramValue) <= 0){
+//                            autoDataEntity.setXxplValue(xxplValue.toString());
+//                            autoDataEntity.setTkplValue(tkplValue.toString());
+//                            autoDataEntity.setXtdValue("-" + xtdValue);
+//                        }else {
+//                            continue;
+//                        }
+//                    }
+//                    BigDecimal tzslValue = new BigDecimal(manualModel.getTzslValue());//调制速率
+//                    BigDecimal mslValue = new BigDecimal(machineModel.getMslValue());//码速率
+//                    if(tzslValue.compareTo(mslValue.multiply(new BigDecimal(1000))) >= 0){
+//                        BigDecimal tzdValue = tzslValue.subtract(mslValue.multiply(new BigDecimal(1000)));//调制速率与码速率差值
+//                        if(tzdValue.compareTo(paramValue) <= 0){
+//                            autoDataEntity.setTzslValue(tzslValue.toString());
+//                            autoDataEntity.setMslValue(mslValue.toString());
+//                            autoDataEntity.setTzdValue(tzdValue.toString());
+//                        }
+////                        else if(tzdValue.compareTo(paramValue) == 0){
+////                            autoDataEntity.setTzslValue(tzslValue.toString());
+////                            autoDataEntity.setMslValue(mslValue.toString());
+////                            autoDataEntity.setTzdValue("0");
+////                        }
+//                        else {
+//                            continue;
+//                        }
+//                    }else {
+//                        BigDecimal tzdValue = mslValue.multiply(new BigDecimal(1000)).subtract(tzslValue);//调制速率与码速率差值
+//                        if(tzdValue.compareTo(paramValue) <= 0){
+//                            autoDataEntity.setTzslValue(tzslValue.toString());
+//                            autoDataEntity.setMslValue(mslValue.toString());
+//                            autoDataEntity.setTzdValue("-" + tzdValue);
+//                        }
+////                        else if(tzdValue.compareTo(paramValue) == 0){
+////                            autoDataEntity.setTzslValue(tzslValue.toString());
+////                            autoDataEntity.setMslValue(mslValue.toString());
+////                            autoDataEntity.setTzdValue("0");
+////                        }
+//                        else {
+//                            continue;
+//                        }
+//                    }
+//                }else{
+//                    continue;
+//                }
+//                autoDataEntities.add(autoDataEntity);
+//                newManualList.add(manualModel);
+//                newMachineList.add(machineModel);
+//            }
+//        }
+//        if(autoDataEntities.size() > 0){//对比数大于0 ，小于零责不存数据
+//            AutoBuildEntity buildEntity = new AutoBuildEntity();
+//            //保存标记表
+//            buildEntity.setBuildDate(autoDataEntities.get(0).getBuildDate());
+//            buildEntity.setBuildTime(autoDataEntities.get(0).getBuildTime());
+//            buildEntity.setRemark(remark);
+//            //先查询看是否存在此时间点的比对数据
+//            Map<String, Object> param = new HashMap<>();
+//            param.put("buildDate", buildEntity.getBuildDate());
+//            param.put("buildTime", buildEntity.getBuildTime());
+//            Integer countBuild = macAutoDao.getAutoBuildCount(param);
+//            if(countBuild.intValue() > 0){
+//                macAutoDao.deleteAutoDateByThis(param);
+//               if(  1 != macAutoDao.updateAutoBuild(buildEntity)){
+//                   throw new RuntimeException();
+//               }
+//            }else {
+//                if (1 != macAutoDao.insertAutoBuild(buildEntity)) {
+//                    throw new RuntimeException();
+//                }
+//            }
+//            //求前后差集
+//            List<ManualModel> collectManual = manualModels.stream().filter(item ->
+//                    !newManualList.contains(item)).collect(Collectors.toList());
+//            List<MachineModel> collectMachine = machineModels.stream().filter(item ->
+//                    !newMachineList.contains(item)).collect(Collectors.toList());
+//            if(CollectionUtils.isNotEmpty(collectManual)){
+//                for (ManualModel manualModel:collectManual){
+//                    AutoDataEntity autoDataEntity = new AutoDataEntity();
+//                    autoDataEntity.setBuildDate(manualModel.getBuildDate());
+//                    autoDataEntity.setBuildTime(autoDataEntities.get(0).getBuildTime());
+//                    autoDataEntity.setXxplValue(manualModel.getXxplValue());
+//                    autoDataEntity.setSystemName(manualModel.getSystemName());
+//                    autoDataEntity.setTzslValue(manualModel.getTzslValue());
+//                    autoDataEntity.setTzfsName(manualModel.getTzfsName());
+//                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode()+manualModel.getMlName());
+//                    autoDataEntity.setXzbValue(manualModel.getXzbValue());
+//                    autoDataEntity.setXxslValue(manualModel.getXxslValue());
+//                    autoDataEntities.add(autoDataEntity);
+//                }
+//                MessageEntity messageEntity = new MessageEntity();
+//                messageEntity.setUserNo(remark + "校验底数");
+//                messageEntity.setTitle(remark+"校验人工底数出现未匹配的底数");
+//                messageEntity.setContent(JSON.toJSONString(collectManual));
+//                messageEntity.setOperationType(2);
+//                messageService.insertMessage(messageEntity);
+//            }
+//            if(CollectionUtils.isNotEmpty(collectMachine)){
+//                for (MachineModel machineModel:collectMachine){
+//                    AutoDataEntity autoDataEntity = new AutoDataEntity();
+//                    autoDataEntity.setBuildDate(autoDataEntities.get(0).getBuildDate());
+//                    autoDataEntity.setBuildTime(machineModel.getBuildTime());
+//                    autoDataEntity.setMlName(machineModel.getMlName());
+//                    autoDataEntity.setZzbValue(machineModel.getZzbValue());
+//                    autoDataEntity.setTkplValue(machineModel.getTkplValue());
+//                    autoDataEntity.setXhType(machineModel.getXhType());
+//                    autoDataEntity.setMslValue(machineModel.getMslValue());
+//                    autoDataEntity.setZzbValue(machineModel.getZzbValue());
+//                    autoDataEntity.setTzysName(machineModel.getTzysName());
+//                    autoDataEntity.setBmType(machineModel.getBmType());
+//                    autoDataEntities.add(autoDataEntity);
+//                }
+//                MessageEntity messageEntity = new MessageEntity();
+//                messageEntity.setUserNo(remark + "校验底数");
+//                messageEntity.setTitle(remark+"校验机器底数出现未匹配的底数");
+//                messageEntity.setContent(JSON.toJSONString(collectMachine));
+//                messageEntity.setOperationType(2);
+//                messageService.insertMessage(messageEntity);
+//            }
+//            if(0 == macAutoDao.insertAutoDatas(autoDataEntities)){
+//                throw new RuntimeException();
+//            }
+//        }
+//    }
+
     /**
-     * 处理比对数据
+     * 处理比对数据(新)
      * @param machineModels
      * @param manualModels
      */
@@ -293,13 +473,9 @@ public class MacAutoService {
         List<ManualModel> newManualList = new ArrayList<>();
         List<MachineModel> newMachineList = new ArrayList<>();
         //处理数据
-        for(ManualModel manualModel:manualModels){
-            for(MachineModel machineModel:machineModels){
+        for(ManualModel manualModel:manualModels){//人工数据循环体
+            for(MachineModel machineModel:machineModels){//机器数据循环体
                 AutoDataEntity autoDataEntity = new AutoDataEntity();
-                if(manualModel.getTzfsName().equalsIgnoreCase(machineModel.getTzysName())
-                        && manualModel.getSystemName().equalsIgnoreCase(machineModel.getXhType())
-                        && manualModel.getXdbmCode().concat(manualModel.getMlName()).equalsIgnoreCase(machineModel.getBmType().concat(machineModel.getMlName())))
-                {
                     autoDataEntity.setSystemName(manualModel.getSystemName());
                     autoDataEntity.setXhType(machineModel.getXhType());
                     autoDataEntity.setXzbValue(manualModel.getXzbValue());
@@ -316,6 +492,7 @@ public class MacAutoService {
                     BigDecimal tkplValue = new BigDecimal(machineModel.getTkplValue());//天空频率
                     if(xxplValue.compareTo(tkplValue) >= 0){
                         BigDecimal xtdValue = xxplValue.subtract(tkplValue);//下行频率与天空频率差值
+                        //计算百分比浮动
                         if(xtdValue.compareTo(paramValue) <= 0){
                             autoDataEntity.setXxplValue(xxplValue.toString());
                             autoDataEntity.setTkplValue(tkplValue.toString());
@@ -325,6 +502,7 @@ public class MacAutoService {
                         }
                     }else {
                         BigDecimal xtdValue = tkplValue.subtract(xxplValue);
+                        //计算百分比浮动
                         if(xtdValue.compareTo(paramValue) <= 0){
                             autoDataEntity.setXxplValue(xxplValue.toString());
                             autoDataEntity.setTkplValue(tkplValue.toString());
@@ -337,43 +515,33 @@ public class MacAutoService {
                     BigDecimal mslValue = new BigDecimal(machineModel.getMslValue());//码速率
                     if(tzslValue.compareTo(mslValue.multiply(new BigDecimal(1000))) >= 0){
                         BigDecimal tzdValue = tzslValue.subtract(mslValue.multiply(new BigDecimal(1000)));//调制速率与码速率差值
+                        //计算百分比浮动
                         if(tzdValue.compareTo(paramValue) <= 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());
                             autoDataEntity.setTzdValue(tzdValue.toString());
                         }
-//                        else if(tzdValue.compareTo(paramValue) == 0){
-//                            autoDataEntity.setTzslValue(tzslValue.toString());
-//                            autoDataEntity.setMslValue(mslValue.toString());
-//                            autoDataEntity.setTzdValue("0");
-//                        }
                         else {
                             continue;
                         }
                     }else {
                         BigDecimal tzdValue = mslValue.multiply(new BigDecimal(1000)).subtract(tzslValue);//调制速率与码速率差值
+                        //计算百分比浮动
                         if(tzdValue.compareTo(paramValue) <= 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());
                             autoDataEntity.setTzdValue("-" + tzdValue);
                         }
-//                        else if(tzdValue.compareTo(paramValue) == 0){
-//                            autoDataEntity.setTzslValue(tzslValue.toString());
-//                            autoDataEntity.setMslValue(mslValue.toString());
-//                            autoDataEntity.setTzdValue("0");
-//                        }
                         else {
                             continue;
                         }
                     }
-                }else{
-                    continue;
-                }
                 autoDataEntities.add(autoDataEntity);
                 newManualList.add(manualModel);
                 newMachineList.add(machineModel);
             }
         }
+
         if(autoDataEntities.size() > 0){//对比数大于0 ，小于零责不存数据
             AutoBuildEntity buildEntity = new AutoBuildEntity();
             //保存标记表
@@ -387,9 +555,9 @@ public class MacAutoService {
             Integer countBuild = macAutoDao.getAutoBuildCount(param);
             if(countBuild.intValue() > 0){
                 macAutoDao.deleteAutoDateByThis(param);
-               if(  1 != macAutoDao.updateAutoBuild(buildEntity)){
-                   throw new RuntimeException();
-               }
+                if(  1 != macAutoDao.updateAutoBuild(buildEntity)){
+                    throw new RuntimeException();
+                }
             }else {
                 if (1 != macAutoDao.insertAutoBuild(buildEntity)) {
                     throw new RuntimeException();
@@ -448,6 +616,7 @@ public class MacAutoService {
             }
         }
     }
+
 
     public AutoBuildEntity getAutoBuildById(SimpleRequest<Map> params){
         Map<String, Object> param = new HashMap<>();
