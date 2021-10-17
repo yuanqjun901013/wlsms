@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
     <script type="text/javascript" src="../../jquery.min.js"></script>
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../datagrid.export.js"></script>
     <SCRIPT th:inline="javascript">
         $(function(){
             //屏蔽右键菜单
@@ -25,6 +26,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editValue()">修改</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteManual()">删除</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true" onclick="getClear()">清空</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="getExport()">导出</a>
         <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-datebox" id="endTime" label="结束日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
@@ -99,6 +101,11 @@
     $("#queryBt").textbox({onClickButton:function(){
             getManualList();
         }})
+
+
+    function getExport() {
+        $('#getManualList').datagrid('toExcel', '人工数据.xls');
+    }
 
     //日前格式化1
     function dateFormatter(date){
@@ -299,6 +306,7 @@
             ]]
         });
     }
+
 </script>
 </div>
 <div id="dataAdd" class="easyui-dialog" style="width:600px; height: 500px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgData-buttons'">

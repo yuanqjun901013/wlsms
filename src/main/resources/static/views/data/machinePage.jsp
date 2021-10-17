@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
     <script type="text/javascript" src="../../jquery.min.js"></script>
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../datagrid.export.js"></script>
     <SCRIPT th:inline="javascript">
         $(function(){
             //屏蔽右键菜单
@@ -23,6 +24,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addMachine()">导入</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteMachine()">删除</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true" onclick="getClear()">清空</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="getExport()">导出</a>
         <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-datebox" id="endTime" label="结束日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
@@ -98,6 +100,9 @@
                     {field:'buildTime',title:'登记时间',width:150,align:'center'}
                 ]]
             });
+        }
+        function getExport() {
+            $('#getMachineList').datagrid('toExcel', '机器数据.xls');
         }
 
         function getClear(){

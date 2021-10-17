@@ -451,7 +451,7 @@ CREATE TABLE `wlsms_mongodb_conf` (
 `collection_name` varchar(100) DEFAULT NULL COMMENT 'collection名称',
 `status` varchar(50) DEFAULT 'on' COMMENT '是否开启',
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='mongo数据库配置表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mongo数据库配置表';
 
 INSERT INTO admin_menu (ID, SYS_CODE, NAME, URL, PARENT_ID, IS_NEED_AUTH, menuCode, iconCls, `level`) VALUES(27, 'admin', 'mongo库配置', 'views/param/mongoConf', 24, 1, 'getMongoDbList', NULL, '3');
 INSERT INTO admin_role_auth (ID, MENU_ID, ROLE_CODE) VALUES(20, 27, 'admin');

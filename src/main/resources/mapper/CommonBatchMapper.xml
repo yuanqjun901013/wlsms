@@ -185,11 +185,11 @@
         order by build_time desc
     </select>
 
-    <select id="queryTableBySql" parameterType="com.suning.cmbill.entity.TableEntity" resultType="java.util.LinkedHashMap">
+    <select id="queryTableBySql" parameterType="com.web.wlsms.entity.TableEntity" resultType="java.util.LinkedHashMap">
         ${values}
     </select>
 
-    <delete id="deleteBatch" parameterType="com.suning.cmbill.entity.TableEntity">
+    <delete id="deleteBatch" parameterType="com.web.wlsms.entity.TableEntity">
         DELETE FROM
             ${tableName}
         WHERE

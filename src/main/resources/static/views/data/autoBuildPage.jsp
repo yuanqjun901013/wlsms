@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../demo/demo.css">
     <script type="text/javascript" src="../../jquery.min.js"></script>
     <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../datagrid.export.js"></script>
     <SCRIPT th:inline="javascript">
         $(function(){
             //屏蔽右键菜单
@@ -158,6 +159,10 @@
             getAutoDataList(id);
         }
 
+        function getExport() {
+            $('#getAutoDataList').datagrid('toExcel', '融合数据.xls');
+        }
+
         function getAutoDataList(id) {//展示列表
             $('#getAutoDataList').datagrid({
                 url:'/data/macAuto/getAutoDataListById',//参数
@@ -203,6 +208,7 @@
     <div id="getAutoDataList" data-options="region:'center',split:true"></div>
 </div>
 <div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="getExport()" style="width:90px">导出</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">关闭</a>
 </div>
 </body>
