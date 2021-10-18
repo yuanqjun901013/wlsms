@@ -8,6 +8,7 @@ import com.web.wlsms.dao.PositionDao;
 import com.web.wlsms.entity.*;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
+import com.web.wlsms.service.alarm.AlarmService;
 import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.service.system.PositionService;
 import com.web.wlsms.utils.CollectionUtils;
@@ -32,6 +33,8 @@ public class MacAutoService {
     MessageService messageService;
     @Resource
     private PositionService positionService;
+    @Resource
+    private AlarmService alarmService;
     //todo
     //自动查出机器底数出数的数据到mysql表中（待实现）
     public int insertMachine(List<MachineModel> machineModels){
@@ -619,6 +622,11 @@ public class MacAutoService {
                 messageEntity.setContent(JSON.toJSONString(collectManual));
                 messageEntity.setOperationType(2);
                 messageService.insertMessage(messageEntity);
+                //生成一条告警保存到告警表
+                AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
+                alarmDataEntity.setAlarmTitle("人工底数融合未匹配告警");
+                alarmDataEntity.setAlarmContent(JSON.toJSONString(collectMachine));
+                alarmService.insertAlarmData(alarmDataEntity);
             }
             if(CollectionUtils.isNotEmpty(collectMachine)){
                 for (MachineModel machineModel:collectMachine){
@@ -641,6 +649,11 @@ public class MacAutoService {
                 messageEntity.setContent(JSON.toJSONString(collectMachine));
                 messageEntity.setOperationType(2);
                 messageService.insertMessage(messageEntity);
+                //生成一条告警保存到告警表
+                AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
+                alarmDataEntity.setAlarmTitle("机器底数融合未匹配告警");
+                alarmDataEntity.setAlarmContent(JSON.toJSONString(collectMachine));
+                alarmService.insertAlarmData(alarmDataEntity);
             }
             if(0 == macAutoDao.insertAutoDatas(autoDataEntities)){
                 throw new RuntimeException();
