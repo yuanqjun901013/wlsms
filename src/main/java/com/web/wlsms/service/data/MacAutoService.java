@@ -63,6 +63,9 @@ public class MacAutoService {
                     if(null != positionEntity) {
                         manualModel.setPositionName(positionEntity.getPositionName());
                     }
+                    if(StringUtils.isNotBlank(manualModel.getMlName())){
+                        manualModel.setMlName(manualModel.getMlName()+"'");
+                    }
                 }
             }
             return new PageInfo<>(list);
@@ -91,6 +94,9 @@ public class MacAutoService {
                     PositionEntity positionEntity = positionService.getPositionInfoById(machineModel.getPositionCode());
                     if(null != positionEntity) {
                         machineModel.setPositionName(positionEntity.getPositionName());
+                    }
+                    if(StringUtils.isNotBlank(machineModel.getMlName())){
+                        machineModel.setMlName(machineModel.getMlName()+"'");
                     }
                 }
             }
@@ -212,6 +218,21 @@ public class MacAutoService {
             List<AutoDataEntity> list = macAutoDao.getAutoDataList(param);
             if(CollectionUtils.isNotEmpty(list)){
                 for(AutoDataEntity autoDataEntity:list){
+                    if(StringUtils.isBlank(autoDataEntity.getMslValue())){
+                        autoDataEntity.setMslValue("未匹配");
+                    }
+                    if(StringUtils.isBlank(autoDataEntity.getTzslValue())){
+                        autoDataEntity.setTzslValue("未匹配");
+                    }
+                    if(StringUtils.isBlank(autoDataEntity.getXxplValue())){
+                        autoDataEntity.setXxplValue("未匹配");
+                    }
+                    if(StringUtils.isBlank(autoDataEntity.getTkplValue())){
+                        autoDataEntity.setTkplValue("未匹配");
+                    }
+                    if(StringUtils.isNotBlank(autoDataEntity.getMlName())){
+                        autoDataEntity.setMlName(autoDataEntity.getMlName()+"'");
+                    }
                     if(StringUtils.isNotBlank(autoDataEntity.getXtdValue())){
                         BigDecimal c1 = new BigDecimal(autoDataEntity.getXtdValue());
                         BigDecimal oneCl = c1.divide(new BigDecimal(autoDataEntity.getMslValue()).multiply(new BigDecimal(1000)),4);
@@ -482,7 +503,7 @@ public class MacAutoService {
                     autoDataEntity.setZzbValue(machineModel.getZzbValue());
                     autoDataEntity.setTzfsName(manualModel.getTzfsName());
                     autoDataEntity.setTzysName(machineModel.getTzysName());
-                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode() + machineModel.getMlName());
+                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode()+ " " + machineModel.getMlName());
                     autoDataEntity.setBmType(machineModel.getBmType());
                     autoDataEntity.setMlName(machineModel.getMlName());
                     autoDataEntity.setBuildDate(manualModel.getBuildDate());
@@ -492,8 +513,9 @@ public class MacAutoService {
                     BigDecimal tkplValue = new BigDecimal(machineModel.getTkplValue());//天空频率
                     if(xxplValue.compareTo(tkplValue) >= 0){
                         BigDecimal xtdValue = xxplValue.subtract(tkplValue);//下行频率与天空频率差值
-                        //计算百分比浮动
-                        if(xtdValue.compareTo(paramValue) <= 0){
+                        //计算百分比浮动paramValue 除以100
+                        BigDecimal pointValue = xxplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+                        if(xtdValue.compareTo(pointValue) <= 0){
                             autoDataEntity.setXxplValue(xxplValue.toString());
                             autoDataEntity.setTkplValue(tkplValue.toString());
                             autoDataEntity.setXtdValue(xtdValue.toString());
@@ -502,8 +524,9 @@ public class MacAutoService {
                         }
                     }else {
                         BigDecimal xtdValue = tkplValue.subtract(xxplValue);
-                        //计算百分比浮动
-                        if(xtdValue.compareTo(paramValue) <= 0){
+                        //计算百分比浮动paramValue 除以100
+                        BigDecimal pointValue = tkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+                        if(xtdValue.compareTo(pointValue) <= 0){
                             autoDataEntity.setXxplValue(xxplValue.toString());
                             autoDataEntity.setTkplValue(tkplValue.toString());
                             autoDataEntity.setXtdValue("-" + xtdValue);
@@ -515,8 +538,9 @@ public class MacAutoService {
                     BigDecimal mslValue = new BigDecimal(machineModel.getMslValue());//码速率
                     if(tzslValue.compareTo(mslValue.multiply(new BigDecimal(1000))) >= 0){
                         BigDecimal tzdValue = tzslValue.subtract(mslValue.multiply(new BigDecimal(1000)));//调制速率与码速率差值
-                        //计算百分比浮动
-                        if(tzdValue.compareTo(paramValue) <= 0){
+                        //计算百分比浮动paramValue 除以100
+                        BigDecimal pointValue = tzslValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+                        if(tzdValue.compareTo(pointValue) <= 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());
                             autoDataEntity.setTzdValue(tzdValue.toString());
@@ -526,8 +550,9 @@ public class MacAutoService {
                         }
                     }else {
                         BigDecimal tzdValue = mslValue.multiply(new BigDecimal(1000)).subtract(tzslValue);//调制速率与码速率差值
-                        //计算百分比浮动
-                        if(tzdValue.compareTo(paramValue) <= 0){
+                        //计算百分比浮动paramValue 除以100
+                        BigDecimal pointValue = mslValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+                        if(tzdValue.compareTo(pointValue) <= 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());
                             autoDataEntity.setTzdValue("-" + tzdValue);
@@ -537,12 +562,18 @@ public class MacAutoService {
                         }
                     }
                 autoDataEntities.add(autoDataEntity);
-                newManualList.add(manualModel);
-                newMachineList.add(machineModel);
+                    if(null != autoDataEntity &&
+                            StringUtils.isNotBlank(autoDataEntity.getXxplValue()) &&
+                            StringUtils.isNotBlank(autoDataEntity.getTkplValue()) &&
+                            StringUtils.isNotBlank(autoDataEntity.getTzslValue()) &&
+                            StringUtils.isNotBlank(autoDataEntity.getMslValue())){
+                    newManualList.add(manualModel);
+                    newMachineList.add(machineModel);
+                }
             }
         }
 
-        if(autoDataEntities.size() > 0){//对比数大于0 ，小于零责不存数据
+        if(autoDataEntities.size() > 0){//对比数大于0 ，小于零则不存数据
             AutoBuildEntity buildEntity = new AutoBuildEntity();
             //保存标记表
             buildEntity.setBuildDate(autoDataEntities.get(0).getBuildDate());
@@ -577,7 +608,7 @@ public class MacAutoService {
                     autoDataEntity.setSystemName(manualModel.getSystemName());
                     autoDataEntity.setTzslValue(manualModel.getTzslValue());
                     autoDataEntity.setTzfsName(manualModel.getTzfsName());
-                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode()+manualModel.getMlName());
+                    autoDataEntity.setXdbmCode(manualModel.getXdbmCode() +" "+ manualModel.getMlName());
                     autoDataEntity.setXzbValue(manualModel.getXzbValue());
                     autoDataEntity.setXxslValue(manualModel.getXxslValue());
                     autoDataEntities.add(autoDataEntity);

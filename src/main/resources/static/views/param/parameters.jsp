@@ -47,7 +47,7 @@
                 {field:'id',title:'参数编号',width:80,align:'center'},
                 {field:'paramType',title:'参数类型',width:80,align:'center'},
                 {field:'paramName',title:'参数名称',width:80,align:'center'},
-                {field:'paramValue',title:'参数值',width:80,align:'center'}
+                {field:'paramValue',title:'参数值(%)',width:80,align:'center'}
             ]]
         });
     }
@@ -97,7 +97,7 @@
             <input class="easyui-textbox" type="text" name="paramName" label="参数名称:" labelPosition="left" style="width:100%;">&nbsp;&nbsp;
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="paramValue" data-options="multiline:true"  label="参数值(浮动范围内):" labelPosition="left" style="width:100%;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="paramValue" data-options="multiline:true"  label="参数值(浮动范围内%):" labelPosition="left" style="width:100%;">&nbsp;&nbsp;
         </div>
 
     </form>

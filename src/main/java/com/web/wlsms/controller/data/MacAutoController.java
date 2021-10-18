@@ -89,7 +89,7 @@ public class MacAutoController {
             strategy.setXxslValue(StringUtils.isBlank(model.getXxslValue()) == true ? "0" : model.getXxslValue().replace(" ","").trim());
             strategy.setTzfsName(StringUtils.isBlank(model.getTzfsName()) == true ? "" : model.getTzfsName().replace(" ","").trim());
             strategy.setXdbmCode(StringUtils.isBlank(model.getXdbmCode()) == true ? "" : model.getXdbmCode().replace(" ","").trim());
-            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").trim());
+            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").replace("'","").trim());
             strategy.setXzbValue(StringUtils.isBlank(model.getXzbValue()) == true ? "0" : model.getXzbValue().replace(" ","").trim());
             strategy.setFlen(StringUtils.isBlank(model.getFlen()) == true ? "" : model.getFlen().replace(" ","").trim());
             strategy.setRemark(StringUtils.isBlank(model.getRemark()) == true ? "" : model.getRemark().replace(" ","").trim());
@@ -252,7 +252,7 @@ public class MacAutoController {
             strategy.setZzbValue(StringUtils.isBlank(model.getZzbValue()) == true ? "0" : model.getZzbValue().replace(" ","").trim());
             strategy.setTzysName(StringUtils.isBlank(model.getTzysName()) == true ? "" : model.getTzysName().replace(" ","").trim());
             strategy.setBmType(StringUtils.isBlank(model.getBmType()) == true ? "" : model.getBmType().replace(" ","").trim());
-            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").trim());
+            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").replace("'","").trim());
             strategy.setMuladdr(StringUtils.isBlank(model.getMuladdr()) == true ? "" : model.getMuladdr().replace(" ","").trim());
             strategy.setOthers(StringUtils.isBlank(model.getOthers()) == true ? "" : model.getOthers().replace(" ","").trim());
             strategy.setExmlen(StringUtils.isBlank(model.getExmlen()) == true ? "" : model.getExmlen().replace(" ","").trim());
@@ -402,7 +402,7 @@ public class MacAutoController {
         manualModel.setXxslValue(manualModel.getXxslValue().replace(" ","").trim());
         manualModel.setTzfsName(manualModel.getTzfsName().replace(" ","").trim());
         manualModel.setXzbValue(manualModel.getXzbValue().replace(" ","").trim());
-        manualModel.setMlName(manualModel.getMlName().replace(" ","").trim());
+        manualModel.setMlName(manualModel.getMlName().replace(" ","").replace("'","").trim());
         manualModel.setCarPol(manualModel.getCarPol().replace(" ","").trim());
         manualModel.setFlen(manualModel.getFlen().replace(" ","").trim());
         manualModel.setRemark(manualModel.getRemark().replace(" ","").trim());
@@ -415,7 +415,7 @@ public class MacAutoController {
             return BaseResponse.fail("入参有误，请重试");
         }
         manualModel.setXdbmCode(manualModel.getXdbmCode().replace(" ","").trim());
-        manualModel.setMlName(manualModel.getMlName().replace(" ","").trim());
+        manualModel.setMlName(manualModel.getMlName().replace(" ","").replace("'","").trim());
         manualModel.setSxzfqName(manualModel.getSxzfqName().replace(" ","").trim());
         manualModel.setCarPol(manualModel.getCarPol().replace(" ","").trim());
 //        manualModel.setSxplValue(manualModel.getSxplValue().replace(" ","").trim());
