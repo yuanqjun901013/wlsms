@@ -203,17 +203,25 @@ public class MongoTaskJob {
 
     //简化分数
     private String getMlName(String mlNameOld){
-        String[] strArr= mlNameOld.split("/");
-        boolean isNumA = strArr[1].matches("[0-9]+");
-        boolean isNumB = strArr[0].matches("[0-9]+");
-        if(isNumA && isNumB) {
-            int a = Integer.parseInt(strArr[1]), b = Integer.parseInt(strArr[0]);//a 是分母
-            int gcd = gcd(a, b);
+        if(StringUtils.isBlank(mlNameOld)){
+            return "未知";
+        }
+        String[] mlArr= mlNameOld.split("/");
+        if(mlArr.length > 1){
+            boolean isNumA = mlArr[1].matches("[0-9]+");
+            boolean isNumB = mlArr[0].matches("[0-9]+");
+            if(isNumA && isNumB) {
+                int a = Integer.parseInt(mlArr[1]), b = Integer.parseInt(mlArr[0]);//a 是分母
+                int gcd = gcd(a, b);
 //            System.out.println(b / gcd + "/" + a / gcd); // 输出了 5/6
-            return b / gcd + "/" + a / gcd;
+                return b / gcd + "/" + a / gcd;
+            }else {
+                return mlNameOld;
+            }
         }else {
             return mlNameOld;
         }
+
     }
 
     private static int gcd(int x, int y){ // 这个是运用辗转相除法求 两个数的 最大公约数 看不懂可以百度 // 下

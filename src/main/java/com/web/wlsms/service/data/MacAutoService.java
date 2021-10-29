@@ -576,11 +576,11 @@ public class MacAutoService {
             }
         }
 
-        if(autoDataEntities.size() > 0){//对比数大于0 ，小于零则不存数据
+//        if(autoDataEntities.size() > 0){//对比数大于0 ，小于零则不存数据
             AutoBuildEntity buildEntity = new AutoBuildEntity();
             //保存标记表
-            buildEntity.setBuildDate(autoDataEntities.get(0).getBuildDate());
-            buildEntity.setBuildTime(autoDataEntities.get(0).getBuildTime());
+            buildEntity.setBuildDate(manualModels.get(0).getBuildDate());
+            buildEntity.setBuildTime(machineModels.get(0).getBuildTime());
             buildEntity.setRemark(remark);
             //先查询看是否存在此时间点的比对数据
             Map<String, Object> param = new HashMap<>();
@@ -606,7 +606,7 @@ public class MacAutoService {
                 for (ManualModel manualModel:collectManual){
                     AutoDataEntity autoDataEntity = new AutoDataEntity();
                     autoDataEntity.setBuildDate(manualModel.getBuildDate());
-                    autoDataEntity.setBuildTime(autoDataEntities.get(0).getBuildTime());
+                    autoDataEntity.setBuildTime(buildEntity.getBuildTime());
                     autoDataEntity.setXxplValue(manualModel.getXxplValue());
                     autoDataEntity.setSystemName(manualModel.getSystemName());
                     autoDataEntity.setTzslValue(manualModel.getTzslValue());
@@ -631,7 +631,7 @@ public class MacAutoService {
             if(CollectionUtils.isNotEmpty(collectMachine)){
                 for (MachineModel machineModel:collectMachine){
                     AutoDataEntity autoDataEntity = new AutoDataEntity();
-                    autoDataEntity.setBuildDate(autoDataEntities.get(0).getBuildDate());
+                    autoDataEntity.setBuildDate(buildEntity.getBuildDate());
                     autoDataEntity.setBuildTime(machineModel.getBuildTime());
                     autoDataEntity.setMlName(machineModel.getMlName());
                     autoDataEntity.setZzbValue(machineModel.getZzbValue());
@@ -658,7 +658,7 @@ public class MacAutoService {
             if(0 == macAutoDao.insertAutoDatas(autoDataEntities)){
                 throw new RuntimeException();
             }
-        }
+//        }
     }
 
 

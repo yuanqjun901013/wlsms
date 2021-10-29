@@ -177,19 +177,24 @@ public class MacAutoController {
     //简化分数
     private String getMlName(String mlNameOld){
         if(StringUtils.isBlank(mlNameOld)){
-            return "";
+            return "未知";
         }
         String[] mlArr= mlNameOld.split("/");
-        boolean isNumA = mlArr[1].matches("[0-9]+");
-        boolean isNumB = mlArr[0].matches("[0-9]+");
-        if(isNumA && isNumB) {
-            int a = Integer.parseInt(mlArr[1]), b = Integer.parseInt(mlArr[0]);//a 是分母
-            int gcd = gcd(a, b);
+        if(mlArr.length > 1){
+            boolean isNumA = mlArr[1].matches("[0-9]+");
+            boolean isNumB = mlArr[0].matches("[0-9]+");
+            if(isNumA && isNumB) {
+                int a = Integer.parseInt(mlArr[1]), b = Integer.parseInt(mlArr[0]);//a 是分母
+                int gcd = gcd(a, b);
 //            System.out.println(b / gcd + "/" + a / gcd); // 输出了 5/6
-            return b / gcd + "/" + a / gcd;
+                return b / gcd + "/" + a / gcd;
+            }else {
+                return mlNameOld;
+            }
         }else {
             return mlNameOld;
         }
+
     }
 
     private static int gcd(int x, int y){ // 这个是运用辗转相除法求 两个数的 最大公约数 看不懂可以百度 // 下
