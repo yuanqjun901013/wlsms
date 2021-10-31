@@ -25,7 +25,7 @@ public interface MacAutoDao {
    String queryLimitDate();
    List<ManualModel> getManualListByDate(Map<String, Object> param);
    List<MachineModel> getMachineListByDate(Map<String, Object> param);
-   String getParamValue();
+   String getParamValue(String id);
    Integer getAutoBuildCount(Map<String, Object> param);
    int updateAutoBuild(AutoBuildEntity buildEntity);
    int insertAutoBuild(AutoBuildEntity buildEntity);

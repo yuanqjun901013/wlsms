@@ -488,10 +488,15 @@ public class MacAutoService {
             return;
         }
 
-        //查询误差范围
+        //查询频率误差范围
         BigDecimal paramValue = new BigDecimal(0);
-        if(StringUtils.isNotBlank(macAutoDao.getParamValue())){
-            paramValue = new BigDecimal(macAutoDao.getParamValue());
+        if(StringUtils.isNotBlank(macAutoDao.getParamValue("1"))){
+            paramValue = new BigDecimal(macAutoDao.getParamValue("1"));
+        }
+        //查询速率误差范围
+        BigDecimal paramValueSl = new BigDecimal(0);
+        if(StringUtils.isNotBlank(macAutoDao.getParamValue("2"))){
+            paramValueSl = new BigDecimal(macAutoDao.getParamValue("2"));
         }
         List<AutoDataEntity> autoDataEntities = new ArrayList<>();
         List<ManualModel> newManualList = new ArrayList<>();
@@ -542,7 +547,7 @@ public class MacAutoService {
                     if(tzslValue.compareTo(mslValue.multiply(new BigDecimal(1000))) >= 0){
                         BigDecimal tzdValue = tzslValue.subtract(mslValue.multiply(new BigDecimal(1000)));//调制速率与码速率差值
                         //计算百分比浮动paramValue 除以100
-                        BigDecimal pointValue = tzslValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+                        BigDecimal pointValue = tzslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
                         if(tzdValue.compareTo(pointValue) <= 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());
@@ -554,7 +559,7 @@ public class MacAutoService {
                     }else {
                         BigDecimal tzdValue = mslValue.multiply(new BigDecimal(1000)).subtract(tzslValue);//调制速率与码速率差值
                         //计算百分比浮动paramValue 除以100
-                        BigDecimal pointValue = mslValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+                        BigDecimal pointValue = mslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
                         if(tzdValue.compareTo(pointValue) <= 0){
                             autoDataEntity.setTzslValue(tzslValue.toString());
                             autoDataEntity.setMslValue(mslValue.toString());
