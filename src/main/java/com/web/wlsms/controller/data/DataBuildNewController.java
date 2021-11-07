@@ -405,7 +405,8 @@ public class DataBuildNewController {
             return BaseResponse.fail("入参有误，请重试");
         }
         manualModel.setWxName(manualModel.getWxName().replace(" ","").trim());
-        manualModel.setCarPol(manualModel.getCarPol().replace(" ","").replace("'","").trim());
+        manualModel.setMlName(manualModel.getMlName().replace(" ","").replace("'","").trim());
+        manualModel.setCarPol(manualModel.getCarPol().replace(" ","").trim());
         manualModel.setDplValue(manualModel.getDplValue().replace(" ","").trim());
         manualModel.setTkplValue(manualModel.getTkplValue().replace(" ","").trim());
         manualModel.setXhType(manualModel.getXhType().replace(" ","").trim());
@@ -413,7 +414,7 @@ public class DataBuildNewController {
         manualModel.setZzbValue(manualModel.getZzbValue().replace(" ","").trim());
         manualModel.setTzysName(manualModel.getTzysName().replace(" ","").trim());
         manualModel.setBmType(manualModel.getBmType().replace(" ","").trim());
-        manualModel.setMlName(manualModel.getMlName().replace(" ","").trim());
+
         manualModel.setMuladdr(manualModel.getMuladdr().replace(" ","").trim());
         manualModel.setOthers(manualModel.getOthers().replace(" ","").trim());
         manualModel.setExmlen(manualModel.getExmlen().replace(" ","").trim());

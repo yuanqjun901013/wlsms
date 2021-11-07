@@ -97,7 +97,6 @@
                 {field:'rm',title:'扰码',width:80,align:'center'},
                 {field:'sindex',title:'索引号',width:80,align:'center'},
                 {field:'userProperties',title:'用户属性',width:80,align:'center'},
-                {field:'appearTime',title:'发现时间',width:150,align:'center'},
                 {field:'buildDate',title:'登记日期',width:150,align:'center'}
             ]]
         });
@@ -313,7 +312,6 @@
                 {field:'rm',title:'扰码',width:80,align:'center'},
                 {field:'sindex',title:'索引号',width:80,align:'center'},
                 {field:'userProperties',title:'用户属性',width:80,align:'center'},
-                {field:'appearTime',title:'发现时间',width:150,align:'center'},
                 {field:'buildDate',title:'登记日期',width:150,align:'center'}
             ]]
         });
@@ -328,34 +326,43 @@
             <input id="cbgAdd" name="positionCode"  label="地址:" style="width:400px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="卫星:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="wxName" data-options="required:true" label="卫星:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
             <input class="easyui-textbox" type="text" name="carPol" data-options="required:true" label="极化:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="bpqplValue" data-options="required:true" label="变频器频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="zplValue" data-options="required:true" label="中频:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="tkplValue" data-options="required:true" label="天空频率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="mslValue" data-options="required:true" label="码速率:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="xxplValue" data-options="required:true" label="下行频率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="信号类型:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="dplValue" data-options="required:true" label="电平:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="zzbValue" data-options="required:true" label="载噪比:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="tzslValue" data-options="required:true" label="调制速率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xxslValue" data-options="required:true" label="信息速率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="xhType" data-options="required:true" label="信号类型:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="muladdr" data-options="required:true" label="多址方式:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="tzfsName" data-options="required:true" label="调制方式:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xdbmCode" data-options="required:true" label="信道编码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="others" data-options="required:true" label="其他:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="tzysName" data-options="required:true" label="调制样式:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="bmType" data-options="required:true" label="编码类型:" labelPosition="left" style="width:230px;">
             <input class="easyui-textbox" type="text" name="mlName" data-options="required:true" label="码率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="flen" data-options="required:true" label="码率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="remark" data-options="required:true" label="帧长:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="exmlen" data-options="required:true" label="分组长度:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="fcycle" data-options="required:true" label="突发周期:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="flen" data-options="required:true" label="帧长:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="cf" data-options="required:true" label="差分:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="rm" data-options="required:true" label="扰码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="sindex" data-options="required:true" label="索引号:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="userProperties" data-options="required:true" label="用户属性:" labelPosition="left" style="width:230px;">
             <input class="easyui-datebox" id="buildDate" name ="buildDate" label="登记日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser,required:true" style="width:230px;">
         </div>
     </form>
@@ -368,38 +375,47 @@
     <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
         <h3>编辑底数信息</h3>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="sxzfqName" data-options="required:true" label="卫星:" labelPosition="left" style="width:200px;">&nbsp;&nbsp;
-            <input class="easyui-textbox" type="text" name="buildDate" readonly="readonly" label="登记时间:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="wxName" data-options="required:true" label="卫星:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="carPol" data-options="required:true" label="极化:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="systemName" data-options="required:true" label="信号类型:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="positionName" readonly="readonly" label="地址:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="tkplValue" data-options="required:true" label="天空频率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="mslValue" data-options="required:true" label="码速率:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="carPol" data-options="required:true" label="极化:" labelPosition="left" style="width:200px;">
-            <input class="easyui-textbox" type="text" name="bpqplValue" data-options="required:true" label="变频器频率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="dplValue" data-options="required:true" label="电平:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="zzbValue" data-options="required:true" label="载噪比:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="zplValue" data-options="required:true" label="中频:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xxplValue" data-options="required:true" label="下行频率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="xhType" data-options="required:true" label="信号类型:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="muladdr" data-options="required:true" label="多址方式:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="tzslValue" data-options="required:true" label="调制速率:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xxslValue" data-options="required:true" label="信息速率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="others" data-options="required:true" label="其他:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="tzysName" data-options="required:true" label="调制样式:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="tzfsName" data-options="required:true" label="调制方式:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="xzbValue" data-options="required:true" label="信噪比:" labelPosition="left" style="width:230px;">
-        </div>
-        <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="xdbmCode" data-options="required:true" label="信道编码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="bmType" data-options="required:true" label="编码类型:" labelPosition="left" style="width:230px;">
             <input class="easyui-textbox" type="text" name="mlName" data-options="required:true" label="码率:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
-            <input class="easyui-textbox" type="text" name="flen" data-options="required:true" label="帧长:" labelPosition="left" style="width:230px;">
-            <input class="easyui-textbox" type="text" name="remark" data-options="required:true" label="备注:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="exmlen" data-options="required:true" label="分组长度:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="fcycle" data-options="required:true" label="突发周期:" labelPosition="left" style="width:230px;">
         </div>
         <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="flen" data-options="required:true" label="帧长:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="cf" data-options="required:true" label="差分:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="rm" data-options="required:true" label="扰码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="sindex" data-options="required:true" label="索引号:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="userProperties" data-options="required:true" label="用户属性:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="buildDate" readonly="readonly" label="登记时间:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="positionName" readonly="readonly" label="地址:" labelPosition="left" style="width:230px;">
             <input type="text" style="display: none" name = "id">
         </div>
     </form>

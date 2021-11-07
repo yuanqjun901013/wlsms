@@ -326,7 +326,7 @@
             <if test="tkplValue != null and tkplValue != '' ">tkpl_value,</if>
             <if test="xhType != null and xhType != '' ">xh_type,</if>
             <if test="mslValue != null and mslValue != '' ">msl_value,</if>
-            <if test="zzbvalue != null and zzbvalue != '' ">zzb_value,</if>
+            <if test="zzbValue != null and zzbValue != '' ">zzb_value,</if>
             <if test="tzysName != null and tzysName != '' ">tzys_name,</if>
             <if test="bmType != null and bmType != '' ">bm_type,</if>
             <if test="mlName != null and mlName != '' ">ml_name,</if>
@@ -354,7 +354,7 @@
             <if test="tkplValue != null and tkplValue != '' ">#{tkplValue},</if>
             <if test="xhType != null and xhType != '' ">#{xhType},</if>
             <if test="mslValue != null and mslValue != '' ">#{mslValue},</if>
-            <if test="zzbvalue != null and zzbvalue != '' ">#{zzbValue},</if>
+            <if test="zzbValue != null and zzbValue != '' ">#{zzbValue},</if>
             <if test="tzysName != null and tzysName != '' ">#{tzysName},</if>
             <if test="bmType != null and bmType != '' ">#{bmType},</if>
             <if test="mlName != null and mlName != '' ">#{mlName},</if>
@@ -399,10 +399,6 @@
             rm = #{rm},
             sindex = #{sindex},
             user_properties = #{userProperties},
---             build_date = #{buildDate},
-            position_code = #{positionCode},
---             pro_code = #{proCode},
---             user_no = #{userNo},
             edit_time = now()
         </set>
         <where>
