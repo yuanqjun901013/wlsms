@@ -26,4 +26,6 @@ public interface DataBuildNewDao {
     List<MachineModel> getAutoDataList(Map<String, Object> param);
     int insertAutoDatas(List<MachineModel> autoDatas);
     int deleteAutoDataByThis(Map<String, Object> param);
+    List<AutoBuildEntity> queryManualByDate(Map<String, Object> param);
+    List<AutoBuildEntity> queryMachineByDate(Map<String, Object> param);
 }

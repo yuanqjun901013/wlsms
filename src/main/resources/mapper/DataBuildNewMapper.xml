@@ -445,7 +445,8 @@
         user_properties,
         position_code,
         pro_code,
-        user_no
+        user_no,
+        build_type
         FROM wlsms_manual_new
         where 1=1
         <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') =  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
@@ -477,7 +478,8 @@
         appear_time,
         position_code,
         pro_code,
-        user_no
+        user_no,
+        build_type
         FROM
         wlsms_machine_new
         where 1=1
@@ -565,6 +567,7 @@
         pro_code,
         user_no,
         build_type,
+        title_os,
         create_time,
         edit_time
         )
@@ -596,6 +599,7 @@
             #{item.proCode},
             'admin',
             #{item.buildType},
+            #{item.titleOs},
             now(),
             now()
             )
@@ -606,4 +610,26 @@
         delete from wlsms_data_new where  DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S')
     </delete>
 
+    <!-- 日分组人工比对数据 -->
+    <select id="queryManualByDate" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoBuildEntity">
+        select
+        DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+        count(id) as count
+        from wlsms_manual_new
+        where 1=1
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+        group by build_date
+        order by build_date desc
+    </select>
+
+    <select id="queryMachineByDate" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoBuildEntity">
+        select
+        DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+        count(id) as count
+        from wlsms_machine_new
+        where 1=1
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d') =  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+        group by build_time
+        order by build_time desc
+    </select>
 </mapper>

@@ -68,7 +68,7 @@
             rownumbers:true,
             remoteFilter: true,
             clientPaging: false,
-            nowrap:false,//自动换行
+            nowrap:true,//自动换行
             toolbar:'#toolbar',
             singleSelect:false,
             checkOnSelect:true,

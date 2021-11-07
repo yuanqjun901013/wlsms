@@ -285,6 +285,8 @@ public class DataBuildNewService {
                     BigDecimal pointValue = rgTkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
                     if(xtdValue.compareTo(pointValue) <= 0){//符合融合值
                         pl = true;
+                    }else{
+                        continue;
                     }
                 }else {
                     BigDecimal xtdValue = jqTkplValue.subtract(rgTkplValue);//机器与人工天空频率差值
@@ -292,6 +294,8 @@ public class DataBuildNewService {
                     BigDecimal pointValue = jqTkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
                     if(xtdValue.compareTo(pointValue) <= 0){
                         pl = true;
+                    }else{
+                        continue;
                     }
                 }
 
@@ -304,6 +308,8 @@ public class DataBuildNewService {
                     BigDecimal pointValue = rgMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
                     if(tzdValue.compareTo(pointValue) <= 0){
                         msl = true;
+                    }else{
+                        continue;
                     }
                 }else {
                     BigDecimal tzdValue = jqMslValue.subtract(rgMslValue);//机器和人工码速率差值
@@ -311,6 +317,8 @@ public class DataBuildNewService {
                     BigDecimal pointValue = jqMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
                     if(tzdValue.compareTo(pointValue) <= 0){
                         msl = true;
+                    }else{
+                        continue;
                     }
                 }
 
@@ -319,6 +327,7 @@ public class DataBuildNewService {
                     autoData = machineModel;
                     autoData.setBuildDate(manualModel.getBuildDate());
                     autoData.setTitleOs("已融合");
+                    autoData.setBuildType("融合匹配");
                     autoDataEntities.add(autoData);
                     newManualList.add(manualModel);
                     newMachineList.add(machineModel);
@@ -340,6 +349,7 @@ public class DataBuildNewService {
         Integer countBuild = macAutoDao.getAutoBuildCount(param);
         if(countBuild.intValue() > 0){
             dataBuildNewDao.deleteAutoDataByThis(param);
+
             if(  1 != macAutoDao.updateAutoBuild(buildEntity)){
                 throw new RuntimeException();
             }
@@ -356,7 +366,7 @@ public class DataBuildNewService {
         if(CollectionUtils.isNotEmpty(collectManual)){
             for (MachineModel manualModel:collectManual){
                 MachineModel autoDataEntity = manualModel;
-                autoDataEntity.setBuildDate(manualModel.getBuildDate());
+                autoDataEntity.setBuildDate(buildEntity.getBuildDate());
                 autoDataEntity.setBuildTime(buildEntity.getBuildTime());
                 autoDataEntity.setTitleOs("未融合");
                 autoDataEntity.setBuildType("人工数据");
@@ -377,7 +387,7 @@ public class DataBuildNewService {
         if(CollectionUtils.isNotEmpty(collectMachine)){
             for (MachineModel machineModel:collectMachine){
                 MachineModel autoDataEntity = machineModel;
-                autoDataEntity.setBuildDate(machineModel.getBuildDate());
+                autoDataEntity.setBuildDate(buildEntity.getBuildDate());
                 autoDataEntity.setBuildTime(buildEntity.getBuildTime());
                 autoDataEntity.setTitleOs("未融合");
                 autoDataEntity.setBuildType("机器数据");
@@ -407,7 +417,7 @@ public class DataBuildNewService {
      * @return
      */
     public List<AutoBuildEntity> queryManualByDate(Map param){
-        return macAutoDao.queryManualByDate(param);
+        return dataBuildNewDao.queryManualByDate(param);
     }
 
     /**
@@ -416,7 +426,7 @@ public class DataBuildNewService {
      * @return
      */
     public List<AutoBuildEntity> queryMachineByDate(Map param){
-        return macAutoDao.queryMachineByDate(param);
+        return dataBuildNewDao.queryMachineByDate(param);
     }
 
     /**
@@ -463,6 +473,17 @@ public class DataBuildNewService {
                 param.put("buildTime", request.getBuildTime());
             }
             List<MachineModel> list = dataBuildNewDao.getAutoDataList(param);
+            if(CollectionUtils.isNotEmpty(list)){
+                for(MachineModel autoDataEntity:list){
+                    if(StringUtils.isNotBlank(autoDataEntity.getMlName())){
+                        autoDataEntity.setMlName(autoDataEntity.getMlName()+"'");
+                        PositionEntity positionEntity = positionService.getPositionInfoById(autoDataEntity.getPositionCode());
+                        if(null != positionEntity) {
+                            autoDataEntity.setPositionName(positionEntity.getPositionName());
+                        }
+                    }
+                }
+            }
             return new PageInfo<>(list);
         }catch (Exception e){
             return new PageInfo();
