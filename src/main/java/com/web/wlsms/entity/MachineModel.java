@@ -27,6 +27,8 @@ public class MachineModel {
     private String tzysName;
     //采集时间
     private String buildTime;
+    //登记日期
+    private String buildDate;
     //编码类型(信道)
     private String bmType;
     //码率(信道)
@@ -63,4 +65,10 @@ public class MachineModel {
     private String userProperties;
     //发现时间
     private String appearTime;
+
+    private String createTime;
+
+    private String editTime;
+
+    private String titleOs;
 }

@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.DataBuildNewDao">
+    <resultMap type="com.web.wlsms.entity.MachineModel" id="MachineMap">
+        <id property="id" column="ID" javaType="long"/>
+        <result property="wxName" column="wx_name" javaType="String"/>
+        <result property="carPol" column="car_pol" javaType="String"/>
+        <result property="dplValue" column="dpl_value" javaType="String"/>
+        <result property="tkplValue" column="tkpl_value" javaType="String"/>
+        <result property="xhType" column="xh_type" javaType="String"/>
+        <result property="mslValue" column="msl_value" javaType="String"/>
+        <result property="buildTime" column="buildTime" javaType="String"/>
+        <result property="zzbValue" column="zzb_value" javaType="String"/>
+        <result property="tzysName" column="tzys_name" javaType="String"/>
+        <result property="bmType" column="bm_type" javaType="String"/>
+        <result property="mlName" column="ml_name" javaType="String"/>
+        <result property="muladdr" column="muladdr" javaType="String"/>
+        <result property="others" column="others" javaType="String"/>
+        <result property="exmlen" column="exmlen" javaType="String"/>
+        <result property="fcycle" column="fcycle" javaType="String"/>
+        <result property="flen" column="flen" javaType="String"/>
+        <result property="cf" column="cf" javaType="String"/>
+        <result property="rm" column="rm" javaType="String"/>
+        <result property="sindex" column="sindex" javaType="String"/>
+        <result property="userProperties" column="user_properties" javaType="String"/>
+        <result property="appearTime" column="appear_time" javaType="String"/>
+        <result property="positionCode" column="position_code" javaType="String"/>
+        <result property="proCode" column="pro_code" javaType="String"/>
+        <result property="userNo" column="user_no" javaType="String"/>
+        <result property="buildType" column="build_type" javaType="String"/>
+        <result property="buildDate" column="buildDate" javaType="String"/>
+        <result property="title_os" column="titleOs" javaType="String"/>
+    </resultMap>
+
+    <select id="queryMachineCountByInfo" parameterType="com.web.wlsms.entity.MachineModel" resultType="java.lang.Integer">
+        SELECT
+            count(1) as count
+        FROM
+            wlsms_machine_new
+        where
+            wx_name = #{wxName} and
+            car_pol = #{carPol} and
+            dpl_value = #{dplValue} and
+            tkpl_value = #{tkplValue} and
+            xh_type = #{xhType} and
+            msl_value = #{mslValue} and
+            zzb_value = #{zzbValue} and
+            tzys_name = #{tzysName} and
+            bm_type = #{bmType} and
+            ml_name = #{mlName} and
+            muladdr = #{muladdr} and
+            others = #{others} and
+            exmlen = #{exmlen} and
+            fcycle = #{fcycle} and
+            flen = #{flen} and
+            cf = #{cf} and
+            rm = #{rm} and
+            sindex = #{sindex} and
+            user_properties = #{userProperties} and
+            appear_time = #{appearTime} and
+            build_type = #{buildType}
+    </select>
+
+    <insert id="insertManual" parameterType="java.util.List">
+        INSERT INTO wlsms_manual_new (
+        wx_name,
+        car_pol,
+        dpl_value,
+        tkpl_value,
+        xh_type,
+        msl_value,
+        zzb_value,
+        tzys_name,
+        bm_type,
+        ml_name,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties,
+        build_date,
+        position_code,
+        pro_code,
+        user_no,
+        build_type,
+        create_time,
+        edit_time
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.wxName},
+            #{item.carPol},
+            #{item.dplValue},
+            #{item.tkplValue},
+            #{item.xhType},
+            #{item.mslValue},
+            #{item.zzbValue},
+            #{item.tzysName},
+            #{item.bmType},
+            #{item.mlName},
+            #{item.muladdr},
+            #{item.others},
+            #{item.exmlen},
+            #{item.fcycle},
+            #{item.flen},
+            #{item.cf},
+            #{item.rm},
+            #{item.sindex},
+            #{item.userProperties},
+            #{item.buildDate},
+            #{item.positionCode},
+            #{item.proCode},
+            #{item.userNo},
+            #{item.buildType},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertMachine" parameterType="java.util.List">
+        INSERT INTO wlsms_machine_new (
+        wx_name,
+        car_pol,
+        dpl_value,
+        tkpl_value,
+        xh_type,
+        msl_value,
+        zzb_value,
+        tzys_name,
+        bm_type,
+        ml_name,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties,
+        appear_time,
+        build_time,
+        position_code,
+        pro_code,
+        user_no,
+        build_type,
+        create_time,
+        edit_time
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.wxName},
+            #{item.carPol},
+            #{item.dplValue},
+            #{item.tkplValue},
+            #{item.xhType},
+            #{item.mslValue},
+            #{item.zzbValue},
+            #{item.tzysName},
+            #{item.bmType},
+            #{item.mlName},
+            #{item.muladdr},
+            #{item.others},
+            #{item.exmlen},
+            #{item.fcycle},
+            #{item.flen},
+            #{item.cf},
+            #{item.rm},
+            #{item.sindex},
+            #{item.userProperties},
+            #{item.appearTime},
+            #{item.buildTime},
+            #{item.positionCode},
+            #{item.proCode},
+            #{item.userNo},
+            #{item.buildType},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <select id="getManualList" resultMap="MachineMap" parameterType="java.util.HashMap">
+        SELECT
+        id,
+        wx_name,
+        car_pol,
+        dpl_value,
+        tkpl_value,
+        xh_type,
+        msl_value,
+        DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+        zzb_value,
+        tzys_name,
+        bm_type,
+        ml_name,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties,
+        position_code,
+        pro_code,
+        user_no,
+        build_type
+        FROM wlsms_manual_new
+         where 1=1
+        <if test="queryBt != null and queryBt != ''">
+            and (sxzfq_name like concat('%',#{queryBt},'%') or system_name like concat('%',#{queryBt},'%') or pro_code like concat('%',#{queryBt},'%'))
+        </if>
+        <if test="startTime != null and startTime != ''">
+         and DATE_FORMAT(build_date,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and DATE_FORMAT(build_date,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d')
+        </if>
+        <if test="proCodeManual != null and proCodeManual != ''">
+            and pro_code =  #{proCodeManual}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="getMachineList" resultMap="MachineMap" parameterType="java.util.HashMap">
+    SELECT
+    id,
+    wx_name,
+    car_pol,
+    dpl_value,
+    tkpl_value,
+    xh_type,
+    msl_value,
+    DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+    zzb_value,
+    tzys_name,
+    bm_type,
+    ml_name,
+    muladdr,
+    others,
+    exmlen,
+    fcycle,
+    flen,
+    cf,
+    rm,
+    sindex,
+    user_properties,
+    appear_time,
+    position_code,
+    pro_code,
+    user_no,
+    build_type
+    FROM
+    wlsms_machine_new
+        where 1=1
+        <if test="queryBt != null and queryBt != ''">
+            and (wx_name like concat('%',#{queryBt},'%') or tzys_name like concat('%',#{queryBt},'%')  or pro_code like concat('%',#{queryBt},'%'))
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and DATE_FORMAT(build_time,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and DATE_FORMAT(build_time,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d')
+        </if>
+        <if test="proCodeMachine != null and proCodeMachine != ''">
+            and pro_code =  #{proCodeMachine}
+        </if>
+    order by id desc
+    </select>
+
+    <delete id="deleteManual">
+        delete from wlsms_manual_new
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <delete id="deleteMachine">
+        delete from wlsms_machine_new
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <delete id="deleteAutoBuild">
+        delete from wlsms_auto_build
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <delete id="deleteAutoData">
+        delete from wlsms_data_new
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <insert id="saveManual" parameterType="com.web.wlsms.entity.MachineModel">
+        INSERT INTO wlsms_manual_new
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wxName != null and wxName != '' ">wx_name,</if>
+            <if test="carPol != null and carPol != '' ">car_pol,</if>
+            <if test="dplValue != null and dplValue != '' ">dpl_value,</if>
+            <if test="tkplValue != null and tkplValue != '' ">tkpl_value,</if>
+            <if test="xhType != null and xhType != '' ">xh_type,</if>
+            <if test="mslValue != null and mslValue != '' ">msl_value,</if>
+            <if test="zzbvalue != null and zzbvalue != '' ">zzb_value,</if>
+            <if test="tzysName != null and tzysName != '' ">tzys_name,</if>
+            <if test="bmType != null and bmType != '' ">bm_type,</if>
+            <if test="mlName != null and mlName != '' ">ml_name,</if>
+            <if test="muladdr != null and muladdr != '' ">muladdr,</if>
+            <if test="others != null and others != '' ">others,</if>
+            <if test="exmlen != null and exmlen != '' ">exmlen,</if>
+            <if test="fcycle != null and fcycle != '' ">fcycle,</if>
+            <if test="flen != null and flen != '' ">flen,</if>
+            <if test="cf != null and cf != '' ">cf,</if>
+            <if test="rm != null and rm != '' ">rm,</if>
+            <if test="sindex != null and sindex != '' ">sindex,</if>
+            <if test="userProperties != null and userProperties != '' ">user_properties,</if>
+            <if test="buildDate != null and buildDate != '' ">build_date,</if>
+            <if test="positionCode != null and positionCode != '' ">position_code,</if>
+            <if test="proCode != null and proCode != '' ">pro_code,</if>
+            <if test="userNo != null and userNo != '' ">user_no,</if>
+            <if test="buildType != null and buildType != '' ">build_type,</if>
+            create_time,
+            edit_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="wxName != null and wxName != '' ">#{wxName},</if>
+            <if test="carPol != null and carPol != '' ">#{carPol},</if>
+            <if test="dplValue != null and dplValue != '' ">#{dplValue},</if>
+            <if test="tkplValue != null and tkplValue != '' ">#{tkplValue},</if>
+            <if test="xhType != null and xhType != '' ">#{xhType},</if>
+            <if test="mslValue != null and mslValue != '' ">#{mslValue},</if>
+            <if test="zzbvalue != null and zzbvalue != '' ">#{zzbValue},</if>
+            <if test="tzysName != null and tzysName != '' ">#{tzysName},</if>
+            <if test="bmType != null and bmType != '' ">#{bmType},</if>
+            <if test="mlName != null and mlName != '' ">#{mlName},</if>
+            <if test="muladdr != null and muladdr != '' ">#{muladdr},</if>
+            <if test="others != null and others != '' ">#{others},</if>
+            <if test="exmlen != null and exmlen != '' ">#{exmlen},</if>
+            <if test="fcycle != null and fcycle != '' ">#{fcycle},</if>
+            <if test="flen != null and flen != '' ">#{flen},</if>
+            <if test="cf != null and cf != '' ">#{cf},</if>
+            <if test="rm != null and rm != '' ">#{rm},</if>
+            <if test="sindex != null and sindex != '' ">#{sindex},</if>
+            <if test="userProperties != null and userProperties != '' ">#{userProperties},</if>
+            <if test="buildDate != null and buildDate != '' ">#{buildDate},</if>
+            <if test="positionCode != null and positionCode != '' ">#{positionCode},</if>
+            <if test="proCode != null and proCode != '' ">#{proCode},</if>
+            <if test="userNo != null and userNo != '' ">#{userNo},</if>
+            <if test="buildType != null and buildType != '' ">#{buildType},</if>
+            now(),
+            now()
+        </trim>
+    </insert>
+
+    <update id="updateManual" parameterType="com.web.wlsms.entity.MachineModel">
+        update wlsms_manual_new
+        <set>
+            wx_name = #{wxName},
+            car_pol = #{carPol},
+            dpl_value = #{dplValue},
+            tkpl_value = #{tkplValue},
+            xh_type = #{xhType},
+            msl_value = #{mslValue},
+            zzb_value = #{zzbValue},
+            tzys_name = #{tzysName},
+            bm_type = #{bmType},
+            ml_name = #{mlName},
+            muladdr = #{muladdr},
+            others = #{others},
+            exmlen = #{exmlen},
+            fcycle = #{fcycle},
+            flen = #{flen},
+            cf = #{cf},
+            rm = #{rm},
+            sindex = #{sindex},
+            user_properties = #{userProperties},
+--             build_date = #{buildDate},
+            position_code = #{positionCode},
+--             pro_code = #{proCode},
+--             user_no = #{userNo},
+            edit_time = now()
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="queryLimitDate" resultType="java.lang.String">
+        select
+            DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate
+        from wlsms_manual_new
+        where 1=1
+        group by build_date
+        order by build_date desc
+            limit 0,1
+    </select>
+
+    <select id="getManualListByDate" parameterType="java.util.HashMap" resultMap="MachineMap">
+        select
+        id,
+        wx_name,
+        car_pol,
+        dpl_value,
+        tkpl_value,
+        xh_type,
+        msl_value,
+        DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+        zzb_value,
+        tzys_name,
+        bm_type,
+        ml_name,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties,
+        position_code,
+        pro_code,
+        user_no
+        FROM wlsms_manual_new
+        where 1=1
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') =  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+    </select>
+
+    <select id="getMachineListByDate" parameterType="java.util.HashMap" resultMap="MachineMap">
+        SELECT
+        id,
+        wx_name,
+        car_pol,
+        dpl_value,
+        tkpl_value,
+        xh_type,
+        msl_value,
+        DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+        zzb_value,
+        tzys_name,
+        bm_type,
+        ml_name,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties,
+        appear_time,
+        position_code,
+        pro_code,
+        user_no
+        FROM
+        wlsms_machine_new
+        where 1=1
+        <if test="buildTime != null and buildTime != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') =  DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
+    </select>
+
+    <!-- 查看比对标记表数据根据id -->
+    <select id="getAutoBuildById" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.AutoBuildEntity">
+        select
+            id,
+            DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+            DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+            remark,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,
+            DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+        from wlsms_auto_build
+        where id = #{id}
+    </select>
+
+    <select id="getAutoDataList" parameterType="java.util.HashMap" resultType="com.web.wlsms.entity.MachineModel">
+        SELECT
+        id,
+        wx_name as wxName,
+        car_pol as carPol,
+        dpl_value as dplValue,
+        tkpl_value as tkplValue,
+        xh_type as xhType,
+        msl_value as mslValue,
+        zzb_value as zzbValue,
+        tzys_name as tzysName,
+        bm_type as bmType,
+        ml_name as mlName,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties as userProperties,
+        appear_time as appearTime,
+        position_code as positionCode,
+        pro_code as proCode,
+        user_no as userNo,
+        build_type as buildType,
+        title_os as titleOs,
+        DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate,
+        DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+        DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,
+        DATE_FORMAT(edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+        from wlsms_data_new
+        where 1=1
+        <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
+        <if test="buildTime != null and buildTime != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
+        order by build_time desc
+    </select>
+
+
+    <insert id="insertAutoDatas" parameterType="java.util.List">
+        INSERT INTO wlsms_data_new
+        (
+        wx_name,
+        car_pol,
+        dpl_value,
+        tkpl_value,
+        xh_type,
+        msl_value,
+        zzb_value,
+        tzys_name,
+        bm_type,
+        ml_name,
+        muladdr,
+        others,
+        exmlen,
+        fcycle,
+        flen,
+        cf,
+        rm,
+        sindex,
+        user_properties,
+        build_date,
+        build_time,
+        position_code,
+        pro_code,
+        user_no,
+        build_type,
+        create_time,
+        edit_time
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.wxName},
+            #{item.carPol},
+            #{item.dplValue},
+            #{item.tkplValue},
+            #{item.xhType},
+            #{item.mslValue},
+            #{item.zzbValue},
+            #{item.tzysName},
+            #{item.bmType},
+            #{item.mlName},
+            #{item.muladdr},
+            #{item.others},
+            #{item.exmlen},
+            #{item.fcycle},
+            #{item.flen},
+            #{item.cf},
+            #{item.rm},
+            #{item.sindex},
+            #{item.userProperties},
+            #{item.buildDate},
+            #{item.buildTime},
+            #{item.positionCode},
+            #{item.proCode},
+            'admin',
+            #{item.buildType},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteAutoDataByThis" parameterType="java.util.HashMap">
+        delete from wlsms_data_new where  DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S')
+    </delete>
+
+</mapper>

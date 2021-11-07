@@ -33,7 +33,7 @@
     <div id="getMachineList" data-options="region:'center',split:true"></div>
     <div id="dlg" class="easyui-dialog" style="width:520px; height: 260px"
          data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form id="fm" method="post" action="/data/buildNew/importMachine" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
+        <form id="fm" method="post" action="/data/macAuto/importMachine" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
             <div style="margin-bottom:15px">
                 <input id="cbg" name="positionCode"  label="地址:" style="width:400px;">
             </div>
@@ -52,7 +52,7 @@
             var startTime = $('#startTime').datebox('getValue');
             var endTime = $('#endTime').datebox('getValue');
             $('#getMachineList').datagrid({
-                url:'/data/buildNew/getMachineList',//参数
+                url:'/data/macAuto/getMachineList',//参数
                 method: 'post',
                 //携带参数
                 queryParams: {
@@ -195,7 +195,7 @@
 
         function saveMachine(){
             $('#fm').form('submit',{
-                url: '/data/buildNew/importMachine',
+                url: '/data/macAuto/importMachine',
                 onSubmit: function(){
                     return $(this).form('validate');
                 },
@@ -239,7 +239,7 @@
                 }
                 $.messager.confirm('确认提醒','确定删除这些数据?',function(r){
                     if (r){
-                        $.post('/data/buildNew/deleteMachine',{ids:ids},function(result){
+                        $.post('/data/macAuto/deleteMachine',{ids:ids},function(result){
                             if (result.success){
                                 $('#getMachineList').datagrid('reload');    // reload the user data
                             } else {

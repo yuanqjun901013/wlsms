@@ -34,7 +34,7 @@
     <div id="getManualList" data-options="region:'center',split:true"></div>
     <div id="dlg" class="easyui-dialog" style="width:520px; height: 260px"
          data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form id="fm" method="post" action="/data/buildNew/importManual" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
+        <form id="fm" method="post" action="/data/macAuto/importManual" enctype="multipart/form-data" novalidate style="margin:0;padding:20px 50px">
             <div style="margin-bottom:15px">
                 <input id="cbg" name="positionCode"  label="地址:" style="width:400px;">
             </div>
@@ -54,7 +54,7 @@
         var startTime = $('#startTime').datebox('getValue');
         var endTime = $('#endTime').datebox('getValue');
       $('#getManualList').datagrid({
-            url:'/data/buildNew/getManualList',//参数
+            url:'/data/macAuto/getManualList',//参数
             method: 'post',
             //携带参数
             queryParams: {
@@ -76,28 +76,22 @@
             columns:[[
                 {field:'ck',checkbox:true,align:'center'},
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'buildType',title:'生成方式',width:100,align:'center'},
-                {field:'positionName',title:'地址',width:100,align:'center'},
-                {field:'wxName',title:'卫星名称',width:80,align:'center'},
+                {field:'positionName',title:'地址',width:80,align:'center'},
+                {field:'sxzfqName',title:'卫星',width:80,align:'center'},
                 {field:'carPol',title:'极化',width:80,align:'center'},
-                {field:'tkplValue',title:'天空频率',width:80,align:'center'},
-                {field:'mslValue',title:'码速率',width:80,align:'center'},
-                {field:'dplValue',title:'电平',width:80,align:'center'},
-                {field:'zzbValue',title:'载噪比',width:80,align:'center'},
-                {field:'xhType',title:'信号类型',width:80,align:'center'},
-                {field:'muladdr',title:'多址方式',width:80,align:'center'},
-                {field:'others',title:'其他',width:80,align:'center'},
-                {field:'tzysName',title:'调制样式',width:80,align:'center'},
-                {field:'bmType',title:'编码类型',width:80,align:'center'},
+                // {field:'sxplValue',title:'上行频率',width:80,align:'center'},
+                {field:'bpqplValue',title:'变频器频率',width:80,align:'center'},
+                {field:'zplValue',title:'中频',width:80,align:'center'},
+                {field:'xxplValue',title:'下行频率',width:80,align:'center'},
+                {field:'systemName',title:'信号类型',width:80,align:'center'},
+                {field:'tzslValue',title:'调制速率',width:80,align:'center'},
+                {field:'xxslValue',title:'信息速率',width:80,align:'center'},
+                {field:'tzfsName',title:'调制方式',width:80,align:'center'},
+                {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
                 {field:'mlName',title:'码率',width:80,align:'center'},
-                {field:'exmlen',title:'分组长度',width:80,align:'center'},
-                {field:'fcycle',title:'突发周期',width:80,align:'center'},
+                {field:'xzbValue',title:'信噪比',width:80,align:'center'},
                 {field:'flen',title:'帧长',width:80,align:'center'},
-                {field:'cf',title:'差分',width:80,align:'center'},
-                {field:'rm',title:'扰码',width:80,align:'center'},
-                {field:'sindex',title:'索引号',width:80,align:'center'},
-                {field:'userProperties',title:'用户属性',width:80,align:'center'},
-                {field:'appearTime',title:'发现时间',width:150,align:'center'},
+                {field:'remark',title:'备注',width:80,align:'center'},
                 {field:'buildDate',title:'登记日期',width:150,align:'center'}
             ]]
         });
@@ -156,7 +150,7 @@
 
     function saveManual(){
         $('#fmAdd').form('submit',{
-            url: '/data/buildNew/saveManual',
+            url: '/data/macAuto/saveManual',
             onSubmit: function(){
                 return $(this).form('validate');
             },
@@ -196,7 +190,7 @@
 
     function saveBatchManual(){
         $('#fm').form('submit',{
-            url: '/data/buildNew/importManual',
+            url: '/data/macAuto/importManual',
             onSubmit: function(){
                 return $(this).form('validate');
             },
@@ -224,7 +218,7 @@
 
     function updateManual(){
         $('#fmm').form('submit',{
-            url: '/data/buildNew/updateManual',
+            url: '/data/macAuto/updateManual',
             onSubmit: function(){
                 return $(this).form('validate');
             },
@@ -253,7 +247,7 @@
             }
             $.messager.confirm('确认提醒','确定删除这些数据?',function(r){
                 if (r){
-                    $.post('/data/buildNew/deleteManual',{ids:ids},function(result){
+                    $.post('/data/macAuto/deleteManual',{ids:ids},function(result){
                         if (result.success){
                             $('#getManualList').datagrid('reload');    // reload the user data
                         } else {
@@ -292,28 +286,22 @@
             columns:[[
                 {field:'ck',checkbox:true,align:'center'},
                 {field:'id',title:'编号',width:80,align:'center'},
-                {field:'buildType',title:'生成方式',width:100,align:'center'},
-                {field:'positionName',title:'地址',width:100,align:'center'},
-                {field:'wxName',title:'卫星名称',width:80,align:'center'},
+                {field:'positionName',title:'地址',width:80,align:'center'},
+                {field:'sxzfqName',title:'卫星',width:80,align:'center'},
                 {field:'carPol',title:'极化',width:80,align:'center'},
-                {field:'tkplValue',title:'天空频率',width:80,align:'center'},
-                {field:'mslValue',title:'码速率',width:80,align:'center'},
-                {field:'dplValue',title:'电平',width:80,align:'center'},
-                {field:'zzbValue',title:'载噪比',width:80,align:'center'},
-                {field:'xhType',title:'信号类型',width:80,align:'center'},
-                {field:'muladdr',title:'多址方式',width:80,align:'center'},
-                {field:'others',title:'其他',width:80,align:'center'},
-                {field:'tzysName',title:'调制样式',width:80,align:'center'},
-                {field:'bmType',title:'编码类型',width:80,align:'center'},
+                // {field:'sxplValue',title:'上行频率',width:80,align:'center'},
+                {field:'bpqplValue',title:'变频器频率',width:80,align:'center'},
+                {field:'zplValue',title:'中频',width:80,align:'center'},
+                {field:'xxplValue',title:'下行频率',width:80,align:'center'},
+                {field:'systemName',title:'信号类型',width:80,align:'center'},
+                {field:'tzslValue',title:'调制速率',width:80,align:'center'},
+                {field:'xxslValue',title:'信息速率',width:80,align:'center'},
+                {field:'tzfsName',title:'调制方式',width:80,align:'center'},
+                {field:'xdbmCode',title:'信道编码',width:80,align:'center'},
                 {field:'mlName',title:'码率',width:80,align:'center'},
-                {field:'exmlen',title:'分组长度',width:80,align:'center'},
-                {field:'fcycle',title:'突发周期',width:80,align:'center'},
+                {field:'xzbValue',title:'信噪比',width:80,align:'center'},
                 {field:'flen',title:'帧长',width:80,align:'center'},
-                {field:'cf',title:'差分',width:80,align:'center'},
-                {field:'rm',title:'扰码',width:80,align:'center'},
-                {field:'sindex',title:'索引号',width:80,align:'center'},
-                {field:'userProperties',title:'用户属性',width:80,align:'center'},
-                {field:'appearTime',title:'发现时间',width:150,align:'center'},
+                {field:'remark',title:'备注',width:80,align:'center'},
                 {field:'buildDate',title:'登记日期',width:150,align:'center'}
             ]]
         });
