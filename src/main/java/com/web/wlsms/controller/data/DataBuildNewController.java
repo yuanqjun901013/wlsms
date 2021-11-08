@@ -1,5 +1,6 @@
 package com.web.wlsms.controller.data;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.web.wlsms.entity.*;
 import com.web.wlsms.request.ExcelReadResult;
@@ -485,6 +486,21 @@ public class DataBuildNewController {
         try {
             List<AutoBuildEntity> getDataList = dataBuildNewService.queryMachineByDate(params);
             resultMap.put("rows", getDataList);
+        }catch (Exception e){
+            resultMap.put("total", 0);
+            resultMap.put("rows", "");
+        }
+        return resultMap;
+    }
+
+    @RequestMapping("queryTitleOs")
+    public Map<String,Object> queryTitleOs(Map params){
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            List<TitleOsValue> titleList= new ArrayList<>();
+            String tL = "[{\"id\":\"1\",\"titleOs\":\"未融合\"},{\"id\":\"2\",\"titleOs\":\"已融合\"}]";
+            titleList = JSON.parseArray(tL,TitleOsValue.class);
+            resultMap.put("rows", titleList);
         }catch (Exception e){
             resultMap.put("total", 0);
             resultMap.put("rows", "");

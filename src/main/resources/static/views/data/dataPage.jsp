@@ -35,6 +35,10 @@
         </div>
      </div>
     <div data-options="region:'center'">
+        <div id="toolbarDlg">
+            <input id="titleOsDlg" name="titleOs" label="数据状态:" style="width:280px;">
+            <input class="easyui-textbox" id="queryBtDlg" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
+        </div>
         <div id="getAutoDataList" data-options="region:'center',split:true"></div>
     </div>
     <script type="text/javascript" th:inline="none">
@@ -97,16 +101,41 @@
             });
         }
 
+        //查询按钮
+        $("#queryBtDlg").textbox({onClickButton:function(){
+                getAutoDataList();
+            }})
+
+        $('#titleOsDlg').combogrid({
+            delay: 250,
+            mode: 'remote',
+            url: '/data/buildNew/queryTitleOs',
+            idField: 'titleOs',
+            textField: 'titleOs',
+            labelPosition:"left",
+            striped:true,
+            fitColumns: true,
+            nowrap:false,//自动换行
+            columns: [[
+                {field:'id',title:'序号',width:90,sortable:true},
+                {field:'titleOs',title:'数据状态',width:120,sortable:true}
+            ]]
+        });
+
         function getAutoDataList() {//展示列表
             var cbgManual = $('#cbgManual').combogrid('getValue');
             var cbgMachine = $('#cbgMachine').combogrid('getValue');
+            var queryBt = $('#queryBtDlg').textbox('getValue');
+            var titleOs = $('#titleOsDlg').combogrid('getValue');
             $('#getAutoDataList').datagrid({
                 url:'/data/buildNew/getAutoDataList',//参数
                 method: 'post',
                 //携带参数
                 queryParams: {
                     "buildDate": cbgManual,
-                    "buildTime": cbgMachine
+                    "buildTime": cbgMachine,
+                    "queryBt": queryBt,
+                    "titleOs": titleOs
                 },
                 fitColumns:false,
                 striped:true,

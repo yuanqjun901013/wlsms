@@ -28,6 +28,7 @@
     </div>
     <div id="queryAutoBuildList" data-options="region:'center',split:true"></div>
     <script type="text/javascript" th:inline="none">
+        var buildId = '';
         function queryAutoBuildList() {//展示列表
             var queryBt = $('#queryBt').textbox('getValue');
             var buildDate = $('#buildDate').datebox('getValue');
@@ -156,7 +157,8 @@
 
         function getDetail(id){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','数据展示');
-            getAutoDataList(id);
+            buildId = id;
+            getAutoDataList(buildId);
         }
 
         function getExport() {
@@ -164,12 +166,16 @@
         }
 
         function getAutoDataList(id) {//展示列表
+            var queryBt = $('#queryBtDlg').textbox('getValue');
+            var titleOs = $('#titleOsDlg').combogrid('getValue');
             $('#getAutoDataList').datagrid({
                 url:'/data/buildNew/getAutoDataListById',//参数
                 method: 'post',
                 //携带参数
                 queryParams: {
-                    "queryBt": id,
+                    "id": id,
+                    "queryBt": queryBt,
+                    "titleOs": titleOs
                 },
                 fitColumns:false,
                 striped:true,
@@ -178,6 +184,7 @@
                 singleSelect:true,
                 remoteFilter: true,
                 clientPaging: false,
+                toolbar:'#toolbarDlg',
                 nowrap:true,//自动换行
                 columns:[[
                     {field:'id',title:'编号',width:80,align:'center'},
@@ -213,6 +220,32 @@
 </div>
 <div id="dlg" class="easyui-dialog" style="width:100%; height: 100%"
      data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <div id="toolbarDlg">
+        <input id="titleOsDlg" name="titleOs" label="数据状态:" style="width:280px;">
+        <input class="easyui-textbox" id="queryBtDlg" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
+    </div>
+    <script type="text/javascript" th:inline="none">
+    //查询按钮
+    $("#queryBtDlg").textbox({onClickButton:function(){
+    getAutoDataList(buildId);
+    }})
+
+    $('#titleOsDlg').combogrid({
+        delay: 250,
+        mode: 'remote',
+        url: '/data/buildNew/queryTitleOs',
+        idField: 'titleOs',
+        textField: 'titleOs',
+        labelPosition:"left",
+        striped:true,
+        fitColumns: true,
+        nowrap:false,//自动换行
+        columns: [[
+            {field:'id',title:'序号',width:90,sortable:true},
+            {field:'titleOs',title:'数据状态',width:120,sortable:true}
+        ]]
+    });
+    </script>
     <div id="getAutoDataList" data-options="region:'center',split:true"></div>
 </div>
 <div id="dlg-buttons">

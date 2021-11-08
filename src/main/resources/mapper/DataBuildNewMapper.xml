@@ -531,6 +531,12 @@
         where 1=1
         <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
         <if test="buildTime != null and buildTime != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
+        <if test="queryBt != null and queryBt != ''">
+            and (wx_name like concat('%',#{queryBt},'%') or build_type like concat('%',#{queryBt},'%')  or title_os like concat('%',#{queryBt},'%'))
+        </if>
+        <if test="titleOs != null and titleOs != ''">
+            and  title_os = #{titleOs}
+        </if>
         order by build_time desc
     </select>
 

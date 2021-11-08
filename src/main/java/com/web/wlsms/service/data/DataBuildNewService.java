@@ -375,13 +375,13 @@ public class DataBuildNewService {
             MessageEntity messageEntity = new MessageEntity();
             messageEntity.setUserNo(remark + "校验底数");
             messageEntity.setTitle(remark+"校验人工底数出现未匹配的底数");
-            messageEntity.setContent(JSON.toJSONString(collectManual));
+            messageEntity.setContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+collectMachine.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
             messageEntity.setOperationType(2);
             messageService.insertMessage(messageEntity);
             //生成一条告警保存到告警表
             AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
             alarmDataEntity.setAlarmTitle("人工底数融合未匹配告警");
-            alarmDataEntity.setAlarmContent(JSON.toJSONString(collectMachine));
+            alarmDataEntity.setAlarmContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+collectMachine.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
             alarmService.insertAlarmData(alarmDataEntity);
         }
         if(CollectionUtils.isNotEmpty(collectMachine)){
@@ -396,13 +396,13 @@ public class DataBuildNewService {
             MessageEntity messageEntity = new MessageEntity();
             messageEntity.setUserNo(remark + "校验底数");
             messageEntity.setTitle(remark+"校验机器底数出现未匹配的底数");
-            messageEntity.setContent(JSON.toJSONString(collectMachine));
+            messageEntity.setContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+collectManual.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
             messageEntity.setOperationType(2);
             messageService.insertMessage(messageEntity);
             //生成一条告警保存到告警表
             AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
             alarmDataEntity.setAlarmTitle("机器底数融合未匹配告警");
-            alarmDataEntity.setAlarmContent(JSON.toJSONString(collectMachine));
+            alarmDataEntity.setAlarmContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+collectManual.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
             alarmService.insertAlarmData(alarmDataEntity);
         }
         if(0 == dataBuildNewDao.insertAutoDatas(autoDataEntities)){
@@ -453,7 +453,7 @@ public class DataBuildNewService {
 
     public AutoBuildEntity getAutoBuildById(SimpleRequest<Map> params){
         Map<String, Object> param = new HashMap<>();
-        param.put("id", params.getQueryBt());
+        param.put("id", params.getId());
         return macAutoDao.getAutoBuildById(param);
     }
 
@@ -471,6 +471,12 @@ public class DataBuildNewService {
             }
             if (StringUtils.isNotBlank(request.getBuildTime())) {
                 param.put("buildTime", request.getBuildTime());
+            }
+            if(StringUtils.isNotBlank(request.getQueryBt())){
+                param.put("queryBt", request.getQueryBt());
+            }
+            if(StringUtils.isNotBlank(request.getTitleOs())){
+                param.put("titleOs", request.getTitleOs());
             }
             List<MachineModel> list = dataBuildNewDao.getAutoDataList(param);
             if(CollectionUtils.isNotEmpty(list)){

@@ -21,7 +21,7 @@
     <div id="toolbar">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addDoc()">添加</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteDoc()">删除</a>
-    <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonAlign:'left',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
+    <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonAlign:'right',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
     <div id="docManager" data-options="region:'center',split:true"></div>
     <div id="dlg" class="easyui-dialog" style="width:500px; height: 360px"
