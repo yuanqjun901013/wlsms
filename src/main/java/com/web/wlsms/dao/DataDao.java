@@ -31,9 +31,14 @@ public interface DataDao {
    Long manualCount();
    Long machineCount();
    Long dataCount();
+   Long dataNoneCount();
    int insertBatchData(List<DataEntity> dataEntityList);
    int updateManualState(String proCode);
    int updateMachineState(String proCode);
    int updateData(DataEntity dataEntity);
    ReDataValue getRecommend(Map<String, Object> param);
+   Long jqCount(String date);
+   Long rgCount(String date);
+   Long yrCount(String date);
+   Long wrCount(String date);
 }

@@ -481,9 +481,9 @@
     <!--查询底数-->
     <select id="wmdCount" resultType="java.lang.Long">
         select sum(count) from
-            (select count(*)as count from wlsms_auto_manual wmd
+            (select count(*)as count from wlsms_manual_new wmd
              union all
-             select count(*) as count from wlsms_auto_machine wmd2) as addAll
+             select count(*) as count from wlsms_machine_new wmd2) as addAll
     </select>
     <!--查询任务数-->
     <select id="operationCount" resultType="java.lang.Long">
@@ -492,15 +492,20 @@
 
     <!--人工底数-->
     <select id="manualCount" resultType="java.lang.Long">
-    select count(*)as count from wlsms_auto_manual
+    select count(*)as count from wlsms_manual_new
     </select>
     <!--机器底数-->
     <select id="machineCount" resultType="java.lang.Long">
-    select count(*) as count from wlsms_auto_machine
+    select count(*) as count from wlsms_machine_new
     </select>
-    <!--已校对-->
+    <!--已融合-->
     <select id="dataCount" resultType="java.lang.Long">
-        select count(*) as count from wlsms_auto_data
+        select count(*) as count from wlsms_data_new where title_os = '已融合'
+    </select>
+
+    <!--已融合-->
+    <select id="dataNoneCount" resultType="java.lang.Long">
+        select count(*) as count from wlsms_data_new where title_os = '未融合'
     </select>
 
     <update id="updateManualState" parameterType="java.lang.String">
@@ -580,5 +585,18 @@
         </where>
 
 
+    </select>
+
+    <select id="jqCount" parameterType="String" resultType="Long">
+        select count(1) from wlsms_machine_new where DATE_FORMAT(build_time,'%Y-%m-%d') = #{date}
+    </select>
+    <select id="rgCount" parameterType="String" resultType="Long">
+        select count(1) from wlsms_manual_new where DATE_FORMAT(build_date,'%Y-%m-%d') = #{date}
+    </select>
+    <select id="yrCount" parameterType="String" resultType="Long">
+        select count(1) from wlsms_data_new where DATE_FORMAT(edit_time,'%Y-%m-%d') = #{date} and title_os = '已融合'
+    </select>
+    <select id="wrCount" parameterType="String" resultType="Long">
+        select count(1) from wlsms_data_new where DATE_FORMAT(edit_time,'%Y-%m-%d') = #{date} and title_os = '未融合'
     </select>
 </mapper>

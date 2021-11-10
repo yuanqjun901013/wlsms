@@ -658,4 +658,23 @@ public class DataController {
             return BaseResponse.fail("入库失败");
         }
     }
+
+    /**
+     * 最近七天底数情况折线对比图
+     * @param request
+     * @return
+     */
+    @RequestMapping("chartData")
+    public BaseResponse chartData(HttpServletRequest request){
+        try {
+            Map<String, Object> allParam = dataService.chartData();
+            if (null != allParam && allParam.size() > 0) {
+                return BaseResponse.ok(allParam);
+            }
+            return BaseResponse.fail("统计汇总失败！");
+        } catch (Exception e) {
+            return BaseResponse.fail("查询异常！");
+        }
+    }
+
 }

@@ -18,16 +18,27 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'west',split:true" style="width:50%">
-        <div id="container" style="width: 400px;height:400px" data-options="region:'center',split:true,fit:true"></div>
+    <div data-options="region:'north',split:false" style="height:350px">
+        <table data-options="split:false,fit:true" style="width:100%">
+            <tr>
+                <td data-options="split:false,fit:true"><div id="container" style="width: 300px;height:250px" data-options="region:'center',split:true,fit:true"></div></td>
+                <td data-options="split:false,fit:true"><div id="data" style="width: 300px;height: 250px" data-options="region:'center',split:true,fit:true"></div></td>
+                <td data-options="split:false,fit:true"><div id="stackChart" style="width: 520px;height: 250px" data-options="region:'center',split:true,fit:true"></div></td>
+            </tr>
+        </table>
     </div>
-    <div data-options="region:'center'">
-        <div id="data" style="width: 400px;height: 400px" data-options="region:'center',split:true,fit:true"></div>
+    <div data-options="region:'west',split:false" style="width:50%">
+    </div>
+    <div data-options="region:'east',split:false" style="width:50%">
+    </div>
+    <div data-options="region:'south',split:false" style="height:200px;">
+
     </div>
 </div>
 <script type="text/javascript" th:inline="none">
         var cotData;
         var vcData;
+        var chartData;
         $.ajax({
             type: 'POST',
             async: false,
@@ -50,6 +61,19 @@
             }
         });
 
+
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '/data/data/chartData',//获取底数七天内情况统计
+            data:{},
+            success: function(data) {
+                chartData = data.data;
+            }
+        });
+
+
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);
     var app = {};
@@ -71,7 +95,7 @@
             {
                 name: '访问来源',
                 type: 'pie',
-                radius: '50%',
+                radius: '40%',
                 data: cotData
                     // [
                     // {value: 1048, name: '用户数'},
@@ -97,24 +121,29 @@
     }
 
 
-    //底数录入情况统计
+    //底数总览情况统计
     var dataDom = document.getElementById("data");
     var dataChart = echarts.init(dataDom);
     var dataApp = {};
     var dataOption;
     dataOption = {
+        title: {
+            text: '底数总览',
+            subtext: '可供统计参考',
+            left: 'center'
+        },
         tooltip: {
             trigger: 'item'
         },
         legend: {
-            top: '5%',
-            left: 'center'
+            orient: 'vertical',
+            left: 'left',
         },
         series: [
             {
                 name: '访问来源',
                 type: 'pie',
-                radius: ['40%', '70%'],
+                radius: ['28%', '45%'],
                 avoidLabelOverlap: false,
                 itemStyle: {
                     borderRadius: 10,
@@ -128,7 +157,7 @@
                 emphasis: {
                     label: {
                         show: true,
-                        fontSize: '40',
+                        fontSize: '25',
                         fontWeight: 'bold'
                     }
                 },
@@ -148,6 +177,44 @@
     if (dataOption && typeof dataOption === 'object') {
         dataChart.setOption(dataOption);
     }
+
+   //一周底数录入情况图
+        var stackDom = document.getElementById("stackChart");
+        var stackChart = echarts.init(stackDom);
+        var stackApp = {};
+        var stackOption;
+
+        stackOption = {
+            title: {
+                text: '底数一周榜',
+                subtext: '可供统计参考'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['机器底数', '人工底数', '已融合', '未融合']
+            },
+            grid: {
+                left: '5%',
+                right: '8%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: chartData.dayList
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: chartData.chartValue
+        };
+
+        if (stackOption && typeof stackOption === 'object') {
+            stackChart.setOption(stackOption);
+        }
 </script>
 </body>
 </html>

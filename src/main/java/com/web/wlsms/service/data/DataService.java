@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -309,7 +310,7 @@ public class DataService {
 		AllParamEntity wmd = getBat("底数",wmdCount);
 		cotDataList.add(wmd);
 		Long operationCount = dataDao.operationCount();
-		AllParamEntity operation = getBat("任务数",operationCount);
+		AllParamEntity operation = getBat("运行记录",operationCount);
 		cotDataList.add(operation);
 		return cotDataList;
 	}
@@ -327,8 +328,11 @@ public class DataService {
 		AllParamEntity machine = getBat("机器底数",machineCount);
 		vcDataList.add(machine);
 		Long dataCount = dataDao.dataCount();
-		AllParamEntity data = getBat("已校对",dataCount);
+		AllParamEntity data = getBat("已融合",dataCount);
 		vcDataList.add(data);
+		Long dataNoneCount = dataDao.dataNoneCount();
+		AllParamEntity dataNone = getBat("未融合",dataNoneCount);
+		vcDataList.add(dataNone);
         return vcDataList;
 	}
 
@@ -337,6 +341,86 @@ public class DataService {
 		allParamEntity.setName(name);
 		allParamEntity.setValue(value);
 		return allParamEntity;
+	}
+
+	//最近七天底数情况折线对比图
+
+	public Map<String, Object> chartData(){
+		Map<String, Object> chartData = new HashMap<>();
+		//算出最近七天的日期(当前日期往前推7天)
+		List<String> dayList = getDays(6);
+		chartData.put("dayList",dayList);
+		//机器底数
+		DataChartModel jqDataChart = new DataChartModel();
+		jqDataChart.setName("机器底数");
+		jqDataChart.setType("line");
+		List<Long> jqData = new ArrayList<>();
+		//人工底数
+		DataChartModel rgDataChart = new DataChartModel();
+		rgDataChart.setName("人工底数");
+		rgDataChart.setType("line");
+		List<Long> rgData = new ArrayList<>();
+		//已融合
+		DataChartModel yrDataChart = new DataChartModel();
+		yrDataChart.setName("已融合");
+		yrDataChart.setType("line");
+		List<Long> yrData = new ArrayList<>();
+		//未融合
+		DataChartModel wrDataChart = new DataChartModel();
+		wrDataChart.setName("未融合");
+		wrDataChart.setType("line");
+		List<Long> wrData = new ArrayList<>();
+		for(String date: dayList){
+			//jq
+			Long jqCount = dataDao.jqCount(date);
+			jqData.add(jqCount);
+			//rg
+			Long rgCount = dataDao.rgCount(date);
+			rgData.add(rgCount);
+			//yr
+			Long yrCount = dataDao.yrCount(date);
+			yrData.add(yrCount);
+			//wr
+			Long wrCount = dataDao.wrCount(date);
+			wrData.add(wrCount);
+		}
+		List<DataChartModel> chartModels = new ArrayList<>();
+		jqDataChart.setData(jqData);
+		chartModels.add(jqDataChart);
+		rgDataChart.setData(rgData);
+		chartModels.add(rgDataChart);
+		yrDataChart.setData(yrData);
+		chartModels.add(yrDataChart);
+		wrDataChart.setData(wrData);
+		chartModels.add(wrDataChart);
+		chartData.put("chartValue",chartModels);
+		return chartData;
+	}
+
+	private static Date getDateAdd(int days){
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DAY_OF_MONTH, -days);
+		return c.getTime();
+
+	}
+
+	private static List<String> getDays(int days){
+		List<String> dayList = new ArrayList<>();
+		Calendar start = Calendar.getInstance();
+		start.setTime(getDateAdd(days));
+		Long startTIme = start.getTimeInMillis();
+		Calendar end = Calendar.getInstance();
+		end.setTime(new Date());
+		Long endTime = end.getTimeInMillis();
+		Long oneDay = 1000 * 60 * 60 * 24l;
+		Long time = startTIme;
+		while (time <= endTime) {
+			Date d = new Date(time);
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			dayList.add(df.format(d));
+			time += oneDay;
+		}
+		return dayList;
 	}
 
 	/**
