@@ -19,13 +19,15 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'center'">
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonAlign:'left',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
-    <div id="userList" data-options="region:'center',split:true"></div>
+    <div id="userList" style="width:100%" data-options="region:'center',split:true"></div>
+    </div>
     <div id="dlg" class="easyui-dialog" style="width:600px; height: 400px"
          data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
         <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">

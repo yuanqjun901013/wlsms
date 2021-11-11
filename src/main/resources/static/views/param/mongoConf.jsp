@@ -18,10 +18,12 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'center'">
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateMongoDb()">修改</a>
     </div>
-    <div id="mongoDbList" data-options="region:'center',split:true"></div>
+    <div id="mongoDbList" style="width:100%" data-options="region:'center',split:true"></div>
+    </div>
 <script type="text/javascript" th:inline="none">
     function mongoDbList() {//展示基础参数列表
         $('#mongoDbList').datagrid({

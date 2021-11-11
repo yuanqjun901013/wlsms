@@ -18,11 +18,13 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'center'">
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateParam()">修改</a>
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonAlign:'left',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
-    <div id="parametersList" data-options="region:'center',split:true"></div>
+    <div id="parametersList" style="width:100%"  data-options="region:'center',split:true"></div>
+    </div>
 <script type="text/javascript" th:inline="none">
 
     function parametersList() {//展示基础参数列表

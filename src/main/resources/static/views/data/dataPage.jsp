@@ -39,7 +39,7 @@
             <input id="titleOsDlg" name="titleOs" label="数据状态:" style="width:280px;">
             <input class="easyui-textbox" id="queryBtDlg" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
         </div>
-        <div id="getAutoDataList" data-options="region:'center',split:true"></div>
+        <div id="getAutoDataList" style="width:100%" data-options="region:'center',split:true"></div>
     </div>
     <script type="text/javascript" th:inline="none">
         function getReload(){

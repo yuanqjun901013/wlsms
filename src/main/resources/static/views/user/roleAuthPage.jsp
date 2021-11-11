@@ -19,7 +19,9 @@
 
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div id="roleAuthList" data-options="region:'center',split:true"></div>
+    <div data-options="region:'center'">
+    <div id="roleAuthList" style="width:100%" data-options="region:'center',split:true"></div>
+    </div>
 <script type="text/javascript" th:inline="none">
     function roleAuthList() {//展示菜单角色列表
       var dg =  $('#roleAuthList').datagrid({

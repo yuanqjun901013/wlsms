@@ -20,13 +20,15 @@
 
 <body>
 <div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'center'">
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="getDelete()">删除</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true" onclick="getClear()">清空</a>
         <input class="easyui-datebox" id="buildDate" label="数据日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
         <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
-    <div id="queryAutoBuildList" data-options="region:'center',split:true"></div>
+    <div id="queryAutoBuildList" style="width:100%" data-options="region:'center',split:true"></div>
+    </div>
     <script type="text/javascript" th:inline="none">
         var buildId = '';
         function queryAutoBuildList() {//展示列表
@@ -245,7 +247,6 @@
             });
         }
     </script>
-</div>
 <div id="dlg" class="easyui-dialog" style="width:100%; height: 100%"
      data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     <div id="toolbarDlg">
@@ -331,6 +332,7 @@
 <div id="dlgUpdate-buttons">
     <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateDataBuild()" style="width:90px">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dataUpdate').dialog('close')" style="width:90px">取消</a>
+</div>
 </div>
 </body>
 </html>
