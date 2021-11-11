@@ -19,6 +19,7 @@ public interface DataBuildNewDao {
     int deleteAutoData(List<String> ids);
     int saveManual(MachineModel manualModel);
     int updateManual(MachineModel manualModel);
+    int updateDataBuild(MachineModel dataBuild);
     String queryLimitDate();
     List<MachineModel> getManualListByDate(Map<String, Object> param);
     List<MachineModel> getMachineListByDate(Map<String, Object> param);

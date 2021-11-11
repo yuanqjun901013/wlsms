@@ -406,6 +406,35 @@
         </where>
     </update>
 
+    <update id="updateDataBuild" parameterType="com.web.wlsms.entity.MachineModel">
+        update wlsms_data_new
+        <set>
+            wx_name = #{wxName},
+            car_pol = #{carPol},
+            dpl_value = #{dplValue},
+            tkpl_value = #{tkplValue},
+            xh_type = #{xhType},
+            msl_value = #{mslValue},
+            zzb_value = #{zzbValue},
+            tzys_name = #{tzysName},
+            bm_type = #{bmType},
+            ml_name = #{mlName},
+            muladdr = #{muladdr},
+            others = #{others},
+            exmlen = #{exmlen},
+            fcycle = #{fcycle},
+            flen = #{flen},
+            cf = #{cf},
+            rm = #{rm},
+            sindex = #{sindex},
+            user_properties = #{userProperties},
+            edit_time = now()
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
     <select id="queryLimitDate" resultType="java.lang.String">
         select
             DATE_FORMAT(build_date,'%Y-%m-%d') as buildDate

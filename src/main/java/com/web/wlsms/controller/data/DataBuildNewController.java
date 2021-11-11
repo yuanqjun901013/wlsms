@@ -415,7 +415,6 @@ public class DataBuildNewController {
         manualModel.setZzbValue(manualModel.getZzbValue().replace(" ","").trim());
         manualModel.setTzysName(manualModel.getTzysName().replace(" ","").trim());
         manualModel.setBmType(manualModel.getBmType().replace(" ","").trim());
-
         manualModel.setMuladdr(manualModel.getMuladdr().replace(" ","").trim());
         manualModel.setOthers(manualModel.getOthers().replace(" ","").trim());
         manualModel.setExmlen(manualModel.getExmlen().replace(" ","").trim());
@@ -615,4 +614,36 @@ public class DataBuildNewController {
         return resultMap;
     }
 
+
+    /**
+     * 更新融合数据
+     * @param dataBuild
+     * @return
+     */
+    @RequestMapping("updateDataBuild")
+    public BaseResponse updateDataBuild(MachineModel dataBuild){
+        if(null == dataBuild){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        dataBuild.setWxName(dataBuild.getWxName().replace(" ","").trim());
+        dataBuild.setMlName(dataBuild.getMlName().replace(" ","").replace("'","").trim());
+        dataBuild.setCarPol(dataBuild.getCarPol().replace(" ","").trim());
+        dataBuild.setDplValue(dataBuild.getDplValue().replace(" ","").trim());
+        dataBuild.setTkplValue(dataBuild.getTkplValue().replace(" ","").trim());
+        dataBuild.setXhType(dataBuild.getXhType().replace(" ","").trim());
+        dataBuild.setMslValue(dataBuild.getMslValue().replace(" ","").trim());
+        dataBuild.setZzbValue(dataBuild.getZzbValue().replace(" ","").trim());
+        dataBuild.setTzysName(dataBuild.getTzysName().replace(" ","").trim());
+        dataBuild.setBmType(dataBuild.getBmType().replace(" ","").trim());
+        dataBuild.setMuladdr(dataBuild.getMuladdr().replace(" ","").trim());
+        dataBuild.setOthers(dataBuild.getOthers().replace(" ","").trim());
+        dataBuild.setExmlen(dataBuild.getExmlen().replace(" ","").trim());
+        dataBuild.setFcycle(dataBuild.getFcycle().replace(" ","").trim());
+        dataBuild.setFlen(dataBuild.getFlen().replace(" ","").trim());
+        dataBuild.setCf(dataBuild.getCf().replace(" ","").trim());
+        dataBuild.setRm(dataBuild.getRm().replace(" ","").trim());
+        dataBuild.setSindex(dataBuild.getSindex().replace(" ","").trim());
+        dataBuild.setUserProperties(dataBuild.getUserProperties().replace(" ","").trim());
+        return dataBuildNewService.updateDataBuild(dataBuild);
+    }
 }

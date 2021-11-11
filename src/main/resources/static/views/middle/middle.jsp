@@ -18,20 +18,31 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'north',split:false" style="height:350px">
+   <!-- <div data-options="title:'统计视图',region:'north',split:false,collapsible:false" style="height:300px">
+
+    </div>-->
+    <div data-options="title:'系统总览',region:'west',split:false,collapsible:false" style="width:27%;height:300px;">
         <table data-options="split:false,fit:true" style="width:100%">
-            <tr>
-                <td data-options="split:false,fit:true"><div id="container" style="width: 300px;height:250px" data-options="region:'center',split:true,fit:true"></div></td>
-                <td data-options="split:false,fit:true"><div id="data" style="width: 300px;height: 250px" data-options="region:'center',split:true,fit:true"></div></td>
-                <td data-options="split:false,fit:true"><div id="stackChart" style="width: 520px;height: 250px" data-options="region:'center',split:true,fit:true"></div></td>
+            <tr align="center">
+                <td data-options="split:false,fit:true" align="center"><div id="container" style="width: 300px;height:250px" data-options="region:'center',split:true,fit:true"></div></td>
             </tr>
         </table>
     </div>
-    <div data-options="region:'west',split:false" style="width:50%">
+    <div data-options="title:'底数总览',region:'center',split:false" style="width:27%;height:200px;">
+        <table data-options="split:false,fit:true" style="width:100%">
+            <tr align="center">
+                <td data-options="split:false,fit:true" align="center"><div id="data" style="width: 300px;height: 250px" data-options="region:'center',split:true,fit:true"></div></td>
+            </tr>
+        </table>
     </div>
-    <div data-options="region:'east',split:false" style="width:50%">
+    <div data-options="title:'近一周底数情况',region:'east',split:false,collapsible:false" style="width:45%;height:200px;">
+        <table data-options="split:false,fit:true" style="width:100%">
+            <tr align="center">
+                <td data-options="split:false,fit:true" align="center"><div id="stackChart" style="width: 520px;height: 250px" data-options="region:'center',split:true,fit:true"></div></td>
+            </tr>
+        </table>
     </div>
-    <div data-options="region:'south',split:false" style="height:200px;">
+    <div data-options="title:'任务待处理反馈',region:'south',split:false,collapsible:false" style="height:400px;">
 
     </div>
 </div>

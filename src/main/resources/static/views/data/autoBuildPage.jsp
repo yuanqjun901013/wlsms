@@ -216,11 +216,40 @@
                 ]]
             });
         }
+
+        function editValue(){
+            var row = $('#getAutoDataList').datagrid('getSelected');
+            if (row){
+                $('#dataUpdate').dialog('open').dialog('center').dialog('setTitle','修改');
+                $('#fmm').form('load',row);
+            }
+        }
+
+        function updateDataBuild(){
+            $('#fmm').form('submit',{
+                url: '/data/buildNew/updateDataBuild',
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    var result = eval('('+result+')');
+                    if(result.success){
+                        $.messager.alert("消息提醒", result.data, "info",function (){
+                            $('#dataUpdate').dialog('close');        // close the dialog
+                            $('#getAutoDataList').datagrid('reload');    // reload the user data
+                        });
+                    }else {
+                        $.messager.alert("消息提醒",result.msg);
+                    }
+                }
+            });
+        }
     </script>
 </div>
 <div id="dlg" class="easyui-dialog" style="width:100%; height: 100%"
      data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     <div id="toolbarDlg">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editValue()">修改</a>
         <input id="titleOsDlg" name="titleOs" label="数据状态:" style="width:280px;">
         <input class="easyui-textbox" id="queryBtDlg" data-options="buttonText:'查询',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
     </div>
@@ -251,6 +280,57 @@
 <div id="dlg-buttons">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="getExport()" style="width:90px">导出</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">关闭</a>
+</div>
+<div id="dataUpdate" class="easyui-dialog" style="width:600px; height: 500px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgUpdate-buttons'">
+    <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <h3>编辑底数信息</h3>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="wxName" data-options="required:true" label="卫星:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
+            <input class="easyui-textbox" type="text" name="carPol" data-options="required:true" label="极化:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="tkplValue" data-options="required:true" label="天空频率:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="mslValue" data-options="required:true" label="码速率:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="dplValue" data-options="required:true" label="电平:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="zzbValue" data-options="required:true" label="载噪比:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="xhType" data-options="required:true" label="信号类型:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="muladdr" data-options="required:true" label="多址方式:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="others" data-options="required:true" label="其他:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="tzysName" data-options="required:true" label="调制样式:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="bmType" data-options="required:true" label="编码类型:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="mlName" data-options="required:true" label="码率:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="exmlen" data-options="required:true" label="分组长度:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="fcycle" data-options="required:true" label="突发周期:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="flen" data-options="required:true" label="帧长:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="cf" data-options="required:true" label="差分:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="rm" data-options="required:true" label="扰码:" labelPosition="left" style="width:230px;">
+            <input class="easyui-textbox" type="text" name="sindex" data-options="required:true" label="索引号:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" type="text" name="userProperties" data-options="required:true" label="用户属性:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input type="text" style="display: none" name = "id">
+        </div>
+    </form>
+</div>
+<div id="dlgUpdate-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateDataBuild()" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dataUpdate').dialog('close')" style="width:90px">取消</a>
 </div>
 </body>
 </html>

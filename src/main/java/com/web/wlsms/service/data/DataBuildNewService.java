@@ -138,6 +138,20 @@ public class DataBuildNewService {
     }
 
     /**
+     * 编辑融合底数
+     * @param dataBuild
+     * @return
+     */
+    public BaseResponse updateDataBuild(MachineModel dataBuild){
+        int num = dataBuildNewDao.updateDataBuild(dataBuild);
+        if(num >0){
+            return BaseResponse.ok("更新数据成功");
+        }else {
+            return BaseResponse.fail("更新数据失败");
+        }
+    }
+
+    /**
      * 删除人工底数
      * @param ids
      * @return
