@@ -39,7 +39,7 @@
             var startTime = $('#startTime').datebox('getValue');
             var endTime = $('#endTime').datebox('getValue');
             $('#getTaskList').datagrid({
-                url:'/task/getMyPulseTask',//参数
+                url:'/taskManage/taskView/getMyPulseTask',//参数
                 method: 'post',
                 //携带参数
                 queryParams: {
