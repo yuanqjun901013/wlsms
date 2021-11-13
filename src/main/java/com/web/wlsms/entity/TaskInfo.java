@@ -15,14 +15,14 @@ public class TaskInfo {
     private String title;
     private String content;
     private String feedbackContent;
-    private int state;
+    private Integer state;
     private String receiverUserNo;
     private String receiverUserName;
     private String receiverTime;
     private String feedbackTime;
     private String feedbackUserNo;
     private String feedbackUserName;
-    private int taskType;
+    private Integer taskType;
     private String positionCode;
     private String positionName;
 }

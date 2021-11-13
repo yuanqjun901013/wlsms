@@ -15,6 +15,12 @@
             $(document).bind("contextmenu",function(e){ return false; });
             getManualList();
         })
+
+        //定时刷新页面
+        setInterval(function() {
+            // show();//暂不用
+            getManualList();
+        }, 9000);
     </SCRIPT>
 </head>
 

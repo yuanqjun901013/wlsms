@@ -15,6 +15,12 @@
             $(document).bind("contextmenu",function(e){ return false; });
             getReload();
         })
+
+        //定时刷新页面
+        setInterval(function() {
+            // show();//暂不用
+            getReload();
+        }, 9000);
     </SCRIPT>
 </head>
 <body>
@@ -75,6 +81,23 @@
                     {field:'count',title:'数据量',width:60,sortable:true}
                 ]]
             });
+
+
+            $('#titleOsDlg').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/data/buildNew/queryTitleOs',
+                idField: 'titleOs',
+                textField: 'titleOs',
+                labelPosition:"left",
+                striped:true,
+                fitColumns: true,
+                nowrap:false,//自动换行
+                columns: [[
+                    {field:'id',title:'序号',width:90,sortable:true},
+                    {field:'titleOs',title:'数据状态',width:120,sortable:true}
+                ]]
+            });
         }
 
         function clearFrom(){
@@ -105,22 +128,6 @@
         $("#queryBtDlg").textbox({onClickButton:function(){
                 getAutoDataList();
             }})
-
-        $('#titleOsDlg').combogrid({
-            delay: 250,
-            mode: 'remote',
-            url: '/data/buildNew/queryTitleOs',
-            idField: 'titleOs',
-            textField: 'titleOs',
-            labelPosition:"left",
-            striped:true,
-            fitColumns: true,
-            nowrap:false,//自动换行
-            columns: [[
-                {field:'id',title:'序号',width:90,sortable:true},
-                {field:'titleOs',title:'数据状态',width:120,sortable:true}
-            ]]
-        });
 
         function getAutoDataList() {//展示列表
             var cbgManual = $('#cbgManual').combogrid('getValue');

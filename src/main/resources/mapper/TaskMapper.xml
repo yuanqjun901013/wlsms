@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wlsms.dao.TaskDao">
+
+
+    <!-- 我发起的任务-->
+    <select id="getTaskInfoList" resultType="com.web.wlsms.entity.TaskInfo" parameterType="String">
+        SELECT
+        wt.id,
+        wt.user_no,
+        DATE_FORMAT(wt.build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+        wt.title,
+        wt.content,
+        wt.feedback_content as feedbackContent,
+        wt.state,
+        wt.receiver_user_no as receiverUserNo,
+        DATE_FORMAT(wt.receiver_time,'%Y-%m-%d %H:%i:%S') as receiverTime,
+        DATE_FORMAT(wt.feedback_time,'%Y-%m-%d %H:%i:%S') as feedbackTime,
+        wt.feedback_user_no as feedbackUserNo,
+        wt.task_type as taskType,
+        wt.position_code as positionCode,
+        DATE_FORMAT(wt.create_time,'%Y-%m-%d %H:%i:%S') as createTime ,
+        DATE_FORMAT(wt.edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+        FROM wlsms_task wt
+        left join admin_user au on wt.user_no = au.user_no
+        where 1=1
+        <if test="queryBt != null and queryBt != ''">
+            and (wt.title like concat('%',#{queryBt},'%') or wt.content like concat('%',#{queryBt},'%'))
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and DATE_FORMAT(wt.build_time,'%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and DATE_FORMAT(wt.build_time,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d')
+        </if>
+        <if test="userNo != null and userNo != ''">
+            and wt.user_no = #{userNo}
+        </if>
+        <if test="receiverUserNo != null and receiverUserNo != ''">
+            and wt.receiver_user_no = #{receiverUserNo}
+        </if>
+        <if test="feedbackUserNo != null and feedbackUserNo != ''">
+            and wt.feedback_user_no = #{feedbackUserNo}
+        </if>
+        <if test="state != null">
+            and wt.state = #{state}
+        </if>
+        <if test="taskType != null">
+            and wt.task_type = #{taskType}
+        </if>
+        <if test="stateStart != null">
+            and wt.state <![CDATA[ > ]]> #{state}
+        </if>
+        order by id desc
+    </select>
+
+</mapper>

@@ -14,5 +14,8 @@ public class SimpleRequest<T> extends PageRequest {
     private String endTime;
     private String buildDate;
     private String buildTime;
+    private String userNo;
+    private Integer state;
+    private Integer taskType;
 
 }

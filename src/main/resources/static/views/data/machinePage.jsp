@@ -15,6 +15,12 @@
             $(document).bind("contextmenu",function(e){ return false; });
             getMachineList();
         })
+
+        //定时刷新页面
+        setInterval(function() {
+            // show();//暂不用
+            getMachineList();
+        }, 9000);
     </SCRIPT>
 </head>
 
@@ -99,6 +105,21 @@
                     {field:'userProperties',title:'用户属性',width:80,align:'center'},
                     {field:'appearTime',title:'发现时间',width:150,align:'center'},
                     {field:'buildTime',title:'登记时间',width:150,align:'center'}
+                ]]
+            });
+
+            $('#cbg').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/admin/position/getPositionArr',
+                idField: 'positionCode',
+                textField: 'positionName',
+                striped:true,
+                multiple: false,
+                fitColumns: true,
+                columns: [[
+                    {field:'positionName',title:'地址',width:100,sortable:true},
+                    {field:'positionCode',title:'标识码',width:80,sortable:true}
                 ]]
             });
         }
@@ -214,20 +235,6 @@
             });
         }
 
-        $('#cbg').combogrid({
-            delay: 250,
-            mode: 'remote',
-            url: '/admin/position/getPositionArr',
-            idField: 'positionCode',
-            textField: 'positionName',
-            striped:true,
-            multiple: false,
-            fitColumns: true,
-            columns: [[
-                {field:'positionName',title:'地址',width:100,sortable:true},
-                {field:'positionCode',title:'标识码',width:80,sortable:true}
-            ]]
-        });
 
         function deleteMachine(){
             // var row = $('#getMachineList').datagrid('getSelected');
