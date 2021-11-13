@@ -39,7 +39,7 @@
             var startTime = $('#startTime').datebox('getValue');
             var endTime = $('#endTime').datebox('getValue');
             $('#getTaskList').datagrid({
-                url:'/taskManage/taskView/getMyPulseTask',//参数
+                url:'/task/getMyPulseTask',//参数
                 method: 'post',
                 //携带参数
                 queryParams: {
@@ -47,33 +47,34 @@
                     "startTime":startTime,
                     "endTime":endTime
                 },
-                fitColumns:false,
+                fitColumns:true,
                 striped:true,
                 pagination:true,
                 rownumbers:true,
                 remoteFilter: true,
                 clientPaging: false,
-                nowrap:true,//自动换行
+                nowrap:false,//自动换行
                 toolbar:'#toolbar',
                 singleSelect:false,
                 checkOnSelect:true,
                 selectOnCheck:true,
                 columns:[[
+                    {field:'ck',checkbox:true,align:'center'},
                     {field:'id',title:'编号',width:20,align:'center'},
                     {field:'title',title:'文件名称',formatter:function(value,row,index)
                         {
                             return "<a href='javascript:void(0)' onclick='getDetail()'>"+row.title+"</a>";
                         },
                         width:100,align:'center'},
-                    {field:'userName',title:'任务发起人',width:60,align:'center'},
+                    {field:'userName',title:'任务发起人',width:100,align:'center'},
                     {field:'buildTime',title:'下发时间',width:150,align:'center'},
-                    {field:'receiverUserName',title:'任务认领人',width:60,align:'center'},
-                    {field:'receiverTime',title:'认领时间',width:150,align:'center'},
-                    {field:'feedbackUserName',title:'任务处理及反馈人',width:60,align:'center'},
+                    {field:'receiverUserName',title:'任务认领人',width:100,align:'center'},
+                    {field:'receiverTime',title:'认领时间',width:100,align:'center'},
+                    {field:'feedbackUserName',title:'任务处理及反馈人',width:150,align:'center'},
                     {field:'feedbackTime',title:'任务处理及反馈时间',width:150,align:'center'},
-                    {field:'positionName',title:'侦测位置',width:30,align:'center'},
-                    {field:'taskType',title:'任务类型',width:30,align:'center'},
-                    {field:'state',title:'任务状态',width:30,align:'center'}
+                    {field:'positionName',title:'侦测位置',width:100,align:'center'},
+                    {field:'taskType',title:'任务类型',width:100,align:'center'},
+                    {field:'state',title:'任务状态',width:100,align:'center'}
                 ]]
             });
         }

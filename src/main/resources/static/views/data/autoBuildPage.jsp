@@ -48,7 +48,7 @@
                     "queryBt":queryBt,
                     "buildDate":buildDate,
                 },
-                fitColumns:false,
+                fitColumns:true,
                 striped:true,
                 pagination:true,
                 rownumbers:true,

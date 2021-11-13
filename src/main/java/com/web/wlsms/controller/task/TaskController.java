@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/taskManage/taskView")
+@RequestMapping("/task")
 public class TaskController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
     @Resource
