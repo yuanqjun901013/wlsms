@@ -408,4 +408,13 @@ public class TaskService {
         }
     }
 
+    public BaseResponse offReceiverTask(TaskInfo taskInfo){
+        Integer num = taskDao.offReceiverTask(taskInfo);
+        if(num.intValue() >0){
+            return BaseResponse.ok("取消认领成功");
+        }else {
+            return BaseResponse.fail("取消认领失败");
+        }
+    }
+
 }

@@ -77,7 +77,7 @@
                     {field:'todo',title:'操作',formatter:function(value,row,index)
                         {
                                 return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>&nbsp;&nbsp;&nbsp;" +
-                                    "<a href='javascript:void(0)' onclick='receiverTask("+row.id+")'>认领</a>"
+                                    "<a href='javascript:void(0)' onclick='receiverTask("+row.id+")'>认领</a>";
                         },
                         width:150,align:'center'}
                 ]]

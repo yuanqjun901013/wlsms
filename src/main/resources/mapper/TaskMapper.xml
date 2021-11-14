@@ -125,4 +125,23 @@
         </where>
     </update>
 
+    <!-- 取消认领任务-->
+    <update id="offReceiverTask" parameterType="com.web.wlsms.entity.TaskInfo">
+        update wlsms_task
+        <set>
+            state = 1,
+            edit_time = now(),
+            <if test="receiverUserNo !=null and receiverUserNo != ''">
+                receiver_user_no = null,
+                receiver_time = null,
+            </if>
+        </set>
+        <where>
+            id = #{id}
+            and state = 2
+            and receiver_user_no = #{receiverUserNo}
+        </where>
+    </update>
+
+
 </mapper>

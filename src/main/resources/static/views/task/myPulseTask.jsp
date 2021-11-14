@@ -369,7 +369,7 @@
 </div>
 <div id="taskAdd" class="easyui-dialog" style="width:600px; height: 500px" data-options="closed:true,modal:true,border:'thin',buttons:'#add-buttons'">
     <form id="fmAdd" method="post" novalidate style="margin:0;padding:20px 50px">
-        <h3>任务详情</h3>
+        <h3>任务下发</h3>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" data-options="required:true" name="title" label="任务标题:" labelPosition="left" style="width:400px;">
         </div>

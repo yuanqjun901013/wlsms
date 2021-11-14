@@ -245,6 +245,26 @@ public class TaskController {
         return taskService.receiverTask(taskInfo);
     }
 
+    /**
+     * 取消认领任务
+     * @param request
+     * @param id
+     * @return
+     */
+    @RequestMapping("offReceiverTask")
+    @ResponseBody
+    public BaseResponse offReceiverTask(HttpServletRequest request, String id){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        if(StringUtils.isBlank(id)){
+            return BaseResponse.fail("任务编码为空");
+        }
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setReceiverUserNo(userNo);
+        taskInfo.setId(Long.valueOf(id));
+        return taskService.offReceiverTask(taskInfo);
+    }
+
 
     @RequestMapping("taskTypeList")
     public List<TaskTypeEntity> taskTypeList(){

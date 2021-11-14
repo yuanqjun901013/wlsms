@@ -21,4 +21,6 @@ public interface TaskDao {
 
     Integer receiverTask(TaskInfo taskInfo);
 
+    Integer offReceiverTask(TaskInfo taskInfo);
+
 }
