@@ -140,4 +140,20 @@
         from admin_user
         where id = #{id}
     </select>
+
+    <select id="selectUserByUserNo" resultMap="userMap">
+        select
+            id,
+            user_no,
+            pwd,
+            user_name,
+            sex,
+            age,
+            job,
+            tel,
+            phone,
+            email
+        from admin_user
+        where user_no = #{userNo}
+    </select>
 </mapper>

@@ -8,6 +8,7 @@ import com.web.wlsms.entity.PositionEntity;
 import com.web.wlsms.entity.TaskInfo;
 import com.web.wlsms.entity.UserEntity;
 import com.web.wlsms.request.SimpleRequest;
+import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.system.PositionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,9 @@ public class TaskService {
         if(null != request.getTaskType()){
             param.put("taskType", request.getTaskType());
         }
+        if(null != request.getState()){
+            param.put("state", request.getState());
+        }
         PageHelper.startPage(request.getPage(), request.getRows());
         List<TaskInfo> taskInfoList = taskDao.getTaskInfoList(param);
         if(!CollectionUtils.isEmpty(taskInfoList)){
@@ -62,6 +66,22 @@ public class TaskService {
                 if(StringUtils.isNotBlank(taskInfo.getFeedbackUserNo())){
                     taskInfo.setFeedbackUserName(getUserName(taskInfo.getFeedbackUserNo()));
                 }
+                if(taskInfo.getTaskType().intValue() == 1){
+                    taskInfo.setTaskTypeName("数据上报");
+                }else if(taskInfo.getTaskType().intValue() == 2){
+                    taskInfo.setTaskTypeName("日常调度任务");
+                }else {
+                    taskInfo.setTaskTypeName("侦测任务");
+                }
+                if(taskInfo.getState().intValue() == 1){
+                    taskInfo.setStateName("待认领");
+                }else if(taskInfo.getState().intValue() == 2){
+                    taskInfo.setStateName("已接受");
+                }else if(taskInfo.getState().intValue() == 3){
+                    taskInfo.setStateName("已拒绝");
+                }else {
+                    taskInfo.setStateName("已完成");
+                }
             }
         }
         return new PageInfo<>(taskInfoList);
@@ -74,7 +94,7 @@ public class TaskService {
      */
     public PageInfo getWaitingTask(SimpleRequest request){
         Map<String, Object> param = new HashMap<>();
-        param.put("state", 0);
+        param.put("state", 1);
         if(StringUtils.isNotBlank(request.getQueryBt())){
             param.put("queryBt",request.getQueryBt());
         }
@@ -89,6 +109,35 @@ public class TaskService {
         }
         PageHelper.startPage(request.getPage(), request.getRows());
         List<TaskInfo> taskInfoList = taskDao.getTaskInfoList(param);
+        if(!CollectionUtils.isEmpty(taskInfoList)){
+            for (TaskInfo taskInfo:taskInfoList){
+                if(StringUtils.isNotBlank(taskInfo.getPositionCode())){
+                    taskInfo.setPositionName(getPositionName(taskInfo.getPositionCode()));
+                }
+                if(StringUtils.isNotBlank(taskInfo.getReceiverUserNo())){
+                    taskInfo.setReceiverUserName(getUserName(taskInfo.getReceiverUserNo()));
+                }
+                if(StringUtils.isNotBlank(taskInfo.getFeedbackUserNo())){
+                    taskInfo.setFeedbackUserName(getUserName(taskInfo.getFeedbackUserNo()));
+                }
+                if(taskInfo.getTaskType().intValue() == 1){
+                    taskInfo.setTaskTypeName("数据上报");
+                }else if(taskInfo.getTaskType().intValue() == 2){
+                    taskInfo.setTaskTypeName("日常调度任务");
+                }else {
+                    taskInfo.setTaskTypeName("侦测任务");
+                }
+                if(taskInfo.getState().intValue() == 1){
+                    taskInfo.setStateName("待认领");
+                }else if(taskInfo.getState().intValue() == 2){
+                    taskInfo.setStateName("已接受");
+                }else if(taskInfo.getState().intValue() == 3){
+                    taskInfo.setStateName("已拒绝");
+                }else {
+                    taskInfo.setStateName("已完成");
+                }
+            }
+        }
         return new PageInfo<>(taskInfoList);
     }
     /**
@@ -99,7 +148,7 @@ public class TaskService {
      */
     public PageInfo getTodoTask(SimpleRequest request){
         Map<String, Object> param = new HashMap<>();
-        param.put("state", 1);
+        param.put("state", 2);
         if(StringUtils.isNotBlank(request.getQueryBt())){
             param.put("queryBt",request.getQueryBt());
         }
@@ -117,6 +166,35 @@ public class TaskService {
         }
         PageHelper.startPage(request.getPage(), request.getRows());
         List<TaskInfo> taskInfoList = taskDao.getTaskInfoList(param);
+        if(!CollectionUtils.isEmpty(taskInfoList)){
+            for (TaskInfo taskInfo:taskInfoList){
+                if(StringUtils.isNotBlank(taskInfo.getPositionCode())){
+                    taskInfo.setPositionName(getPositionName(taskInfo.getPositionCode()));
+                }
+                if(StringUtils.isNotBlank(taskInfo.getReceiverUserNo())){
+                    taskInfo.setReceiverUserName(getUserName(taskInfo.getReceiverUserNo()));
+                }
+                if(StringUtils.isNotBlank(taskInfo.getFeedbackUserNo())){
+                    taskInfo.setFeedbackUserName(getUserName(taskInfo.getFeedbackUserNo()));
+                }
+                if(taskInfo.getTaskType().intValue() == 1){
+                    taskInfo.setTaskTypeName("数据上报");
+                }else if(taskInfo.getTaskType().intValue() == 2){
+                    taskInfo.setTaskTypeName("日常调度任务");
+                }else {
+                    taskInfo.setTaskTypeName("侦测任务");
+                }
+                if(taskInfo.getState().intValue() == 1){
+                    taskInfo.setStateName("待认领");
+                }else if(taskInfo.getState().intValue() == 2){
+                    taskInfo.setStateName("已接受");
+                }else if(taskInfo.getState().intValue() == 3){
+                    taskInfo.setStateName("已拒绝");
+                }else {
+                    taskInfo.setStateName("已完成");
+                }
+            }
+        }
         return new PageInfo<>(taskInfoList);
     }
     /**
@@ -127,7 +205,7 @@ public class TaskService {
      */
     public PageInfo getEndTask(SimpleRequest request){
         Map<String, Object> param = new HashMap<>();
-        param.put("stateStart", 1);
+        param.put("stateStart", 2);
         if(StringUtils.isNotBlank(request.getQueryBt())){
             param.put("queryBt",request.getQueryBt());
         }
@@ -151,6 +229,35 @@ public class TaskService {
         }
         PageHelper.startPage(request.getPage(), request.getRows());
         List<TaskInfo> taskInfoList = taskDao.getTaskInfoList(param);
+        if(!CollectionUtils.isEmpty(taskInfoList)){
+            for (TaskInfo taskInfo:taskInfoList){
+                if(StringUtils.isNotBlank(taskInfo.getPositionCode())){
+                    taskInfo.setPositionName(getPositionName(taskInfo.getPositionCode()));
+                }
+                if(StringUtils.isNotBlank(taskInfo.getReceiverUserNo())){
+                    taskInfo.setReceiverUserName(getUserName(taskInfo.getReceiverUserNo()));
+                }
+                if(StringUtils.isNotBlank(taskInfo.getFeedbackUserNo())){
+                    taskInfo.setFeedbackUserName(getUserName(taskInfo.getFeedbackUserNo()));
+                }
+                if(taskInfo.getTaskType().intValue() == 1){
+                    taskInfo.setTaskTypeName("数据上报");
+                }else if(taskInfo.getTaskType().intValue() == 2){
+                    taskInfo.setTaskTypeName("日常调度任务");
+                }else {
+                    taskInfo.setTaskTypeName("侦测任务");
+                }
+                if(taskInfo.getState().intValue() == 1){
+                    taskInfo.setStateName("待认领");
+                }else if(taskInfo.getState().intValue() == 2){
+                    taskInfo.setStateName("已接受");
+                }else if(taskInfo.getState().intValue() == 3){
+                    taskInfo.setStateName("已拒绝");
+                }else {
+                    taskInfo.setStateName("已完成");
+                }
+            }
+        }
         return new PageInfo<>(taskInfoList);
     }
     /**
@@ -178,6 +285,35 @@ public class TaskService {
         }
         PageHelper.startPage(request.getPage(), request.getRows());
         List<TaskInfo> taskInfoList = taskDao.getTaskInfoList(param);
+        if(!CollectionUtils.isEmpty(taskInfoList)){
+            for (TaskInfo taskInfo:taskInfoList){
+                if(StringUtils.isNotBlank(taskInfo.getPositionCode())){
+                    taskInfo.setPositionName(getPositionName(taskInfo.getPositionCode()));
+                }
+                if(StringUtils.isNotBlank(taskInfo.getReceiverUserNo())){
+                    taskInfo.setReceiverUserName(getUserName(taskInfo.getReceiverUserNo()));
+                }
+                if(StringUtils.isNotBlank(taskInfo.getFeedbackUserNo())){
+                    taskInfo.setFeedbackUserName(getUserName(taskInfo.getFeedbackUserNo()));
+                }
+                if(taskInfo.getTaskType().intValue() == 1){
+                    taskInfo.setTaskTypeName("数据上报");
+                }else if(taskInfo.getTaskType().intValue() == 2){
+                    taskInfo.setTaskTypeName("日常调度任务");
+                }else {
+                    taskInfo.setTaskTypeName("侦测任务");
+                }
+                if(taskInfo.getState().intValue() == 1){
+                    taskInfo.setStateName("待认领");
+                }else if(taskInfo.getState().intValue() == 2){
+                    taskInfo.setStateName("已接受");
+                }else if(taskInfo.getState().intValue() == 3){
+                    taskInfo.setStateName("已拒绝");
+                }else {
+                    taskInfo.setStateName("已完成");
+                }
+            }
+        }
         return new PageInfo<>(taskInfoList);
     }
 
@@ -195,11 +331,72 @@ public class TaskService {
     }
 
     private String getUserName(String userNo){
-        UserEntity userEntity = userDao.selectUserById(Long.valueOf(userNo));
+        UserEntity userEntity = userDao.selectUserByUserNo(userNo);
         if(null != userEntity){
             return userEntity.getUserName();
         }
         return "";
+    }
+
+    public BaseResponse getTaskDetail(String id){
+        TaskInfo taskInfo = taskDao.getTaskDetail(id);
+        if(null != taskInfo){
+            if(StringUtils.isNotBlank(taskInfo.getPositionCode())){
+                taskInfo.setPositionName(getPositionName(taskInfo.getPositionCode()));
+            }
+            if(StringUtils.isNotBlank(taskInfo.getReceiverUserNo())){
+                taskInfo.setReceiverUserName(getUserName(taskInfo.getReceiverUserNo()));
+            }
+            if(StringUtils.isNotBlank(taskInfo.getFeedbackUserNo())){
+                taskInfo.setFeedbackUserName(getUserName(taskInfo.getFeedbackUserNo()));
+            }
+            if(taskInfo.getTaskType().intValue() == 1){
+                taskInfo.setTaskTypeName("数据上报");
+            }else if(taskInfo.getTaskType().intValue() == 2){
+                taskInfo.setTaskTypeName("日常调度任务");
+            }else {
+                taskInfo.setTaskTypeName("侦测任务");
+            }
+            if(taskInfo.getState().intValue() == 1){
+                taskInfo.setStateName("待认领");
+            }else if(taskInfo.getState().intValue() == 2){
+                taskInfo.setStateName("已接受");
+            }else if(taskInfo.getState().intValue() == 3){
+                taskInfo.setStateName("已拒绝");
+            }else {
+                taskInfo.setStateName("已完成");
+            }
+            return BaseResponse.ok(taskInfo);
+        }else {
+            return BaseResponse.fail("数据为空");
+        }
+    }
+
+    public BaseResponse saveTask(TaskInfo taskInfo){
+        Integer num = taskDao.saveTask(taskInfo);
+        if(num.intValue() >0){
+            return BaseResponse.ok("下发任务成功");
+        }else {
+            return BaseResponse.fail("下发任务失败");
+        }
+    }
+
+    public BaseResponse updateTask(TaskInfo taskInfo){
+        Integer num = taskDao.updateTask(taskInfo);
+        if(num.intValue() >0){
+            return BaseResponse.ok("更新任务信息成功");
+        }else {
+            return BaseResponse.fail("更新任务信息失败");
+        }
+    }
+
+    public BaseResponse deleteTask(String id){
+        Integer num = taskDao.deleteTask(id);
+        if(num.intValue() >0){
+            return BaseResponse.ok("删除任务成功");
+        }else {
+            return BaseResponse.fail("删除任务失败");
+        }
     }
 
 }

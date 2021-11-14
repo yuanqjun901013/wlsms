@@ -16,6 +16,7 @@ public class TaskInfo {
     private String content;
     private String feedbackContent;
     private Integer state;
+    private String stateName;
     private String receiverUserNo;
     private String receiverUserName;
     private String receiverTime;
@@ -23,6 +24,7 @@ public class TaskInfo {
     private String feedbackUserNo;
     private String feedbackUserName;
     private Integer taskType;
+    private String taskTypeName;
     private String positionCode;
     private String positionName;
 }

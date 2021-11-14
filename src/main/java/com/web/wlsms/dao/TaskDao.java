@@ -11,4 +11,12 @@ public interface TaskDao {
 
     List<TaskInfo> getTaskInfoList(Map<String, Object> param);
 
+    TaskInfo getTaskDetail(String id);
+
+    Integer saveTask(TaskInfo taskInfo);
+
+    Integer updateTask(TaskInfo taskInfo);
+
+    Integer deleteTask(String id);
+
 }

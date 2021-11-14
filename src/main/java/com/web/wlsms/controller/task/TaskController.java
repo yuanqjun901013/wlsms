@@ -1,17 +1,26 @@
 package com.web.wlsms.controller.task;
 
 import com.github.pagehelper.PageInfo;
+import com.web.wlsms.entity.TaskInfo;
+import com.web.wlsms.entity.TaskStateEntity;
+import com.web.wlsms.entity.TaskTypeEntity;
 import com.web.wlsms.request.SimpleRequest;
+import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.task.TaskService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -141,4 +150,110 @@ public class TaskController {
         }
         return resultMap;
     }
+
+    @RequestMapping("getTaskDetail")
+    @ResponseBody
+    public BaseResponse getTaskDetail(HttpServletRequest request,String id){
+        if(StringUtils.isBlank(id)){
+            return BaseResponse.fail("任务编码为空");
+        }
+        return taskService.getTaskDetail(id);
+    }
+
+
+    /**
+     * 保存下发任务
+     * @param request
+     * @param taskInfo
+     * @return
+     */
+    @RequestMapping("saveTask")
+    @ResponseBody
+    public BaseResponse saveTask(HttpServletRequest request, TaskInfo taskInfo){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        if(null == taskInfo){
+            return BaseResponse.fail("新增任务数据为空");
+        }
+        if(StringUtils.isBlank(taskInfo.getTitle()) || StringUtils.isBlank(taskInfo.getContent())){
+            return BaseResponse.fail("任务标题或内容为空");
+        }
+        if(null == taskInfo.getTaskType()){
+            return BaseResponse.fail("任务类型为空");
+        }
+        if(null == taskInfo.getPositionCode()){
+            return BaseResponse.fail("地址为空");
+        }
+        taskInfo.setUserNo(userNo);
+        return taskService.saveTask(taskInfo);
+    }
+
+
+    /**
+     * 编辑更新任务
+      * @param request
+     * @param taskInfo
+     * @return
+     */
+    @RequestMapping("updateTask")
+    @ResponseBody
+    public BaseResponse updateTask(HttpServletRequest request, TaskInfo taskInfo){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        if(null == taskInfo){
+            return BaseResponse.fail("更新数据为空");
+        }
+        if(StringUtils.isBlank(taskInfo.getTitle()) || StringUtils.isBlank(taskInfo.getContent())){
+            return BaseResponse.fail("任务标题或内容为空");
+        }
+        taskInfo.setUserNo(userNo);
+        return taskService.updateTask(taskInfo);
+    }
+
+
+    @RequestMapping("deleteTask")
+    @ResponseBody
+    public BaseResponse deleteTask(HttpServletRequest request, String id){
+        if(StringUtils.isBlank(id)){
+            return BaseResponse.fail("任务编码为空");
+        }
+        return taskService.deleteTask(id);
+    }
+
+    @RequestMapping("taskTypeList")
+    public List<TaskTypeEntity> taskTypeList(){
+        int num = 3;
+        String[] typeNameArr = new String[]{"上报数据","日常调度任务","侦控任务"};
+        List<TaskTypeEntity> typeList = new ArrayList<>();
+        for(int i = 0; i<num; i++) {
+            TaskTypeEntity taskType = new TaskTypeEntity();
+            taskType.setTaskType(i+1);
+            taskType.setTaskTypeName(typeNameArr[i]);
+            typeList.add(taskType);
+        }
+        if(!CollectionUtils.isEmpty(typeList)){
+            return typeList;
+        }else {
+            return new ArrayList<>();
+        }
+    }
+
+    @RequestMapping("taskStateList")
+    public List<TaskStateEntity> taskStateList(){
+        int num = 4;
+        String[] stateNameArr = new String[]{"待认领","已接受","已拒绝","已完成"};
+        List<TaskStateEntity> stateList = new ArrayList<>();
+        for(int i = 0; i<num; i++) {
+            TaskStateEntity state = new TaskStateEntity();
+            state.setState(i+1);
+            state.setStateName(stateNameArr[i]);
+            stateList.add(state);
+        }
+        if(!CollectionUtils.isEmpty(stateList)){
+            return stateList;
+        }else {
+            return new ArrayList<>();
+        }
+    }
+
 }

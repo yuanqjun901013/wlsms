@@ -4,10 +4,11 @@
 
 
     <!-- 我发起的任务-->
-    <select id="getTaskInfoList" resultType="com.web.wlsms.entity.TaskInfo" parameterType="String">
+    <select id="getTaskInfoList" resultType="com.web.wlsms.entity.TaskInfo" parameterType="java.util.HashMap">
         SELECT
         wt.id,
-        wt.user_no,
+        wt.user_no as userNo,
+        au.user_name as userName,
         DATE_FORMAT(wt.build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
         wt.title,
         wt.content,
@@ -54,4 +55,54 @@
         order by id desc
     </select>
 
+    <!-- 获取详情-->
+    <select id="getTaskDetail" parameterType="java.lang.String" resultType="com.web.wlsms.entity.TaskInfo">
+        SELECT
+            wt.id,
+            wt.user_no as userNo,
+            au.user_name as userName,
+            DATE_FORMAT(wt.build_time,'%Y-%m-%d %H:%i:%S') as buildTime,
+            wt.title,
+            wt.content,
+            wt.feedback_content as feedbackContent,
+            wt.state,
+            wt.receiver_user_no as receiverUserNo,
+            DATE_FORMAT(wt.receiver_time,'%Y-%m-%d %H:%i:%S') as receiverTime,
+            DATE_FORMAT(wt.feedback_time,'%Y-%m-%d %H:%i:%S') as feedbackTime,
+            wt.feedback_user_no as feedbackUserNo,
+            wt.task_type as taskType,
+            wt.position_code as positionCode,
+            DATE_FORMAT(wt.create_time,'%Y-%m-%d %H:%i:%S') as createTime ,
+            DATE_FORMAT(wt.edit_time,'%Y-%m-%d %H:%i:%S') as editTime
+        FROM wlsms_task wt
+                 left join admin_user au on wt.user_no = au.user_no
+        where wt.id = #{id}
+    </select>
+
+    <insert id="saveTask" parameterType="com.web.wlsms.entity.TaskInfo">
+        insert into wlsms_task (user_no, build_time, title, content, state, task_type, position_code, create_time, edit_time)
+        values (#{userNo}, now(), #{title}, #{content}, 1, #{taskType}, #{positionCode}, now(), now());
+    </insert>
+
+    <!-- 更新任务详情-->
+    <update id="updateTask" parameterType="com.web.wlsms.entity.TaskInfo">
+        update wlsms_task
+        <set>
+            edit_time = now(),
+            <if test="title !=null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content !=null and content != ''">
+                content = #{content},
+            </if>
+        </set>
+        <where>
+             id = #{id}
+             and state = 1
+        </where>
+    </update>
+
+    <delete id="deleteTask" parameterType="java.lang.String">
+        delete from wlsms_task where id = #{id} and state = 1
+    </delete>
 </mapper>
