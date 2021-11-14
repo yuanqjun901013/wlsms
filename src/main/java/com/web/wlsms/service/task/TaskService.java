@@ -417,4 +417,13 @@ public class TaskService {
         }
     }
 
+    public BaseResponse feedbackTask(TaskInfo taskInfo){
+        Integer num = taskDao.feedbackTask(taskInfo);
+        if(num.intValue() >0){
+            return BaseResponse.ok("反馈成功");
+        }else {
+            return BaseResponse.fail("反馈失败");
+        }
+    }
+
 }

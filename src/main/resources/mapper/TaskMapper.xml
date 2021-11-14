@@ -144,4 +144,24 @@
     </update>
 
 
+    <!-- 反馈任务-->
+    <update id="feedbackTask" parameterType="com.web.wlsms.entity.TaskInfo">
+        update wlsms_task
+        <set>
+            state = 4,
+            edit_time = now(),
+            <if test="feedbackUserNo !=null and feedbackUserNo != ''">
+                feedback_user_no = #{feedbackUserNo},
+                feedback_time = now(),
+            </if>
+            <if test="feedbackContent !=null and feedbackContent != ''">
+                feedback_content = #{feedbackContent}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+            and state = 2
+        </where>
+    </update>
+
 </mapper>

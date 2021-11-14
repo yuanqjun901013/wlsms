@@ -202,6 +202,7 @@
                         $("#receiverTime").textbox('setValue', result.data.receiverTime);
                         $("#feedbackUserName").textbox('setValue', result.data.feedbackUserName);
                         $("#feedbackTime").textbox('setValue', result.data.feedbackTime);
+                        $("#feedbackContent").textbox('setValue', result.data.feedbackContent);
                     }else {
                         $.messager.alert("消息提醒",result.msg);
                     }
@@ -241,6 +242,7 @@
                         $("#receiverTime").textbox('setValue', result.data.receiverTime);
                         $("#feedbackUserName").textbox('setValue', result.data.feedbackUserName);
                         $("#feedbackTime").textbox('setValue', result.data.feedbackTime);
+                        $("#feedbackContent").textbox('setValue', result.data.feedbackContent);
                     }else {
                         $.messager.alert("消息提醒",result.msg);
                     }
@@ -426,6 +428,9 @@
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" id="feedbackUserName" readonly="readonly" label="反馈人:" labelPosition="left" style="width:230px;">
             <input class="easyui-textbox" id="feedbackTime" readonly="readonly" label="反馈时间:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" id="feedbackContent" multiline="true"  readonly="readonly" label="反馈内容:" labelPosition="left" style="width:400px;height: 60px">
         </div>
     </form>
 </div>

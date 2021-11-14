@@ -23,4 +23,6 @@ public interface TaskDao {
 
     Integer offReceiverTask(TaskInfo taskInfo);
 
+    Integer feedbackTask(TaskInfo taskInfo);
+
 }

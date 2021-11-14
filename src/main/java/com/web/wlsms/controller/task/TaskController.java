@@ -266,6 +266,27 @@ public class TaskController {
     }
 
 
+    /**
+     * 编辑更新任务
+     * @param request
+     * @param taskInfo
+     * @return
+     */
+    @RequestMapping("feedbackTask")
+    @ResponseBody
+    public BaseResponse feedbackTask(HttpServletRequest request, TaskInfo taskInfo){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        if(null == taskInfo){
+            return BaseResponse.fail("反馈数据为空");
+        }
+        if(StringUtils.isBlank(taskInfo.getFeedbackContent())){
+            return BaseResponse.fail("反馈内容为空");
+        }
+        taskInfo.setFeedbackUserNo(userNo);
+        return taskService.feedbackTask(taskInfo);
+    }
+
     @RequestMapping("taskTypeList")
     public List<TaskTypeEntity> taskTypeList(){
         int num = 3;

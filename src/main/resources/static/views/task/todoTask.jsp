@@ -176,9 +176,9 @@
             $('#taskDetail').dialog('open').dialog('center').dialog('setTitle','任务详情');
             $('#fmDetail').form('clear');
             document.getElementById("id").style.display="none";//隐藏
-            $("#title").textbox('readonly',true);
-            $("#content").textbox('readonly',true);
+            $("#feedbackContent").textbox('readonly',true);
             document.getElementById("saveButtons").style.display="none";//隐藏
+            document.getElementById("feedbackDiv").style.display="";//显示
 
             $.ajax({
                 type: 'POST',
@@ -203,6 +203,7 @@
                         $("#receiverTime").textbox('setValue', result.data.receiverTime);
                         $("#feedbackUserName").textbox('setValue', result.data.feedbackUserName);
                         $("#feedbackTime").textbox('setValue', result.data.feedbackTime);
+                        $("#feedbackContent").textbox('setValue', result.data.feedbackContent);
                     }else {
                         $.messager.alert("消息提醒",result.msg);
                     }
@@ -217,8 +218,9 @@
             $('#fmDetail').form('clear');
             document.getElementById("id").style.display="none";//隐藏
             document.getElementById("saveButtons").style.display="";//展示
-            $("#title").textbox('readonly',false);
-            $("#content").textbox('readonly',false);
+            document.getElementById("feedbackDiv").style.display="none";//隐藏
+            $("#feedbackContent").textbox('readonly',false);
+
             $.ajax({
                 type: 'POST',
                 async: false,
@@ -242,6 +244,7 @@
                         $("#receiverTime").textbox('setValue', result.data.receiverTime);
                         $("#feedbackUserName").textbox('setValue', result.data.feedbackUserName);
                         $("#feedbackTime").textbox('setValue', result.data.feedbackTime);
+                        $("#feedbackContent").textbox('setValue', result.data.feedbackContent);
                     }else {
                         $.messager.alert("消息提醒",result.msg);
                     }
@@ -274,7 +277,32 @@
                     }
                 }
             });
+        }
 
+        //反馈任务
+        function feedbackTask(){
+            var id = $("#id").textbox('getValue');
+            var feedbackContent = $("#feedbackContent").textbox('getValue');
+            $.ajax({
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                url: '/task/feedbackTask',//反馈任务
+                data:{
+                    "id":id,
+                    "feedbackContent":feedbackContent
+                },
+                success: function(result){
+                    if(result.success){
+                        $.messager.alert("消息提醒", result.data, "info",function (){
+                            $('#taskDetail').dialog('close');        // close the dialog
+                            $('#getTaskList').datagrid('reload');    // reload the user data
+                        });
+                    }else {
+                        $.messager.alert("消息提醒",result.msg);
+                    }
+                }
+            });
         }
 
         function offReceiverTask(id){
@@ -425,14 +453,17 @@
             <input class="easyui-textbox" id="receiverUserName" readonly="readonly" label="认领人:" labelPosition="left" style="width:230px;">
             <input class="easyui-textbox" id="receiverTime" readonly="readonly" label="认领时间:" labelPosition="left" style="width:230px;">
         </div>
-        <div style="margin-bottom:15px">
+        <div id = "feedbackDiv" style="margin-bottom:15px">
             <input class="easyui-textbox" id="feedbackUserName" readonly="readonly" label="反馈人:" labelPosition="left" style="width:230px;">
             <input class="easyui-textbox" id="feedbackTime" readonly="readonly" label="反馈时间:" labelPosition="left" style="width:230px;">
+        </div>
+        <div style="margin-bottom:15px">
+            <input class="easyui-textbox" id="feedbackContent" multiline="true"  readonly="readonly" label="反馈内容:" labelPosition="left" style="width:400px;height: 60px">
         </div>
     </form>
 </div>
 <div id="detail-buttons">
-    <a href="javascript:void(0)" id="saveButtons" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateTask()" style="width:90px">保存</a>
+    <a href="javascript:void(0)" id="saveButtons" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="feedbackTask()" style="width:90px">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#taskDetail').dialog('close')" style="width:90px">取消</a>
 </div>
 </body>
