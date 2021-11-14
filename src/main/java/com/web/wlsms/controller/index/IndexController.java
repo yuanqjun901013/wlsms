@@ -105,6 +105,20 @@ public class IndexController {
         return "views/index/userModalPage";
     }
 
+
+    @RequestMapping("waitingTask")
+    public String waitingTask(HttpServletRequest request) {
+        commonSession(request);
+        return "views/task/waitingTask";
+    }
+    @RequestMapping("todoTask")
+    public String todoTask(HttpServletRequest request) {
+        commonSession(request);
+        return "views/task/todoTask";
+    }
+
+
+
     /**
      * 加载修改密码Modal弹窗页
      * @param request

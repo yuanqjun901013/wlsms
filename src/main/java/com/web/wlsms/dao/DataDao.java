@@ -32,6 +32,7 @@ public interface DataDao {
    Long machineCount();
    Long dataCount();
    Long dataNoneCount();
+   Long taskCount();
    int insertBatchData(List<DataEntity> dataEntityList);
    int updateManualState(String proCode);
    int updateMachineState(String proCode);

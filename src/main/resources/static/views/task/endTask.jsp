@@ -62,7 +62,7 @@
                     {field:'id',title:'任务编号',width:80,align:'center'},
                     {field:'title',title:'任务标题',formatter:function(value,row,index)
                         {
-                            return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>"+row.title+"</a>";
+                            return "<a href='javascript:void(0)' style='text-decoration:none;' onclick='getDetail("+row.id+")'>"+row.title+"</a>";
                         },
                         width:200,align:'center'},
                     {field:'userName',title:'任务发起人',width:100,align:'center'},
@@ -76,7 +76,7 @@
                     {field:'stateName',title:'任务状态',width:100,align:'center'},
                     {field:'todo',title:'操作',formatter:function(value,row,index)
                         {
-                            return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>&nbsp;&nbsp;&nbsp;";
+                            return "<a href='javascript:void(0)' style='text-decoration:none;' onclick='getDetail("+row.id+")'>详情</a>&nbsp;&nbsp;&nbsp;";
                         },
                         width:150,align:'center'}
                 ]]

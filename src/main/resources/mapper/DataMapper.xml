@@ -508,6 +508,11 @@
         select count(*) as count from wlsms_data_new where title_os = '未融合'
     </select>
 
+    <!--任务数-->
+    <select id="taskCount" resultType="java.lang.Long">
+        select count(*) as count from wlsms_task
+    </select>
+
     <update id="updateManualState" parameterType="java.lang.String">
       update wlsms_manual_data set state = 1 where pro_code = #{proCode}
     </update>

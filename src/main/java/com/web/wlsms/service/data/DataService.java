@@ -312,6 +312,9 @@ public class DataService {
 		Long operationCount = dataDao.operationCount();
 		AllParamEntity operation = getBat("运行记录",operationCount);
 		cotDataList.add(operation);
+		Long taskCount = dataDao.taskCount();
+		AllParamEntity task = getBat("任务数",taskCount);
+		cotDataList.add(task);
 		return cotDataList;
 	}
 

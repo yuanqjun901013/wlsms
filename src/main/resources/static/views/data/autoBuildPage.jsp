@@ -64,7 +64,7 @@
                     {field:'id',title:'编号',width:80,align:'center'},
                     {field:'详情',title:'操作',formatter:function(value,row,index)
                         {
-                            return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>";
+                            return "<a href='javascript:void(0)' style='text-decoration:none;' onclick='getDetail("+row.id+")'>详情</a>";
                         },
                         width:100,align:'center'},
                     {field:'remark',title:'策略比对说明',width:250,align:'center'},
