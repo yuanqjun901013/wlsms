@@ -54,9 +54,9 @@
                 clientPaging: false,
                 nowrap:false,//自动换行
                 toolbar:'#toolbar',
-                singleSelect:false,
-                // checkOnSelect:true,
-                // selectOnCheck:true,
+                singleSelect:true,
+                checkOnSelect:false,
+                selectOnCheck:false,
                 columns:[[
                     // {field:'ck',checkbox:true,align:'center'},
                     {field:'id',title:'任务编号',width:80,align:'center'},
@@ -78,7 +78,7 @@
                         {
                             return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>&nbsp;&nbsp;&nbsp;" +
                                 "<a href='javascript:void(0)' onclick='offReceiverTask("+row.id+")'>取消认领</a>&nbsp;&nbsp;&nbsp;"+
-                                "<a href='javascript:void(0)' onclick='editTask("+row.id+")'>办理</a>&nbsp;&nbsp;&nbsp;";
+                                "<a href='javascript:void(0)' onclick='editTask("+row.id+")'>办理</a>";
                         },
                         width:200,align:'center'}
                 ]]
@@ -178,6 +178,7 @@
             document.getElementById("id").style.display="none";//隐藏
             $("#feedbackContent").textbox('readonly',true);
             document.getElementById("saveButtons").style.display="none";//隐藏
+            document.getElementById("rejectButtons").style.display="none";//隐藏
             document.getElementById("feedbackDiv").style.display="";//显示
 
             $.ajax({
@@ -218,6 +219,7 @@
             $('#fmDetail').form('clear');
             document.getElementById("id").style.display="none";//隐藏
             document.getElementById("saveButtons").style.display="";//展示
+            document.getElementById("rejectButtons").style.display="";//展示
             document.getElementById("feedbackDiv").style.display="none";//隐藏
             $("#feedbackContent").textbox('readonly',false);
 
@@ -304,6 +306,31 @@
                 }
             });
         }
+        //拒绝任务
+        function rejectTask(){
+            var id = $("#id").textbox('getValue');
+            var feedbackContent = $("#feedbackContent").textbox('getValue');
+            $.ajax({
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                url: '/task/rejectTask',//拒绝任务
+                data:{
+                    "id":id,
+                    "feedbackContent":feedbackContent
+                },
+                success: function(result){
+                    if(result.success){
+                        $.messager.alert("消息提醒", result.data, "info",function (){
+                            $('#taskDetail').dialog('close');        // close the dialog
+                            $('#getTaskList').datagrid('reload');    // reload the user data
+                        });
+                    }else {
+                        $.messager.alert("消息提醒",result.msg);
+                    }
+                }
+            });
+        }
 
         function offReceiverTask(id){
             $.ajax({
@@ -371,9 +398,9 @@
                 clientPaging: false,
                 nowrap:false,//自动换行
                 toolbar:'#toolbar',
-                singleSelect:false,
-                // checkOnSelect:true,
-                // selectOnCheck:true,
+                singleSelect:true,
+                checkOnSelect:false,
+                selectOnCheck:false,
                 columns:[[
                     // {field:'ck',checkbox:true,align:'center'},
                     {field:'id',title:'任务编号',width:80,align:'center'},
@@ -395,7 +422,7 @@
                         {
                             return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>&nbsp;&nbsp;&nbsp;" +
                                 "<a href='javascript:void(0)' onclick='offReceiverTask("+row.id+")'>取消认领</a>&nbsp;&nbsp;&nbsp;"+
-                                "<a href='javascript:void(0)' onclick='editTask("+row.id+")'>办理</a>&nbsp;&nbsp;&nbsp;";
+                                "<a href='javascript:void(0)' onclick='editTask("+row.id+")'>办理</a>";
                         },
                         width:150,align:'center'}
                 ]]
@@ -406,7 +433,7 @@
 </div>
 <div id="taskAdd" class="easyui-dialog" style="width:600px; height: 500px" data-options="closed:true,modal:true,border:'thin',buttons:'#add-buttons'">
     <form id="fmAdd" method="post" novalidate style="margin:0;padding:20px 50px">
-        <h3>任务详情</h3>
+        <h3>下发任务</h3>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" data-options="required:true" name="title" label="任务标题:" labelPosition="left" style="width:400px;">
         </div>
@@ -463,7 +490,8 @@
     </form>
 </div>
 <div id="detail-buttons">
-    <a href="javascript:void(0)" id="saveButtons" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="feedbackTask()" style="width:90px">保存</a>
+    <a href="javascript:void(0)" id="saveButtons" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="feedbackTask()" style="width:90px">完成反馈</a>
+    <a href="javascript:void(0)" id="rejectButtons" class="easyui-linkbutton c6" iconCls="icon-no" onclick="rejectTask()" style="width:90px">拒绝任务</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#taskDetail').dialog('close')" style="width:90px">取消</a>
 </div>
 </body>

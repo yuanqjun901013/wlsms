@@ -54,9 +54,9 @@
                 clientPaging: false,
                 nowrap:false,//自动换行
                 toolbar:'#toolbar',
-                singleSelect:false,
-                // checkOnSelect:true,
-                // selectOnCheck:true,
+                singleSelect:true,
+                checkOnSelect:false,
+                selectOnCheck:false,
                 columns:[[
                     // {field:'ck',checkbox:true,align:'center'},
                     {field:'id',title:'任务编号',width:80,align:'center'},
@@ -344,9 +344,9 @@
                 clientPaging: false,
                 nowrap:false,//自动换行
                 toolbar:'#toolbar',
-                singleSelect:false,
-                // checkOnSelect:true,
-                // selectOnCheck:true,
+                singleSelect:true,
+                checkOnSelect:false,
+                selectOnCheck:false,
                 columns:[[
                     // {field:'ck',checkbox:true,align:'center'},
                     {field:'id',title:'任务编号',width:80,align:'center'},
@@ -378,7 +378,7 @@
 </div>
 <div id="taskAdd" class="easyui-dialog" style="width:600px; height: 500px" data-options="closed:true,modal:true,border:'thin',buttons:'#add-buttons'">
     <form id="fmAdd" method="post" novalidate style="margin:0;padding:20px 50px">
-        <h3>任务详情</h3>
+        <h3>下发任务</h3>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" data-options="required:true" name="title" label="任务标题:" labelPosition="left" style="width:400px;">
         </div>

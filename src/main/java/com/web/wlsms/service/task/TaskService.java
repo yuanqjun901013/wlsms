@@ -224,9 +224,6 @@ public class TaskService {
         if(null != request.getTaskType()){
             param.put("taskType", request.getTaskType());
         }
-        if(null != request.getState()){
-            param.put("state", request.getState());
-        }
         PageHelper.startPage(request.getPage(), request.getRows());
         List<TaskInfo> taskInfoList = taskDao.getTaskInfoList(param);
         if(!CollectionUtils.isEmpty(taskInfoList)){
@@ -423,6 +420,30 @@ public class TaskService {
             return BaseResponse.ok("反馈成功");
         }else {
             return BaseResponse.fail("反馈失败");
+        }
+    }
+
+    public BaseResponse rejectTask(TaskInfo taskInfo){
+        Integer num = taskDao.rejectTask(taskInfo);
+        if(num.intValue() >0){
+            return BaseResponse.ok("拒绝成功");
+        }else {
+            return BaseResponse.fail("拒绝失败");
+        }
+    }
+
+
+    /**
+     * 批量删除任务
+     * @param ids
+     * @return
+     */
+    public BaseResponse deleteBatch(List<String> ids){
+        Integer num = taskDao.deleteBatch(ids);
+        if(num.intValue() >0){
+            return BaseResponse.ok("删除数据成功");
+        }else {
+            return BaseResponse.fail("删除失败");
         }
     }
 

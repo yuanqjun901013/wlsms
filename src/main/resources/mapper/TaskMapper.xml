@@ -50,7 +50,7 @@
             and wt.task_type = #{taskType}
         </if>
         <if test="stateStart != null">
-            and wt.state <![CDATA[ > ]]> #{state}
+            and wt.state <![CDATA[ > ]]> #{stateStart}
         </if>
         order by id desc
     </select>
@@ -164,4 +164,34 @@
         </where>
     </update>
 
+    <!-- 拒绝任务-->
+    <update id="rejectTask" parameterType="com.web.wlsms.entity.TaskInfo">
+        update wlsms_task
+        <set>
+            state = 3,
+            edit_time = now(),
+            <if test="feedbackUserNo !=null and feedbackUserNo != ''">
+                feedback_user_no = #{feedbackUserNo},
+                feedback_time = now(),
+            </if>
+            <if test="feedbackContent !=null and feedbackContent != ''">
+                feedback_content = #{feedbackContent}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+            and state = 2
+        </where>
+    </update>
+
+
+    <delete id="deleteBatch">
+        delete from wlsms_task
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")" >
+                #{id}
+            </foreach>
+        </where>
+    </delete>
 </mapper>

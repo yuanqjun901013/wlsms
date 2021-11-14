@@ -25,4 +25,8 @@ public interface TaskDao {
 
     Integer feedbackTask(TaskInfo taskInfo);
 
+    Integer rejectTask(TaskInfo taskInfo);
+
+    Integer deleteBatch(List<String> ids);
+
 }

@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/task")
@@ -160,6 +157,19 @@ public class TaskController {
         return taskService.getTaskDetail(id);
     }
 
+    /**
+     * 管理员批量删除任务
+     * @param
+     * @return
+     */
+    @RequestMapping("deleteBatch")
+    public BaseResponse deleteBatch(String ids){
+        if(null == ids || StringUtils.isBlank(ids)){
+            return BaseResponse.fail("入参有误，请重试");
+        }
+        List<String> idsArr = Arrays.asList(ids.split(","));
+        return taskService.deleteBatch(idsArr);
+    }
 
     /**
      * 保存下发任务
@@ -267,7 +277,7 @@ public class TaskController {
 
 
     /**
-     * 编辑更新任务
+     * 完成任务并反馈
      * @param request
      * @param taskInfo
      * @return
@@ -285,6 +295,27 @@ public class TaskController {
         }
         taskInfo.setFeedbackUserNo(userNo);
         return taskService.feedbackTask(taskInfo);
+    }
+
+    /**
+     * 拒绝任务
+     * @param request
+     * @param taskInfo
+     * @return
+     */
+    @RequestMapping("rejectTask")
+    @ResponseBody
+    public BaseResponse rejectTask(HttpServletRequest request, TaskInfo taskInfo){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        if(null == taskInfo){
+            return BaseResponse.fail("反馈数据为空");
+        }
+        if(StringUtils.isBlank(taskInfo.getFeedbackContent())){
+            return BaseResponse.fail("反馈内容为空");
+        }
+        taskInfo.setFeedbackUserNo(userNo);
+        return taskService.rejectTask(taskInfo);
     }
 
     @RequestMapping("taskTypeList")

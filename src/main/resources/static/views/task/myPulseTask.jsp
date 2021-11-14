@@ -58,9 +58,9 @@
                 clientPaging: false,
                 nowrap:false,//自动换行
                 toolbar:'#toolbar',
-                singleSelect:false,
-                // checkOnSelect:true,
-                // selectOnCheck:true,
+                singleSelect:true,
+                checkOnSelect:false,
+                selectOnCheck:false,
                 columns:[[
                     // {field:'ck',checkbox:true,align:'center'},
                     {field:'id',title:'任务编号',width:80,align:'center'},
@@ -332,9 +332,9 @@
                 clientPaging: false,
                 nowrap:false,//自动换行
                 toolbar:'#toolbar',
-                singleSelect:false,
-                // checkOnSelect:true,
-                // selectOnCheck:true,
+                singleSelect:true,
+                checkOnSelect:false,
+                selectOnCheck:false,
                 columns:[[
                     // {field:'ck',checkbox:true,align:'center'},
                     {field:'id',title:'任务编号',width:80,align:'center'},
