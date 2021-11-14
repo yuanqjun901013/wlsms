@@ -399,4 +399,13 @@ public class TaskService {
         }
     }
 
+    public BaseResponse receiverTask(TaskInfo taskInfo){
+        Integer num = taskDao.receiverTask(taskInfo);
+        if(num.intValue() >0){
+            return BaseResponse.ok("认领任务成功");
+        }else {
+            return BaseResponse.fail("认领任务失败");
+        }
+    }
+
 }

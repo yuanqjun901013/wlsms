@@ -88,6 +88,7 @@
     <update id="updateTask" parameterType="com.web.wlsms.entity.TaskInfo">
         update wlsms_task
         <set>
+            build_time = now(),
             edit_time = now(),
             <if test="title !=null and title != ''">
                 title = #{title},
@@ -105,4 +106,23 @@
     <delete id="deleteTask" parameterType="java.lang.String">
         delete from wlsms_task where id = #{id} and state = 1
     </delete>
+
+
+    <!-- 认领任务-->
+    <update id="receiverTask" parameterType="com.web.wlsms.entity.TaskInfo">
+        update wlsms_task
+        <set>
+            state = 2,
+            edit_time = now(),
+            <if test="receiverUserNo !=null and receiverUserNo != ''">
+                receiver_user_no = #{receiverUserNo},
+                receiver_time = now(),
+            </if>
+        </set>
+        <where>
+            id = #{id}
+            and state = 1
+        </where>
+    </update>
+
 </mapper>

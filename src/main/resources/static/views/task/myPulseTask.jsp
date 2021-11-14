@@ -23,7 +23,7 @@
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addTask()">下发任务</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true" onclick="getClear()">清空</a>
             <input id="taskType" name = "taskType" label="任务类型:" style="width:200px;">
-            <input id="state" name="state" label="任务类型:" style="width:200px;">
+            <input id="state" name="state" label="任务状态:" style="width:200px;">
             <input class="easyui-datebox" id="startTime" label="开始日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
             <input class="easyui-datebox" id="endTime" label="结束日期:" labelPosition="left" data-options="formatter:dateFormatter,parser:dateParser" style="width:190px;">
             <input class="easyui-textbox" id="queryBt" data-options="buttonText:'查询',buttonAlign:'right',buttonIcon:'icon-search',prompt:'输入关键字...'" style="width:200px;height:32px;">
@@ -83,7 +83,7 @@
                             if(row.state == 1){
                                 return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>&nbsp;&nbsp;&nbsp;" +
                                     "<a href='javascript:void(0)' onclick='editTask("+row.id+")'>更新</a>&nbsp;&nbsp;&nbsp;" +
-                                    "<a href='javascript:void(0)' onclick='deleteTask("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
+                                    "<a href='javascript:void(0)' onclick='deleteTask("+row.id+")'>删除</a>";
                             }else {
                                 return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>";
                             }
@@ -355,7 +355,7 @@
                             if(row.state == 1){
                                 return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>&nbsp;&nbsp;&nbsp;" +
                                     "<a href='javascript:void(0)' onclick='editTask("+row.id+")'>更新</a>&nbsp;&nbsp;&nbsp;" +
-                                    "<a href='javascript:void(0)' onclick='deleteTask("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
+                                    "<a href='javascript:void(0)' onclick='deleteTask("+row.id+")'>删除</a>";
                             }else {
                                 return "<a href='javascript:void(0)' onclick='getDetail("+row.id+")'>详情</a>";
                             }

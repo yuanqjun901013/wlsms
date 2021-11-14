@@ -19,4 +19,6 @@ public interface TaskDao {
 
     Integer deleteTask(String id);
 
+    Integer receiverTask(TaskInfo taskInfo);
+
 }

@@ -61,7 +61,7 @@ public class TaskController {
      * @return
      */
     @RequestMapping("/getWaitingTask")
-    public Map<String,Object> getWaitingTask(SimpleRequest params, HttpServletRequest request) {
+    public Map<String,Object> getWaitingTask(HttpServletRequest request, SimpleRequest params) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         params.setUserNo(userNo);
@@ -211,6 +211,12 @@ public class TaskController {
     }
 
 
+    /**
+     * 删除任务
+     * @param request
+     * @param id
+     * @return
+     */
     @RequestMapping("deleteTask")
     @ResponseBody
     public BaseResponse deleteTask(HttpServletRequest request, String id){
@@ -219,6 +225,26 @@ public class TaskController {
         }
         return taskService.deleteTask(id);
     }
+    /**
+     * 认领任务
+     * @param request
+     * @param id
+     * @return
+     */
+    @RequestMapping("receiverTask")
+    @ResponseBody
+    public BaseResponse receiverTask(HttpServletRequest request, String id){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        if(StringUtils.isBlank(id)){
+            return BaseResponse.fail("任务编码为空");
+        }
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setReceiverUserNo(userNo);
+        taskInfo.setId(Long.valueOf(id));
+        return taskService.receiverTask(taskInfo);
+    }
+
 
     @RequestMapping("taskTypeList")
     public List<TaskTypeEntity> taskTypeList(){
