@@ -19,10 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("DataBuildNewService")
@@ -64,18 +62,23 @@ public class DataBuildNewService {
 
                 param.put("endTime",request.getEndTime());
             }
-            List<MachineModel> list = dataBuildNewDao.getManualList(param);
-            if(CollectionUtils.isNotEmpty(list) && list.size() > 0){
-                for (MachineModel manualModel:list){
-                    PositionEntity positionEntity = positionService.getPositionInfoById(manualModel.getPositionCode());
-                    if(null != positionEntity) {
-                        manualModel.setPositionName(positionEntity.getPositionName());
-                    }
-                    if(StringUtils.isNotBlank(manualModel.getMlName())){
-                        manualModel.setMlName(manualModel.getMlName()+"'");
-                    }
-                }
+            if(StringUtils.isBlank(request.getQueryBt()) && StringUtils.isBlank(request.getStartTime()) && StringUtils.isBlank(request.getEndTime())){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String nowDate = sdf.format(new Date());
+                param.put("nowDate",nowDate);
             }
+            List<MachineModel> list = dataBuildNewDao.getManualList(param);
+//            if(CollectionUtils.isNotEmpty(list) && list.size() > 0){
+//                for (MachineModel manualModel:list){
+////                    PositionEntity positionEntity = positionService.getPositionInfoById(manualModel.getPositionCode());
+////                    if(null != positionEntity) {
+////                        manualModel.setPositionName(positionEntity.getPositionName());
+////                    }
+//                    if(StringUtils.isNotBlank(manualModel.getMlName())){
+//                        manualModel.setMlName(manualModel.getMlName()+"@");
+//                    }
+//                }
+//            }
             return new PageInfo<>(list);
         }catch (Exception e){
             return new PageInfo();
@@ -96,18 +99,23 @@ public class DataBuildNewService {
 
                 param.put("endTime", request.getEndTime());
             }
-            List<MachineModel> list = dataBuildNewDao.getMachineList(param);
-            if(CollectionUtils.isNotEmpty(list) && list.size() > 0){
-                for (MachineModel machineModel:list){
-                    PositionEntity positionEntity = positionService.getPositionInfoById(machineModel.getPositionCode());
-                    if(null != positionEntity) {
-                        machineModel.setPositionName(positionEntity.getPositionName());
-                    }
-                    if(StringUtils.isNotBlank(machineModel.getMlName())){
-                        machineModel.setMlName(machineModel.getMlName()+"'");
-                    }
-                }
+            if(StringUtils.isBlank(request.getQueryBt()) && StringUtils.isBlank(request.getStartTime()) && StringUtils.isBlank(request.getEndTime())){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String nowDate = sdf.format(new Date());
+                param.put("nowDate",nowDate);
             }
+            List<MachineModel> list = dataBuildNewDao.getMachineList(param);
+//            if(CollectionUtils.isNotEmpty(list) && list.size() > 0){
+//                for (MachineModel machineModel:list){
+////                    PositionEntity positionEntity = positionService.getPositionInfoById(machineModel.getPositionCode());
+////                    if(null != positionEntity) {
+////                        machineModel.setPositionName(positionEntity.getPositionName());
+////                    }
+//                    if(StringUtils.isNotBlank(machineModel.getMlName())){
+//                        machineModel.setMlName(machineModel.getMlName()+"@");
+//                    }
+//                }
+//            }
             return new PageInfo<>(list);
         }catch (Exception e){
             return new PageInfo();
@@ -286,6 +294,9 @@ public class DataBuildNewService {
         Boolean pl = false;
         Boolean msl = false;
         //处理数据
+        try {
+
+
         for(MachineModel manualModel:manualModels){//人工数据循环体
             for(MachineModel machineModel:machineModels){//机器数据循环体
                 MachineModel autoData = new MachineModel();//汇总数据
@@ -389,13 +400,13 @@ public class DataBuildNewService {
             MessageEntity messageEntity = new MessageEntity();
             messageEntity.setUserNo(remark + "校验底数");
             messageEntity.setTitle(remark+"校验人工底数出现未匹配的底数");
-            messageEntity.setContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+collectMachine.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
+            messageEntity.setContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+machineModels.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
             messageEntity.setOperationType(2);
             messageService.insertMessage(messageEntity);
             //生成一条告警保存到告警表
             AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
             alarmDataEntity.setAlarmTitle("人工底数融合未匹配告警");
-            alarmDataEntity.setAlarmContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+collectMachine.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
+            alarmDataEntity.setAlarmContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+machineModels.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
             alarmService.insertAlarmData(alarmDataEntity);
         }
         if(CollectionUtils.isNotEmpty(collectMachine)){
@@ -410,16 +421,19 @@ public class DataBuildNewService {
             MessageEntity messageEntity = new MessageEntity();
             messageEntity.setUserNo(remark + "校验底数");
             messageEntity.setTitle(remark+"校验机器底数出现未匹配的底数");
-            messageEntity.setContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+collectManual.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
+            messageEntity.setContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+manualModels.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
             messageEntity.setOperationType(2);
             messageService.insertMessage(messageEntity);
             //生成一条告警保存到告警表
             AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
             alarmDataEntity.setAlarmTitle("机器底数融合未匹配告警");
-            alarmDataEntity.setAlarmContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+collectManual.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
+            alarmDataEntity.setAlarmContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+manualModels.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
             alarmService.insertAlarmData(alarmDataEntity);
         }
         if(0 == dataBuildNewDao.insertAutoDatas(autoDataEntities)){
+            throw new RuntimeException();
+        }
+        }catch (Exception e){
             throw new RuntimeException();
         }
 
@@ -493,17 +507,17 @@ public class DataBuildNewService {
                 param.put("titleOs", request.getTitleOs());
             }
             List<MachineModel> list = dataBuildNewDao.getAutoDataList(param);
-            if(CollectionUtils.isNotEmpty(list)){
-                for(MachineModel autoDataEntity:list){
-                    if(StringUtils.isNotBlank(autoDataEntity.getMlName())){
-                        autoDataEntity.setMlName(autoDataEntity.getMlName()+"'");
-                        PositionEntity positionEntity = positionService.getPositionInfoById(autoDataEntity.getPositionCode());
-                        if(null != positionEntity) {
-                            autoDataEntity.setPositionName(positionEntity.getPositionName());
-                        }
-                    }
-                }
-            }
+//            if(CollectionUtils.isNotEmpty(list)){
+//                for(MachineModel autoDataEntity:list){
+//                    if(StringUtils.isNotBlank(autoDataEntity.getMlName())){
+//                        autoDataEntity.setMlName(autoDataEntity.getMlName()+"@");
+////                        PositionEntity positionEntity = positionService.getPositionInfoById(autoDataEntity.getPositionCode());
+////                        if(null != positionEntity) {
+////                            autoDataEntity.setPositionName(positionEntity.getPositionName());
+////                        }
+//                    }
+//                }
+//            }
             return new PageInfo<>(list);
         }catch (Exception e){
             return new PageInfo();

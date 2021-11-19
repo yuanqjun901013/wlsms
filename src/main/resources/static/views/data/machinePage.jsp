@@ -17,10 +17,10 @@
         })
 
         //定时刷新页面
-        setInterval(function() {
-            // show();//暂不用
-            getMachineList();
-        }, 9000);
+        // setInterval(function() {
+        //     // show();//暂不用
+        //     getMachineList();
+        // }, 9000);
     </SCRIPT>
 </head>
 
@@ -70,7 +70,7 @@
                 fitColumns:false,
                 striped:true,
                 pagination:true,
-                rownumbers:true,
+                rownumbers:false,
                 remoteFilter: true,
                 clientPaging: false,
                 nowrap:false,//自动换行

@@ -18,12 +18,12 @@
             getTodoTaskList();
         })
         //定时刷新页面
-        setInterval(function() {
-            // show();//暂不用
-            getLoad();
-            getWaitingTaskList();
-            getTodoTaskList();
-        }, 9000);
+        // setInterval(function() {
+        //     // show();//暂不用
+        //     getLoad();
+        //     getWaitingTaskList();
+        //     getTodoTaskList();
+        // }, 15000);
     </SCRIPT>
 </head>
 <body>
@@ -54,7 +54,7 @@
     </div>
     <div data-options="region:'south',split:false,collapsible:false" style="height:400px;">
         <div class="easyui-layout" data-options="fit:true">
-            <div data-options="title:'快捷操作区',region:'west',split:false,collapsible:false" style="width:10%;">
+            <div data-options="title:'快捷操作区',region:'west',split:false,collapsible:false" style="width:12%;">
                 <table data-options="split:false,fit:true" style="width:100%;height: 100%" valign="middle">
                     <tr align="center" valign="middle">
                         <td data-options="split:false,fit:true" valign="middle" align="center">
@@ -73,7 +73,7 @@
                     </tr>
                 </table>
             </div>
-            <div data-options="title:'任务待认领',region:'center',split:false" style="width:40%">
+            <div data-options="title:'任务待认领',region:'center',split:false" style="width:43%">
                 <div id="getWaitingTaskList" style="width:100%" data-options="region:'center',split:true"></div>
                 <br>
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #843534"><h3>详细操作请致:组网协同>任务管理>待认领</h3></span></div>
@@ -83,7 +83,7 @@
                 -->
                 <br>
             </div>
-            <div data-options="title:'任务反馈',region:'east',split:false,collapsible:false" style="width:50%;">
+            <div data-options="title:'任务反馈',region:'east',split:false,collapsible:false" style="width:45%;">
                 <div id="getTodoTaskList" style="width:100%" data-options="region:'center',split:true"></div>
                 <br>
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #843534"><h3>详细操作请致:组网协同>任务管理>认领待处理</h3></span></div>

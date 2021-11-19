@@ -84,7 +84,7 @@ public class DataBuildNewController {
             strategy.setZzbValue(StringUtils.isBlank(model.getZzbValue()) == true ? "0" : model.getZzbValue().replace(" ","").trim());
             strategy.setTzysName(StringUtils.isBlank(model.getTzysName()) == true ? "" : model.getTzysName().replace(" ","").trim());
             strategy.setBmType(StringUtils.isBlank(model.getBmType()) == true ? "" : model.getBmType().replace(" ","").trim());
-            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").replace("'","").trim());
+            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").replace("@","").trim());
             strategy.setMuladdr(StringUtils.isBlank(model.getMuladdr()) == true ? "" : model.getMuladdr().replace(" ","").trim());
             strategy.setOthers(StringUtils.isBlank(model.getOthers()) == true ? "" : model.getOthers().replace(" ","").trim());
             strategy.setExmlen(StringUtils.isBlank(model.getExmlen()) == true ? "" : model.getExmlen().replace(" ","").trim());
@@ -200,7 +200,7 @@ public class DataBuildNewController {
             strategy.setZzbValue(StringUtils.isBlank(model.getZzbValue()) == true ? "0" : model.getZzbValue().replace(" ","").trim());
             strategy.setTzysName(StringUtils.isBlank(model.getTzysName()) == true ? "" : model.getTzysName().replace(" ","").trim());
             strategy.setBmType(StringUtils.isBlank(model.getBmType()) == true ? "" : model.getBmType().replace(" ","").trim());
-            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").replace("'","").trim());
+            strategy.setMlName(StringUtils.isBlank(model.getMlName()) == true ? "" : model.getMlName().replace(" ","").replace("@","").trim());
             strategy.setMuladdr(StringUtils.isBlank(model.getMuladdr()) == true ? "" : model.getMuladdr().replace(" ","").trim());
             strategy.setOthers(StringUtils.isBlank(model.getOthers()) == true ? "" : model.getOthers().replace(" ","").trim());
             strategy.setExmlen(StringUtils.isBlank(model.getExmlen()) == true ? "" : model.getExmlen().replace(" ","").trim());
@@ -378,7 +378,7 @@ public class DataBuildNewController {
         manualModel.setUserNo(userNo);
         manualModel.setProCode(getProCodeNum());
         manualModel.setWxName(manualModel.getWxName().replace(" ","").trim());
-        manualModel.setCarPol(manualModel.getCarPol().replace(" ","").replace("'","").trim());
+        manualModel.setCarPol(manualModel.getCarPol().replace(" ","").replace("@","").trim());
         manualModel.setDplValue(manualModel.getDplValue().replace(" ","").trim());
         manualModel.setTkplValue(manualModel.getTkplValue().replace(" ","").trim());
         manualModel.setXhType(manualModel.getXhType().replace(" ","").trim());
@@ -406,7 +406,7 @@ public class DataBuildNewController {
             return BaseResponse.fail("入参有误，请重试");
         }
         manualModel.setWxName(manualModel.getWxName().replace(" ","").trim());
-        manualModel.setMlName(manualModel.getMlName().replace(" ","").replace("'","").trim());
+        manualModel.setMlName(manualModel.getMlName().replace(" ","").replace("@","").trim());
         manualModel.setCarPol(manualModel.getCarPol().replace(" ","").trim());
         manualModel.setDplValue(manualModel.getDplValue().replace(" ","").trim());
         manualModel.setTkplValue(manualModel.getTkplValue().replace(" ","").trim());
@@ -626,7 +626,7 @@ public class DataBuildNewController {
             return BaseResponse.fail("入参有误，请重试");
         }
         dataBuild.setWxName(dataBuild.getWxName().replace(" ","").trim());
-        dataBuild.setMlName(dataBuild.getMlName().replace(" ","").replace("'","").trim());
+        dataBuild.setMlName(dataBuild.getMlName().replace(" ","").replace("@","").trim());
         dataBuild.setCarPol(dataBuild.getCarPol().replace(" ","").trim());
         dataBuild.setDplValue(dataBuild.getDplValue().replace(" ","").trim());
         dataBuild.setTkplValue(dataBuild.getTkplValue().replace(" ","").trim());
