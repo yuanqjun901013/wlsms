@@ -49,7 +49,7 @@
                 {field:'id',title:'参数编号',width:80,align:'center'},
                 {field:'paramType',title:'参数类型',width:80,align:'center'},
                 {field:'paramName',title:'参数名称',width:80,align:'center'},
-                {field:'paramValue',title:'参数值(%)',width:80,align:'center'}
+                {field:'paramValue',title:'参数值',width:80,align:'center'}
             ]]
         });
     }

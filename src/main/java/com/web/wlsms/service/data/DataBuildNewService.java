@@ -264,8 +264,183 @@ public class DataBuildNewService {
     }
 
 
+//    /**
+//     * 处理比对数据(旧)
+//     * @param machineModels
+//     * @param manualModels
+//     */
+//    @Transactional
+//    public void getAutoDocker(List<MachineModel> machineModels, List<MachineModel> manualModels, String remark){
+//
+//        if(CollectionUtils.isEmpty(machineModels)){
+//            return;
+//        }
+//        if(CollectionUtils.isEmpty(manualModels)){
+//            return;
+//        }
+//        //查询频率误差范围
+//        BigDecimal paramValue = new BigDecimal(0);
+//        if(StringUtils.isNotBlank(macAutoDao.getParamValue("1"))){
+//            paramValue = new BigDecimal(macAutoDao.getParamValue("1"));
+//        }
+//        //查询速率误差范围
+//        BigDecimal paramValueSl = new BigDecimal(0);
+//        if(StringUtils.isNotBlank(macAutoDao.getParamValue("2"))){
+//            paramValueSl = new BigDecimal(macAutoDao.getParamValue("2"));
+//        }
+//        List<MachineModel> autoDataEntities = new ArrayList<>();
+//        List<MachineModel> newManualList = new ArrayList<>();
+//        List<MachineModel> newMachineList = new ArrayList<>();
+//        Boolean pl = false;
+//        Boolean msl = false;
+//        //处理数据
+//        try {
+//
+//        for(MachineModel manualModel:manualModels){//人工数据循环体
+//            for(MachineModel machineModel:machineModels){//机器数据循环体
+//                MachineModel autoData = new MachineModel();//汇总数据
+//
+//                //频率对比
+//                BigDecimal rgTkplValue = new BigDecimal(manualModel.getTkplValue());//人工天空频率(数值)
+//                BigDecimal jqTkplValue = new BigDecimal(machineModel.getTkplValue());//机器天空频率(数值)
+//                if(rgTkplValue.compareTo(jqTkplValue) >= 0){
+//                    BigDecimal xtdValue = rgTkplValue.subtract(jqTkplValue);//人工与机器天空频率差值
+//                    //计算百分比浮动paramValue 除以100
+//                    BigDecimal pointValue = rgTkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+//                    if(xtdValue.compareTo(pointValue) <= 0){//符合融合值
+//                        pl = true;
+//                    }else{
+//                        continue;
+//                    }
+//                }else {
+//                    BigDecimal xtdValue = jqTkplValue.subtract(rgTkplValue);//机器与人工天空频率差值
+//                    //计算百分比浮动paramValue 除以100
+//                    BigDecimal pointValue = jqTkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+//                    if(xtdValue.compareTo(pointValue) <= 0){
+//                        pl = true;
+//                    }else{
+//                        continue;
+//                    }
+//                }
+//
+//                //码速率对比
+//                BigDecimal rgMslValue = new BigDecimal(machineModel.getMslValue());//人工码速率(%)
+//                BigDecimal jqMslValue = new BigDecimal(machineModel.getMslValue());//机器码速率(%)
+//                if(rgMslValue.compareTo(jqMslValue) >= 0){
+//                    BigDecimal tzdValue = rgMslValue.subtract(jqMslValue);//人工和机器码速率差值
+//                    //计算百分比浮动paramValue 除以100
+//                    BigDecimal pointValue = rgMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
+//                    if(tzdValue.compareTo(pointValue) <= 0){
+//                        msl = true;
+//                    }else{
+//                        continue;
+//                    }
+//                }else {
+//                    BigDecimal tzdValue = jqMslValue.subtract(rgMslValue);//机器和人工码速率差值
+//                    //计算百分比浮动paramValue 除以100
+//                    BigDecimal pointValue = jqMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
+//                    if(tzdValue.compareTo(pointValue) <= 0){
+//                        msl = true;
+//                    }else{
+//                        continue;
+//                    }
+//                }
+//
+//                //赋值
+//                if(pl && msl){
+//                    autoData = machineModel;
+//                    autoData.setBuildDate(manualModel.getBuildDate());
+//                    autoData.setTitleOs("已融合");
+//                    autoData.setBuildType("融合匹配");
+//                    autoDataEntities.add(autoData);
+//                    newManualList.add(manualModel);
+//                    newMachineList.add(machineModel);
+//                }
+//            }
+//        }
+//
+//        //循环外
+//
+//        AutoBuildEntity buildEntity = new AutoBuildEntity();
+//        //保存标记表
+//        buildEntity.setBuildDate(manualModels.get(0).getBuildDate());
+//        buildEntity.setBuildTime(machineModels.get(0).getBuildTime());
+//        buildEntity.setRemark(remark);
+//        //先查询看是否存在此时间点的比对数据
+//        Map<String, Object> param = new HashMap<>();
+//        param.put("buildDate", buildEntity.getBuildDate());
+//        param.put("buildTime", buildEntity.getBuildTime());
+//        Integer countBuild = macAutoDao.getAutoBuildCount(param);
+//        if(countBuild.intValue() > 0){
+//            dataBuildNewDao.deleteAutoDataByThis(param);
+//
+//            if(  1 != macAutoDao.updateAutoBuild(buildEntity)){
+//                throw new RuntimeException();
+//            }
+//        }else {
+//            if (1 != macAutoDao.insertAutoBuild(buildEntity)) {
+//                throw new RuntimeException();
+//            }
+//        }
+//        //求前后差集
+//        List<MachineModel> collectManual = manualModels.stream().filter(item ->
+//                !newManualList.contains(item)).collect(Collectors.toList());
+//        List<MachineModel> collectMachine = machineModels.stream().filter(item ->
+//                !newMachineList.contains(item)).collect(Collectors.toList());
+//        if(CollectionUtils.isNotEmpty(collectManual)){
+//            for (MachineModel manualModel:collectManual){
+//                MachineModel autoDataEntity = manualModel;
+//                autoDataEntity.setBuildDate(buildEntity.getBuildDate());
+//                autoDataEntity.setBuildTime(buildEntity.getBuildTime());
+//                autoDataEntity.setTitleOs("未融合");
+//                autoDataEntity.setBuildType("人工数据");
+//                autoDataEntities.add(autoDataEntity);
+//            }
+//            MessageEntity messageEntity = new MessageEntity();
+//            messageEntity.setUserNo(remark + "校验底数");
+//            messageEntity.setTitle(remark+"校验人工底数出现未匹配的底数");
+//            messageEntity.setContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+machineModels.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
+//            messageEntity.setOperationType(2);
+//            messageService.insertMessage(messageEntity);
+//            //生成一条告警保存到告警表
+//            AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
+//            alarmDataEntity.setAlarmTitle("人工底数融合未匹配告警");
+//            alarmDataEntity.setAlarmContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+machineModels.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
+//            alarmService.insertAlarmData(alarmDataEntity);
+//        }
+//        if(CollectionUtils.isNotEmpty(collectMachine)){
+//            for (MachineModel machineModel:collectMachine){
+//                MachineModel autoDataEntity = machineModel;
+//                autoDataEntity.setBuildDate(buildEntity.getBuildDate());
+//                autoDataEntity.setBuildTime(buildEntity.getBuildTime());
+//                autoDataEntity.setTitleOs("未融合");
+//                autoDataEntity.setBuildType("机器数据");
+//                autoDataEntities.add(autoDataEntity);
+//            }
+//            MessageEntity messageEntity = new MessageEntity();
+//            messageEntity.setUserNo(remark + "校验底数");
+//            messageEntity.setTitle(remark+"校验机器底数出现未匹配的底数");
+//            messageEntity.setContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+manualModels.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
+//            messageEntity.setOperationType(2);
+//            messageService.insertMessage(messageEntity);
+//            //生成一条告警保存到告警表
+//            AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
+//            alarmDataEntity.setAlarmTitle("机器底数融合未匹配告警");
+//            alarmDataEntity.setAlarmContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+manualModels.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
+//            alarmService.insertAlarmData(alarmDataEntity);
+//        }
+//        if(0 == dataBuildNewDao.insertAutoDatas(autoDataEntities)){
+//            throw new RuntimeException();
+//        }
+//        }catch (Exception e){
+//            throw new RuntimeException();
+//        }
+//
+//    }
+
+
     /**
-     * 处理比对数据(新)
+     * 处理比对数据(20211120)
      * @param machineModels
      * @param manualModels
      */
@@ -296,143 +471,144 @@ public class DataBuildNewService {
         //处理数据
         try {
 
+            for(MachineModel manualModel:manualModels){//人工数据循环体
+                for(MachineModel machineModel:machineModels){//机器数据循环体
+                    MachineModel autoData = new MachineModel();//汇总数据
 
-        for(MachineModel manualModel:manualModels){//人工数据循环体
-            for(MachineModel machineModel:machineModels){//机器数据循环体
-                MachineModel autoData = new MachineModel();//汇总数据
+                    //频率对比
+                    BigDecimal rgTkplValue = new BigDecimal(manualModel.getTkplValue());//人工天空频率(数值)
+                    BigDecimal jqTkplValue = new BigDecimal(machineModel.getTkplValue());//机器天空频率(数值)
+                    if(rgTkplValue.compareTo(jqTkplValue) >= 0){
+                        BigDecimal xtdValue = rgTkplValue.subtract(jqTkplValue);//人工与机器天空频率差值
+//                        //计算百分比浮动paramValue 除以100
+//                        BigDecimal pointValue = rgTkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+                        if(xtdValue.compareTo(paramValue) <= 0){//符合融合值
+                            pl = true;
+                        }else{
+                            continue;
+                        }
+                    }else {
+                        BigDecimal xtdValue = jqTkplValue.subtract(rgTkplValue);//机器与人工天空频率差值
+                        //计算百分比浮动paramValue 除以100
+//                        BigDecimal pointValue = jqTkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
+                        if(xtdValue.compareTo(paramValue) <= 0){
+                            pl = true;
+                        }else{
+                            continue;
+                        }
+                    }
 
-                //频率对比
-                BigDecimal rgTkplValue = new BigDecimal(manualModel.getTkplValue());//人工天空频率
-                BigDecimal jqTkplValue = new BigDecimal(machineModel.getTkplValue());//机器天空频率
-                if(rgTkplValue.compareTo(jqTkplValue) >= 0){
-                    BigDecimal xtdValue = rgTkplValue.subtract(jqTkplValue);//人工与机器天空频率差值
-                    //计算百分比浮动paramValue 除以100
-                    BigDecimal pointValue = rgTkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
-                    if(xtdValue.compareTo(pointValue) <= 0){//符合融合值
-                        pl = true;
-                    }else{
-                        continue;
-                    }
-                }else {
-                    BigDecimal xtdValue = jqTkplValue.subtract(rgTkplValue);//机器与人工天空频率差值
-                    //计算百分比浮动paramValue 除以100
-                    BigDecimal pointValue = jqTkplValue.multiply(paramValue.divide(new BigDecimal(100))); //上下浮动值
-                    if(xtdValue.compareTo(pointValue) <= 0){
-                        pl = true;
-                    }else{
-                        continue;
-                    }
-                }
 
-                //码速率对比
-                BigDecimal rgMslValue = new BigDecimal(machineModel.getMslValue());//人工码速率
-                BigDecimal jqMslValue = new BigDecimal(machineModel.getMslValue());//机器码速率
-                if(rgMslValue.compareTo(jqMslValue) >= 0){
-                    BigDecimal tzdValue = rgMslValue.subtract(jqMslValue);//人工和机器码速率差值
-                    //计算百分比浮动paramValue 除以100
-                    BigDecimal pointValue = rgMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
-                    if(tzdValue.compareTo(pointValue) <= 0){
-                        msl = true;
-                    }else{
-                        continue;
-                    }
-                }else {
-                    BigDecimal tzdValue = jqMslValue.subtract(rgMslValue);//机器和人工码速率差值
-                    //计算百分比浮动paramValue 除以100
-                    BigDecimal pointValue = jqMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
-                    if(tzdValue.compareTo(pointValue) <= 0){
-                        msl = true;
-                    }else{
-                        continue;
-                    }
-                }
 
-                //赋值
-                if(pl && msl){
-                    autoData = machineModel;
-                    autoData.setBuildDate(manualModel.getBuildDate());
-                    autoData.setTitleOs("已融合");
-                    autoData.setBuildType("融合匹配");
-                    autoDataEntities.add(autoData);
-                    newManualList.add(manualModel);
-                    newMachineList.add(machineModel);
+                    //码速率对比
+                    BigDecimal rgMslValue = new BigDecimal(machineModel.getMslValue());//人工码速率(%)
+                    BigDecimal jqMslValue = new BigDecimal(machineModel.getMslValue());//机器码速率(%)
+                    if(rgMslValue.compareTo(jqMslValue) >= 0){
+                        BigDecimal tzdValue = rgMslValue.subtract(jqMslValue);//人工和机器码速率差值
+                        //计算百分比浮动paramValue 除以100
+                        BigDecimal pointValue = rgMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
+                        if(tzdValue.compareTo(pointValue) <= 0){
+                            msl = true;
+                        }else{
+                            continue;
+                        }
+                    }else {
+                        BigDecimal tzdValue = jqMslValue.subtract(rgMslValue);//机器和人工码速率差值
+                        //计算百分比浮动paramValue 除以100
+                        BigDecimal pointValue = jqMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
+                        if(tzdValue.compareTo(pointValue) <= 0){
+                            msl = true;
+                        }else{
+                            continue;
+                        }
+                    }
+
+                    //赋值
+                    if(pl && msl){
+                        autoData = machineModel;
+                        autoData.setBuildDate(manualModel.getBuildDate());
+                        autoData.setTitleOs("已融合");
+                        autoData.setBuildType("融合匹配");
+                        autoDataEntities.add(autoData);
+                        newManualList.add(manualModel);
+                        newMachineList.add(machineModel);
+                    }
                 }
             }
-        }
 
-        //循环外
+            //循环外
 
-        AutoBuildEntity buildEntity = new AutoBuildEntity();
-        //保存标记表
-        buildEntity.setBuildDate(manualModels.get(0).getBuildDate());
-        buildEntity.setBuildTime(machineModels.get(0).getBuildTime());
-        buildEntity.setRemark(remark);
-        //先查询看是否存在此时间点的比对数据
-        Map<String, Object> param = new HashMap<>();
-        param.put("buildDate", buildEntity.getBuildDate());
-        param.put("buildTime", buildEntity.getBuildTime());
-        Integer countBuild = macAutoDao.getAutoBuildCount(param);
-        if(countBuild.intValue() > 0){
-            dataBuildNewDao.deleteAutoDataByThis(param);
+            AutoBuildEntity buildEntity = new AutoBuildEntity();
+            //保存标记表
+            buildEntity.setBuildDate(manualModels.get(0).getBuildDate());
+            buildEntity.setBuildTime(machineModels.get(0).getBuildTime());
+            buildEntity.setRemark(remark);
+            //先查询看是否存在此时间点的比对数据
+            Map<String, Object> param = new HashMap<>();
+            param.put("buildDate", buildEntity.getBuildDate());
+            param.put("buildTime", buildEntity.getBuildTime());
+            Integer countBuild = macAutoDao.getAutoBuildCount(param);
+            if(countBuild.intValue() > 0){
+                dataBuildNewDao.deleteAutoDataByThis(param);
 
-            if(  1 != macAutoDao.updateAutoBuild(buildEntity)){
+                if(  1 != macAutoDao.updateAutoBuild(buildEntity)){
+                    throw new RuntimeException();
+                }
+            }else {
+                if (1 != macAutoDao.insertAutoBuild(buildEntity)) {
+                    throw new RuntimeException();
+                }
+            }
+            //求前后差集
+            List<MachineModel> collectManual = manualModels.stream().filter(item ->
+                    !newManualList.contains(item)).collect(Collectors.toList());
+            List<MachineModel> collectMachine = machineModels.stream().filter(item ->
+                    !newMachineList.contains(item)).collect(Collectors.toList());
+            if(CollectionUtils.isNotEmpty(collectManual)){
+                for (MachineModel manualModel:collectManual){
+                    MachineModel autoDataEntity = manualModel;
+                    autoDataEntity.setBuildDate(buildEntity.getBuildDate());
+                    autoDataEntity.setBuildTime(buildEntity.getBuildTime());
+                    autoDataEntity.setTitleOs("未融合");
+                    autoDataEntity.setBuildType("人工数据");
+                    autoDataEntities.add(autoDataEntity);
+                }
+                MessageEntity messageEntity = new MessageEntity();
+                messageEntity.setUserNo(remark + "校验底数");
+                messageEntity.setTitle(remark+"校验人工底数出现未匹配的底数");
+                messageEntity.setContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+machineModels.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
+                messageEntity.setOperationType(2);
+                messageService.insertMessage(messageEntity);
+                //生成一条告警保存到告警表
+                AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
+                alarmDataEntity.setAlarmTitle("人工底数融合未匹配告警");
+                alarmDataEntity.setAlarmContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+machineModels.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
+                alarmService.insertAlarmData(alarmDataEntity);
+            }
+            if(CollectionUtils.isNotEmpty(collectMachine)){
+                for (MachineModel machineModel:collectMachine){
+                    MachineModel autoDataEntity = machineModel;
+                    autoDataEntity.setBuildDate(buildEntity.getBuildDate());
+                    autoDataEntity.setBuildTime(buildEntity.getBuildTime());
+                    autoDataEntity.setTitleOs("未融合");
+                    autoDataEntity.setBuildType("机器数据");
+                    autoDataEntities.add(autoDataEntity);
+                }
+                MessageEntity messageEntity = new MessageEntity();
+                messageEntity.setUserNo(remark + "校验底数");
+                messageEntity.setTitle(remark+"校验机器底数出现未匹配的底数");
+                messageEntity.setContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+manualModels.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
+                messageEntity.setOperationType(2);
+                messageService.insertMessage(messageEntity);
+                //生成一条告警保存到告警表
+                AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
+                alarmDataEntity.setAlarmTitle("机器底数融合未匹配告警");
+                alarmDataEntity.setAlarmContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+manualModels.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
+                alarmService.insertAlarmData(alarmDataEntity);
+            }
+            if(0 == dataBuildNewDao.insertAutoDatas(autoDataEntities)){
                 throw new RuntimeException();
             }
-        }else {
-            if (1 != macAutoDao.insertAutoBuild(buildEntity)) {
-                throw new RuntimeException();
-            }
-        }
-        //求前后差集
-        List<MachineModel> collectManual = manualModels.stream().filter(item ->
-                !newManualList.contains(item)).collect(Collectors.toList());
-        List<MachineModel> collectMachine = machineModels.stream().filter(item ->
-                !newMachineList.contains(item)).collect(Collectors.toList());
-        if(CollectionUtils.isNotEmpty(collectManual)){
-            for (MachineModel manualModel:collectManual){
-                MachineModel autoDataEntity = manualModel;
-                autoDataEntity.setBuildDate(buildEntity.getBuildDate());
-                autoDataEntity.setBuildTime(buildEntity.getBuildTime());
-                autoDataEntity.setTitleOs("未融合");
-                autoDataEntity.setBuildType("人工数据");
-                autoDataEntities.add(autoDataEntity);
-            }
-            MessageEntity messageEntity = new MessageEntity();
-            messageEntity.setUserNo(remark + "校验底数");
-            messageEntity.setTitle(remark+"校验人工底数出现未匹配的底数");
-            messageEntity.setContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+machineModels.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
-            messageEntity.setOperationType(2);
-            messageService.insertMessage(messageEntity);
-            //生成一条告警保存到告警表
-            AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
-            alarmDataEntity.setAlarmTitle("人工底数融合未匹配告警");
-            alarmDataEntity.setAlarmContent("人工融合机器"+collectManual.get(0).getBuildDate()+"与"+machineModels.get(0).getBuildTime()+"未匹配数据："+collectMachine.size()+"条;");
-            alarmService.insertAlarmData(alarmDataEntity);
-        }
-        if(CollectionUtils.isNotEmpty(collectMachine)){
-            for (MachineModel machineModel:collectMachine){
-                MachineModel autoDataEntity = machineModel;
-                autoDataEntity.setBuildDate(buildEntity.getBuildDate());
-                autoDataEntity.setBuildTime(buildEntity.getBuildTime());
-                autoDataEntity.setTitleOs("未融合");
-                autoDataEntity.setBuildType("机器数据");
-                autoDataEntities.add(autoDataEntity);
-            }
-            MessageEntity messageEntity = new MessageEntity();
-            messageEntity.setUserNo(remark + "校验底数");
-            messageEntity.setTitle(remark+"校验机器底数出现未匹配的底数");
-            messageEntity.setContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+manualModels.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
-            messageEntity.setOperationType(2);
-            messageService.insertMessage(messageEntity);
-            //生成一条告警保存到告警表
-            AlarmDataEntity alarmDataEntity = new AlarmDataEntity();
-            alarmDataEntity.setAlarmTitle("机器底数融合未匹配告警");
-            alarmDataEntity.setAlarmContent("机器融合人工"+collectMachine.get(0).getBuildTime()+"与"+manualModels.get(0).getBuildDate()+"未匹配数据："+collectMachine.size()+"条;");
-            alarmService.insertAlarmData(alarmDataEntity);
-        }
-        if(0 == dataBuildNewDao.insertAutoDatas(autoDataEntities)){
-            throw new RuntimeException();
-        }
         }catch (Exception e){
             throw new RuntimeException();
         }
