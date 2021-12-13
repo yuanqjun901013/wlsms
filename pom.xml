@@ -6,7 +6,7 @@
 
     <groupId>com.web.wlsms</groupId>
     <artifactId>wlsms</artifactId>
-    <version>4.0</version>
+    <version>4.1</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

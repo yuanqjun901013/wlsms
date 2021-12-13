@@ -41,6 +41,7 @@
     <update id="paramSubmit" parameterType="com.web.wlsms.entity.ParamEntity">
         update admin_parameters
         <set>
+            param_name = #{paramName},
             param_value = #{paramValue}
         </set>
         <where>

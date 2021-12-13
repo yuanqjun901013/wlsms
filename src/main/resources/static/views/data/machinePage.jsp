@@ -107,21 +107,6 @@
                     {field:'buildTime',title:'登记时间',width:150,align:'center'}
                 ]]
             });
-
-            $('#cbg').combogrid({
-                delay: 250,
-                mode: 'remote',
-                url: '/admin/position/getPositionArr',
-                idField: 'positionCode',
-                textField: 'positionName',
-                striped:true,
-                multiple: false,
-                fitColumns: true,
-                columns: [[
-                    {field:'positionName',title:'地址',width:100,sortable:true},
-                    {field:'positionCode',title:'标识码',width:80,sortable:true}
-                ]]
-            });
         }
         function getExport() {
             $('#getMachineList').datagrid('toExcel', '机器数据.xls');
@@ -213,6 +198,20 @@
         function addMachine(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','上报机器底数');
             $('#fm').form('clear');
+            $('#cbg').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/admin/position/getPositionArr',
+                idField: 'positionCode',
+                textField: 'positionName',
+                striped:true,
+                multiple: false,
+                fitColumns: true,
+                columns: [[
+                    {field:'positionName',title:'地址',width:100,sortable:true},
+                    {field:'positionCode',title:'标识码',width:80,sortable:true}
+                ]]
+            });
         }
 
         function saveMachine(){

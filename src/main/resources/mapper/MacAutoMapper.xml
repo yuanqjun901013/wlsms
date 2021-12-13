@@ -567,8 +567,12 @@
         <if test="buildTime != null and buildTime != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d %H:%i:%S') =  DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
     </select>
 
+<!--    <select id="getParamValue" resultType="String">-->
+<!--        select param_value as paramValue from admin_parameters where param_type = '阀值'-->
+<!--    </select>-->
+
     <select id="getParamValue" resultType="String">
-        select param_value as paramValue from admin_parameters where param_type = '阀值'
+        select param_value as paramValue from admin_parameters where id = #{id}
     </select>
 
     <select id="getAutoBuildCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">

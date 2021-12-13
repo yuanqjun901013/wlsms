@@ -501,12 +501,13 @@ public class DataBuildNewService {
 
 
                     //码速率对比
-                    BigDecimal rgMslValue = new BigDecimal(machineModel.getMslValue());//人工码速率(%)
-                    BigDecimal jqMslValue = new BigDecimal(machineModel.getMslValue());//机器码速率(%)
+                    BigDecimal rgMslValue = new BigDecimal(manualModel.getMslValue());//人工码速率
+                    BigDecimal jqMslValue = new BigDecimal(machineModel.getMslValue());//机器码速率
                     if(rgMslValue.compareTo(jqMslValue) >= 0){
                         BigDecimal tzdValue = rgMslValue.subtract(jqMslValue);//人工和机器码速率差值
                         //计算百分比浮动paramValue 除以100
-                        BigDecimal pointValue = rgMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
+                        //BigDecimal pointValue = rgMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
+                        BigDecimal pointValue = rgMslValue.multiply(paramValueSl);
                         if(tzdValue.compareTo(pointValue) <= 0){
                             msl = true;
                         }else{
@@ -515,7 +516,8 @@ public class DataBuildNewService {
                     }else {
                         BigDecimal tzdValue = jqMslValue.subtract(rgMslValue);//机器和人工码速率差值
                         //计算百分比浮动paramValue 除以100
-                        BigDecimal pointValue = jqMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
+                        //BigDecimal pointValue = jqMslValue.multiply(paramValueSl.divide(new BigDecimal(100))); //上下浮动值
+                        BigDecimal pointValue = jqMslValue.multiply(paramValueSl);
                         if(tzdValue.compareTo(pointValue) <= 0){
                             msl = true;
                         }else{

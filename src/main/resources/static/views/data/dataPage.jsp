@@ -17,10 +17,11 @@
         })
 
         //定时刷新页面
-        // setInterval(function() {
-        //     // show();//暂不用
-        //     getReload();
-        // }, 9000);
+        setInterval(function() {
+            // show();//暂不用
+            // getReload();
+            mixLoad();
+        }, 5000);
     </SCRIPT>
 </head>
 <body>
@@ -100,8 +101,85 @@
             });
         }
 
+
+        function mixLoad(){
+            var cbgManual = $('#cbgManual').textbox('getValue');
+            var cbgMachine = $('#cbgMachine').textbox('getValue');
+            $('#cbgManual').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/data/buildNew/queryManualByDate',
+                idField: 'buildDate',
+                textField: 'buildDate',
+                striped:true,
+                labelPosition:"top",
+                fitColumns: true,
+                nowrap:false,//自动换行
+                columns: [[
+                    {field:'buildDate',title:'人工登记日期',width:180,sortable:true},
+                    {field:'count',title:'数据量',width:60,sortable:true}
+
+                ]]
+            });
+
+            $('#cbgMachine').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/data/buildNew/queryMachineByDate',
+                idField: 'buildTime',
+                textField: 'buildTime',
+                labelPosition:"top",
+                striped:true,
+                fitColumns: true,
+                nowrap:false,//自动换行
+                columns: [[
+                    {field:'buildTime',title:'机器上报时间',width:180,sortable:true},
+                    {field:'count',title:'数据量',width:60,sortable:true}
+                ]]
+            });
+            if(cbgManual != ''){
+                $('#cbgManual').combogrid('setValue', cbgManual);
+            }
+            if(cbgMachine != ''){
+                $('#cbgMachine').combogrid('setValue', cbgMachine);
+            }
+
+        }
+
         function clearFrom(){
             $('#fm').form('clear');
+            $('#cbgManual').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/data/buildNew/queryManualByDate',
+                idField: 'buildDate',
+                textField: 'buildDate',
+                striped:true,
+                labelPosition:"top",
+                fitColumns: true,
+                nowrap:false,//自动换行
+                columns: [[
+                    {field:'buildDate',title:'人工登记日期',width:180,sortable:true},
+                    {field:'count',title:'数据量',width:60,sortable:true}
+
+                ]]
+            });
+
+            $('#cbgMachine').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/data/buildNew/queryMachineByDate',
+                idField: 'buildTime',
+                textField: 'buildTime',
+                labelPosition:"top",
+                striped:true,
+                fitColumns: true,
+                nowrap:false,//自动换行
+                columns: [[
+                    {field:'buildTime',title:'机器上报时间',width:180,sortable:true},
+                    {field:'count',title:'数据量',width:60,sortable:true}
+                ]]
+            });
         }
 
         function openAuto(){

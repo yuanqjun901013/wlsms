@@ -31,44 +31,44 @@
    <!-- <div data-options="title:'统计视图',region:'north',split:false,collapsible:false" style="height:300px">
 
     </div>-->
-    <div data-options="title:'系统总览',region:'west',split:false,collapsible:false" style="width:27%;height:300px;">
+    <div data-options="title:'系统总览',region:'west',split:false,collapsible:false" style="width:30%;height:400px;">
         <table data-options="split:false,fit:true" style="width:100%">
             <tr align="center">
-                <td data-options="split:false,fit:true" align="center"><div id="container" style="width: 300px;height:250px" data-options="region:'center',split:true,fit:true"></div></td>
+                <td data-options="split:false,fit:true" align="center"><div id="container" style="width: 430px;height:330px" data-options="region:'center',split:true,fit:true"></div></td>
             </tr>
         </table>
     </div>
-    <div data-options="title:'底数总览',region:'center',split:false" style="width:27%;height:200px;">
+    <div data-options="title:'底数总览',region:'center',split:false" style="width:30%;height:400px;">
         <table data-options="split:false,fit:true" style="width:100%">
             <tr align="center">
-                <td data-options="split:false,fit:true" align="center"><div id="data" style="width: 300px;height: 250px" data-options="region:'center',split:true,fit:true"></div></td>
+                <td data-options="split:false,fit:true" align="center"><div id="data" style="width: 430px;height: 330px" data-options="region:'center',split:true,fit:true"></div></td>
             </tr>
         </table>
     </div>
-    <div data-options="title:'近一周底数情况',region:'east',split:false,collapsible:false" style="width:45%;height:200px;">
+    <div data-options="title:'近一周底数情况',region:'east',split:false,collapsible:false" style="width:40%;height:400px;">
         <table data-options="split:false,fit:true" style="width:100%">
             <tr align="center">
-                <td data-options="split:false,fit:true" align="center"><div id="stackChart" style="width: 520px;height: 250px" data-options="region:'center',split:true,fit:true"></div></td>
+                <td data-options="split:false,fit:true" align="center"><div id="stackChart" style="width: 540px;height: 345px" data-options="region:'center',split:true,fit:true"></div></td>
             </tr>
         </table>
     </div>
-    <div data-options="region:'south',split:false,collapsible:false" style="height:400px;">
+    <div data-options="region:'south',split:false,collapsible:false" style="height:300px;">
         <div class="easyui-layout" data-options="fit:true">
             <div data-options="title:'快捷操作区',region:'west',split:false,collapsible:false" style="width:12%;">
                 <table data-options="split:false,fit:true" style="width:100%;height: 100%" valign="middle">
                     <tr align="center" valign="middle">
                         <td data-options="split:false,fit:true" valign="middle" align="center">
-                            <a href="javascript:void(0)" class="easyui-linkbutton c1" onclick="addTask()" style="width:120px;height: 100px">下发任务</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton c1" onclick="addTask()" style="width:130px;height: 80px">下发任务</a>
                         </td>
                     </tr>
                     <tr align="center" valign="middle">
                         <td data-options="split:false,fit:true" valign="middle" align="center">
-                            <a href="javascript:void(0)" class="easyui-linkbutton c1" onclick="addBatchManual()" style="width:120px;height: 100px">人工底数</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton c1" onclick="addBatchManual()" style="width:130px;height: 80px">人工底数</a>
                         </td>
                     </tr>
                     <tr align="center" valign="middle">
                         <td data-options="split:false,fit:true" valign="middle" align="center">
-                            <a href="javascript:void(0)" class="easyui-linkbutton c1" onclick="addMachine()" style="width:120px;height: 100px">机器底数</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton c1" onclick="addMachine()" style="width:130px;height: 80px">机器底数</a>
                         </td>
                     </tr>
                 </table>
@@ -157,7 +157,7 @@
                   {
                       name: '访问来源',
                       type: 'pie',
-                      radius: '40%',
+                      radius: '55%',
                       data: cotData
                       // [
                       // {value: 1048, name: '用户数'},
@@ -205,7 +205,7 @@
                   {
                       name: '访问来源',
                       type: 'pie',
-                      radius: ['28%', '45%'],
+                      radius: ['35%', '65%'],
                       avoidLabelOverlap: false,
                       itemStyle: {
                           borderRadius: 10,

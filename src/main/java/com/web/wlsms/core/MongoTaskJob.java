@@ -207,7 +207,7 @@ public class MongoTaskJob {
                     machineModel.setCarPol(StringUtils.isBlank(String.valueOf(map.get(conf.getCarPol()))) == true ? "0" : String.valueOf(map.get(conf.getCarPol())));
                     machineModel.setDplValue(StringUtils.isBlank(String.valueOf(map.get(conf.getDplValue()))) == true ? "0" : String.valueOf(map.get(conf.getDplValue())));
                     machineModel.setTkplValue(StringUtils.isBlank(String.valueOf(map.get(conf.getTkplValue()))) == true ? "0" : String.valueOf(map.get(conf.getTkplValue())));
-                    machineModel.setXhType(StringUtils.isBlank(String.valueOf(map.get(conf.getTkplValue()))) == true ? "0" : String.valueOf(map.get(conf.getTkplValue())));
+                    machineModel.setXhType(StringUtils.isBlank(String.valueOf(map.get(conf.getXhType()))) == true ? "0" : String.valueOf(map.get(conf.getXhType())));
                     machineModel.setMslValue(StringUtils.isBlank(String.valueOf(map.get(conf.getMslValue()))) == true ? "0" : String.valueOf(map.get(conf.getMslValue())));
                     machineModel.setZzbValue(StringUtils.isBlank(String.valueOf(map.get(conf.getZzbValue()))) == true ? "0" : String.valueOf(map.get(conf.getZzbValue())));
                     machineModel.setTzysName(StringUtils.isBlank(String.valueOf(map.get(conf.getTzysName()))) == true ? "0" : String.valueOf(map.get(conf.getTzysName())));
