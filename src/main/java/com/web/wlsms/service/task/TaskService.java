@@ -10,6 +10,7 @@ import com.web.wlsms.entity.UserEntity;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.system.PositionService;
+import com.web.wlsms.service.system.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -27,6 +28,8 @@ public class TaskService {
     private PositionService positionService;
     @Resource
     private UserDao userDao;
+    @Resource
+    private UserService userService;
     /**
      * 我发起的任务
      *
@@ -95,6 +98,8 @@ public class TaskService {
     public PageInfo getWaitingTask(SimpleRequest request){
         Map<String, Object> param = new HashMap<>();
         param.put("state", 1);
+        param.put("createUser",request.getUserNo());
+        param.put("positionCode",userService.selectUserById(request.getUserNo()).getPositionCode());
         if(StringUtils.isNotBlank(request.getQueryBt())){
             param.put("queryBt",request.getQueryBt());
         }
@@ -111,6 +116,7 @@ public class TaskService {
         List<TaskInfo> taskInfoList = taskDao.getTaskInfoList(param);
         if(!CollectionUtils.isEmpty(taskInfoList)){
             for (TaskInfo taskInfo:taskInfoList){
+
                 if(StringUtils.isNotBlank(taskInfo.getPositionCode())){
                     taskInfo.setPositionName(getPositionName(taskInfo.getPositionCode()));
                 }

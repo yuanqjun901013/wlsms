@@ -33,6 +33,9 @@
         <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
             <h3>用户信息</h3>
             <div style="margin-bottom:15px">
+                <input id="cbgAdd" name="positionCode"  label="地址:" style="width:460px;">
+            </div>
+            <div style="margin-bottom:15px">
                 <input id="userName" class="easyui-textbox" type="text" name="userName" data-options="required:true" label="姓名:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
                 <input id="userNo" class="easyui-textbox" type="text" name="userNo" data-options="required:true" label="工号:" labelPosition="left" style="width:230px;">
             </div>
@@ -84,7 +87,9 @@
                 {field:'job',title:'岗位',width:80,align:'center'},
                 {field:'tel',title:'座机',width:80,align:'center'},
                 {field:'phone',title:'移动号',width:120,align:'center'},
-                {field:'email',title:'邮箱',width:180,align:'center'}
+                {field:'email',title:'邮箱',width:180,align:'center'},
+                // {field:'positionCode',title:'地址编码',width:180,align:'center'},
+                {field:'positionName',title:'地址',width:100,align:'center'}
             ]]
         });
     }
@@ -93,12 +98,41 @@
     function newUser(){
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
         $('#fm').form('clear');
+        $('#cbgAdd').combogrid({
+            delay: 250,
+            mode: 'remote',
+            url: '/admin/position/getPositionArr',
+            idField: 'positionCode',
+            textField: 'positionName',
+            striped:true,
+            multiple: false,
+            fitColumns: true,
+            columns: [[
+                {field:'positionName',title:'地址',width:100,sortable:true},
+                {field:'positionCode',title:'标识码',width:80,sortable:true}
+            ]]
+        });
     }
     //修改用户信息
     function editUser(){
         var row = $('#userList').datagrid('getSelected');
         if (row){
             $('#dlgUpdate').dialog('open').dialog('center').dialog('setTitle','修改');
+            $('#fmm').form('clear');
+            $('#cbgUpdate').combogrid({
+                delay: 250,
+                mode: 'remote',
+                url: '/admin/position/getPositionArr',
+                idField: 'positionCode',
+                textField: 'positionName',
+                striped:true,
+                multiple: false,
+                fitColumns: true,
+                columns: [[
+                    {field:'positionName',title:'地址',width:100,sortable:true},
+                    {field:'positionCode',title:'标识码',width:80,sortable:true}
+                ]]
+            });
             $('#fmm').form('load',row);
         }
     }
@@ -169,6 +203,9 @@
 <div id="dlgUpdate" class="easyui-dialog" style="width:600px; height: 400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlgUpdate-buttons'">
     <form id="fmm" method="post" novalidate style="margin:0;padding:20px 50px">
         <h3>用户信息</h3>
+        <div style="margin-bottom:15px">
+            <input id="cbgUpdate" name="positionCode"  label="地址:" style="width:460px;">
+        </div>
         <div style="margin-bottom:15px">
             <input class="easyui-textbox" type="text" name="userName" data-options="required:true" label="姓名:" labelPosition="left" style="width:230px;">&nbsp;&nbsp;
             <input class="easyui-textbox" type="text" name="userNo" readonly="readonly" label="工号:" labelPosition="left" style="width:230px;">

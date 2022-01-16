@@ -18,4 +18,8 @@ public class UserEntity {
     private String tel;
     private String phone;
     private String email;
+    //地址识别码
+    private String positionCode;
+    //地址
+    private String positionName;
 }

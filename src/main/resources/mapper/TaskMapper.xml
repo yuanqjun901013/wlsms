@@ -25,6 +25,9 @@
         FROM wlsms_task wt
         left join admin_user au on wt.user_no = au.user_no
         where 1=1
+          <if test="positionCode != null and positionCode != ''">
+              and wt.position_code = #{positionCode}
+          </if>
         <if test="queryBt != null and queryBt != ''">
             and (wt.title like concat('%',#{queryBt},'%') or wt.content like concat('%',#{queryBt},'%'))
         </if>
@@ -36,6 +39,9 @@
         </if>
         <if test="userNo != null and userNo != ''">
             and wt.user_no = #{userNo}
+        </if>
+        <if test="createUser != null and createUser != ''">
+            and wt.user_no != #{createUser}
         </if>
         <if test="receiverUserNo != null and receiverUserNo != ''">
             and wt.receiver_user_no = #{receiverUserNo}

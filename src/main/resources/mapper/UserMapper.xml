@@ -12,23 +12,28 @@
         <result property="tel" column="tel" javaType="String"/>
         <result property="phone" column="phone" javaType="String"/>
         <result property="email" column="email" javaType="String"/>
+        <result property="positionCode" column="position_code" javaType="String"/>
+        <result property="positionName" column="position_name" javaType="String"/>
     </resultMap>
 
     <!-- 查询用户信息列表 -->
     <select id="selectUserByNo" resultMap="userMap">
         select
-            id,
-           user_no,
-           pwd,
-           user_name,
-           sex,
-           age,
-           job,
-           tel,
-           phone,
-           email
-        from admin_user
-        where user_no = #{userNo}
+            au.id,
+            au.user_no,
+            au.pwd,
+            au.user_name,
+            au.sex,
+            au.age,
+            au.job,
+            au.tel,
+            au.phone,
+            au.email,
+            au.position_code,
+            wpc.position_name
+        from admin_user au
+        left join wlsms_position_config wpc on wpc.position_code = au.position_code
+        where au.user_no = #{userNo}
     </select>
 
     <update id="editUserByUserNo" parameterType="com.web.wlsms.entity.UserEntity">
@@ -48,7 +53,10 @@
                 phone = #{phone},
             </if>
             <if test="email !=null and email != ''">
-                email = #{email}
+                email = #{email},
+            </if>
+            <if test="positionCode !=null and positionCode != ''">
+                position_code = #{positionCode},
             </if>
         </set>
         <where>
@@ -76,21 +84,24 @@
     <!-- 查询用户信息列表 -->
     <select id="getUserList" parameterType="map" resultMap="userMap">
         select
-            id,
-            user_no,
-            user_name,
-            sex,
-            age,
-            job,
-            tel,
-            phone,
-            email
-        from admin_user
+        au.id,
+        au.user_no,
+        au.user_name,
+        au.sex,
+        au.age,
+        au.job,
+        au.tel,
+        au.phone,
+        au.email,
+        au.position_code,
+        wpc.position_name
+        from admin_user au
+        left join wlsms_position_config wpc on wpc.position_code = au.position_code
         where 1=1
         <if test="keyWord !=null and keyWord !=''">
-            and (user_no like concat('%',#{keyWord},'%') or user_name like concat('%',#{keyWord},'%'))
+            and (au.user_no like concat('%',#{keyWord},'%') or au.user_name like concat('%',#{keyWord},'%'))
         </if>
-        order by id desc
+        order by au.id desc
     </select>
 
     <insert id="saveUser" parameterType="com.web.wlsms.entity.UserEntity">
@@ -103,7 +114,8 @@
             job,
             tel,
             phone,
-            email
+            email,
+            position_code
         )
         VALUES
         (
@@ -114,7 +126,8 @@
             #{job},
             #{tel},
             #{phone},
-            #{email}
+            #{email},
+            #{positionCode}
         )
     </insert>
 
@@ -127,33 +140,39 @@
 
     <select id="selectUserById" resultMap="userMap">
         select
-            id,
-            user_no,
-            pwd,
-            user_name,
-            sex,
-            age,
-            job,
-            tel,
-            phone,
-            email
-        from admin_user
-        where id = #{id}
+            au.id,
+            au.user_no,
+            au.pwd,
+            au.user_name,
+            au.sex,
+            au.age,
+            au.job,
+            au.tel,
+            au.phone,
+            au.email,
+            au.position_code,
+            wpc.position_name
+        from admin_user au
+        left join wlsms_position_config wpc on wpc.position_code = au.position_code
+        where au.id = #{id}
     </select>
 
     <select id="selectUserByUserNo" resultMap="userMap">
         select
-            id,
-            user_no,
-            pwd,
-            user_name,
-            sex,
-            age,
-            job,
-            tel,
-            phone,
-            email
-        from admin_user
-        where user_no = #{userNo}
+            au.id,
+            au.user_no,
+            au.pwd,
+            au.user_name,
+            au.sex,
+            au.age,
+            au.job,
+            au.tel,
+            au.phone,
+            au.email,
+            au.position_code,
+            wpc.position_name
+        from admin_user au
+                 left join wlsms_position_config wpc on wpc.position_code = au.position_code
+        where au.user_no = #{userNo}
     </select>
 </mapper>
