@@ -11,6 +11,7 @@ import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.alarm.AlarmService;
 import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.service.system.PositionService;
+import com.web.wlsms.service.system.UserService;
 import com.web.wlsms.utils.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class DataBuildNewService {
     @Resource
     private PositionService positionService;
     @Resource
+    private UserService userService;
+    @Resource
     private AlarmService alarmService;
     public int queryMachineCountByInfo(MachineModel machineModel){
         return dataBuildNewDao.queryMachineCountByInfo(machineModel);
@@ -51,6 +54,7 @@ public class DataBuildNewService {
     public PageInfo getManualList(SimpleRequest request) {
         PageHelper.startPage(request.getPage(), request.getRows());
         Map<String,Object> param = new HashMap<>();
+        param.put("positionCode",userService.selectUserById(request.getUserNo()).getPositionCode());
         try {
             if(StringUtils.isNotBlank(request.getQueryBt())){
                 param.put("queryBt",request.getQueryBt());
@@ -88,6 +92,7 @@ public class DataBuildNewService {
     public PageInfo getMachineList(SimpleRequest<Map> request) {
         PageHelper.startPage(request.getPage(), request.getRows());
         Map<String,Object> param = new HashMap<>();
+        param.put("positionCode",userService.selectUserById(request.getUserNo()).getPositionCode());
         try {
             if (StringUtils.isNotBlank(request.getQueryBt())) {
                 param.put("queryBt", request.getQueryBt());
@@ -623,6 +628,8 @@ public class DataBuildNewService {
      * @return
      */
     public List<AutoBuildEntity> queryManualByDate(Map param){
+        String userNO = (String) param.get("userNo");
+        param.put("positionCode",userService.selectUserById(userNO).getPositionCode());
         return dataBuildNewDao.queryManualByDate(param);
     }
 
@@ -632,6 +639,8 @@ public class DataBuildNewService {
      * @return
      */
     public List<AutoBuildEntity> queryMachineByDate(Map param){
+        String userNO = (String) param.get("userNo");
+        param.put("positionCode",userService.selectUserById(userNO).getPositionCode());
         return dataBuildNewDao.queryMachineByDate(param);
     }
 
@@ -671,6 +680,7 @@ public class DataBuildNewService {
     public PageInfo getAutoDataList(SimpleRequest<Map> request){
         PageHelper.startPage(request.getPage(), request.getRows());
         Map<String,Object> param = new HashMap<>();
+        param.put("positionCode",userService.selectUserById(request.getUserNo()).getPositionCode());
         try {
             if (StringUtils.isNotBlank(request.getBuildDate())) {
                 param.put("buildDate", request.getBuildDate());

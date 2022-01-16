@@ -19,6 +19,8 @@ public class PositionService {
 
 	@Resource
 	private PositionDao positionDao;
+	@Resource
+	private UserService userService;
 	public BaseResponse savePosition(PositionEntity positionEntity){
 		int num = positionDao.insertPosition(positionEntity);
 		if(num >0){
@@ -34,9 +36,9 @@ public class PositionService {
 		List<PositionEntity> list = positionDao.getPositionList(request.getRequest());
 		return new PageInfo<>(list);
 	}
-	public List<PositionEntity> getPositionArr() {
-		Map map = new HashMap();
-		List<PositionEntity> list = positionDao.getPositionList("");
+	public List<PositionEntity> getPositionArr(SimpleRequest<Map> params) {
+		String positionCode =userService.selectUserById(params.getUserNo()).getPositionCode();
+		List<PositionEntity> list = positionDao.getPositionListByPo(positionCode);
 		return list;
 	}
 

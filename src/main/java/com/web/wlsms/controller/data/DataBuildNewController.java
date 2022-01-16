@@ -461,7 +461,10 @@ public class DataBuildNewController {
      * @return
      */
     @RequestMapping("queryManualByDate")
-    public Map<String,Object> queryManualByDate(Map params){
+    public Map<String,Object> queryManualByDate(HttpServletRequest request, Map params){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        params.put("userNo", userNo);
         Map<String,Object> resultMap = new HashMap<>();
         try {
             List<AutoBuildEntity> getDataList = dataBuildNewService.queryManualByDate(params);
@@ -480,7 +483,10 @@ public class DataBuildNewController {
      * @return
      */
     @RequestMapping("queryMachineByDate")
-    public Map<String,Object> queryMachineByDate(Map params){
+    public Map<String,Object> queryMachineByDate(HttpServletRequest request, Map params){
+            HttpSession session = request.getSession(true);
+            String userNo = (String) session.getAttribute("userNo");
+            params.put("userNo", userNo);
         Map<String,Object> resultMap = new HashMap<>();
         try {
             List<AutoBuildEntity> getDataList = dataBuildNewService.queryMachineByDate(params);
@@ -535,7 +541,10 @@ public class DataBuildNewController {
      * @return
      */
     @RequestMapping("getAutoDataList")
-    public Map<String,Object> getAutoDataList(SimpleRequest<Map> params){
+    public Map<String,Object> getAutoDataList(HttpServletRequest request, SimpleRequest<Map> params){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        params.setUserNo(userNo);
         Map<String,Object> resultMap = new HashMap<>();
         try {
             PageInfo getDataList = dataBuildNewService.getAutoDataList(params);
@@ -555,7 +564,10 @@ public class DataBuildNewController {
      * @return
      */
     @RequestMapping("getAutoDataListById")
-    public Map<String,Object> getAutoDataListById(SimpleRequest<Map> params){
+    public Map<String,Object> getAutoDataListById(HttpServletRequest request, SimpleRequest<Map> params){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        params.setUserNo(userNo);
         Map<String,Object> resultMap = new HashMap<>();
         try {
             AutoBuildEntity autoBuildById = dataBuildNewService.getAutoBuildById(params);
@@ -580,7 +592,10 @@ public class DataBuildNewController {
      * @return
      */
     @RequestMapping("getManualList")
-    public Map<String,Object> getManualDataList(SimpleRequest<Map> params){
+    public Map<String,Object> getManualDataList(HttpServletRequest request, SimpleRequest<Map> params){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        params.setUserNo(userNo);
         Map<String,Object> resultMap = new HashMap<>();
         try {
             PageInfo getDataList = dataBuildNewService.getManualList(params);
@@ -600,7 +615,10 @@ public class DataBuildNewController {
      * @return
      */
     @RequestMapping("getMachineList")
-    public Map<String,Object> getMachineList(SimpleRequest params){
+    public Map<String,Object> getMachineList(HttpServletRequest request, SimpleRequest params){
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        params.setUserNo(userNo);
         Map<String,Object> resultMap = new HashMap<>();
         try {
             PageInfo getDataList = dataBuildNewService.getMachineList(params);

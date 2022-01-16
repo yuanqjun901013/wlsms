@@ -20,6 +20,20 @@
         order by id desc
     </select>
 
+    <select id="getPositionListByPo" resultMap="positionMap">
+        select
+        id,
+        position_name,
+        position_code
+        from wlsms_position_config
+        where 1=1
+        <if test="positionCode != null and positionCode != ''">
+          and  position_code = #{positionCode}
+        </if>
+        order by id desc
+    </select>
+
+
     <!-- 添加操作日志信息 -->
     <insert id="insertPosition" parameterType="com.web.wlsms.entity.PositionEntity">
         INSERT INTO wlsms_position_config

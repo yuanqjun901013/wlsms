@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +42,14 @@ public class PositionController {
      */
 
     @RequestMapping("getPositionArr")
-    public Map<String,Object> getPositionArr(){
+    public Map<String,Object> getPositionArr(HttpServletRequest request){
+        SimpleRequest<Map> params = new SimpleRequest<>();
+        HttpSession session = request.getSession(true);
+        String userNo = (String) session.getAttribute("userNo");
+        params.setUserNo(userNo);
         Map<String,Object> resultMap = new HashMap<>();
         try {
-            List<PositionEntity> getPositionList = positionService.getPositionArr();
+            List<PositionEntity> getPositionList = positionService.getPositionArr(params);
             resultMap.put("rows", getPositionList);
         }catch (Exception e){
             resultMap.put("total", 0);

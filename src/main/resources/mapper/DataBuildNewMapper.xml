@@ -219,6 +219,9 @@
         FROM wlsms_manual_new wmn
         left join wlsms_position_config wpc on wpc.position_code = wmn.position_code
          where 1=1
+        <if test="positionCode != null and positionCode != ''">
+            and wmn.position_code = #{positionCode}
+        </if>
         <if test="queryBt != null and queryBt != ''">
             and (wmn.sxzfq_name like concat('%',#{queryBt},'%') or wmn.system_name like concat('%',#{queryBt},'%') or wmn.pro_code like concat('%',#{queryBt},'%'))
         </if>
@@ -270,6 +273,9 @@
     wlsms_machine_new wmn
         left join wlsms_position_config wpc on wpc.position_code = wmn.position_code
         where 1=1
+        <if test="positionCode != null and positionCode != ''">
+            and wmn.position_code = #{positionCode}
+        </if>
         <if test="queryBt != null and queryBt != ''">
             and (wmn.wx_name like concat('%',#{queryBt},'%') or wmn.tzys_name like concat('%',#{queryBt},'%')  or wmn.pro_code like concat('%',#{queryBt},'%'))
         </if>
@@ -571,6 +577,9 @@
         from wlsms_data_new wdn
         left join wlsms_position_config wpc on wpc.position_code = wdn.position_code
         where 1=1
+        <if test="positionCode != null and positionCode != ''">
+            and wdn.position_code = #{positionCode}
+        </if>
         <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(wdn.build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
         <if test="buildTime != null and buildTime != ''"> and DATE_FORMAT(wdn.build_time,'%Y-%m-%d %H:%i:%S') = DATE_FORMAT(#{buildTime},'%Y-%m-%d %H:%i:%S') </if>
         <if test="queryBt != null and queryBt != ''">
@@ -661,6 +670,9 @@
         count(id) as count
         from wlsms_manual_new
         where 1=1
+        <if test="positionCode != null and positionCode != ''">
+            and position_code = #{positionCode}
+        </if>
         <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_date,'%Y-%m-%d') = DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
         group by build_date
         order by build_date desc
@@ -672,6 +684,9 @@
         count(id) as count
         from wlsms_machine_new
         where 1=1
+        <if test="positionCode != null and positionCode != ''">
+            and position_code = #{positionCode}
+        </if>
         <if test="buildDate != null and buildDate != ''"> and DATE_FORMAT(build_time,'%Y-%m-%d') =  DATE_FORMAT(#{buildDate},'%Y-%m-%d') </if>
         group by build_time
         order by build_time desc

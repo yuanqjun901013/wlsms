@@ -9,6 +9,7 @@ import java.util.List;
 public interface PositionDao {
 
    List<PositionEntity> getPositionList(String keyWord);
+   List<PositionEntity> getPositionListByPo(String positionCode);
    int insertPosition(PositionEntity positionEntity);
    int updatePosition(PositionEntity positionEntity);
    int destroyPosition(PositionEntity positionEntity);
