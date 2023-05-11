@@ -13,6 +13,8 @@ import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.data.DataService;
 import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.utils.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,7 @@ import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Api(tags = {"数据统计管理"})
 @RestController
 @RequestMapping("/data/data")
 public class DataController {
@@ -42,7 +44,8 @@ public class DataController {
      * @param params
      * @return
      */
-    @RequestMapping("getDataList")
+    @ApiOperation("数据汇总列表")
+    @PostMapping("getDataList")
     public Map<String,Object> getDataList(SimpleRequest<Map> params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -62,7 +65,8 @@ public class DataController {
      * @param params
      * @return
      */
-    @RequestMapping("getManualDataList")
+    @ApiOperation("人工上报数据")
+    @PostMapping("getManualDataList")
     public Map<String,Object> getManualDataList(SimpleRequest<Map> params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -82,7 +86,8 @@ public class DataController {
      * @param params
      * @return
      */
-    @RequestMapping("getMachineDataList")
+    @ApiOperation("机器上报数据")
+    @PostMapping("getMachineDataList")
     public Map<String,Object> getMachineDataList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -101,7 +106,8 @@ public class DataController {
      * 人工未核对数据
      * @return
      */
-    @RequestMapping("getManualDit")
+    @ApiOperation("人工未核对数据")
+    @PostMapping("getManualDit")
     public Map<String,Object> getManualDit(){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -117,7 +123,8 @@ public class DataController {
      * 机器未核对数据
      * @return
      */
-    @RequestMapping("getMachineDit")
+    @ApiOperation("机器未核对数据")
+    @PostMapping("getMachineDit")
     public Map<String,Object> getMachineDit(){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -138,7 +145,8 @@ public class DataController {
      * @param params
      * @return
      */
-    @RequestMapping("queryDataList")
+    @ApiOperation("数据分析处理列表")
+    @PostMapping("queryDataList")
     public Map<String,Object> queryDataList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -157,7 +165,8 @@ public class DataController {
      * @param params
      * @return
      */
-    @RequestMapping("getDataBi")
+    @ApiOperation("报表总览")
+    @PostMapping("getDataBi")
     public Map<String,Object> getDataBi(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -176,7 +185,8 @@ public class DataController {
      * @param params
      * @return
      */
-    @RequestMapping("getDataDetail")
+    @ApiOperation("详细报表")
+    @PostMapping("getDataDetail")
     public Map<String,Object> getDataDetail(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -195,7 +205,8 @@ public class DataController {
      * @param params
      * @return
      */
-    @RequestMapping("getDataByPosition")
+    @ApiOperation("报表")
+    @PostMapping("getDataByPosition")
     public Map<String,Object> getDataByPosition(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -214,7 +225,8 @@ public class DataController {
      * @param params
      * @return
      */
-    @RequestMapping("insertData")
+    @ApiOperation("添加主表数据")
+    @PostMapping("insertData")
     public Map<String,Object> insertData(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -234,13 +246,14 @@ public class DataController {
     /**
      * 导入人工底数
      */
-    @RequestMapping("importManual")
+    @ApiOperation("导入人工底数")
+    @PostMapping("importManual")
     @ResponseBody
     public BaseResponse importManual(HttpServletRequest request,MultipartFile file, String positionCode) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         try {
-            if (null == file) return BaseResponse.fail("读取Excel异常！");
+            if (null == file){ return BaseResponse.fail("读取Excel异常！");}
             InputStream inputStream = file.getInputStream();// 得到输入流
             if(null != inputStream) {
                 ExcelReadResult<ManualDataModel> excelRead = ExcelUtil.readList("manualData.xml", inputStream, ManualDataModel.class);
@@ -365,7 +378,8 @@ public class DataController {
      * @param
      * @return
      */
-    @RequestMapping("deleteManual")
+    @ApiOperation("删除人工底数")
+    @PostMapping("deleteManual")
     public BaseResponse deleteManual(ManualDataModel manualDataModel){
         if(null == manualDataModel){
             return BaseResponse.fail("入参有误，请重试");
@@ -378,7 +392,8 @@ public class DataController {
      * @param
      * @return
      */
-    @RequestMapping("deleteMachine")
+    @ApiOperation("删除机器底数")
+    @PostMapping("deleteMachine")
     public BaseResponse deleteMachine(MachineDataModel machineDataModel){
         if(null == machineDataModel){
             return BaseResponse.fail("入参有误，请重试");
@@ -391,7 +406,8 @@ public class DataController {
      * @param
      * @return
      */
-    @RequestMapping("deleteData")
+    @ApiOperation("删除汇总归档底数")
+    @PostMapping("deleteData")
     public BaseResponse deleteData(DataEntity dataEntity){
         if(null == dataEntity){
             return BaseResponse.fail("入参有误，请重试");
@@ -404,7 +420,8 @@ public class DataController {
      * @param
      * @return
      */
-    @RequestMapping("updateData")
+    @ApiOperation("修改汇总归档底数")
+    @PostMapping("updateData")
     public BaseResponse updateData(DataEntity dataEntity){
         if(null == dataEntity){
             return BaseResponse.fail("入参有误，请重试");
@@ -416,13 +433,14 @@ public class DataController {
     /**
      * 导入机器底数
      */
-    @RequestMapping("importMachine")
+    @ApiOperation("导入机器底数")
+    @PostMapping("importMachine")
     @ResponseBody
     public BaseResponse importMachine(HttpServletRequest request,MultipartFile file, String positionCode) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         try {
-            if (null == file) return BaseResponse.fail("读取Excel异常！");
+            if (null == file){ return BaseResponse.fail("读取Excel异常！");}
             InputStream inputStream = file.getInputStream();// 得到输入流
             if(null != inputStream) {
                 ExcelReadResult<MachineDataModel> excelRead = ExcelUtil.readList("machineData.xml", inputStream, MachineDataModel.class);
@@ -503,7 +521,8 @@ public class DataController {
      * @param request
      * @return
      */
-    @RequestMapping("saveBatch")
+    @ApiOperation("校对机器、人工数据汇总")
+    @PostMapping("saveBatch")
     public BaseResponse saveBatch(DataProCodeRequest request){
         try {
             return dataService.saveBatch(request);
@@ -518,7 +537,8 @@ public class DataController {
      * @param request
      * @return
      */
-    @RequestMapping("cotData")
+    @ApiOperation("系统总览")
+    @PostMapping("cotData")
     public BaseResponse cotData(HttpServletRequest request){
         try {
             List<AllParamEntity> allParamList = dataService.cotData();
@@ -536,7 +556,8 @@ public class DataController {
      * @param request
      * @return
      */
-    @RequestMapping("vcData")
+    @ApiOperation("底数录入情况统计")
+    @PostMapping("vcData")
     public BaseResponse vcData(HttpServletRequest request){
         try {
             List<AllParamEntity> allParamList = dataService.vcData();
@@ -549,7 +570,8 @@ public class DataController {
         }
     }
 
-    @RequestMapping("getRecommend")
+    @ApiOperation("采集时间参数")
+    @PostMapping("getRecommend")
     public BaseResponse getRecommend(HttpServletRequest request){
         String cjTime = request.getParameter("cjTime");
         if(StringUtils.isBlank(cjTime)){
@@ -562,13 +584,14 @@ public class DataController {
     /**
      * 导入人工底数
      */
-    @RequestMapping("importBatchData")
+    @ApiOperation("导入人工底数")
+    @PostMapping("importBatchData")
     @ResponseBody
     public BaseResponse importBatchData(HttpServletRequest request,MultipartFile file, String positionCode) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         try {
-            if (null == file) return BaseResponse.fail("读取Excel异常！");
+            if (null == file) {return BaseResponse.fail("读取Excel异常！");}
             InputStream inputStream = file.getInputStream();// 得到输入流
             if(null != inputStream) {
                 ExcelReadResult<DataEntity> excelRead = ExcelUtil.readList("batchData.xml", inputStream, DataEntity.class);
@@ -664,7 +687,8 @@ public class DataController {
      * @param request
      * @return
      */
-    @RequestMapping("chartData")
+    @ApiOperation("最近七天底数情况折线对比图")
+    @PostMapping("chartData")
     public BaseResponse chartData(HttpServletRequest request){
         try {
             Map<String, Object> allParam = dataService.chartData();

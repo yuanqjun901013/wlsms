@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>系统平台</title>
+	<title>某管理平台</title>
 	<link rel="stylesheet" type="text/css" href="../../themes/material-teal/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../../themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../../demo/demo.css">
@@ -339,8 +339,8 @@
 	<table border="0" style="width: 99%;height: 69px">
 		<tr><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
 			<td align="left" width="200px">
-				<a class="easyui-linkbutton" style="width:200px;height: 98%;" data-options="iconCls:'icon-logo',size:'large',plain:true" onclick="reload();" >
-					系统平台
+				<a class="easyui-linkbutton" style="width:400px;height: 98%;" data-options="iconCls:'icon-logo',size:'large',plain:true" onclick="reload();" >
+					<span><h3>某管理平台</h3></span>
 				</a>
 			</td>
 			<!--/*@thymesVar id="menusParentList" type=""*/-->

@@ -10,12 +10,16 @@ import com.web.wlsms.response.MenuNodeResponse;
 import com.web.wlsms.service.system.MenuService;
 import com.web.wlsms.service.system.RoleUserService;
 import com.web.wlsms.service.system.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Api(tags = {"首页"})
 @Controller
 @RequestMapping("index")
 public class IndexController {
@@ -52,7 +56,8 @@ public class IndexController {
      * @param request
      * @return
      */
-    @RequestMapping("main")
+    @ApiOperation("首页")
+    @GetMapping("main")
     public String main(HttpServletRequest request) {
         commonSession(request);
         return "views/index/index";
@@ -64,13 +69,15 @@ public class IndexController {
      * @param request
      * @return
      */
-    @RequestMapping("middlePage")
+    @ApiOperation("首页中间默认展示内容")
+    @GetMapping("middlePage")
     public String middlePage(HttpServletRequest request) {
         request.setAttribute("tab","告警");
         return "views/middle/middle";
     }
 
-    @RequestMapping("messagePage")
+    @ApiOperation("消息展示")
+    @GetMapping("messagePage")
     public String messagePage(HttpServletRequest request) {
         return "views/message/message";
     }
@@ -82,7 +89,8 @@ public class IndexController {
      * @throws ServletException
      * @throws IOException
      */
-    @RequestMapping("forwardToPage")
+    @ApiOperation("重定向页面请求")
+    @GetMapping("forwardToPage")
     public String forwardToPage(HttpServletRequest request){
         LOGGER.info("forwardToPage");
         String url = request.getParameter("url");
@@ -99,19 +107,22 @@ public class IndexController {
      * @param request
      * @return
      */
-    @RequestMapping("userModalPage")
+    @ApiOperation("加载个人资料Modal弹窗页")
+    @GetMapping("userModalPage")
     public String userModalPage(HttpServletRequest request) {
         commonSession(request);
         return "views/index/userModalPage";
     }
 
-
-    @RequestMapping("waitingTask")
+    @ApiOperation("待认领任务")
+    @GetMapping("waitingTask")
     public String waitingTask(HttpServletRequest request) {
         commonSession(request);
         return "views/task/waitingTask";
     }
-    @RequestMapping("todoTask")
+
+    @ApiOperation("待处理任务")
+    @GetMapping("todoTask")
     public String todoTask(HttpServletRequest request) {
         commonSession(request);
         return "views/task/todoTask";
@@ -124,7 +135,8 @@ public class IndexController {
      * @param request
      * @return
      */
-    @RequestMapping("pwdModalPage")
+    @ApiOperation("加载修改密码Modal弹窗页")
+    @GetMapping("pwdModalPage")
     public String pwdModalPage(HttpServletRequest request) {
         commonSession(request);
         return "views/index/pwdModalPage";

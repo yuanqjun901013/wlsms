@@ -5,7 +5,10 @@ import com.web.wlsms.entity.WlsmsMongodbConf;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.mongodb.MongoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,12 +16,15 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+@Api(tags = {"mongo数据库配置"})
 @RestController
 @RequestMapping("/mongo/config")
 public class MongoConfigController {
     @Resource
     private MongoService mongoService;
-    @RequestMapping("saveMongoConfig")
+
+    @ApiOperation("mongoDb保存配置")
+    @PostMapping("saveMongoConfig")
     public BaseResponse saveMongoConfig(WlsmsMongodbConf wlsmsMongodbConf){
         if(null == wlsmsMongodbConf){
             return BaseResponse.fail("入参有误，请重试");
@@ -107,7 +113,8 @@ public class MongoConfigController {
         return mongoService.saveMongoConfig(wlsmsMongodbConf);
     }
 
-    @RequestMapping("getMongoDbList")
+    @ApiOperation("mongoDb获取配置")
+    @PostMapping("getMongoDbList")
     public Map<String,Object> getMongoDbList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -124,8 +131,8 @@ public class MongoConfigController {
     /**
      * 验证mongodb数据连接
      */
-
-    @RequestMapping("getTestConnect")
+    @ApiOperation("验证mongodb数据连接")
+    @PostMapping("getTestConnect")
     public BaseResponse getTestConnect(WlsmsMongodbConf wlsmsMongodbConf){
         if(null == wlsmsMongodbConf){
             return BaseResponse.fail("参数异常");

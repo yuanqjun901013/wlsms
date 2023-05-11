@@ -2,14 +2,14 @@ package com.web.wlsms.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-@Document(collection = "ABC_DataCount")
+//@Document(collection = "ABC_DataCount")
 public class AbcDataCount {
     @Id
     private Long id;

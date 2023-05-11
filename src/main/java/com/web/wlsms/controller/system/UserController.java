@@ -4,9 +4,12 @@ import com.github.pagehelper.PageInfo;
 import com.web.wlsms.entity.UserEntity;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.service.system.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Api(tags = {"用户管理"})
 @RestController
 @RequestMapping("/admin/user")
 public class UserController {
@@ -24,12 +27,14 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @RequestMapping("editUserByUserNo")
+    @ApiOperation("编辑用户信息")
+    @PostMapping("editUserByUserNo")
     public int editUserByUserNo(HttpServletRequest request, UserEntity userEntity){
         return userService.editUserByUserNo(userEntity);
     }
 
-    @RequestMapping("editUserPwd")
+    @ApiOperation("修改用户密码")
+    @PostMapping("editUserPwd")
     public int editUserPwd(HttpServletRequest request, UserEntity userEntity){
         return userService.editUserPwd(userEntity);
     }
@@ -39,7 +44,8 @@ public class UserController {
      * @param params
      * @return
      */
-    @RequestMapping("getUserList")
+    @ApiOperation("查询用户列表")
+    @PostMapping("getUserList")
     public Map<String,Object> getUserList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -54,7 +60,8 @@ public class UserController {
     }
 
     //供下拉框选择
-    @RequestMapping("getUserArr")
+    @ApiOperation("供下拉框选择")
+    @PostMapping("getUserArr")
     public Map<String,Object> getUserArr(){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -66,7 +73,8 @@ public class UserController {
         return resultMap;
     }
 
-    @RequestMapping("saveUser")
+    @ApiOperation("添加用户")
+    @PostMapping("saveUser")
     public int saveUser(UserEntity userEntity){
         if(null == userEntity){//信息不能为空
             return 2;
@@ -85,7 +93,8 @@ public class UserController {
 
     }
 
-    @RequestMapping("deleteUser")
+    @ApiOperation("删除用户")
+    @PostMapping("deleteUser")
     public int deleteUser(UserEntity userEntity){
         if(null == userEntity){//信息不能为空
             return 2;

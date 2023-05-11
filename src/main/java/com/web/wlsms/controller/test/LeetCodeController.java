@@ -1,13 +1,17 @@
 package com.web.wlsms.controller.test;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+@Api(tags = {"测试调试"})
 @Controller
 @RequestMapping("/leet")
 public class LeetCodeController {
-    @RequestMapping("/test")
+    @ApiOperation("测试")
+    @PostMapping("/test")
     @ResponseBody
     public int test(){
         int[] intArr = new int[]{1,8,6,2,5,4,8,3,7};
@@ -45,8 +49,8 @@ public class LeetCodeController {
         return res;
     }
 
-
-    @RequestMapping("/remove")
+    @ApiOperation("删除")
+    @PostMapping("/remove")
     @ResponseBody
     public int remove(){
         int[] intArr = new int[]{0,0,1,1,1,2,2,3,3,4};
@@ -59,7 +63,7 @@ public class LeetCodeController {
      * @return
      */
     public int removeDuplicates(int[] nums) {
-        if (nums.length == 0) return 0;
+        if (nums.length == 0) {return 0;}
         int i = 0;
         for (int j = 1; j < nums.length; j++) {
             if (nums[j] != nums[i]) {

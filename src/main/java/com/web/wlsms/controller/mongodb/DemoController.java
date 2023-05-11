@@ -4,14 +4,17 @@ import com.web.wlsms.dao.DemoDao;
 import com.web.wlsms.entity.AbcDataCount;
 import com.web.wlsms.entity.DemoEntity;
 import com.web.wlsms.response.BaseResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-
+@Api(tags = {"mongo数据库demo"})
 @RestController
 @RequestMapping("/mongo/demo")
 public class DemoController {
@@ -24,7 +27,8 @@ public class DemoController {
      * @param request
      * @return
      */
-    @RequestMapping("saveDemo")
+    @ApiOperation("mongoDb测试保存集合数据")
+    @PostMapping("saveDemo")
     public BaseResponse saveDemo(HttpServletRequest request){
         try {
             DemoEntity demoEntity = new DemoEntity();
@@ -40,7 +44,8 @@ public class DemoController {
         }
     }
 
-    @RequestMapping("saveAbcData")
+    @ApiOperation("mongoDb测试保存对象")
+    @PostMapping("saveAbcData")
     public BaseResponse saveAbcData(HttpServletRequest request){
         try {
             AbcDataCount abcDataCount = new AbcDataCount();
@@ -71,7 +76,8 @@ public class DemoController {
      * @param request
      * @return
      */
-    @RequestMapping("updateDemo")
+    @ApiOperation("mongoDb测试修改集合数据")
+    @PostMapping("updateDemo")
     public BaseResponse updateDemo(HttpServletRequest request){
         try {
             DemoEntity demoEntity = new DemoEntity();
@@ -92,7 +98,8 @@ public class DemoController {
      * @param request
      * @return
      */
-    @RequestMapping("queryDemo")
+    @ApiOperation("mongoDb查询集合数据")
+    @PostMapping("queryDemo")
     public BaseResponse queryDemo(HttpServletRequest request, Long id){
         try {
             List<Map> obList = demoDao.findAllObject("demo");

@@ -8,25 +8,28 @@ import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.data.MacAutoService;
 import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.utils.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Api(tags = {"底数数据管理(旧)"})
 @RestController
 @RequestMapping("/data/macAuto")
 public class MacAutoController {
@@ -38,20 +41,21 @@ public class MacAutoController {
     /**
      * 导入人工底数
      */
-    @RequestMapping("importManual")
+    @ApiOperation("导入人工底数")
+    @PostMapping("importManual")
     @ResponseBody
     public BaseResponse importManual(HttpServletRequest request, MultipartFile file, String positionCode) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         try {
-            if (null == file) return BaseResponse.fail("读取Excel异常！");
+            if (null == file) {return BaseResponse.fail("读取Excel异常！");}
             InputStream inputStream = file.getInputStream();// 得到输入流
             if(null != inputStream) {
                 ExcelReadResult<ManualModel> excelRead = ExcelUtil.readList("manual.xml", inputStream, ManualModel.class);
                 if (excelRead.isStatus() && !excelRead.getResult().isEmpty()) {
                     // 写入数据
                     BaseResponse<Integer> result = this.writeExcelManual(excelRead.getResult(),positionCode,userNo);
-                    if (result.getCode().equals("0000") && null != result.getData()) {
+                    if ("0000".equals(result.getCode()) && null != result.getData()) {
                         return BaseResponse.ok("成功导入" + result.getData() + "条数据！");
                     } else {
                         return BaseResponse.fail("数据导入异常！");
@@ -198,30 +202,33 @@ public class MacAutoController {
     }
 
     private static int gcd(int x, int y){ // 这个是运用辗转相除法求 两个数的 最大公约数 看不懂可以百度 // 下
-        if(y == 0)
+        if(y == 0) {
             return x;
-        else
-            return gcd(y,x%y);
+        }
+        else {
+            return gcd(y, x % y);
+        }
     }
 
 
     /**
      * 导入机器底数
      */
-    @RequestMapping("importMachine")
+    @ApiOperation("导入机器底数")
+    @PostMapping("importMachine")
     @ResponseBody
     public BaseResponse importMachine(HttpServletRequest request,MultipartFile file, String positionCode) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
         try {
-            if (null == file) return BaseResponse.fail("读取Excel异常！");
+            if (null == file){ return BaseResponse.fail("读取Excel异常！");}
             InputStream inputStream = file.getInputStream();// 得到输入流
             if(null != inputStream) {
                 ExcelReadResult<MachineModel> excelRead = ExcelUtil.readList("machine.xml", inputStream, MachineModel.class);
                 if (excelRead.isStatus() && !excelRead.getResult().isEmpty()) {
                     // 写入数据
                     BaseResponse<Integer> result = this.writeExcelMachine(excelRead.getResult(),positionCode,userNo);
-                    if (result.getCode().equals("0000") && null != result.getData()) {
+                    if ("0000".equals(result.getCode()) && null != result.getData()) {
                         return BaseResponse.ok("成功导入" + result.getData() + "条数据！");
                     } else {
                         return BaseResponse.fail("数据导入异常！");
@@ -335,7 +342,8 @@ public class MacAutoController {
      * @param params
      * @return
      */
-    @RequestMapping("getManualList")
+    @ApiOperation("人工上报数据")
+    @PostMapping("getManualList")
     public Map<String,Object> getManualDataList(SimpleRequest<Map> params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -369,7 +377,8 @@ public class MacAutoController {
      * @param params
      * @return
      */
-    @RequestMapping("getMachineList")
+    @ApiOperation("机器上报数据")
+    @PostMapping("getMachineList")
     public Map<String,Object> getMachineList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -384,7 +393,8 @@ public class MacAutoController {
         return resultMap;
     }
 
-    @RequestMapping("saveManual")
+    @ApiOperation("保存人工底数")
+    @PostMapping("saveManual")
     public BaseResponse saveManual(HttpServletRequest request, ManualModel manualModel){
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
@@ -414,7 +424,8 @@ public class MacAutoController {
         return macAutoService.saveManual(manualModel);
     }
 
-    @RequestMapping("updateManual")
+    @ApiOperation("编辑人工底数")
+    @PostMapping("updateManual")
     public BaseResponse updateManual(ManualModel manualModel){
         if(null == manualModel){
             return BaseResponse.fail("入参有误，请重试");
@@ -442,7 +453,8 @@ public class MacAutoController {
      * @param
      * @return
      */
-    @RequestMapping("deleteManual")
+    @ApiOperation("删除人工底数")
+    @PostMapping("deleteManual")
     public BaseResponse deleteManual(String ids){
         if(null == ids){
             return BaseResponse.fail("入参有误，请重试");
@@ -456,7 +468,8 @@ public class MacAutoController {
      * @param
      * @return
      */
-    @RequestMapping("deleteMachine")
+    @ApiOperation("删除机器底数")
+    @PostMapping("deleteMachine")
     public BaseResponse deleteMachine(String ids){
         if(null == ids){
             return BaseResponse.fail("入参有误，请重试");
@@ -470,7 +483,8 @@ public class MacAutoController {
      * @param params
      * @return
      */
-    @RequestMapping("queryManualByDate")
+    @ApiOperation("人工上报数据以日期为分类")
+    @PostMapping("queryManualByDate")
     public Map<String,Object> queryManualByDate(Map params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -489,7 +503,8 @@ public class MacAutoController {
      * @param params
      * @return
      */
-    @RequestMapping("queryMachineByDate")
+    @ApiOperation("机器上报数据以时间点为分类")
+    @PostMapping("queryMachineByDate")
     public Map<String,Object> queryMachineByDate(Map params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -507,7 +522,8 @@ public class MacAutoController {
      * @param params
      * @return
      */
-    @RequestMapping("queryAutoBuildList")
+    @ApiOperation("查询比对标记表数据")
+    @PostMapping("queryAutoBuildList")
     public Map<String,Object> queryAutoBuildList(SimpleRequest<Map> params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -529,7 +545,8 @@ public class MacAutoController {
      * @param params
      * @return
      */
-    @RequestMapping("getAutoDataList")
+    @ApiOperation("查询比对详情表数据")
+    @PostMapping("getAutoDataList")
     public Map<String,Object> getAutoDataList(SimpleRequest<Map> params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -549,7 +566,8 @@ public class MacAutoController {
      * @param params
      * @return
      */
-    @RequestMapping("getAutoDataListById")
+    @ApiOperation("根据主表id查询比对详情表数据")
+    @PostMapping("getAutoDataListById")
     public Map<String,Object> getAutoDataListById(SimpleRequest<Map> params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -574,7 +592,8 @@ public class MacAutoController {
      * @param
      * @return
      */
-    @RequestMapping("deleteAutoBuild")
+    @ApiOperation("删除汇总融合数据")
+    @PostMapping("deleteAutoBuild")
     public BaseResponse deleteAutoBuild(String ids){
         if(null == ids){
             return BaseResponse.fail("入参有误，请重试");
@@ -583,7 +602,8 @@ public class MacAutoController {
         return macAutoService.deleteAutoBuild(idsArr);
     }
 
-    @RequestMapping("openAuto")
+    @ApiOperation("数据比对业务操作")
+    @PostMapping("openAuto")
     public BaseResponse openAuto(SimpleRequest<Map> params){
         if(null == params){
             return BaseResponse.fail("入参有误，请重试");

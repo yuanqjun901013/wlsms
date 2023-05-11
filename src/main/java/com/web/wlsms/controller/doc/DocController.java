@@ -7,6 +7,8 @@ import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.request.UpLoadRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.doc.DocManagerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
-
+@Api(tags = {"资源管理"})
 @RestController
 @RequestMapping("/doc/doc")
 public class DocController {
@@ -34,7 +36,8 @@ public class DocController {
      * @param params
      * @return
      */
-    @RequestMapping("/docManager")
+    @ApiOperation("查询资料资源")
+    @PostMapping("/docManager")
     public Map<String,Object> docManager(SimpleRequest params) {
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -51,7 +54,8 @@ public class DocController {
     /**
      * 新增资料资源
      */
-    @RequestMapping("fileUpload")
+    @ApiOperation("新增资料资源")
+    @PostMapping("fileUpload")
     @ResponseBody
     public BaseResponse fileUpload(HttpServletRequest request, UpLoadRequest upLoadRequest, MultipartFile file){
         HttpSession session = request.getSession(true);
@@ -78,6 +82,7 @@ public class DocController {
     /**
      * 下载资料资源
      */
+    @ApiOperation("下载资料资源")
     @GetMapping(value = "/fileDownload/{name}")
     @ResponseBody
     public void fileDownload(@PathVariable String name, HttpServletRequest request, HttpServletResponse response)throws Exception{
@@ -89,7 +94,8 @@ public class DocController {
     /**
      * 删除资料资源
      */
-    @RequestMapping("deleteDoc")
+    @ApiOperation("删除资料资源")
+    @PostMapping("deleteDoc")
     @ResponseBody
     public BaseResponse deleteDoc(HttpServletRequest request, DocManagerEntity docManagerEntity){
         HttpSession session = request.getSession(true);

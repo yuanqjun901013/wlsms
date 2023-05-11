@@ -61,6 +61,7 @@ public class WebConfigurer implements WebMvcConfigurer {
         registry.addInterceptor(userLoginInterceptor)
                 .addPathPatterns("/**")// 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
                 .excludePathPatterns("/**/*.js","/**/*.css","/**/images/**","/**/themes/**")//排除样式、脚本、图片等资源文件
+                .excludePathPatterns("/doc.html", "/webjars/**", "/img.icons/**", "/swagger-resources/**", "/v2/api-docs")
                 .excludePathPatterns("/user/login")//排除验证码
                 .excludePathPatterns("/admin/menu/**")//开发测试免登录接口
                 .excludePathPatterns("/admin/menuRole/**")//开发测试免登录接口

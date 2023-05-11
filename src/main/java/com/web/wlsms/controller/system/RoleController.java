@@ -6,9 +6,12 @@ import com.web.wlsms.request.AdminRoleRequest;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.system.RoleService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@Api(tags = {"角色管理"})
 @RestController
 @RequestMapping("/admin/role")
 public class RoleController {
@@ -32,7 +35,8 @@ public class RoleController {
      * @param params
      * @return
      */
-    @RequestMapping("/queryRole")
+    @ApiOperation("查询角色列表")
+    @PostMapping("/queryRole")
     public Map<String,Object> queryRole(SimpleRequest params) {
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -54,7 +58,8 @@ public class RoleController {
      * @param
      * @return
      */
-    @RequestMapping("/queryRoleArr")
+    @ApiOperation("查询角色列表供下拉框选择")
+    @PostMapping("/queryRoleArr")
     public Map<String,Object> queryRoleArr() {
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -73,7 +78,8 @@ public class RoleController {
      * @param params
      * @return
      */
-    @RequestMapping("/addRole")
+    @ApiOperation("添加角色")
+    @PostMapping("/addRole")
     public BaseResponse addRole(@RequestBody AdminRoleRequest params) {
         try {
             int num = roleService.addRole(params);
@@ -95,7 +101,8 @@ public class RoleController {
      * @param params
      * @return
      */
-    @RequestMapping("/delRole")
+    @ApiOperation("删除角色")
+    @PostMapping("/delRole")
     public BaseResponse delRole(@RequestBody SimpleRequest<String> params) {
         try {
             String str = roleService.delRole(params.getRequest());

@@ -3,10 +3,10 @@ package com.web.wlsms.service.mongodb;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mongodb.*;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+//import com.mongodb.*;
+//import com.mongodb.client.FindIterable;
+//import com.mongodb.client.MongoCollection;
+//import com.mongodb.client.MongoDatabase;
 import com.web.wlsms.entity.WlsmsMongodbConf;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
@@ -75,12 +75,13 @@ public class MongoService {
     }
 
     public BaseResponse getTestConnect(WlsmsMongodbConf conf){
-        String sURI = String.format("mongodb://%s:%s@%s:%d/%s", conf.getMongoUser(), conf.getMongoPwd(), conf.getMongodbIp(), 27017, conf.getMongodbDatabase());
-        MongoClientURI uri = new MongoClientURI(sURI);
-        MongoClient mongoClient = new MongoClient(uri);
-        MongoDatabase mongoDatabase = mongoClient.getDatabase(conf.getMongodbDatabase());
-        MongoCollection coll = mongoDatabase.getCollection(conf.getCollectionName());
-        return BaseResponse.ok(coll);
+//        String sURI = String.format("mongodb://%s:%s@%s:%d/%s", conf.getMongoUser(), conf.getMongoPwd(), conf.getMongodbIp(), 27017, conf.getMongodbDatabase());
+//        MongoClientURI uri = new MongoClientURI(sURI);
+//        MongoClient mongoClient = new MongoClient(uri);
+//        MongoDatabase mongoDatabase = mongoClient.getDatabase(conf.getMongodbDatabase());
+//        MongoCollection coll = mongoDatabase.getCollection(conf.getCollectionName());
+//        return BaseResponse.ok(coll);
+        return BaseResponse.ok();
     }
 
     public WlsmsMongodbConf getConf(){

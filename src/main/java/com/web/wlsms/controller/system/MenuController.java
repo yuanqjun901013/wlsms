@@ -9,9 +9,12 @@ import com.web.wlsms.response.AdminMenuResponse;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.response.MenuNodeResponse;
 import com.web.wlsms.service.system.MenuService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Api(tags = {"菜单管理"})
 @RestController
 @RequestMapping("/index/menu")
 public class MenuController {
@@ -45,8 +48,8 @@ public class MenuController {
 //            return BaseResponse.fail("操作失败！");
 //        }
 //    }
-
-    @RequestMapping("/menuConfigList")
+    @ApiOperation("菜单配置列表")
+    @PostMapping("/menuConfigList")
     public List<MenuNodeResponse> menuConfigList() {
         try {
             return menuService.getAllMenuJson(null);
@@ -63,7 +66,8 @@ public class MenuController {
      * @param params
      * @return
      */
-    @RequestMapping("/queryMenu")
+    @ApiOperation("获取菜单信息")
+    @PostMapping("/queryMenu")
     public BaseResponse<AdminMenuResponse> queryMenu(SimpleRequest<String> params) {
         try {
             return BaseResponse.ok(menuService.queryMenu(params.getRequest()));
@@ -79,7 +83,8 @@ public class MenuController {
      * @param
      * @return
      */
-    @RequestMapping("/pageQueryMenu")
+    @ApiOperation("获取子菜单信息列表分页")
+    @PostMapping("/pageQueryMenu")
     public Map<String,Object> pageQueryMenu(SimpleRequest params) {
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -100,7 +105,8 @@ public class MenuController {
      * @param params
      * @return
      */
-    @RequestMapping("/addMenu")
+    @ApiOperation("新增子菜单")
+    @PostMapping("/addMenu")
     public BaseResponse<String> addMenu(@RequestBody MenuRequest params) {
         try {
             String msg = menuService.addMenu(params);
@@ -120,7 +126,8 @@ public class MenuController {
      * @param params
      * @return
      */
-    @RequestMapping("/editMenu")
+    @ApiOperation("修改菜单信息")
+    @PostMapping("/editMenu")
     public BaseResponse editMenu(@RequestBody EditMenuRequest params) {
         try {
             String msg = menuService.editMenu(params);
@@ -140,7 +147,8 @@ public class MenuController {
      * @param params
      * @return
      */
-    @RequestMapping("/deleteMenu")
+    @ApiOperation("删除菜单信息")
+    @PostMapping("/deleteMenu")
     public BaseResponse deleteMenu(@RequestBody SimpleRequest<String> params) {
         try {
             String msg = menuService.deleteMenu(params.getRequest());
@@ -154,7 +162,8 @@ public class MenuController {
         }
     }
 
-    @RequestMapping("/queryMenuByUserNo")
+    @ApiOperation("根据账号查询菜单")
+    @PostMapping("/queryMenuByUserNo")
     public BaseResponse<List<MenuNodeResponse>> queryMenuByUserNo(HttpServletRequest request) {
         String userNo = request.getRemoteUser();
         try {
@@ -172,7 +181,8 @@ public class MenuController {
      * @param request
      * @return
      */
-    @RequestMapping("getMenuLevel")
+    @ApiOperation("根据用户权限获取首页默认的二级菜单及子菜单")
+    @PostMapping("getMenuLevel")
     public List<MenuNodeResponse> getMenuLevel(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");

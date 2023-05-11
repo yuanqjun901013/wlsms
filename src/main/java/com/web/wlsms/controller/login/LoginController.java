@@ -10,21 +10,22 @@ import com.web.wlsms.service.system.MessageService;
 import com.web.wlsms.service.system.TokenService;
 import com.web.wlsms.service.system.UserService;
 import com.web.wlsms.utils.CookieUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
+@Api(tags = {"登录鉴权"})
 @Controller
 @RequestMapping("user")
 public class LoginController {
@@ -43,7 +44,8 @@ public class LoginController {
      * @param request
      * @return
      */
-    @RequestMapping("login")
+    @ApiOperation("跳转login页面")
+    @GetMapping("login")
     public String login(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
@@ -73,7 +75,8 @@ public class LoginController {
      * @param request
      * @return
      */
-    @RequestMapping("doLogin")
+    @ApiOperation("登录校验")
+    @PostMapping("doLogin")
     public void doLogin(HttpServletRequest request, HttpServletResponse response, UserEntity user) throws IOException {
 //        JSONObject jsonObject = new JSONObject();
 //        jsonObject.put("message", "登录失败,用户不存在");
@@ -121,7 +124,8 @@ public class LoginController {
      * 注册
      * @param request
      */
-    @RequestMapping("register")
+    @ApiOperation("注册")
+    @PostMapping("register")
     @ResponseBody
     public void register(HttpServletRequest request){
         //todo
@@ -132,7 +136,8 @@ public class LoginController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "logout",method = RequestMethod.GET)
+    @ApiOperation("注册")
+    @GetMapping(value = "logout")
     public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response){
         String userNo = (String) session.getAttribute("userNo");
         request.getSession().setAttribute("isLogin","false");

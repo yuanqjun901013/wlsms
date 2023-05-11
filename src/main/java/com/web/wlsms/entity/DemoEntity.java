@@ -2,7 +2,7 @@ package com.web.wlsms.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 @Data
@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @ToString
-@Document(collection = "demo")
+//@Document(collection = "demo")
 public class DemoEntity implements Serializable {
     @Id
     private Long id;

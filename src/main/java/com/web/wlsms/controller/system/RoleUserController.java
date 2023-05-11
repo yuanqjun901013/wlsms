@@ -5,16 +5,19 @@ import com.web.wlsms.request.RoleUsersRequest;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.system.RoleUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@Api(tags = {"用户角色管理"})
 @RestController
 @RequestMapping("/admin/roleUser")
 public class RoleUserController {
@@ -30,7 +33,8 @@ public class RoleUserController {
      * @param params
      * @return
      */
-    @RequestMapping("/queryUserRoleInfo")
+    @ApiOperation("查询用户角色信息")
+    @PostMapping("/queryUserRoleInfo")
     public Map<String,Object> queryRoleUserInfo(SimpleRequest params) {
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -55,7 +59,8 @@ public class RoleUserController {
      * @param params
      * @return
      */
-    @RequestMapping("/saveUserRole")
+    @ApiOperation("保存用户角色")
+    @PostMapping("/saveUserRole")
     public BaseResponse saveUserRole(RoleUsersRequest params) {
         try {
             int num = roleUserService.saveUserRole(params);
@@ -75,7 +80,8 @@ public class RoleUserController {
      * @param id
      * @return
      */
-    @RequestMapping("/delUserRole")
+    @ApiOperation("删除用户角色")
+    @PostMapping("/delUserRole")
     public BaseResponse<Map<String, Object>> delUserRole(long id) {
         try {
             int num = roleUserService.delUserRole(id);
@@ -95,7 +101,8 @@ public class RoleUserController {
      * @param params
      * @return
      */
-    @RequestMapping("/queryUserByRoleCode")
+    @ApiOperation("查询角色绑定用户")
+    @PostMapping("/queryUserByRoleCode")
     public BaseResponse<PageInfo> queryUserByRoleCode(@RequestBody SimpleRequest<String> params) {
         try {
             return BaseResponse.ok(roleUserService.queryUserByRoleCode(params));

@@ -7,10 +7,13 @@ import com.web.wlsms.entity.TaskTypeEntity;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.task.TaskService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +22,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
-
+@Api(tags = {"任务管理"})
 @RestController
 @RequestMapping("/task")
 public class TaskController {
@@ -33,7 +36,8 @@ public class TaskController {
      * @param params
      * @return
      */
-    @RequestMapping("/getMyPulseTask")
+    @ApiOperation("我发起的任务")
+    @PostMapping("/getMyPulseTask")
     public Map<String,Object> getMyPulseTask(HttpServletRequest request, SimpleRequest params) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
@@ -57,7 +61,8 @@ public class TaskController {
      * @param params
      * @return
      */
-    @RequestMapping("/getWaitingTask")
+    @ApiOperation("待认领的任务")
+    @PostMapping("/getWaitingTask")
     public Map<String,Object> getWaitingTask(HttpServletRequest request, SimpleRequest params) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
@@ -81,7 +86,8 @@ public class TaskController {
      * @param params
      * @return
      */
-    @RequestMapping("/getTodoTask")
+    @ApiOperation("我认领待办的任务")
+    @PostMapping("/getTodoTask")
     public Map<String,Object> getTodoTask(SimpleRequest params, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
@@ -106,7 +112,8 @@ public class TaskController {
      * @param params
      * @return
      */
-    @RequestMapping("/getEndTask")
+    @ApiOperation("我的已办理")
+    @PostMapping("/getEndTask")
     public Map<String,Object> getEndTask(SimpleRequest params, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
@@ -130,7 +137,8 @@ public class TaskController {
      * @param params
      * @return
      */
-    @RequestMapping("/getAllTask")
+    @ApiOperation("所有任务")
+    @PostMapping("/getAllTask")
     public Map<String,Object> getAllTask(SimpleRequest params, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String userNo = (String) session.getAttribute("userNo");
@@ -148,7 +156,8 @@ public class TaskController {
         return resultMap;
     }
 
-    @RequestMapping("getTaskDetail")
+    @ApiOperation("任务详情")
+    @PostMapping("getTaskDetail")
     @ResponseBody
     public BaseResponse getTaskDetail(HttpServletRequest request,String id){
         if(StringUtils.isBlank(id)){
@@ -162,7 +171,8 @@ public class TaskController {
      * @param
      * @return
      */
-    @RequestMapping("deleteBatch")
+    @ApiOperation("管理员批量删除任务")
+    @PostMapping("deleteBatch")
     public BaseResponse deleteBatch(String ids){
         if(null == ids || StringUtils.isBlank(ids)){
             return BaseResponse.fail("入参有误，请重试");
@@ -177,7 +187,8 @@ public class TaskController {
      * @param taskInfo
      * @return
      */
-    @RequestMapping("saveTask")
+    @ApiOperation("保存下发任务")
+    @PostMapping("saveTask")
     @ResponseBody
     public BaseResponse saveTask(HttpServletRequest request, TaskInfo taskInfo){
         HttpSession session = request.getSession(true);
@@ -205,7 +216,8 @@ public class TaskController {
      * @param taskInfo
      * @return
      */
-    @RequestMapping("updateTask")
+    @ApiOperation("编辑更新任务")
+    @PostMapping("updateTask")
     @ResponseBody
     public BaseResponse updateTask(HttpServletRequest request, TaskInfo taskInfo){
         HttpSession session = request.getSession(true);
@@ -227,7 +239,8 @@ public class TaskController {
      * @param id
      * @return
      */
-    @RequestMapping("deleteTask")
+    @ApiOperation("删除任务")
+    @PostMapping("deleteTask")
     @ResponseBody
     public BaseResponse deleteTask(HttpServletRequest request, String id){
         if(StringUtils.isBlank(id)){
@@ -241,7 +254,8 @@ public class TaskController {
      * @param id
      * @return
      */
-    @RequestMapping("receiverTask")
+    @ApiOperation("认领任务")
+    @PostMapping("receiverTask")
     @ResponseBody
     public BaseResponse receiverTask(HttpServletRequest request, String id){
         HttpSession session = request.getSession(true);
@@ -261,7 +275,8 @@ public class TaskController {
      * @param id
      * @return
      */
-    @RequestMapping("offReceiverTask")
+    @ApiOperation("取消认领任务")
+    @PostMapping("offReceiverTask")
     @ResponseBody
     public BaseResponse offReceiverTask(HttpServletRequest request, String id){
         HttpSession session = request.getSession(true);
@@ -282,7 +297,8 @@ public class TaskController {
      * @param taskInfo
      * @return
      */
-    @RequestMapping("feedbackTask")
+    @ApiOperation("完成任务并反馈")
+    @PostMapping("feedbackTask")
     @ResponseBody
     public BaseResponse feedbackTask(HttpServletRequest request, TaskInfo taskInfo){
         HttpSession session = request.getSession(true);
@@ -303,7 +319,8 @@ public class TaskController {
      * @param taskInfo
      * @return
      */
-    @RequestMapping("rejectTask")
+    @ApiOperation("拒绝任务")
+    @PostMapping("rejectTask")
     @ResponseBody
     public BaseResponse rejectTask(HttpServletRequest request, TaskInfo taskInfo){
         HttpSession session = request.getSession(true);
@@ -318,7 +335,8 @@ public class TaskController {
         return taskService.rejectTask(taskInfo);
     }
 
-    @RequestMapping("taskTypeList")
+    @ApiOperation("任务类型列表")
+    @PostMapping("taskTypeList")
     public List<TaskTypeEntity> taskTypeList(){
         int num = 3;
         String[] typeNameArr = new String[]{"上报数据","日常调度任务","侦控任务"};
@@ -336,7 +354,8 @@ public class TaskController {
         }
     }
 
-    @RequestMapping("taskStateList")
+    @ApiOperation("任务状态列表")
+    @PostMapping("taskStateList")
     public List<TaskStateEntity> taskStateList(){
         int num = 4;
         String[] stateNameArr = new String[]{"待认领","已接受","已拒绝","已完成"};

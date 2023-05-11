@@ -5,6 +5,9 @@ import com.web.wlsms.entity.PositionEntity;
 import com.web.wlsms.request.SimpleRequest;
 import com.web.wlsms.response.BaseResponse;
 import com.web.wlsms.service.system.PositionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,14 +17,15 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Api(tags = {"阵地信息配置管理"})
 @RestController
 @RequestMapping("/admin/position")
 public class PositionController {
     @Resource
     private PositionService positionService;
 
-    @RequestMapping("getPositionList")
+    @ApiOperation("阵地信息查询")
+    @PostMapping("getPositionList")
     public Map<String,Object> getPositionList(SimpleRequest params){
         Map<String,Object> resultMap = new HashMap<>();
         try {
@@ -40,8 +44,8 @@ public class PositionController {
      * @param
      * @return
      */
-
-    @RequestMapping("getPositionArr")
+    @ApiOperation("供下拉列表适用")
+    @PostMapping("getPositionArr")
     public Map<String,Object> getPositionArr(HttpServletRequest request){
         SimpleRequest<Map> params = new SimpleRequest<>();
         HttpSession session = request.getSession(true);
@@ -58,7 +62,8 @@ public class PositionController {
         return resultMap;
     }
 
-    @RequestMapping("savePosition")
+    @ApiOperation("保存阵地信息")
+    @PostMapping("savePosition")
     public BaseResponse savePosition(PositionEntity positionEntity){
         if(null == positionEntity){
             return BaseResponse.fail("入参有误，请重试");
@@ -66,7 +71,8 @@ public class PositionController {
         return positionService.savePosition(positionEntity);
     }
 
-    @RequestMapping("updatePosition")
+    @ApiOperation("编辑阵地信息")
+    @PostMapping("updatePosition")
     public BaseResponse updatePosition(PositionEntity positionEntity){
         if(null == positionEntity){
             return BaseResponse.fail("入参有误，请重试");
@@ -74,7 +80,8 @@ public class PositionController {
         return positionService.updatePosition(positionEntity);
     }
 
-    @RequestMapping("destroyPosition")
+    @ApiOperation("删除阵地信息")
+    @PostMapping("destroyPosition")
     public BaseResponse destroyPosition(PositionEntity positionEntity){
         if(null == positionEntity){
             return BaseResponse.fail("入参有误，请重试");
